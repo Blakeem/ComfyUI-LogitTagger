@@ -112,21 +112,13 @@ def render(wording: str, request: str) -> str:
 
 
 def clip_generate(clip, tokens, graphs: bool, **kwargs) -> list[int]:
-    """clip.generate, then core's cleanup of the CUDA graphs that generate captured.
+    """engine.clip_generate, with core's CUDA graph decode on or off for the whole process."""
+    import comfy.model_management as model_management
 
-    Without the cleanup the next generate replays a graph bound to a freed KV cache and asserts
-    (Comfy-Org/ComfyUI issue #16441). Pattern from ContextAnchoredTileRefine's captions.clip_generate."""
-    import comfy.model_prefetch as model_prefetch
+    from logit_tagger import engine
 
-    from logit_tagger.tagging import cuda_graphs_disabled
-
-    try:
-        if graphs:
-            return clip.generate(tokens, **kwargs)
-        with cuda_graphs_disabled():
-            return clip.generate(tokens, **kwargs)
-    finally:
-        model_prefetch.cleanup_prefetch_queues()
+    model_management.args.disable_cuda_graphs = not graphs
+    return engine.clip_generate(clip, tokens, **kwargs)
 
 
 def content_words(request: str) -> set[str]:

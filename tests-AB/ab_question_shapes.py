@@ -455,7 +455,7 @@ def degrade_questions() -> dict:
 
 def degrade_series(image, series: str) -> list:
     """Five images ordered least degraded first."""
-    from logit_tagger.tagging import VL_MAX_PIXELS
+    from logit_tagger.engine import VL_MAX_PIXELS
 
     scale = math.sqrt(image.shape[1] * image.shape[2] / VL_MAX_PIXELS)
 
@@ -619,7 +619,7 @@ def main() -> None:
     from logit_classifier import Classifier, Config, NoulQuestion
     from logit_classifier.backends.comfy_clip import ComfyClipBackend
 
-    from logit_tagger.tagging import resize_for_vl
+    from logit_tagger.engine import resize_for_vl
 
     args = parse_args()
     out_path = args.out or args.corpus.parent / "question_shapes.json"

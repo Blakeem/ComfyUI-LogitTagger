@@ -39,7 +39,9 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     ab_env.bootstrap()
-    from logit_tagger import tagging
+    from logit_classifier.tags import complete_tags, repeated_block
+
+    from logit_tagger import engine, tagging
 
     args = parse_args()
     missing = [str(path) for path in args.images if not path.is_file()]
@@ -54,10 +56,10 @@ def main() -> None:
         raise SystemExit(f"image files not found: {', '.join(missing)}")
 
     clip = ab_env.load_clip(args.clip)
-    classifier = tagging.build_classifier(clip)
+    classifier = engine.build_classifier(clip, tagging.NODE_NAME)
     generate = clip.generate
 
-    # Records how many tokens each decode wrote, which TagDetail does not carry.
+    # Records how many tokens each decode wrote, which TagTrace does not carry.
     def counting_generate(*call_args, **call_kwargs):
         ids = generate(*call_args, **call_kwargs)
         token_counts.append(len(ids))
@@ -65,16 +67,16 @@ def main() -> None:
 
     clip.generate = counting_generate
     # The first decode pays the model load, so it is run once and discarded.
-    tagging.tag_image(clip, load_image(args.images[0]), "", classifier=classifier)
+    tagging.tag_image(clip, classifier, load_image(args.images[0]), known_things={})
 
     for path in args.images:
         image = load_image(path)
         base_kept: set[str] = set()
         print(f"== {path.name}")
         for name, wording in WORDINGS.items():
-            detail = tagging.tag_image(clip, image, "", instruction=wording, classifier=classifier)
-            kept = set(detail.tags.split(", ")) if detail.tags else set()
-            looped = bool(tagging.repeated_block(tagging.complete_tags(detail.proposal + ",")))
+            trace = tagging.tag_image(clip, classifier, image, known_things={}, instruction=wording)
+            kept = set(trace.tags.split(", ")) if trace.tags else set()
+            looped = bool(repeated_block(complete_tags(trace.reply + ",")))
             hit_budget = token_counts[-1] >= tagging.PROPOSE_MAX_TOKENS
             category = sorted(kept & CATEGORY_WORDS)
             total = totals[name]
@@ -83,15 +85,15 @@ def main() -> None:
             total["loops"] += looped
             total["budget"] += hit_budget
             total["kept"] += len(kept)
-            total["rejected"] += len(detail.candidates) - len(kept)
+            total["rejected"] += len(trace.candidates) - len(kept)
             total["category"] += len(category)
             total["lost"] += len(base_kept - kept)
             total["gained"] += len(kept - base_kept)
-            total["ms"] += detail.propose_ms
+            total["ms"] += trace.propose_ms
             print(f"  {name:17} {token_counts[-1]:3} tokens{' LOOP' if looped else ''}"
-                  f"{' BUDGET' if hit_budget else ''}, {len(detail.candidates)} unique, {len(kept)} kept, "
-                  f"propose {detail.propose_ms:.0f} ms{', category ' + ' '.join(category) if category else ''}")
-            print(f"    raw: {detail.proposal!r}")
+                  f"{' BUDGET' if hit_budget else ''}, {len(trace.candidates)} unique, {len(kept)} kept, "
+                  f"propose {trace.propose_ms:.0f} ms{', category ' + ' '.join(category) if category else ''}")
+            print(f"    raw: {trace.reply!r}")
         print(flush=True)
 
     print(f"== totals over {len(args.images)} images, gained and lost against current")

@@ -50,7 +50,8 @@ def main() -> int:
     from logit_classifier import Classifier, Config, NoulQuestion, SystemOneRequest
     from logit_classifier.backends.comfy_clip import ComfyClipBackend
 
-    from logit_tagger.tagging import NOUL_THRESHOLD, VERIFY_STATEMENT, resize_for_vl
+    from logit_tagger.engine import resize_for_vl
+    from logit_tagger.tagging import VERIFY_STATEMENT, VERIFY_THRESHOLD
 
     clip = ab_env.load_clip(args.clip)
     backend = ComfyClipBackend(clip)
@@ -60,7 +61,7 @@ def main() -> int:
 
     for path, tags in CASES:
         image = resize_for_vl(load_image(path))
-        questions = {f"q{i}": NoulQuestion(instructions=VERIFY_STATEMENT.format(tag=tag))
+        questions = {f"q{i}": NoulQuestion(instructions=VERIFY_STATEMENT.replace("{TAG}", tag))
                      for i, tag in enumerate(tags + ABSENT)}
         request = SystemOneRequest(state="", questions=questions)
         slow, slow_ms = run(classifier, backend, backend._score_by_generate, request, image)
@@ -70,12 +71,12 @@ def main() -> int:
         for i, tag in enumerate(tags + ABSENT):
             a = slow.answers[f"q{i}"].noul
             b = fast.answers[f"q{i}"].noul
-            flipped = (a >= NOUL_THRESHOLD) != (b >= NOUL_THRESHOLD)
+            flipped = (a >= VERIFY_THRESHOLD) != (b >= VERIFY_THRESHOLD)
             worst = max(worst, abs(a - b))
             flips += flipped
             print(f"  {a:.6f} {b:.6f} {'FLIP' if flipped else '    '} {tag}")
     del backend.score
-    print(f"\nlargest |diff| {worst:.6f} (limit {MAX_DIFF}), flips at {NOUL_THRESHOLD}: {flips}")
+    print(f"\nlargest |diff| {worst:.6f} (limit {MAX_DIFF}), flips at {VERIFY_THRESHOLD}: {flips}")
     return 0 if flips == 0 and worst < MAX_DIFF else 1
 
 

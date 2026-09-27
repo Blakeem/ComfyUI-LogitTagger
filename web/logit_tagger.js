@@ -1,6 +1,7 @@
 import { app } from "../../scripts/app.js";
 
-const NODE_TYPE = "LogitTagger";
+// The frontend renders a ui text only on a node an extension opts in.
+const NODE_TYPES = new Set(["LogitTagger", "LogitImageCheck", "LogitTextCheck"]);
 const FALLBACK_WIDGET = "tags_preview";
 
 // The frontend's own text preview, the one Preview as Text uses. Older frontends lack it.
@@ -39,7 +40,7 @@ function fillFallbackWidget(node, output) {
     }
 }
 
-function showTags(node, output) {
+function showPreview(node, output) {
     const preview = textPreview();
 
     if (preview?.updateTextPreviewWidgets) {
@@ -68,7 +69,7 @@ function nodeByExecutionId(executionId) {
 app.registerExtension({
     name: "LogitTagger.TagPreview",
     async beforeRegisterNodeDef(nodeType, nodeData) {
-        if (nodeData.name !== NODE_TYPE) {
+        if (!NODE_TYPES.has(nodeData.name)) {
             return;
         }
         const onNodeCreated = nodeType.prototype.onNodeCreated;
@@ -86,7 +87,7 @@ app.registerExtension({
         };
         nodeType.prototype.onExecuted = function (output) {
             onExecuted?.apply(this, arguments);
-            showTags(this, output);
+            showPreview(this, output);
         };
     },
     // A workflow tab switch and a queue history reopen restore outputs without onExecuted.
@@ -94,10 +95,10 @@ app.registerExtension({
         for (const [executionId, output] of Object.entries(nodeOutputs)) {
             const node = nodeByExecutionId(executionId);
 
-            if (node?.constructor?.comfyClass !== NODE_TYPE && node?.type !== NODE_TYPE) {
+            if (!NODE_TYPES.has(node?.constructor?.comfyClass) && !NODE_TYPES.has(node?.type)) {
                 continue;
             }
-            showTags(node, output);
+            showPreview(node, output);
         }
     },
 });

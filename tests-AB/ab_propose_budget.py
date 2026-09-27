@@ -20,14 +20,17 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def count_items(tagging, proposal: str) -> int:
+def count_items(proposal: str) -> int:
     """Items the proposal wrote before parse_candidates removed repeats, so a loop shows as items above unique."""
-    return sum(1 for item in tagging._SEPARATORS.split(proposal) if tagging._clean_item(item))
+    from logit_classifier.tags import complete_tags
+
+    # The appended separator counts the last item, which complete_tags would treat as mid tag.
+    return len(complete_tags(proposal + ","))
 
 
 def main() -> None:
     ab_env.bootstrap()
-    from logit_tagger import tagging
+    from logit_tagger import engine, tagging
 
     args = parse_args()
     budgets = [int(value) for value in args.budgets.split(",")]
@@ -41,10 +44,10 @@ def main() -> None:
         raise SystemExit(f"image files not found: {', '.join(missing)}")
 
     clip = ab_env.load_clip(args.clip)
-    classifier = tagging.build_classifier(clip)
+    classifier = engine.build_classifier(clip, tagging.NODE_NAME)
     generate = clip.generate
 
-    # Records how many tokens each decode wrote, which TagDetail does not carry.
+    # Records how many tokens each decode wrote, which TagTrace does not carry.
     def counting_generate(*call_args, **call_kwargs):
         ids = generate(*call_args, **call_kwargs)
         token_counts.append(len(ids))
@@ -52,27 +55,27 @@ def main() -> None:
 
     clip.generate = counting_generate
     # The first decode pays the model load, so it is run once and discarded.
-    tagging.tag_image(clip, load_image(args.images[0]), "", classifier=classifier)
+    tagging.tag_image(clip, classifier, load_image(args.images[0]), known_things={})
 
     for path in args.images:
         image = load_image(path)
         runs = {}
         for budget in budgets:
             tagging.PROPOSE_MAX_TOKENS = budget
-            detail = tagging.tag_image(clip, image, "", classifier=classifier)
-            runs[budget] = (detail, token_counts[-1])
+            trace = tagging.tag_image(clip, classifier, image, known_things={})
+            runs[budget] = (trace, token_counts[-1])
         print(f"== {path.name}")
-        for budget, (detail, tokens) in runs.items():
-            kept = detail.tags.split(", ") if detail.tags else []
+        for budget, (trace, tokens) in runs.items():
+            kept = trace.tags.split(", ") if trace.tags else []
             print(f"  budget {budget}: {tokens} tokens{' (hit the budget)' if tokens >= budget else ''}, "
-                  f"{count_items(tagging, detail.proposal)} items, {len(detail.candidates)} unique, "
-                  f"{len(kept)} kept, propose {detail.propose_ms:.0f} ms, verify {detail.verify_ms:.0f} ms")
-        base_detail = runs[budgets[0]][0]
-        base_kept = set(base_detail.tags.split(", ")) if base_detail.tags else set()
+                  f"{count_items(trace.reply)} items, {len(trace.candidates)} unique, "
+                  f"{len(kept)} kept, propose {trace.propose_ms:.0f} ms, verify {trace.verify_ms:.0f} ms")
+        base_trace = runs[budgets[0]][0]
+        base_kept = set(base_trace.tags.split(", ")) if base_trace.tags else set()
         for budget in budgets[1:]:
-            detail = runs[budget][0]
-            scores = dict(detail.candidates)
-            kept = set(detail.tags.split(", ")) if detail.tags else set()
+            trace = runs[budget][0]
+            scores = dict(zip(trace.candidates, trace.scores, strict=True))
+            kept = set(trace.tags.split(", ")) if trace.tags else set()
             gained = sorted(kept - base_kept, key=lambda tag: -scores[tag])
             lost = sorted(base_kept - kept)
             print(f"  gained at {budget}: " + (", ".join(f"{tag} {scores[tag]:.2f}" for tag in gained) or "none"))

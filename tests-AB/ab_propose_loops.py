@@ -31,20 +31,11 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def repeated_block(items: list[str], longest: int) -> int:
-    """The length of a block of complete items that the list just repeated back to back, else 0."""
-    for size in range(1, longest + 1):
-        if len(items) >= 2 * size and items[-size:] == items[-2 * size:-size]:
-            return size
-    return 0
-
-
 class Decoder:
     """Wraps clip.generate to apply a variant and record how each decode ended."""
 
-    def __init__(self, clip, tagging):
+    def __init__(self, clip):
         self.clip = clip
-        self.tagging = tagging
         self.generate = clip.generate
         self.transformer = getattr(clip.cond_stage_model, clip.cond_stage_model.clip).transformer
         self.overrides = {}
@@ -53,13 +44,9 @@ class Decoder:
         self.tokens = 0
         self.ended = ""
 
-    def complete_items(self, ids: list[int]) -> list[str]:
-        """Items followed by a separator, so a tag still being written never counts."""
-        parts = self.tagging._SEPARATORS.split(self.clip.decode(ids))
-        return [self.tagging._clean_item(part) for part in parts[:-1] if self.tagging._clean_item(part)]
-
     def __call__(self, tokens, **kwargs):
         import torch
+        from logit_classifier.tags import complete_tags, repeated_block
 
         history: list[int] = []
         stopped: list[int] = []
@@ -70,7 +57,7 @@ class Decoder:
         def watch(*call_args, **call_kwargs):
             token = original(*call_args, **call_kwargs)
             history.append(int(token.reshape(-1)[0]))
-            if self.longest and repeated_block(self.complete_items(history), self.longest):
+            if self.longest and repeated_block(complete_tags(self.clip.decode(history)), self.longest):
                 stopped.append(len(history))
                 return torch.full_like(token, stop_id)
             return token
@@ -94,7 +81,9 @@ class Decoder:
 
 def main() -> None:
     ab_env.bootstrap()
-    from logit_tagger import tagging
+    from logit_classifier.tags import complete_tags
+
+    from logit_tagger import engine, tagging
 
     args = parse_args()
     missing = [str(path) for path in args.images if not path.is_file()]
@@ -106,11 +95,11 @@ def main() -> None:
         raise SystemExit(f"image files not found: {', '.join(missing)}")
 
     clip = ab_env.load_clip(args.clip)
-    classifier = tagging.build_classifier(clip)
-    decoder = Decoder(clip, tagging)
+    classifier = engine.build_classifier(clip, tagging.NODE_NAME)
+    decoder = Decoder(clip)
     clip.generate = decoder
     # The first decode pays the model load, so it is run once and discarded.
-    tagging.tag_image(clip, load_image(args.images[0]), "", classifier=classifier)
+    tagging.tag_image(clip, classifier, load_image(args.images[0]), known_things={})
 
     for path in args.images:
         image = load_image(path)
@@ -119,14 +108,14 @@ def main() -> None:
         for name, (overrides, longest) in VARIANTS.items():
             decoder.overrides = {**SAMPLED_TOP1, **overrides} if overrides else {}
             decoder.longest = longest
-            detail = tagging.tag_image(clip, image, "", classifier=classifier)
-            scores = dict(detail.candidates)
-            kept = set(detail.tags.split(", ")) if detail.tags else set()
-            items = sum(1 for item in tagging._SEPARATORS.split(detail.proposal) if tagging._clean_item(item))
+            trace = tagging.tag_image(clip, classifier, image, known_things={})
+            scores = dict(zip(trace.candidates, trace.scores, strict=True))
+            kept = set(trace.tags.split(", ")) if trace.tags else set()
+            items = len(complete_tags(trace.reply + ","))
             if name == "greedy":
                 base_kept = kept
             print(f"  {name:8} {decoder.tokens:3} tokens, {decoder.ended}, {items} items, "
-                  f"{len(detail.candidates)} unique, {len(kept)} kept, propose {detail.propose_ms:.0f} ms")
+                  f"{len(trace.candidates)} unique, {len(kept)} kept, propose {trace.propose_ms:.0f} ms")
             if name != "greedy" and kept != base_kept:
                 gained = ", ".join(f"{tag} {scores[tag]:.2f}" for tag in sorted(kept - base_kept))
                 print(f"           gained: {gained or 'none'}")

@@ -1,23 +1,26 @@
-"""The Logit Tagger pipeline: resize, propose, parse, verify and filter, per image.
+"""The Logit Tagger pipeline for one whole image: propose, merge, thing check, verify and clean.
 
-No comfy module and no logit_classifier module is imported at module scope, so the unit
-tests run without ComfyUI and a missing library fails with its pip command.
+No comfy, torch or logit_classifier module is imported at module scope, so the unit tests
+run without ComfyUI and a missing library fails with its pip command.
 """
 
 from __future__ import annotations
 
-import math
 import re
 import time
-from collections.abc import Callable, Iterator
-from contextlib import contextmanager
+from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
 
+from . import engine
+
 NODE_NAME = "Logit Tagger"
 
-# Core only resizes a VL image above 12.8 MP, so a 4k input would cost about 12k vision tokens.
-VL_MAX_PIXELS = 1024 * 1024
+STAGE_WRITING = "writing tags"
+STAGE_CHECKING = "checking tags"
+
+PROMPT_PLACEHOLDER = "{PROMPT}"
+TAG_PLACEHOLDER = "{TAG}"
 
 # The fastest of eight wordings on 28 images in tests-AB/ab_propose_prompts.py, with the fewest rejected
 # tags. No wording cut the loops, which followed the image.
@@ -27,347 +30,313 @@ PROPOSE_INSTRUCTION = (
     "commas. List each thing once. Do not list moods, styles, or ideas. Output only the tags."
 )
 
-# Anchors the proposal vocabulary to the prompt's words. In tests-AB/ab_tagger.py the proposal copied
-# three objects the image lacked, and the verify stage scored them 0.0001 to 0.0002.
-PROMPT_ANCHOR = (
-    "This image was made from the prompt: {prompt}\n"
-    "Use the prompt's words for the things the image shows.\n\n"
+# Asked text only, so a long prompt never lengthens the image's own reply. It must hold {PROMPT}.
+PROMPT_TAGS_INSTRUCTION = (
+    "This is a prompt for an image:\n{PROMPT}\n\nList the physical things the prompt names that "
+    "could be pointed at in the image: objects, people, animals, plants, clothing, materials, "
+    "buildings and parts of the scene. Use short lowercase noun phrases of one to four words, "
+    "separated by commas. Keep each thing's own descriptive words, such as its color. Leave out "
+    "places and settings, actions, sizes, moods, the image's style, medium, quality, camera and "
+    "lighting, artist names and position words. List each thing once. Output only the list."
 )
 
-# Core's empty <think> block (thinking=False) made Qwen3-VL-4B-Instruct reply empty, refuse, or open with
-# "assistant" or "Wait, I need to..." in the operator's probe. krea2.py:28 and qwen3vl.py:162 default it oppositely.
-PROPOSE_TEMPLATE = (
-    "<|im_start|>user\n<|vision_start|><|image_pad|><|vision_end|>{instruction}"
-    "<|im_end|>\n<|im_start|>assistant\n"
-)
-
-# Bounds a greedy decode that loops. In tests-AB/ab_propose_budget.py both images that reached 128
-# were repeating tags, and 192 added no tag on nine images.
+# In tests-AB/ab_propose_budget.py both images that reached 128 were repeating tags, and 192 added no tag.
 PROPOSE_MAX_TOKENS = 128
 
-# In tests-AB/ab_propose_loops.py greedy decode looped on 3 of 17 images, one on a 3 tag cycle. A stop on a
-# block of up to 4 tags repeated back to back ended all three and changed no kept tag.
-MAX_REPEAT_BLOCK = 4
+# The wrong tags of a greedy list sit at its tail. Stopping at 25 raised precision from 0.865 to 0.915
+# (ContextAnchoredTileRefine tests-AB/tags-bench-log.md).
+MAX_PROPOSED_TAGS = 25
 
-# Bounds the packed verify pass. In tests-AB/ab_tagger.py a 42 candidate image fit one pass
-# beside a 1 MP image and took 0.79 s.
-MAX_CANDIDATES = 48
+# The model's 25 and a long prompt's 30 to 40 tags in one packed verify pass. Model tags come first.
+MAX_MERGED_TAGS = 64
+
+# The propose instruction's own nouns came back as tags and passed verify.
+CATEGORY_NOUNS = frozenset({"objects", "people", "animals", "clothing", "materials", "setting"})
+
+# A 500 word prompt listed 28 to 45 tags in 70 to 256 tokens (ContextAnchoredTileRefine tests-AB/tags-bench-log.md).
+PROMPT_TAGS_MAX_TOKENS = 256
+
+# Past the prompt's own things the model pads the list with words the prompt lacks, so two in a row end it.
+UNGROUNDED_STREAK = 2
+_STOP_WORDS = frozenset({"a", "an", "the", "of", "with", "and", "in", "on", "at", "to", "for", "by", "from"})
 
 # Adapted from the library's measured crop wording "This crop visibly contains {f}", AUC 0.963
 # in its tests-AB/ab_multi_label.py.
-VERIFY_STATEMENT = "This image visibly contains {tag}"
+VERIFY_STATEMENT = "This image visibly contains {TAG}"
 
-# On six runs of tests-AB/ab_tagger.py every tag scored either 0.80 and up or 0.23 and below, and
-# the three absent prompt objects scored 0.0002 at most, so 0.5 sits inside that gap.
-NOUL_THRESHOLD = 0.5
+# Tags scoring 0.5 to 0.9 on the reference pack's storm sky tile named a bay and buildings the tile lacks.
+VERIFY_THRESHOLD = 0.9
+# A near name passes 0.9. 0.9999 cut wrong tags per tile 0.92 to 0.29 (ContextAnchoredTileRefine tags-bench-log.md).
+PROMPT_ONLY_THRESHOLD = 0.9999
 
-# A tag longer than this is a sentence or a run-on, not a noun phrase.
-MAX_TAG_WORDS = 6
-MAX_TAG_CHARS = 60
-
-# The `|$` also removes an unclosed block, the shape a decode cut off mid thought leaves.
-_THINK_BLOCK = re.compile(r"<think>.*?(?:</think>|$)", re.DOTALL)
-_SEPARATORS = re.compile(r"[,;\n]")
-# A numbered bullet needs whitespace after it, so a tag like "2.5 liter bottle" survives.
-_BULLET = re.compile(r"^(?:[-*•]\s*|\d+[.)](?:\s+|$))")
-_QUOTES = "\"'`\u201c\u201d\u2018\u2019"
-
-_LIBRARY_MISSING = (
-    f"{NODE_NAME}: this node needs logit-classifier>=0.2.0, which provides the ComfyUI CLIP "
-    "backend. Install or upgrade it in the ComfyUI Python environment with: "
-    "pip install -U logit-classifier"
-)
+# No verify threshold separates scene, lighting, color and quality words from things, so a text-only
+# choice drops them. This wording keeps landscape features, groups and light sources.
+THING_QUESTION = 'What does the image tag "{TAG}" name'
+THING_CRITERIA = {
+    "thing": "something that could be pointed at in a picture: an object, a person, a group of people "
+             "or animals, an animal, a plant, a body part, a garment, a material, a building, a "
+             "landscape feature such as hills, cliffs, sky, the moon or stars, a light source such as "
+             "lamps, signs or lit windows, or a substance such as water, smoke, fire, clouds or rain",
+    "other": "nothing to point at: a kind of place or a whole scene, a time of day, a color alone, a "
+             "shape or form, lighting in general, a camera or render effect, a style, a mood, a "
+             "quality or an idea",
+}
+# Mid scores mix real things with non-things ("chinese characters" 0.45), so only a confident "other" drops a tag.
+THING_THRESHOLD = 0.9
 
 
 @dataclass(frozen=True)
-class TagDetail:
-    """One image's pass through every stage, for the harness to measure."""
+class TagTrace:
+    """One image's pass through every stage, for the node and the harness to read.
+
+    `origins` is "model", "prompt" or "both" per candidate, `dropped` holds (name, reason) pairs
+    from the merge and the thing check, and `kept` is in output order.
+    """
 
     size_in: tuple[int, int]
     size_out: tuple[int, int]
-    proposal: str
-    candidates: tuple[tuple[str, float], ...]
+    reply: str
+    proposed: tuple[str, ...]
+    candidates: tuple[str, ...]
+    origins: tuple[str, ...]
+    dropped: tuple[tuple[str, str], ...]
+    scores: tuple[float, ...]
+    kept: tuple[str, ...]
     tags: str
     propose_ms: float
     verify_ms: float
 
 
-def _check_images(images: Any) -> None:
-    shape = tuple(getattr(images, "shape", ()))
+def _word_forms(text: str) -> dict[str, set[str]]:
+    # One cut per word would stem "trees" to "tre" and leave "tree" whole, so each word keeps every cut.
+    forms: dict[str, set[str]] = {}
 
-    if len(shape) != 4:
-        raise ValueError(
-            f"{NODE_NAME}: the image input must be a ComfyUI IMAGE batch of shape [B, H, W, C], "
-            f"got shape {shape}"
-        )
-    if shape[-1] < 3:
-        raise ValueError(
-            f"{NODE_NAME}: the image input must be an RGB or RGBA IMAGE of shape [B, H, W, 3] "
-            f"or [B, H, W, 4], got shape {shape}"
-        )
+    for word in re.findall(r"[a-z0-9]+", text.lower()):
+        candidates = {word}
+        for suffix, ending in (("s", ""), ("es", ""), ("ies", "y")):
+            if word.endswith(suffix) and len(word) > len(suffix) + 2:
+                candidates.add(word[:-len(suffix)] + ending)
+        forms[word] = candidates
+    return forms
 
 
-def resize_for_vl(image: Any) -> Any:
-    """Downscale one [1, H, W, C] image to at most VL_MAX_PIXELS, keeping the first three channels."""
-    import torch
-
-    height, width = image.shape[1], image.shape[2]
-    rgb = image[..., :3]
-    scale = 0.0
-    samples = None
-
-    if height * width <= VL_MAX_PIXELS:
-        return rgb
-    scale = math.sqrt(VL_MAX_PIXELS / (height * width))
-    # Floor, so the product can never land above the cap.
-    size = (max(1, math.floor(height * scale)), max(1, math.floor(width * scale)))
-    samples = torch.nn.functional.interpolate(rgb.movedim(-1, 1), size=size, mode="area")
-    return samples.movedim(1, -1)
+def prompt_forms(prompt: str) -> set[str]:
+    """Every form of every prompt word, the set `grounded` matches a tag against."""
+    return set().union(*_word_forms(prompt).values())
 
 
-def build_instruction(prompt: str, instruction: str) -> str:
-    anchor = prompt.strip()
+def grounded(tag: str, prompt_words: set[str]) -> bool:
+    """Whether every content word of tag shares a form with a word of the prompt."""
+    content = [forms for word, forms in _word_forms(tag).items() if word not in _STOP_WORDS]
 
-    if not anchor:
-        return instruction
-    return PROMPT_ANCHOR.format(prompt=anchor) + instruction
+    return bool(content) and all(forms & prompt_words for forms in content)
 
 
-@contextmanager
-def cuda_graphs_disabled() -> Iterator[None]:
-    """Turn off core's CUDA graph decode for the duration, then restore the previous flag.
+def merge_trace(proposed: tuple[str, ...], prompt_tags: tuple[str, ...]) -> tuple[
+        tuple[str, ...], tuple[str, ...], tuple[tuple[str, str], ...]]:
+    """(candidates, origins, dropped): the proposed tags, then the prompt tags, normalized.
 
-    Core's Qwen3 CUDA graph decode (PR #15623) raises a device side assert ("scatter gather
-    kernel index out of bounds") on the second multi step image generate in one process, still
-    at core b5cc8830. Reported as Comfy-Org/ComfyUI issue #16441. The flag avoids it.
+    A category noun, a repeat, or a name past MAX_MERGED_TAGS is dropped with its reason. A prompt
+    tag the model also proposed turns that candidate's origin to "both".
     """
-    try:
-        import comfy.model_management as model_management
-    except ImportError:
-        yield
-        return
+    from logit_classifier.tags import normalize_item
 
-    previous = model_management.args.disable_cuda_graphs
-    model_management.args.disable_cuda_graphs = True
-    try:
-        yield
-    finally:
-        model_management.args.disable_cuda_graphs = previous
+    index_of: dict[str, int] = {}
+    origins: list[str] = []
+    dropped: list[tuple[str, str]] = []
 
-
-def repeated_block(tags: list[str]) -> int:
-    """The size of the block of tags the list just wrote twice back to back, or 0 for none."""
-    for size in range(1, MAX_REPEAT_BLOCK + 1):
-        if len(tags) >= 2 * size and tags[-size:] == tags[-2 * size:-size]:
-            return size
-    return 0
-
-
-def complete_tags(text: str) -> list[str]:
-    """The tags followed by a separator, since the text after the last one may still be mid tag."""
-    parts = _SEPARATORS.split(text)[:-1]
-
-    return [tag for tag in (_clean_item(part) for part in parts) if tag]
+    for origin, items in (("model", proposed), ("prompt", prompt_tags)):
+        for item in items:
+            name = normalize_item(item)
+            index = index_of.get(name)
+            if not name:
+                continue
+            if name in CATEGORY_NOUNS:
+                dropped.append((name, "category noun"))
+            elif index is not None and origin == "prompt" and origins[index] == "model":
+                origins[index] = "both"
+            elif index is not None:
+                dropped.append((name, "repeat"))
+            elif len(index_of) == MAX_MERGED_TAGS:
+                dropped.append((name, "over the cap"))
+            else:
+                index_of[name] = len(origins)
+                origins.append(origin)
+    return tuple(index_of), tuple(origins), tuple(dropped)
 
 
-def _sampler(clip: Any) -> tuple[Any, int] | None:
-    """Core's generating transformer and its first stop token, or None for a CLIP without them."""
-    model = getattr(clip, "cond_stage_model", None)
-    encoder_name = getattr(model, "clip", None)
-    encoder = getattr(model, encoder_name, None) if isinstance(encoder_name, str) else None
-    transformer = getattr(encoder, "transformer", None)
-    config = getattr(getattr(transformer, "model", None), "config", None)
-    stop_tokens = getattr(config, "stop_tokens", None)
+def thing_scores(classifier: Any, tags: tuple[str, ...], known: dict[str, float]) -> tuple[float, ...]:
+    """p("other") of the thing check per tag, text only, each tag missing from known asked once."""
+    from logit_classifier import ChoiceQuestion, SystemOneRequest
 
-    if not callable(getattr(transformer, "sample_token", None)) or not stop_tokens:
-        return None
-    return transformer, stop_tokens[0]
-
-
-@contextmanager
-def stop_on_repeat(clip: Any) -> Iterator[None]:
-    """End core's decode on a stop token once the reply repeats a block of tags back to back.
-
-    Core's generate loop takes no stop condition, so the token sample_token returns is replaced.
-    Core copies that token into the sequence and breaks on it, at comfy/text_encoders/llama.py:1170-1187.
-    """
-    sampler = _sampler(clip)
-    history: list[int] = []
-
-    if sampler is None:
-        yield
-        return
-    transformer, stop_id = sampler
-    original = transformer.sample_token
-    shadowed = "sample_token" in vars(transformer)
-    previous = vars(transformer).get("sample_token")
-
-    def watch(*args: Any, **kwargs: Any) -> Any:
-        token = original(*args, **kwargs)
-        history.append(int(token.reshape(-1)[0]))
-        if repeated_block(complete_tags(clip.decode(history))):
-            return token.new_full(token.shape, stop_id)
-        return token
-
-    transformer.sample_token = watch
-    try:
-        yield
-    finally:
-        if shadowed:
-            transformer.sample_token = previous
-        else:
-            del transformer.sample_token
-
-
-def _drop_cut_tail(text: str) -> str:
-    separators = list(_SEPARATORS.finditer(text))
-
-    if not separators:
-        return ""
-    return text[:separators[-1].start()]
-
-
-def propose(clip: Any, image: Any, prompt: str, instruction: str) -> str:
-    """Ask the CLIP to write the image's candidate tags as comma separated text."""
-    rendered = PROPOSE_TEMPLATE.format(instruction=build_instruction(prompt, instruction))
-    tokens = None
-    ids = None
-    text = ""
-
-    # A text starting with <|im_start|> skips core's template, at comfy/text_encoders/qwen3vl.py:167.
-    tokens = clip.tokenize(rendered, images=[image])
-    with cuda_graphs_disabled(), stop_on_repeat(clip):
-        ids = clip.generate(tokens, do_sample=False, max_length=PROPOSE_MAX_TOKENS)
-    text = clip.decode(ids)
-    # Core stops early only on a stop token, so a decode that fills the budget ends mid tag.
-    if len(ids) >= PROPOSE_MAX_TOKENS:
-        return _drop_cut_tail(text)
-    return text
-
-
-def _clean_item(item: str) -> str:
-    text = _BULLET.sub("", item.strip())
-
-    text = text.strip(" \t" + _QUOTES).rstrip(". \t" + _QUOTES)
-    return " ".join(text.lower().split())
-
-
-def parse_candidates(text: str) -> list[str]:
-    """Turn proposal text into unique candidate tags, in the order the CLIP wrote them."""
-    body = _THINK_BLOCK.sub("", text).strip()
-    lines = body.split("\n")
-    candidates: list[str] = []
-    seen: set[str] = set()
-
-    # The stray role line core's empty think block provoked in the operator's probe.
-    if lines and lines[0].strip() == "assistant":
-        body = "\n".join(lines[1:])
-    for item in _SEPARATORS.split(body):
-        tag = _clean_item(item)
-        if not tag or len(tag) > MAX_TAG_CHARS or len(tag.split()) > MAX_TAG_WORDS or tag in seen:
-            continue
-        seen.add(tag)
-        candidates.append(tag)
-        if len(candidates) == MAX_CANDIDATES:
-            break
-    return candidates
-
-
-def build_classifier(clip: Any) -> Any:
-    """One Classifier over the workflow's CLIP, with no prior drift and no calibration file."""
-    try:
-        from logit_classifier import Classifier, Config
-        from logit_classifier.backends.comfy_clip import ComfyClipBackend
-    except ImportError as error:
-        raise RuntimeError(_LIBRARY_MISSING) from error
-
-    backend = ComfyClipBackend(clip)
-    if not backend.sees_images:
-        raise ValueError(
-            f"{NODE_NAME}: this CLIP was loaded without its vision tower, so it cannot read the "
-            "image. Load a Qwen3-VL text encoder with the Load CLIP type set to krea2. The flux "
-            "and flux2 types load it without the vision tower."
-        )
-    return Classifier(Config(use_prior_debias=False, calibration_path=None), backend)
-
-
-def verify(classifier: Any, image: Any, candidates: list[str]) -> list[float]:
-    """Each candidate's noul probability, from one request that asks about all of them."""
+    unknown = tuple(dict.fromkeys(tag for tag in tags if tag not in known))
     questions: dict[str, Any] = {}
 
-    if not candidates:
-        return []
-    from logit_classifier import NoulQuestion, SystemOneRequest
-
-    questions = {
-        f"tag{index}": NoulQuestion(instructions=VERIFY_STATEMENT.format(tag=tag))
-        for index, tag in enumerate(candidates)
-    }
-    # The empty state is what the library renders as its image only state.
-    response, _diagnostics = classifier.classify(SystemOneRequest(state="", questions=questions),
-                                                 image=image)
-    return [response.answers[qid].noul for qid in questions]
+    if unknown:
+        questions = {f"t{index}": ChoiceQuestion(instructions=THING_QUESTION.replace(TAG_PLACEHOLDER, tag),
+                                                 criteria=THING_CRITERIA)
+                     for index, tag in enumerate(unknown)}
+        response, _diagnostics = classifier.classify(SystemOneRequest(state="", questions=questions))
+        known.update((tag, response.answers[qid].probabilities["other"])
+                     for tag, qid in zip(unknown, questions, strict=True))
+    return tuple(known[tag] for tag in tags)
 
 
-def filter_tags(candidates: list[str], probabilities: list[float], threshold: float) -> str:
-    kept = [(tag, p) for tag, p in zip(candidates, probabilities, strict=True) if p >= threshold]
-
-    # sorted is stable, so tied tags keep the order the CLIP proposed them in.
-    kept = sorted(kept, key=lambda pair: pair[1], reverse=True)
-    return ", ".join(tag for tag, _p in kept)
+def is_thing(p_other: float) -> bool:
+    return p_other < THING_THRESHOLD
 
 
-def tag_image(clip: Any, image: Any, prompt: str, *, threshold: float | None = None,
-              instruction: str | None = None, classifier: Any = None) -> TagDetail:
+def _passed(candidates: tuple[str, ...], origins: tuple[str, ...], scores: tuple[float, ...]) -> tuple[str, ...]:
+    """The candidates whose score reaches their origin's threshold."""
+    passed: list[str] = []
+
+    for tag, origin, p in zip(candidates, origins, scores, strict=True):
+        threshold = PROMPT_ONLY_THRESHOLD if origin == "prompt" else VERIFY_THRESHOLD
+        if p >= threshold:
+            passed.append(tag)
+    return tuple(passed)
+
+
+def _full_or_repeating(tags: list[str]) -> bool:
+    from logit_classifier.tags import repeated_block
+
+    return len(tags) >= MAX_PROPOSED_TAGS or bool(repeated_block(tags))
+
+
+def _off_prompt_or_repeating(tags: list[str], prompt_words: set[str]) -> bool:
+    from logit_classifier.tags import repeated_block
+
+    trailing = tags[-UNGROUNDED_STREAK:]
+    off_prompt = len(trailing) == UNGROUNDED_STREAK and not any(grounded(tag, prompt_words) for tag in trailing)
+    return off_prompt or bool(repeated_block(tags))
+
+
+def propose(clip: Any, image: Any, instruction: str) -> str:
+    """The CLIP's greedy list of what image holds, as comma separated text."""
+    return engine.generate_text(clip, instruction, image=image, max_tokens=PROPOSE_MAX_TOKENS,
+                                should_stop=_full_or_repeating)
+
+
+def prompt_things(clip: Any, classifier: Any, prompt: str, known_things: dict[str, float],
+                  instruction: str | None = None) -> tuple[str, ...]:
+    """The physical things prompt names that its own words ground and the thing check keeps."""
+    wording = PROMPT_TAGS_INSTRUCTION if instruction is None else instruction
+    prompt_words: set[str] = set()
+    reply = ""
+    listed: tuple[str, ...] = ()
+    p_other: tuple[float, ...] = ()
+
+    if not prompt.strip():
+        return ()
+    from logit_classifier.tags import parse_candidates
+
+    prompt_words = prompt_forms(prompt)
+    # A literal replace, so braces in the prompt are never read as format fields.
+    reply = engine.generate_text(clip, wording.replace(PROMPT_PLACEHOLDER, prompt),
+                                 max_tokens=PROMPT_TAGS_MAX_TOKENS,
+                                 should_stop=lambda tags: _off_prompt_or_repeating(tags, prompt_words))
+    listed = tuple(tag for tag in parse_candidates(reply) if grounded(tag, prompt_words))
+    p_other = thing_scores(classifier, listed, known_things)
+    return tuple(tag for tag, p in zip(listed, p_other, strict=True) if is_thing(p))
+
+
+def _check_one_image(image: Any) -> None:
+    engine.check_images(image, NODE_NAME)
+    if image.shape[0] != 1:
+        raise ValueError(
+            f"{NODE_NAME}: each image must be one image of shape [1, H, W, C], got a batch of "
+            f"{image.shape[0]}. Split the batch into single images first."
+        )
+
+
+def tag_image(clip: Any, classifier: Any, image: Any, *, prompt_tags: tuple[str, ...] = (),
+              known_things: dict[str, float], instruction: str | None = None,
+              on_stage: Callable[[str], None] | None = None) -> TagTrace:
     """Run every stage on one [1, H, W, C] image and report what each stage produced."""
-    limit = NOUL_THRESHOLD if threshold is None else threshold
     wording = PROPOSE_INSTRUCTION if instruction is None else instruction
+    announce = on_stage if on_stage is not None else (lambda _stage: None)
     resized = None
-    proposal = ""
-    candidates: list[str] = []
-    probabilities: list[float] = []
+    reply = ""
+    proposed: tuple[str, ...] = ()
+    merged: tuple[str, ...] = ()
+    merged_origins: tuple[str, ...] = ()
+    dropped: tuple[tuple[str, str], ...] = ()
+    p_other: tuple[float, ...] = ()
+    candidates: tuple[str, ...] = ()
+    origins: tuple[str, ...] = ()
+    statements: list[str] = []
+    scores: tuple[float, ...] = ()
+    score_of: dict[str, float] = {}
+    kept: tuple[str, ...] = ()
     started = 0.0
     propose_ms = 0.0
     verify_ms = 0.0
 
-    _check_images(image)
-    if image.shape[0] != 1:
-        raise ValueError(f"{NODE_NAME}: tag_image takes one image, got a batch of {image.shape[0]}")
-    # Built before the propose stage, so a wrong CLIP fails before any generate runs.
-    if classifier is None:
-        classifier = build_classifier(clip)
+    _check_one_image(image)
+    from logit_classifier.backends.comfy_clip import shared_vision_encode
+    from logit_classifier.tags import drop_subsets, parse_candidates
 
-    resized = resize_for_vl(image)
-    started = time.perf_counter()
-    proposal = propose(clip, resized, prompt, wording)
-    propose_ms = (time.perf_counter() - started) * 1000.0
-    candidates = parse_candidates(proposal)
-    started = time.perf_counter()
-    probabilities = verify(classifier, resized, candidates)
-    verify_ms = (time.perf_counter() - started) * 1000.0
+    resized = engine.resize_for_vl(image)
+    # One scope over propose and verify, so the vision tower encodes the picture once.
+    with shared_vision_encode(clip):
+        announce(STAGE_WRITING)
+        started = time.perf_counter()
+        reply = propose(clip, resized, wording)
+        propose_ms = (time.perf_counter() - started) * 1000.0
+        proposed = tuple(parse_candidates(reply, max_candidates=MAX_PROPOSED_TAGS))
+        merged, merged_origins, dropped = merge_trace(proposed, prompt_tags)
+        announce(STAGE_CHECKING)
+        started = time.perf_counter()
+        p_other = thing_scores(classifier, merged, known_things)
+        candidates = tuple(tag for tag, p in zip(merged, p_other, strict=True) if is_thing(p))
+        origins = tuple(origin for origin, p in zip(merged_origins, p_other, strict=True) if is_thing(p))
+        dropped += tuple((tag, "not a thing") for tag, p in zip(merged, p_other, strict=True) if not is_thing(p))
+        statements = [VERIFY_STATEMENT.replace(TAG_PLACEHOLDER, tag) for tag in candidates]
+        scores = tuple(engine.nouls(classifier, statements, image=resized))
+        verify_ms = (time.perf_counter() - started) * 1000.0
 
-    return TagDetail(
+    score_of = dict(zip(candidates, scores, strict=True))
+    # sorted is stable, so tied tags keep the order they were proposed in.
+    kept = tuple(sorted(drop_subsets(list(_passed(candidates, origins, scores))),
+                        key=lambda tag: score_of[tag], reverse=True))
+    return TagTrace(
         size_in=(int(image.shape[1]), int(image.shape[2])),
         size_out=(int(resized.shape[1]), int(resized.shape[2])),
-        proposal=proposal,
-        candidates=tuple(zip(candidates, probabilities, strict=True)),
-        tags=filter_tags(candidates, probabilities, limit),
+        reply=reply,
+        proposed=proposed,
+        candidates=candidates,
+        origins=origins,
+        dropped=dropped,
+        scores=scores,
+        kept=kept,
+        tags=", ".join(kept),
         propose_ms=propose_ms,
         verify_ms=verify_ms,
     )
 
 
-def tag_images(clip: Any, images: Any, prompt: str,
-               on_image_done: Callable[[int], None] | None = None) -> list[str]:
-    """One tag string per image in the batch, in batch order."""
+def tag_images(clip: Any, images: list[Any], prompts: list[str], *, instruction: str | None = None,
+               on_progress: Callable[[int, str], None] | None = None) -> list[TagTrace]:
+    """One TagTrace per [1, H, W, C] image, in order, each tagged with the prompt at its index."""
     classifier = None
-    tags: list[str] = []
+    known_things: dict[str, float] = {}
+    things_by_prompt: dict[str, tuple[str, ...]] = {}
+    on_stage: Callable[[str], None] | None = None
+    traces: list[TagTrace] = []
 
-    _check_images(images)
-    classifier = build_classifier(clip)
-    for index in range(images.shape[0]):
-        detail = tag_image(clip, images[index:index + 1], prompt, classifier=classifier)
-        tags.append(detail.tags)
-        if on_image_done is not None:
-            on_image_done(index)
-    return tags
+    if len(images) != len(prompts):
+        raise ValueError(
+            f"{NODE_NAME}: got {len(images)} images and {len(prompts)} prompts. Give one prompt per "
+            "image, an empty one for an image without a prompt."
+        )
+    for image in images:
+        _check_one_image(image)
+    # Built before any generate, so a wrong CLIP fails before the model runs.
+    classifier = engine.build_classifier(clip, NODE_NAME)
+    things_by_prompt = {prompt: prompt_things(clip, classifier, prompt, known_things)
+                        for prompt in dict.fromkeys(prompts)}
+    for index, (image, prompt) in enumerate(zip(images, prompts, strict=True)):
+        on_stage = None if on_progress is None else (lambda stage, index=index: on_progress(index, stage))
+        traces.append(tag_image(clip, classifier, image, prompt_tags=things_by_prompt[prompt],
+                                known_things=known_things, instruction=instruction, on_stage=on_stage))
+    return traces

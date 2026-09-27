@@ -1,7 +1,7 @@
 """Run the Logit Tagger pipeline on image files over a real Qwen3-VL-4B CLIP, with no server.
 
-The output sets the backend constants PROPOSE_INSTRUCTION, PROMPT_ANCHOR and NOUL_THRESHOLD.
-Usage: python tests-AB/ab_tagger.py <image> [<image> ...] [--prompt TEXT] [--threshold P]
+The output sets the backend constants PROPOSE_INSTRUCTION, VERIFY_THRESHOLD and PROMPT_ONLY_THRESHOLD.
+Usage: python tests-AB/ab_tagger.py <image> [<image> ...] [--prompt TEXT] [--instruction TEXT]
 """
 
 import argparse
@@ -12,14 +12,12 @@ import ab_env
 DEFAULT_CLIP = "qwen3vl_4b_fp8_scaled.safetensors"
 
 
-def parse_args(threshold_default: float) -> argparse.Namespace:
+def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 
     parser.add_argument("images", nargs="+", type=Path, help="image files to tag")
     parser.add_argument("--prompt", default="", help="text for the prompt input, empty by default")
     parser.add_argument("--clip", default=DEFAULT_CLIP, help="text encoder file name under models/clip")
-    parser.add_argument("--threshold", type=float, default=threshold_default,
-                        help=f"noul threshold, default the module's NOUL_THRESHOLD {threshold_default}")
     parser.add_argument("--instruction", default=None, help="replaces PROPOSE_INSTRUCTION for this run")
     return parser.parse_args()
 
@@ -36,23 +34,24 @@ def load_image(path: Path):
     return torch.from_numpy(pixels)[None,]
 
 
-def report(path: Path, detail, threshold: float) -> str:
-    kept = set(detail.tags.split(", ")) if detail.tags else set()
-    ranked = sorted(detail.candidates, key=lambda pair: pair[1], reverse=True)
-    per_candidate_ms = detail.verify_ms / len(ranked) if ranked else 0.0
+def report(path: Path, trace) -> str:
+    kept = set(trace.kept)
+    ranked = sorted(zip(trace.candidates, trace.origins, trace.scores, strict=True),
+                    key=lambda row: row[2], reverse=True)
     lines = [
         f"== {path}",
-        f"size: {detail.size_in[1]}x{detail.size_in[0]} -> {detail.size_out[1]}x{detail.size_out[0]} (width x height)",
-        "proposal:",
-        detail.proposal,
-        f"candidates: {len(ranked)}, * marks a tag at or above the threshold {threshold}",
+        f"size: {trace.size_in[1]}x{trace.size_in[0]} -> {trace.size_out[1]}x{trace.size_out[0]} (width x height)",
+        "reply:",
+        trace.reply,
+        f"candidates: {len(ranked)}, * marks a kept tag",
     ]
 
-    lines += [f"  {'*' if tag in kept else ' '} {probability:.4f}  {tag}" for tag, probability in ranked]
+    lines += [f"  {'*' if tag in kept else ' '} {score:.4f}  {origin:6}  {tag}" for tag, origin, score in ranked]
+    lines += [f"dropped: {len(trace.dropped)}"]
+    lines += [f"  {name}: {reason}" for name, reason in trace.dropped]
     lines += [
-        f"kept: {detail.tags}",
-        f"propose {detail.propose_ms:.0f} ms, verify {detail.verify_ms:.0f} ms, "
-        f"verify per candidate {per_candidate_ms:.1f} ms",
+        f"kept: {trace.tags}",
+        f"propose {trace.propose_ms:.0f} ms, thing check and verify {trace.verify_ms:.0f} ms",
         "",
     ]
     return "\n".join(lines)
@@ -62,22 +61,19 @@ def main() -> None:
     ab_env.bootstrap()
     from logit_tagger import tagging
 
-    args = parse_args(tagging.NOUL_THRESHOLD)
+    args = parse_args()
     missing = [str(path) for path in args.images if not path.is_file()]
     clip = None
-    classifier = None
-    detail = None
+    traces = []
 
     if missing:
         raise SystemExit(f"image files not found: {', '.join(missing)}")
 
     clip = ab_env.load_clip(args.clip)
-    # One classifier across images, as tag_images builds one per batch.
-    classifier = tagging.build_classifier(clip)
-    for path in args.images:
-        detail = tagging.tag_image(clip, load_image(path), args.prompt, threshold=args.threshold,
-                                   instruction=args.instruction, classifier=classifier)
-        print(report(path, detail, args.threshold), flush=True)
+    traces = tagging.tag_images(clip, [load_image(path) for path in args.images], [args.prompt] * len(args.images),
+                                instruction=args.instruction)
+    for path, trace in zip(args.images, traces, strict=True):
+        print(report(path, trace), flush=True)
 
 
 if __name__ == "__main__":
