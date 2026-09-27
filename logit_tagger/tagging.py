@@ -52,7 +52,8 @@ PROMPT_TAGS_INSTRUCTION = (
     "lighting, artist names and position words. List each thing once. Output only the list."
 )
 
-# It read 0.000 to 0.027 on 10 non-English prompts and 1.000 on 10 English ones (tests-AB/ab_prompt_language.py).
+# It read 0.000 to 0.027 on 13 prompts in 10 other languages and 1.000 on 10 English ones, style-only prompts
+# included (tests-AB/ab_prompt_language.py).
 LANGUAGE_QUESTION = "Is this text written in English?"
 ENGLISH_THRESHOLD = 0.5
 
