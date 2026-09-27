@@ -137,7 +137,7 @@ the thing check on every tag, the words rule and verify 0.9:
 | verify threshold 0.999 over 0.9 | -0.21 | -0.08 |
 
 The head-noun subsets rule added no wrong tag on renders. It kept single words beside a longer kept
-tag ("bread" beside "loaf of bread"), and on ContextAnchoredTileRefine's tiles it added 0.03 wrong tags
+tag ("bread" beside "loaf of bread"), and on ContextAnchoredTileRefine's tiles it added 0.03 wrong or vague tags
 per tile, so the words rule stays. The defaults kept 0.12 wrong and 0.61 vague tags per render against
 0.28 and 1.08 for the round 2 arm. A real run of the defaults matched the replay (`runs/2026-09-27-defaults`).
 
