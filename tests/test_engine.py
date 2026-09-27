@@ -12,7 +12,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from logit_tagger import engine
+from logit_tagger import engine, nodes, progress, tagging
 
 PACK_ROOT = Path(__file__).parent.parent.resolve()
 NODE = "Some Node"
@@ -166,6 +166,102 @@ def test_resize_keeps_only_three_channels(monkeypatch):
 
     assert engine.resize_for_vl(small).shape == (1, 4, 4, 3)
     assert engine.resize_for_vl(large).shape == (1, 4, 4, 3)
+
+
+def test_pixel_caps_are_1_mp_for_the_tagger_and_half_that_for_the_checks():
+    assert engine.VL_MAX_PIXELS == 1024 * 1024
+    assert engine.CHECK_MAX_PIXELS == 524288
+
+
+def test_resize_max_pixels_caps_pixels_and_keeps_aspect_over_the_default(monkeypatch):
+    monkeypatch.setattr(engine, "VL_MAX_PIXELS", 16)
+    image = an_image(40, 20)
+
+    resized = engine.resize_for_vl(image, max_pixels=100)
+    height, width = resized.shape[1], resized.shape[2]
+    assert height * width <= 100
+    assert (height, width) == (14, 7)
+
+
+def test_resize_max_pixels_never_upscales():
+    assert engine.resize_for_vl(an_image(4, 5), max_pixels=10_000).shape == (1, 4, 5, 3)
+
+
+# --- pixel cap at each call site ------------------------------------------------------
+
+
+CHECK_RESIZE = {"max_pixels": engine.CHECK_MAX_PIXELS}
+
+
+class Resized(Exception):
+    """Stops a node path right after its resize, so a call-site test needs no model fakes."""
+
+
+class QuietRun:
+    """Stands in for progress.RunProgress, which imports comfy."""
+
+    def __init__(self, **_kwargs):
+        pass
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_exc_info):
+        return False
+
+    def item(self, index, stage):
+        pass
+
+
+@pytest.fixture
+def resize_calls(monkeypatch):
+    """Replaces engine.resize_for_vl with one that records its keywords, then raises Resized."""
+    calls = []
+
+    def resize_for_vl(image, **kwargs):
+        calls.append(kwargs)
+        raise Resized
+
+    monkeypatch.setattr(engine, "resize_for_vl", resize_for_vl)
+    return calls
+
+
+def test_image_check_resizes_to_the_check_cap(resize_calls):
+    with pytest.raises(Resized):
+        nodes._image_probability("classifier", "Is there a cat in this image?", an_image())
+    assert resize_calls == [CHECK_RESIZE]
+
+
+def test_image_classify_resizes_to_the_check_cap(resize_calls, monkeypatch):
+    monkeypatch.setattr(engine, "build_classifier", lambda *_args, **_kwargs: "classifier")
+    monkeypatch.setattr(progress, "RunProgress", QuietRun)
+
+    with pytest.raises(Resized):
+        nodes.LogitImageClassify().classify(clip=["clip"], image=[an_image()], question=[""], options=[""],
+                                            unique_id=[NODE])
+    assert resize_calls == [CHECK_RESIZE]
+
+
+def test_prompt_check_resizes_to_the_check_cap(resize_calls):
+    with pytest.raises(Resized):
+        tagging._presence_probabilities("classifier", an_image(), ("cat",))
+    assert resize_calls == [CHECK_RESIZE]
+
+
+def test_tag_list_resizes_to_the_check_cap(resize_calls):
+    pytest.importorskip("logit_classifier.backends.comfy_clip")
+
+    with pytest.raises(Resized):
+        tagging.check_tag_list(FakeClip(), "classifier", an_image(), ("cat",))
+    assert resize_calls == [CHECK_RESIZE]
+
+
+def test_tagger_propose_and_verify_resize_to_the_default_cap(resize_calls):
+    pytest.importorskip("logit_classifier.backends.comfy_clip")
+
+    with pytest.raises(Resized):
+        tagging.tag_image(FakeClip(), "classifier", an_image())
+    assert resize_calls == [{}]
 
 
 # --- check_images ---------------------------------------------------------------------

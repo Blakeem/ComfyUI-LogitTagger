@@ -301,7 +301,7 @@ def test_one_bar_closes_each_image_and_the_status_names_each_stage(fake_comfy, s
     assert len(RecordingProgressBar.instances) == 1
     bar = RecordingProgressBar.instances[0]
     assert bar.total == 3 * progress.ITEM_UNITS
-    assert [value for value, _total in bar.updates] == [0, 0, 0, 100, 100, 100, 200, 200, 200, 300]
+    assert [value for value, _total in bar.updates] == [0, 0, 0, 100, 100, 200, 200, 300]
     assert bar.updates[-1] == (300, 300)
     assert fake_comfy.interrupt_checks == 6
     assert fake_comfy.sent[:-1] == [
@@ -402,6 +402,18 @@ def test_loads_via_comfyui_directory_mechanism(pack):
     }
     assert pack.WEB_DIRECTORY == "./web"
     assert set(pack.__all__) == {"NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "WEB_DIRECTORY"}
+
+
+def test_every_node_has_one_output_tooltip_per_output_and_search_aliases(pack):
+    # Core sends both to the frontend: output_tooltips pair with outputs by position, search_aliases feed node search.
+    for name, node_class in pack.NODE_CLASS_MAPPINGS.items():
+        assert len(node_class.OUTPUT_TOOLTIPS) == len(node_class.RETURN_TYPES), name
+        assert isinstance(node_class.SEARCH_ALIASES, list) and node_class.SEARCH_ALIASES, name
+        assert all(isinstance(alias, str) and alias.strip() for alias in node_class.SEARCH_ALIASES), name
+        for text in node_class.OUTPUT_TOOLTIPS:
+            assert 1 <= len(sentences(text)) <= 2, text
+            assert chr(0x2014) not in text
+            assert ";" not in text
 
 
 def test_web_directory_holds_the_extension():

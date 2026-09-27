@@ -12,7 +12,11 @@ from contextlib import contextmanager, nullcontext
 from typing import Any
 
 # Core only resizes a VL image above 12.8 MP, so a 4k input would cost about 12k vision tokens.
+# The Tagger's propose and verify stages share one vision encode at this cap.
 VL_MAX_PIXELS = 1024 * 1024
+# At 0.5 MP one question took 276 ms against 553 ms at 1 MP, and every logit probe stayed inside its 1 MP interval
+# (tests-AB/ab_release_gates.py --max-pixels).
+CHECK_MAX_PIXELS = 512 * 1024
 
 _IMAGE_TOKENS = "<|vision_start|><|image_pad|><|vision_end|>"
 
@@ -41,18 +45,22 @@ def check_images(images: Any, node: str) -> None:
         )
 
 
-def resize_for_vl(image: Any) -> Any:
-    """Downscale one [1, H, W, C] image to at most VL_MAX_PIXELS, keeping the first three channels."""
+def resize_for_vl(image: Any, *, max_pixels: int | None = None) -> Any:
+    """Downscale one [1, H, W, C] image to at most max_pixels, keeping the first three channels.
+
+    None means VL_MAX_PIXELS, read at call time so a harness or test that sets the constant reaches every caller.
+    """
     import torch
 
     height, width = image.shape[1], image.shape[2]
+    cap = VL_MAX_PIXELS if max_pixels is None else max_pixels
     rgb = image[..., :3]
     scale = 0.0
     samples = None
 
-    if height * width <= VL_MAX_PIXELS:
+    if height * width <= cap:
         return rgb
-    scale = math.sqrt(VL_MAX_PIXELS / (height * width))
+    scale = math.sqrt(cap / (height * width))
     # Floor, so the product can never land above the cap.
     size = (max(1, math.floor(height * scale)), max(1, math.floor(width * scale)))
     samples = torch.nn.functional.interpolate(rgb.movedim(-1, 1), size=size, mode="area")

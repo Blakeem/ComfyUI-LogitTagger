@@ -35,6 +35,15 @@ class RecordingProgressBar:
         self.updates.append((value, total))
 
 
+class CancelOnFinalUpdateBar(RecordingProgressBar):
+    """Checks for Cancel on its final update, as core's ProgressBar hook does (main.py, hijack_progress)."""
+
+    def update_absolute(self, value, total=None, preview=None):
+        super().update_absolute(value, total, preview)
+        if value >= (self.total if total is None else total):
+            sys.modules["comfy.model_management"].throw_exception_if_processing_interrupted()
+
+
 class Interrupted(BaseException):
     """Stands in for core's InterruptProcessingException, a BaseException."""
 
@@ -116,7 +125,6 @@ def test_one_bar_across_three_items_with_a_token_bar_each_never_decreases_and_en
             for _token in range(20):
                 bar.update(1)
             run.item(index, "checking tags")
-            run.item_done(index)
 
     updates = run_bar().updates
     values = [value for value, _total in updates]
@@ -149,13 +157,19 @@ def test_a_token_bar_fills_the_generate_share_at_the_fill_ratio_of_its_budget(fa
     assert at_budget == at_ratio
 
 
-def test_item_done_fills_the_item_completely(fake_comfy):
+def test_a_clean_exit_fills_the_bar_and_a_raised_exit_does_not(fake_comfy):
     with progress.RunProgress(total_items=3, unique_id=NODE_ID, noun="image") as run:
         run.item(0, "writing tags")
         token_bar(10).update_absolute(10)
-        run.item_done(0)
+    with pytest.raises(RuntimeError, match="out of memory"), \
+            progress.RunProgress(total_items=3, unique_id=NODE_ID, noun="image") as run:
+        run.item(0, "writing tags")
+        token_bar(10).update_absolute(10)
+        raise RuntimeError("out of memory")
 
-    assert run_bar().updates[-1] == (progress.ITEM_UNITS, 3 * progress.ITEM_UNITS)
+    clean_bar, raised_bar = RecordingProgressBar.instances
+    assert clean_bar.updates[-1] == (3 * progress.ITEM_UNITS, 3 * progress.ITEM_UNITS)
+    assert raised_bar.updates[-1] == (round(progress.GENERATE_SHARE * progress.ITEM_UNITS), 3 * progress.ITEM_UNITS)
 
 
 def test_a_token_bar_that_restarts_inside_an_item_never_moves_the_bar_back(fake_comfy):
@@ -214,7 +228,6 @@ def test_the_status_line_for_one_item_is_the_stage_alone_and_sent_only_on_change
         run.item(0, "writing tags")
         run.item(0, "writing tags")
         run.item(0, "checking tags")
-        run.item_done(0)
 
     assert fake_comfy.server.sent[:2] == [("writing tags", NODE_ID), ("checking tags", NODE_ID)]
     assert len(fake_comfy.server.sent) == 3
@@ -225,7 +238,6 @@ def test_the_status_line_for_three_items_names_the_noun_and_the_position(fake_co
     with progress.RunProgress(total_items=3, unique_id=NODE_ID, noun="text") as run:
         for index in range(3):
             run.item(index, "checking")
-            run.item_done(index)
 
     assert [text for text, _node_id in fake_comfy.server.sent][:3] == [
         "text 1/3: checking",
@@ -241,7 +253,6 @@ def test_a_finished_run_ends_on_its_item_count_and_duration(fake_comfy, count, p
     with progress.RunProgress(total_items=count, unique_id=NODE_ID, noun="image") as run:
         for index in range(count):
             run.item(index, "writing tags")
-            run.item_done(index)
 
     assert re.match(pattern, fake_comfy.server.sent[-1][0])
 
@@ -252,6 +263,16 @@ def test_a_cancelled_run_ends_on_cancelled_and_the_interrupt_propagates(fake_com
         raise Interrupted()
 
     assert fake_comfy.server.sent[-1] == ("cancelled", NODE_ID)
+
+
+def test_a_cancel_raised_by_the_clean_exit_fill_ends_on_cancelled_and_propagates(fake_comfy, monkeypatch):
+    monkeypatch.setattr(sys.modules["comfy.utils"], "ProgressBar", CancelOnFinalUpdateBar)
+
+    with pytest.raises(Interrupted), progress.RunProgress(total_items=1, unique_id=NODE_ID, noun="image") as run:
+        run.item(0, "checking")
+        fake_comfy.interrupted = True
+
+    assert fake_comfy.server.sent == [("checking", NODE_ID), ("cancelled", NODE_ID)]
 
 
 def test_a_failed_run_ends_on_failed_and_the_error_propagates(fake_comfy):
@@ -269,12 +290,13 @@ def test_item_checks_for_an_interrupt_before_it_announces_the_item(fake_comfy):
         fake_comfy.interrupted = True
         with pytest.raises(Interrupted):
             run.item(1, "writing tags")
+        after_interrupt = run_bar().updates[-1][0]
 
     assert fake_comfy.interrupt_checks == 2
     assert fake_comfy.server.sent[0] == ("image 1/2: writing tags", NODE_ID)
     assert len(fake_comfy.server.sent) == 2
     assert re.fullmatch(FINISHED_TWO, fake_comfy.server.sent[1][0])
-    assert run_bar().updates[-1][0] == 0
+    assert after_interrupt == 0
 
 
 # --- send_status ------------------------------------------------------------------------
@@ -292,7 +314,6 @@ def test_send_status_swallows_a_failed_send(fake_comfy):
     progress.send_status(NODE_ID, "writing tags")
     with progress.RunProgress(total_items=1, unique_id=NODE_ID, noun="image") as run:
         run.item(0, "writing tags")
-        run.item_done(0)
 
     assert run_bar().updates[-1] == (progress.ITEM_UNITS, progress.ITEM_UNITS)
 

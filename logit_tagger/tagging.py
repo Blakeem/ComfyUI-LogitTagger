@@ -274,13 +274,11 @@ def english_prompt(clip: Any, classifier: Any, prompt: str) -> str:
     return translation or prompt
 
 
-def prompt_things(clip: Any, classifier: Any, prompt: str, known_things: dict[str, float],
-                  instruction: str | None = None) -> tuple[str, ...]:
+def prompt_things(clip: Any, classifier: Any, prompt: str, known_things: dict[str, float]) -> tuple[str, ...]:
     """The physical things prompt names that its own words ground and the thing check keeps.
 
     The things come from the prompt's English translation when the prompt is not English.
     """
-    wording = PROMPT_TAGS_INSTRUCTION if instruction is None else instruction
     text = ""
     prompt_words: set[str] = set()
     reply = ""
@@ -294,7 +292,7 @@ def prompt_things(clip: Any, classifier: Any, prompt: str, known_things: dict[st
     text = english_prompt(clip, classifier, prompt)
     prompt_words = prompt_forms(text)
     # A literal replace, so braces in the prompt are never read as format fields.
-    reply = engine.generate_text(clip, wording.replace(PROMPT_PLACEHOLDER, text),
+    reply = engine.generate_text(clip, PROMPT_TAGS_INSTRUCTION.replace(PROMPT_PLACEHOLDER, text),
                                  max_tokens=PROMPT_TAGS_MAX_TOKENS,
                                  should_stop=lambda tags: _off_prompt_or_repeating(tags, prompt_words))
     listed = tuple(tag for tag in parse_candidates(reply) if grounded(tag, prompt_words))
@@ -405,7 +403,7 @@ def check_tag_list(clip: Any, classifier: Any, image: Any, tags: tuple[str, ...]
     from logit_classifier.backends.comfy_clip import shared_vision_encode
     from logit_classifier.config import JEV_MAX_QUESTIONS
 
-    resized = engine.resize_for_vl(image)
+    resized = engine.resize_for_vl(image, max_pixels=engine.CHECK_MAX_PIXELS)
     questions = [engine.presence_question(tag) for tag in tags]
     started = time.perf_counter()
     # One scope over every request, so the vision tower encodes the picture once.
@@ -480,7 +478,7 @@ def _presence_probabilities(classifier: Any, image: Any, things: tuple[str, ...]
         return ()
     # The prompt list holds at most one thing per PROMPT_TAGS_MAX_TOKENS token, within the library's 256 question cap.
     return tuple(engine.nouls(classifier, [engine.presence_question(thing) for thing in things],
-                              image=engine.resize_for_vl(image)))
+                              image=engine.resize_for_vl(image, max_pixels=engine.CHECK_MAX_PIXELS)))
 
 
 def check_prompt(clip: Any, images: list[Any], prompts: list[str], *,

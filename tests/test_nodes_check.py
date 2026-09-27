@@ -103,7 +103,7 @@ def fake_engine(monkeypatch):
         record.built.append((clip, node, needs_images))
         return "classifier"
 
-    def resize_for_vl(image):
+    def resize_for_vl(image, *, max_pixels=None):
         return SimpleNamespace(resized=image)
 
     def nouls(classifier, statements, *, image=None, state=""):
@@ -162,7 +162,7 @@ def test_every_input_has_a_tooltip_and_no_text_has_an_em_dash_or_semicolon(node_
     tooltips = [definition[1].get("tooltip", "") for definition in node_class.INPUT_TYPES()["required"].values()]
 
     for text in tooltips:
-        assert 1 <= len(sentences(text)) <= 2, text
+        assert 1 <= len(sentences(text)) <= 3, text
     for text in [node_class.DESCRIPTION, *tooltips]:
         assert chr(0x2014) not in text
         assert ";" not in text

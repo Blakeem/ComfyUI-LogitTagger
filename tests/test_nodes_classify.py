@@ -93,7 +93,7 @@ def fake_engine(monkeypatch):
         record.built.append((clip, node, needs_images))
         return "classifier"
 
-    def resize_for_vl(image):
+    def resize_for_vl(image, *, max_pixels=None):
         return SimpleNamespace(resized=image)
 
     def choose(classifier, question, options, *, image):
@@ -124,14 +124,14 @@ def test_inputs_are_clip_image_and_single_line_question_and_options_then_the_nod
 
 
 def test_output_contract():
-    assert LogitImageClassify.RETURN_TYPES == ("STRING", "INT", "FLOAT")
-    assert LogitImageClassify.RETURN_NAMES == ("choice", "index", "confidence")
+    assert LogitImageClassify.RETURN_TYPES == ("STRING", "INT", "FLOAT", "IMAGE")
+    assert LogitImageClassify.RETURN_NAMES == ("choice", "index", "confidence", "images")
     assert LogitImageClassify.INPUT_IS_LIST is True
-    assert LogitImageClassify.OUTPUT_IS_LIST == (True, True, True)
+    assert LogitImageClassify.OUTPUT_IS_LIST == (True, True, True, True)
     assert LogitImageClassify.OUTPUT_NODE is True
     assert LogitImageClassify.FUNCTION == "classify"
     assert LogitImageClassify.CATEGORY == "Logit Tagger"
-    assert 1 <= len(sentences(LogitImageClassify.DESCRIPTION)) <= 3
+    assert 1 <= len(sentences(LogitImageClassify.DESCRIPTION)) <= 4
 
 
 def test_every_input_has_a_tooltip_and_no_text_has_an_em_dash_or_semicolon():
@@ -179,7 +179,7 @@ def test_options_split_on_commas_and_newlines_keep_their_spelling_and_drop_blank
 def test_the_choice_output_keeps_the_typed_spelling_of_each_option(fake_comfy, fake_engine):
     fake_engine.answers = [("Photo", 0.9), ("3D Render", 0.8)]
 
-    choices, indexes, _confidences = classify([an_image(batch=2)], options=["Photo, 3D Render"])["result"]
+    choices, indexes, _confidences, _images = classify([an_image(batch=2)], options=["Photo, 3D Render"])["result"]
 
     assert fake_engine.calls[0].options == ["Photo", "3D Render"]
     assert choices == ["Photo", "3D Render"]
@@ -251,7 +251,7 @@ def test_no_images_is_an_error_before_the_run_starts(fake_comfy, fake_engine, im
 def test_each_choice_maps_to_its_position_among_the_typed_options(fake_comfy, fake_engine):
     fake_engine.answers = [("comic book", 0.61), ("photograph", 0.97), ("3D render", 0.44)]
 
-    choices, indexes, confidences = classify([an_image(batch=3)])["result"]
+    choices, indexes, confidences, _images = classify([an_image(batch=3)])["result"]
 
     assert choices == ["comic book", "photograph", "3D render"]
     assert indexes == [7, 0, 3]
@@ -264,8 +264,8 @@ def test_a_list_of_two_batches_classifies_each_resized_image_once_in_order(fake_
     clip = object()
     fake_engine.answers = [("cat", 0.9), ("dog", 0.8), ("cat", 0.7)]
 
-    choices, indexes, _confidences = classify([a_batch(0.1, 0.2), an_image(value=0.3)], options=["cat, dog"],
-                                              clip=clip)["result"]
+    choices, indexes, _confidences, images = classify([a_batch(0.1, 0.2), an_image(value=0.3)], options=["cat, dog"],
+                                                      clip=clip)["result"]
 
     assert fake_engine.built == [(clip, "Logit Image Classify", True)]
     assert [call.classifier for call in fake_engine.calls] == ["classifier"] * 3
@@ -273,6 +273,8 @@ def test_a_list_of_two_batches_classifies_each_resized_image_once_in_order(fake_
     assert [tuple(call.image.resized.shape) for call in fake_engine.calls] == [(1, 8, 8, 3)] * 3
     assert choices == ["cat", "dog", "cat"]
     assert indexes == [0, 1, 0]
+    assert [round(float(image.mean()), 1) for image in images] == [0.1, 0.2, 0.3]
+    assert [tuple(image.shape) for image in images] == [(1, 8, 8, 3)] * 3
 
 
 # --- display --------------------------------------------------------------------------

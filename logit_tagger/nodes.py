@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import re
 from collections.abc import Callable
-from typing import Any
+from typing import Any, ClassVar
 
 from . import engine, lists, progress, tagging
 
@@ -68,39 +68,38 @@ def _tag_list(values: list[str] | None, prompts: list[str], instruction: str | N
     return tag_list
 
 
-def _image_progress(run: progress.RunProgress) -> Callable[[int, str], None]:
-    """tag_images' on_progress, feeding run with each image's stages and closing each finished image."""
-
-    def on_progress(index: int, stage: str) -> None:
-        # tag_images starts an image only once the one before it returned, so its first stage closes that one.
-        if index > 0 and stage == tagging.STAGE_WRITING:
-            run.item_done(index - 1)
-        run.item(index, stage)
-
-    return on_progress
-
-
 def _image_probability(classifier: Any, question: str, image: Any) -> float:
-    return engine.nouls(classifier, [question], image=engine.resize_for_vl(image))[0]
+    return engine.nouls(classifier, [question],
+                        image=engine.resize_for_vl(image, max_pixels=engine.CHECK_MAX_PIXELS))[0]
 
 
 def _text_probability(classifier: Any, question: str, text: str) -> float:
     return engine.nouls(classifier, [question], state=text)[0]
 
 
+def _split_sides(items: list[Any], passed: list[bool]) -> tuple[list[Any], list[Any]]:
+    """The items that passed and the items that failed, each in input order."""
+    from comfy_execution.graph_utils import ExecutionBlocker
+
+    yes_side = [item for item, verdict in zip(items, passed, strict=True) if verdict]
+    no_side = [item for item, verdict in zip(items, passed, strict=True) if not verdict]
+
+    # A silent blocker skips the nodes wired to an empty side instead of handing them no items.
+    return yes_side or [ExecutionBlocker(None)], no_side or [ExecutionBlocker(None)]
+
+
 def _run_check(clip: Any, items: list[Any], question: list[str], unique_id: list[str] | None, *, node: str,
                noun: str, default_question: str, needs_images: bool,
                probability_of: Callable[[Any, str, Any], float]) -> dict[str, Any]:
     """One question for the run, one probability per item, then the answer, the yes and no split and the display."""
-    from comfy_execution.graph_utils import ExecutionBlocker
-
     node_id = unique_id[0] if unique_id else None
     wording = ""
     classifier = None
     probabilities: list[float] = []
     verdicts: list[str] = []
-    yes_items: list[Any] = []
-    no_items: list[Any] = []
+    passed: list[bool] = []
+    yes_side: list[Any] = []
+    no_side: list[Any] = []
     display = ""
 
     if not items:
@@ -114,18 +113,12 @@ def _run_check(clip: Any, items: list[Any], question: list[str], unique_id: list
         for index, item in enumerate(items):
             run.item(index, CHECK_STAGE)
             probabilities.append(float(probability_of(classifier, wording, item)))
-            run.item_done(index)
 
     verdicts = [f"{'yes' if p >= YES_THRESHOLD else 'no'} {p:.3f}" for p in probabilities]
-    yes_items = [item for item, p in zip(items, probabilities, strict=True) if p >= YES_THRESHOLD]
-    no_items = [item for item, p in zip(items, probabilities, strict=True) if p < YES_THRESHOLD]
+    passed = [p >= YES_THRESHOLD for p in probabilities]
+    yes_side, no_side = _split_sides(items, passed)
     display = f"{wording}\n{format_display(verdicts)}"
-    # A silent blocker skips the nodes wired to an empty side instead of handing them no items.
-    return {
-        "ui": {"text": (display,)},
-        "result": (not no_items, probabilities, yes_items or [ExecutionBlocker(None)],
-                   no_items or [ExecutionBlocker(None)]),
-    }
+    return {"ui": {"text": (display,)}, "result": (all(passed), probabilities, yes_side, no_side)}
 
 
 def _prompt_check_display(checks: list[tagging.PromptCheck], missing_texts: list[str]) -> str:
@@ -189,12 +182,17 @@ class LogitTagger:
 
     RETURN_TYPES = ("STRING", "IMAGE")
     RETURN_NAMES = ("tags", "images")
+    OUTPUT_TOOLTIPS = (
+        "One comma separated tag string per image, in image order.",
+        "Each input image on its own, in the same order as the tags, so that Save Image-Text (to Folder) can save them as pairs.",
+    )
     INPUT_IS_LIST = True
     OUTPUT_IS_LIST = (True, True)
     # So the node runs and shows its tags with nothing wired to its output.
     OUTPUT_NODE = True
     FUNCTION = "tag"
     CATEGORY = "Logit Tagger"
+    SEARCH_ALIASES: ClassVar[list[str]] = ["caption", "auto tag", "image to tags", "dataset tags", "interrogate"]
     DESCRIPTION = (
         "The node tags each image with the Qwen3-VL text encoder the workflow already holds. The encoder "
         "proposes candidate tags, and a logit classifier keeps only the tags the image shows. It returns "
@@ -222,9 +220,7 @@ class LogitTagger:
 
         with progress.RunProgress(total_items=len(images), unique_id=node_id, noun="image") as run:
             tag_texts = [trace.tags for trace in tagging.tag_images(model, images, prompts, instruction=wording,
-                                                                   tag_list=tag_list,
-                                                                   on_progress=_image_progress(run))]
-            run.item_done(len(images) - 1)
+                                                                   tag_list=tag_list, on_progress=run.item)]
 
         # The frontend joins a ui list's entries with blank lines, so the display travels as one string.
         return {"ui": {"text": (format_display(tag_texts),)}, "result": (tag_texts, images)}
@@ -237,19 +233,26 @@ class LogitImageCheck:
             "required": {
                 "clip": ("CLIP", {"tooltip": "A Qwen3-VL text encoder, such as the one Krea 2 loads. It reads each image and answers the question."}),
                 "image": ("IMAGE", {"tooltip": "The images to check, as a batch or a list of batches. Each image gets its own answer."}),
-                "question": ("STRING", {"default": IMAGE_QUESTION, "multiline": False, "tooltip": "The yes or no question asked about each image. A blank question asks the default one."}),
+                "question": ("STRING", {"default": IMAGE_QUESTION, "multiline": False, "tooltip": "The yes or no question asked about each image. Since a statement such as \"This image contains an orange\" was answered about the color, word it as a question like the default. A blank question asks the default one."}),
             },
             "hidden": {"unique_id": "UNIQUE_ID"},
         }
 
     RETURN_TYPES = ("BOOLEAN", "FLOAT", "IMAGE", "IMAGE")
     RETURN_NAMES = ("answer", "probability", "yes_images", "no_images")
+    OUTPUT_TOOLTIPS = (
+        "True only when every image answers yes. It is one value for the entire run.",
+        "The probability of yes for each image, in image order.",
+        "The images that answer yes. When no image answers yes, the nodes wired here are skipped.",
+        "The images that answer no. When no image answers no, the nodes wired here are skipped.",
+    )
     INPUT_IS_LIST = True
     OUTPUT_IS_LIST = (False, True, True, True)
     # So the node runs and shows its answers with nothing wired to its output.
     OUTPUT_NODE = True
     FUNCTION = "check"
     CATEGORY = "Logit Tagger"
+    SEARCH_ALIASES: ClassVar[list[str]] = ["image gate", "batch filter", "filter images", "yes no", "vqa"]
     DESCRIPTION = (
         "The node answers a yes or no question about each image with the Qwen3-VL text encoder the workflow "
         "already holds. It reads the probability of yes from the logits instead of generating text. It sends "
@@ -271,19 +274,26 @@ class LogitTextCheck:
             "required": {
                 "clip": ("CLIP", {"tooltip": "A Qwen3-VL text encoder, such as the one Krea 2 loads. It reads each text and answers the question."}),
                 "text": ("STRING", {"forceInput": True, "tooltip": "The texts to check, such as prompts. Each text gets its own answer."}),
-                "question": ("STRING", {"default": TEXT_QUESTION, "multiline": False, "tooltip": "The yes or no question asked about each text. A blank question asks the default one."}),
+                "question": ("STRING", {"default": TEXT_QUESTION, "multiline": False, "tooltip": "The yes or no question asked about each text. Word it like the default so that a prompt that says \"no cats\" is answered no. A blank question asks the default one."}),
             },
             "hidden": {"unique_id": "UNIQUE_ID"},
         }
 
     RETURN_TYPES = ("BOOLEAN", "FLOAT", "STRING", "STRING")
     RETURN_NAMES = ("answer", "probability", "yes_texts", "no_texts")
+    OUTPUT_TOOLTIPS = (
+        "True only when every text answers yes. It is one value for the entire run.",
+        "The probability of yes for each text, in text order.",
+        "The texts that answer yes. When no text answers yes, the nodes wired here are skipped.",
+        "The texts that answer no. When no text answers no, the nodes wired here are skipped.",
+    )
     INPUT_IS_LIST = True
     OUTPUT_IS_LIST = (False, True, True, True)
     # So the node runs and shows its answers with nothing wired to its output.
     OUTPUT_NODE = True
     FUNCTION = "check"
     CATEGORY = "Logit Tagger"
+    SEARCH_ALIASES: ClassVar[list[str]] = ["text gate", "prompt gate", "yes no text"]
     DESCRIPTION = (
         "The node answers a yes or no question about each text with the Qwen3-VL text encoder the workflow "
         "already holds. It reads the probability of yes from the logits instead of generating text. It sends "
@@ -308,18 +318,28 @@ class LogitPromptCheck:
             "hidden": {"unique_id": "UNIQUE_ID"},
         }
 
-    RETURN_TYPES = ("BOOLEAN", "FLOAT", "STRING", "IMAGE")
-    RETURN_NAMES = ("all_present", "score", "missing", "images")
+    RETURN_TYPES = ("BOOLEAN", "FLOAT", "STRING", "IMAGE", "IMAGE", "IMAGE")
+    RETURN_NAMES = ("all_present", "score", "missing", "images", "complete_images", "incomplete_images")
+    OUTPUT_TOOLTIPS = (
+        "True only when every image shows every thing its prompt names. It is one value for the entire run.",
+        "The share of its prompt's things each image shows, from 0 to 1. A prompt that names no things scores 1.",
+        "The things each image lacks, as one comma separated string per image. An image that shows every thing gets an empty string.",
+        "Each input image on its own, in the same order as score and missing, so that Save Image-Text (to Folder) can save them as pairs.",
+        "The images that show every thing their prompt names. When no image does, the nodes wired here are skipped.",
+        "The images that lack a thing their prompt names. When every image shows every thing, the nodes wired here are skipped.",
+    )
     INPUT_IS_LIST = True
-    OUTPUT_IS_LIST = (False, True, True, True)
+    OUTPUT_IS_LIST = (False, True, True, True, True, True)
     # So the node runs and shows its scores with nothing wired to its output.
     OUTPUT_NODE = True
     FUNCTION = "check"
     CATEGORY = "Logit Tagger"
+    SEARCH_ALIASES: ClassVar[list[str]] = ["prompt adherence", "prompt following", "missing objects"]
     DESCRIPTION = (
         "The node checks each image for every physical thing its prompt names, with the Qwen3-VL text encoder "
         "the workflow already holds. The encoder lists the prompt's things, and a logit classifier reads whether "
-        "the image shows each one. It returns the share of those things each image shows and the things it lacks."
+        "the image shows each one. It returns the share of those things each image shows and the things it lacks. "
+        "It sends each image to complete_images or incomplete_images."
     )
 
     def check(self, clip: list[Any], image: list[Any], prompt: list[str],
@@ -329,6 +349,9 @@ class LogitPromptCheck:
         prompts: list[str] = []
         checks: list[tagging.PromptCheck] = []
         missing_texts: list[str] = []
+        passed: list[bool] = []
+        complete_images: list[Any] = []
+        incomplete_images: list[Any] = []
 
         images = lists.split_images(image, tagging.PROMPT_CHECK_NAME)
         if not images:
@@ -339,13 +362,14 @@ class LogitPromptCheck:
 
         with progress.RunProgress(total_items=len(images), unique_id=node_id, noun="image") as run:
             checks = tagging.check_prompt(clip[0], images, prompts, on_progress=run.item)
-            run.item_done(len(images) - 1)
 
         missing_texts = [", ".join(check.missing) for check in checks]
+        passed = [not check.missing for check in checks]
+        complete_images, incomplete_images = _split_sides(images, passed)
         return {
             "ui": {"text": (_prompt_check_display(checks, missing_texts),)},
-            "result": (all(not check.missing for check in checks), [check.score for check in checks],
-                       missing_texts, images),
+            "result": (all(passed), [check.score for check in checks], missing_texts, images, complete_images,
+                       incomplete_images),
         }
 
 
@@ -362,18 +386,26 @@ class LogitImageClassify:
             "hidden": {"unique_id": "UNIQUE_ID"},
         }
 
-    RETURN_TYPES = ("STRING", "INT", "FLOAT")
-    RETURN_NAMES = ("choice", "index", "confidence")
+    RETURN_TYPES = ("STRING", "INT", "FLOAT", "IMAGE")
+    RETURN_NAMES = ("choice", "index", "confidence", "images")
+    OUTPUT_TOOLTIPS = (
+        "The option each image picks, spelled as typed in options.",
+        "The position of each image's choice in the options, counting from 0.",
+        "The certainty of each choice, from 0 when every option is equally likely to 1 when one option takes all the probability.",
+        "Each input image on its own, in the same order as the choices, so that Save Image-Text (to Folder) can save them as pairs.",
+    )
     INPUT_IS_LIST = True
-    OUTPUT_IS_LIST = (True, True, True)
+    OUTPUT_IS_LIST = (True, True, True, True)
     # So the node runs and shows its choices with nothing wired to its output.
     OUTPUT_NODE = True
     FUNCTION = "classify"
     CATEGORY = "Logit Tagger"
+    SEARCH_ALIASES: ClassVar[list[str]] = ["classifier", "choice", "zero-shot", "art style", "image category"]
     DESCRIPTION = (
         "The node picks one of the options for each image with the Qwen3-VL text encoder the workflow already "
         "holds. It reads the choice from the logits of one question instead of generating text. It returns each "
-        "image's choice, the choice's position among the options and the confidence of the choice."
+        "image's choice, the choice's position among the options and the confidence of the choice. It returns each "
+        "image beside its choice so that Save Image-Text (to Folder) can save them as pairs."
     )
 
     def classify(self, clip: list[Any], image: list[Any], question: list[str], options: list[str],
@@ -399,11 +431,11 @@ class LogitImageClassify:
         with progress.RunProgress(total_items=len(images), unique_id=node_id, noun="image") as run:
             for index, item in enumerate(images):
                 run.item(index, CLASSIFY_STAGE)
-                answers.append(engine.choose(classifier, wording, option_list, image=engine.resize_for_vl(item)))
-                run.item_done(index)
+                answers.append(engine.choose(classifier, wording, option_list,
+                                             image=engine.resize_for_vl(item, max_pixels=engine.CHECK_MAX_PIXELS)))
 
         choices = [choice for choice, _confidence in answers]
         indexes = [option_list.index(choice) for choice in choices]
         confidences = [float(confidence) for _choice, confidence in answers]
         verdicts = [f"{choice} {confidence:.2f}" for choice, confidence in zip(choices, confidences, strict=True)]
-        return {"ui": {"text": (format_display(verdicts),)}, "result": (choices, indexes, confidences)}
+        return {"ui": {"text": (format_display(verdicts),)}, "result": (choices, indexes, confidences, images)}

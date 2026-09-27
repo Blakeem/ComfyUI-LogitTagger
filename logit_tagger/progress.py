@@ -14,7 +14,7 @@ from typing import Any
 ITEM_UNITS = 100
 # Core sizes its token bar to the token budget and a greedy reply stops early, as ContextAnchoredTileRefine measured.
 GENERATE_FILL_RATIO = 0.65
-# The generate's share of one item. The stages after it reach the item's end through item_done.
+# The generate's share of one item. The next item's start, or a clean exit, fills the rest.
 GENERATE_SHARE = 0.8
 
 
@@ -80,10 +80,6 @@ class RunProgress:
         self._emit(self._index * ITEM_UNITS)
         self._send_status(text)
 
-    def item_done(self, index: int) -> None:
-        """Fill item index completely."""
-        self._emit((int(index) + 1) * ITEM_UNITS)
-
     def route(self, value: float, total: float) -> None:
         """Map a routed bar's own progress into the current item's generate share."""
         units = 0.0
@@ -113,6 +109,13 @@ class RunProgress:
             text = "cancelled"
         elif exc_type is not None:
             text = "failed"
+        else:
+            # Core's bar hook checks for Cancel on the final update, so the fill can raise the run's interrupt.
+            try:
+                self._emit(self._total_items * ITEM_UNITS)
+            except comfy.model_management.InterruptProcessingException:
+                self._send_status("cancelled")
+                raise
         # Frontend 1.53.6 keeps the last progress text and ignores an empty one, so the run ends on a line that
         # says how it ended.
         self._send_status(text)

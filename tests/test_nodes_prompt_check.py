@@ -1,6 +1,7 @@
 """nodes.py and tagging.check_prompt: the Logit Prompt Check node, its contract, scores, missing things and display.
 
-The engine, prompt_things, comfy and the server are stubbed, so no comfy install, no GPU and no model are needed.
+The engine, prompt_things, comfy, comfy_execution and the server are stubbed, so no comfy install, no GPU and no
+model are needed.
 """
 
 import re
@@ -49,16 +50,23 @@ class RecordingProgressBar:
         self.updates.append((value, total))
 
 
+class ExecutionBlocker:
+    def __init__(self, message):
+        self.message = message
+
+
 class Interrupted(Exception):
     pass
 
 
 @pytest.fixture
 def fake_comfy(monkeypatch):
-    """Fake comfy.utils, comfy.model_management and server modules."""
+    """Fake comfy.utils, comfy.model_management, comfy_execution.graph_utils and server modules."""
     comfy = types.ModuleType("comfy")
     utils = types.ModuleType("comfy.utils")
     model_management = types.ModuleType("comfy.model_management")
+    comfy_execution = types.ModuleType("comfy_execution")
+    graph_utils = types.ModuleType("comfy_execution.graph_utils")
     server = types.ModuleType("server")
     state = SimpleNamespace(interrupted=False, sent=[])
 
@@ -70,13 +78,17 @@ def fake_comfy(monkeypatch):
     utils.ProgressBar = RecordingProgressBar
     model_management.throw_exception_if_processing_interrupted = throw_exception_if_processing_interrupted
     model_management.InterruptProcessingException = Interrupted
+    graph_utils.ExecutionBlocker = ExecutionBlocker
     server.PromptServer = SimpleNamespace(instance=SimpleNamespace(
         send_progress_text=lambda text, node_id: state.sent.append((text, node_id))))
     comfy.utils = utils
     comfy.model_management = model_management
+    comfy_execution.graph_utils = graph_utils
     monkeypatch.setitem(sys.modules, "comfy", comfy)
     monkeypatch.setitem(sys.modules, "comfy.utils", utils)
     monkeypatch.setitem(sys.modules, "comfy.model_management", model_management)
+    monkeypatch.setitem(sys.modules, "comfy_execution", comfy_execution)
+    monkeypatch.setitem(sys.modules, "comfy_execution.graph_utils", graph_utils)
     monkeypatch.setitem(sys.modules, "server", server)
     return state
 
@@ -90,7 +102,7 @@ def fake_engine(monkeypatch):
         record.built.append((clip, node, needs_images))
         return "classifier"
 
-    def resize_for_vl(image):
+    def resize_for_vl(image, *, max_pixels=None):
         return SimpleNamespace(resized=image)
 
     def nouls(classifier, statements, *, image=None, state=""):
@@ -108,12 +120,16 @@ def fake_things(monkeypatch):
     """Replaces prompt_things with a lookup in things_of, recording each call."""
     record = SimpleNamespace(things_of={}, calls=[])
 
-    def prompt_things(clip, classifier, prompt, known_things, instruction=None):
+    def prompt_things(clip, classifier, prompt, known_things):
         record.calls.append(SimpleNamespace(clip=clip, classifier=classifier, prompt=prompt, known=known_things))
         return record.things_of[prompt]
 
     monkeypatch.setattr(tagging, "prompt_things", prompt_things)
     return record
+
+
+def is_blocked(side):
+    return len(side) == 1 and isinstance(side[0], ExecutionBlocker) and side[0].message is None
 
 
 # --- input and output contract --------------------------------------------------------
@@ -130,14 +146,15 @@ def test_inputs_are_clip_image_and_a_prompt_socket_then_the_node_id():
 
 
 def test_output_contract():
-    assert LogitPromptCheck.RETURN_TYPES == ("BOOLEAN", "FLOAT", "STRING", "IMAGE")
-    assert LogitPromptCheck.RETURN_NAMES == ("all_present", "score", "missing", "images")
+    assert LogitPromptCheck.RETURN_TYPES == ("BOOLEAN", "FLOAT", "STRING", "IMAGE", "IMAGE", "IMAGE")
+    assert LogitPromptCheck.RETURN_NAMES == ("all_present", "score", "missing", "images", "complete_images",
+                                             "incomplete_images")
     assert LogitPromptCheck.INPUT_IS_LIST is True
-    assert LogitPromptCheck.OUTPUT_IS_LIST == (False, True, True, True)
+    assert LogitPromptCheck.OUTPUT_IS_LIST == (False, True, True, True, True, True)
     assert LogitPromptCheck.OUTPUT_NODE is True
     assert LogitPromptCheck.FUNCTION == "check"
     assert LogitPromptCheck.CATEGORY == "Logit Tagger"
-    assert 1 <= len(sentences(LogitPromptCheck.DESCRIPTION)) <= 3
+    assert 1 <= len(sentences(LogitPromptCheck.DESCRIPTION)) <= 4
 
 
 def test_every_input_has_a_tooltip_and_no_text_has_an_em_dash_or_semicolon():
@@ -160,11 +177,13 @@ def test_every_thing_present_answers_true_with_a_full_score(fake_comfy, fake_eng
 
     output = run_check([an_image()], ["a cat in a red hat"], clip=clip)
 
-    all_present, scores, missing, images = output["result"]
+    all_present, scores, missing, images, complete_images, incomplete_images = output["result"]
     assert all_present is True
     assert scores == [1.0]
     assert missing == [""]
     assert [tuple(image.shape) for image in images] == [(1, 8, 8, 3)]
+    assert len(complete_images) == 1 and complete_images[0] is images[0]
+    assert is_blocked(incomplete_images)
     assert fake_engine.built == [(clip, "Logit Prompt Check", True)]
     assert [(call.clip, call.classifier) for call in fake_things.calls] == [(clip, "classifier")]
     assert fake_engine.calls[0].statements == ["Is there a cat in this image?", "Is there a red hat in this image?"]
@@ -178,10 +197,12 @@ def test_things_below_one_half_are_missing_in_prompt_order(fake_comfy, fake_engi
 
     output = run_check([an_image()], ["a cat, a red hat and two dogs"])
 
-    all_present, scores, missing, _images = output["result"]
+    all_present, scores, missing, images, complete_images, incomplete_images = output["result"]
     assert all_present is False
     assert scores == [pytest.approx(1 / 3)]
     assert missing == ["red hat, two dogs"]
+    assert is_blocked(complete_images)
+    assert len(incomplete_images) == 1 and incomplete_images[0] is images[0]
     assert output["ui"] == {"text": ("cat, red hat, two dogs\n0.33 missing: red hat, two dogs",)}
 
 
@@ -204,7 +225,7 @@ def test_one_prompt_for_three_images_lists_its_things_once(fake_comfy, fake_engi
 
     output = run_check([a_batch(0.1, 0.2), an_image(value=0.3)], ["a cat"])
 
-    all_present, scores, missing, images = output["result"]
+    all_present, scores, missing, images, complete_images, incomplete_images = output["result"]
     assert [call.prompt for call in fake_things.calls] == ["a cat"]
     assert all_present is False
     assert scores == [1.0, 0.0, 1.0]
@@ -212,6 +233,8 @@ def test_one_prompt_for_three_images_lists_its_things_once(fake_comfy, fake_engi
     assert [round(float(call.image.resized.mean()), 1) for call in fake_engine.calls] == [0.1, 0.2, 0.3]
     assert [round(float(image.mean()), 1) for image in images] == [0.1, 0.2, 0.3]
     assert [tuple(image.shape) for image in images] == [(1, 8, 8, 3)] * 3
+    assert [round(float(image.mean()), 1) for image in complete_images] == [0.1, 0.3]
+    assert [round(float(image.mean()), 1) for image in incomplete_images] == [0.2]
     assert output["ui"] == {"text": ("cat\n0: 1.00 all present\n1: 0.00 missing: cat\n2: 1.00 all present",)}
 
 

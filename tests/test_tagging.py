@@ -310,14 +310,6 @@ def test_prompt_things_keep_grounded_things():
     assert clip.generate_calls[0][1]["max_length"] == tagging.PROMPT_TAGS_MAX_TOKENS
 
 
-def test_prompt_things_instruction_override():
-    pytest.importorskip("logit_classifier")
-    clip = FakeClip(prompt_reply="fox")
-
-    tagging.prompt_things(clip, FakeClassifier(), "a fox", {}, instruction="Things in: {PROMPT}")
-    assert "Things in: a fox" in clip.text_only_calls()[0]
-
-
 # --- prompt language ------------------------------------------------------------------
 
 
@@ -712,7 +704,7 @@ def test_check_tag_list_reports_the_listed_tags_as_its_only_candidates(fake_clas
 
 
 def test_check_tag_list_asks_the_presence_question_about_the_resized_image(fake_classifier, monkeypatch):
-    monkeypatch.setattr(engine, "VL_MAX_PIXELS", 16)
+    monkeypatch.setattr(engine, "CHECK_MAX_PIXELS", 16)
     clip = FakeClip()
 
     tagging.check_tag_list(clip, fake_classifier, an_image(), ("cat", "red car"))

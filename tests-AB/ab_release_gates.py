@@ -10,7 +10,7 @@ Each probe stands for one candidate node:
   declared-tags  image noul over the 80 COCO categories as a declared tag list (declared tagger node)
 The render probes use the renders that have a judge labels entry. Every interval is a 95% bootstrap over images,
 or over prompts for text-check. Results merge by probe into the --out JSON, so separate runs accumulate.
-Usage: python tests-AB/ab_release_gates.py [<data dir>] [--corpus FILE] [--probes NAME ...] [--labels FILE] [--limit N] [--out FILE]
+Usage: python tests-AB/ab_release_gates.py [<data dir>] [--corpus FILE] [--probes NAME ...] [--labels FILE] [--limit N] [--max-pixels N] [--out FILE]
 """
 
 import argparse
@@ -140,9 +140,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--limit", type=int, default=None, help="use only the first N items of each set")
     parser.add_argument("--seed", type=int, default=7, help="seed for swaps, foreign things and resamples")
     parser.add_argument("--clip", default=DEFAULT_CLIP, help="text encoder file name under models/clip")
+    parser.add_argument("--max-pixels", type=int, default=None,
+                        help="pixel cap for every render and COCO image, default engine.CHECK_MAX_PIXELS")
     parser.add_argument("--out", type=Path, default=None,
                         help="raw per-item JSON, default release_gates.json in the data folder")
-    return parser.parse_args()
+    args = parser.parse_args()
+    if args.max_pixels is not None and args.max_pixels < 1:
+        parser.error(f"--max-pixels must be a positive pixel count, got {args.max_pixels}")
+    return args
 
 
 # ---------------------------------------------------------------- data
@@ -490,6 +495,7 @@ def probe_adherence(asker: Asker, renders: list[Render], all_renders: list[Rende
         *thing_lines(thing_items, len(flagged), seed),
         *fraction_lines(match_items, thing_items, seed),
         *near_miss_lines(match_items, thing_items, near_misses, seed),
+        *image_level_lines(thing_items, near_misses, seed),
         f"mean {asker.mean_ms('adherence'):.0f} ms per packed request",
     ]
     return lines, {"match_items": match_items, "thing_items": thing_items, "near_misses": near_misses,
@@ -573,6 +579,35 @@ def near_miss_lines(match_items: list[dict], thing_items: list[dict], near_misse
         "  substituted thing not flagged: " + (", ".join(
             f"{row['unit']} {row['replaced']!r} -> {row['thing']!r} {row['p']:.4f}"
             for row in rows if row["p"] >= THRESHOLD) or "none"),
+    ]
+
+
+def image_level_lines(thing_items: list[dict], near_misses: list[dict], seed: int) -> list[str]:
+    """(e) Whole-image completeness from the presence nouls: an image reads complete when every labeled intended
+    thing, and on a near miss the substituted thing in place of the replaced one, scores p >= 0.5."""
+    foreign_p = {(item["unit"], item["thing"]): item["p"] for item in thing_items if item["origin"] == "foreign"}
+    intended: dict[str, list[dict]] = {}
+    own: list[dict] = []
+    near: list[dict] = []
+    complete: list[dict] = []
+
+    for item in thing_items:
+        if item["origin"] == "intended" and item["truth"] is not None:
+            intended.setdefault(item["unit"], []).append(item)
+    # An image reads complete only when its least likely thing does, so the lowest p stands for the image.
+    own = [{"unit": unit, "truth": all(item["truth"] for item in things), "p": min(item["p"] for item in things)}
+           for unit, things in intended.items()]
+    near = [{"unit": miss["unit"], "truth": False,
+             "p": min([foreign_p[(miss["unit"], miss["thing"])],
+                       *(item["p"] for item in intended.get(miss["unit"], []) if item["thing"] != miss["replaced"])])}
+            for miss in near_misses]
+    complete = [row for row in own if row["truth"]]
+
+    return [
+        f"(e) image complete when every labeled thing reads p >= 0.5: own prompt {estimate(accuracy, own, seed)} "
+        f"on {len(own)} renders, near miss {estimate(accuracy, near, seed)} on {len(near)}, "
+        f"both {estimate(accuracy, own + near, seed)} on {len(own) + len(near)}",
+        f"  truly complete predicted incomplete: {sum(row['p'] < THRESHOLD for row in complete)}/{len(complete)}",
     ]
 
 
@@ -714,9 +749,10 @@ def main() -> None:
     ab_env.bootstrap()
     from logit_classifier import NoulQuestion
 
-    from logit_tagger.engine import build_classifier, resize_for_vl
+    from logit_tagger.engine import CHECK_MAX_PIXELS, build_classifier, resize_for_vl
 
     args = parse_args()
+    max_pixels = CHECK_MAX_PIXELS if args.max_pixels is None else args.max_pixels
     out_path = args.out or args.data / "release_gates.json"
     flagged_path = out_path.parent / "foreign_flagged.json"
     wanted = set(args.probes)
@@ -738,13 +774,15 @@ def main() -> None:
         checklist = load_checklist(args.data / "renders" / "JUDGE.md")
         renders = [render for render in all_renders if render.id in labels][: args.limit]
         require_files([render.file for render in renders])
-        render_images = {render.id: resize_for_vl(load_image(render.file)) for render in renders}
+        render_images = {render.id: resize_for_vl(load_image(render.file), max_pixels=max_pixels)
+                         for render in renders}
     if "text-check" in wanted:
         prompts = load_textset(args.data / "textset" / "prompts.json")[: args.limit]
     if "declared-tags" in wanted:
         categories, _supercategories, samples = load_corpus(args.corpus, args.limit)
         require_files([sample.file for sample in samples])
-        coco_images = {sample.file: resize_for_vl(load_image(sample.file)) for sample in samples}
+        coco_images = {sample.file: resize_for_vl(load_image(sample.file), max_pixels=max_pixels)
+                       for sample in samples}
 
     asker = Asker(build_classifier(ab_env.load_clip(args.clip), "ab_release_gates"))
     # The first calls pay CUDA and kernel warmup, which no probe should carry.
@@ -762,7 +800,8 @@ def main() -> None:
     for name in args.probes:
         lines, result = runs[name]()
         result["timings_ms"] = {label: ms for label, ms in asker.timings.items() if label.startswith(name)}
-        record["probes"][name] = {"clip": args.clip, "seed": args.seed, "limit": args.limit, **result}
+        record["probes"][name] = {"clip": args.clip, "seed": args.seed, "limit": args.limit,
+                                "max_pixels": max_pixels, **result}
         print(f"== {name}", *lines, "", sep="\n", flush=True)
         # Written after every probe, so a later probe's failure keeps the earlier results.
         out_path.write_text(json.dumps(record, indent=1), encoding="utf-8")
