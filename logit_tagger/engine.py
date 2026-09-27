@@ -80,9 +80,10 @@ def build_classifier(clip: Any, node: str, *, needs_images: bool = True) -> Any:
     try:
         backend = ComfyClipBackend(clip)
     except UnsupportedModelError as error:
+        # The library's own text also says to load a Qwen3-VL encoder, so it stays in the chained cause.
         raise ValueError(
-            f"{node}: this CLIP is not a Qwen3-VL text encoder, so {node} cannot ask it questions ({error}). Load a "
-            "Qwen3-VL text encoder, such as qwen3vl_4b_fp8_scaled.safetensors, with the Load CLIP type set to krea2."
+            f"{node}: this CLIP is not a Qwen3-VL text encoder, so {node} cannot ask it questions. Load a Qwen3-VL "
+            "text encoder, such as qwen3vl_4b_fp8_scaled.safetensors, with the Load CLIP type set to krea2."
         ) from error
     if needs_images and not backend.sees_images:
         raise ValueError(
