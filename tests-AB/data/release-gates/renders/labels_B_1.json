@@ -1,0 +1,74 @@
+{
+  "g01": {
+    "checklist": {"person": "yes", "face": "yes", "hand": "yes", "group": "no", "dog": "no", "cat": "no", "horse": "no", "bird": "no", "vehicle": "yes", "sword": "no", "food": "no", "plant": "no", "building": "unsure", "water": "yes", "sky": "yes", "text": "no", "night": "no", "indoors": "no", "photo": "yes", "anime": "no", "painting": "no", "render3d": "no", "pixel": "no", "sketch": "no", "comic": "no", "monochrome": "no", "smiling": "no"},
+    "intended": {"old man": "present", "face": "present", "grey beard": "present", "yellow raincoat": "present", "coiled rope": "unsure", "hands": "present", "boats": "present"}
+  },
+  "g02": {
+    "checklist": {"person": "yes", "face": "yes", "hand": "no", "group": "yes", "dog": "no", "cat": "no", "horse": "no", "bird": "no", "vehicle": "yes", "sword": "no", "food": "yes", "plant": "no", "building": "yes", "water": "no", "sky": "yes", "text": "yes", "night": "yes", "indoors": "no", "photo": "yes", "anime": "no", "painting": "no", "render3d": "no", "pixel": "no", "sketch": "no", "comic": "no", "monochrome": "no", "smiling": "yes"},
+    "intended": {"four people": "absent", "bakery storefront": "present", "neon sign reading BAKERY": "present", "wet pavement": "present", "red scooter": "present"}
+  },
+  "g03": {
+    "checklist": {"person": "no", "face": "no", "hand": "no", "group": "no", "dog": "yes", "cat": "no", "horse": "no", "bird": "no", "vehicle": "unsure", "sword": "no", "food": "no", "plant": "no", "building": "yes", "water": "yes", "sky": "yes", "text": "no", "night": "no", "indoors": "no", "photo": "yes", "anime": "no", "painting": "no", "render3d": "no", "pixel": "no", "sketch": "no", "comic": "no", "monochrome": "no", "smiling": "no"},
+    "intended": {"golden retriever": "present", "sandy beach": "present", "waves": "present", "orange sky": "present", "lighthouse": "present", "rocky point": "present"}
+  },
+  "g04": {
+    "checklist": {"person": "no", "face": "no", "hand": "no", "group": "no", "dog": "no", "cat": "no", "horse": "no", "bird": "no", "vehicle": "no", "sword": "no", "food": "yes", "plant": "no", "building": "yes", "water": "no", "sky": "no", "text": "no", "night": "no", "indoors": "yes", "photo": "yes", "anime": "no", "painting": "no", "render3d": "no", "pixel": "no", "sketch": "no", "comic": "no", "monochrome": "no", "smiling": "no"},
+    "intended": {"wooden table": "present", "bowl of ramen": "present", "plate of dumplings": "present", "chopsticks": "present", "three lit candles": "present", "blue teacup": "present"}
+  },
+  "g05": {
+    "checklist": {"person": "no", "face": "no", "hand": "no", "group": "no", "dog": "no", "cat": "no", "horse": "no", "bird": "no", "vehicle": "no", "sword": "no", "food": "no", "plant": "yes", "building": "no", "water": "yes", "sky": "yes", "text": "no", "night": "no", "indoors": "no", "photo": "yes", "anime": "no", "painting": "no", "render3d": "no", "pixel": "no", "sketch": "no", "comic": "no", "monochrome": "no", "smiling": "no"},
+    "intended": {"pine trees": "present", "river": "present", "snow-capped mountains": "present", "clouds": "present"}
+  },
+  "g06": {
+    "checklist": {"person": "no", "face": "no", "hand": "no", "group": "no", "dog": "no", "cat": "no", "horse": "yes", "bird": "no", "vehicle": "no", "sword": "no", "food": "no", "plant": "yes", "building": "yes", "water": "no", "sky": "yes", "text": "no", "night": "no", "indoors": "no", "photo": "yes", "anime": "no", "painting": "no", "render3d": "no", "pixel": "no", "sketch": "no", "comic": "no", "monochrome": "no", "smiling": "no"},
+    "intended": {"brown horse": "present", "meadow": "present", "wooden fence": "present", "red barn": "present", "white farmhouse": "present", "blue sky": "present", "clouds": "present"}
+  },
+  "g07": {
+    "checklist": {"person": "no", "face": "no", "hand": "no", "group": "no", "dog": "no", "cat": "yes", "horse": "no", "bird": "no", "vehicle": "no", "sword": "no", "food": "no", "plant": "yes", "building": "yes", "water": "no", "sky": "no", "text": "no", "night": "no", "indoors": "yes", "photo": "yes", "anime": "no", "painting": "no", "render3d": "no", "pixel": "no", "sketch": "no", "comic": "no", "monochrome": "no", "smiling": "no"},
+    "intended": {"grey tabby cat": "present", "green sofa": "present", "bookshelf": "present", "books": "present", "potted plant": "present", "brass telescope": "present", "window": "present"}
+  },
+  "g08": {
+    "checklist": {"person": "yes", "face": "no", "hand": "no", "group": "yes", "dog": "no", "cat": "no", "horse": "no", "bird": "no", "vehicle": "yes", "sword": "no", "food": "no", "plant": "no", "building": "yes", "water": "no", "sky": "yes", "text": "unsure", "night": "no", "indoors": "no", "photo": "yes", "anime": "no", "painting": "no", "render3d": "no", "pixel": "no", "sketch": "no", "comic": "no", "monochrome": "no", "smiling": "no"},
+    "intended": {"yellow taxis": "present", "red double-decker bus": "present", "traffic light": "present", "pedestrians": "present", "black umbrellas": "present", "office buildings": "present", "grey sky": "present"}
+  },
+  "g09": {
+    "checklist": {"person": "yes", "face": "no", "hand": "yes", "group": "no", "dog": "no", "cat": "no", "horse": "no", "bird": "no", "vehicle": "no", "sword": "no", "food": "yes", "plant": "no", "building": "no", "water": "no", "sky": "no", "text": "no", "night": "no", "indoors": "yes", "photo": "yes", "anime": "no", "painting": "no", "render3d": "no", "pixel": "no", "sketch": "no", "comic": "no", "monochrome": "no", "smiling": "no"},
+    "intended": {"hands": "present", "bread dough": "present", "flour": "present", "marble counter": "present", "rolling pin": "present", "cracked egg": "present"}
+  },
+  "g10": {
+    "checklist": {"person": "yes", "face": "yes", "hand": "no", "group": "yes", "dog": "no", "cat": "no", "horse": "no", "bird": "no", "vehicle": "yes", "sword": "no", "food": "no", "plant": "yes", "building": "yes", "water": "no", "sky": "yes", "text": "yes", "night": "no", "indoors": "no", "photo": "no", "anime": "yes", "painting": "no", "render3d": "no", "pixel": "no", "sketch": "no", "comic": "no", "monochrome": "no", "smiling": "no"},
+    "intended": {"girl": "present", "face": "present", "blue hair": "present", "red scarf": "present", "train platform": "present", "train": "present", "cherry blossom petals": "present", "station sign reading SAKURA": "present", "sunset sky": "present"}
+  },
+  "g11": {
+    "checklist": {"person": "yes", "face": "yes", "hand": "yes", "group": "no", "dog": "no", "cat": "no", "horse": "no", "bird": "no", "vehicle": "no", "sword": "yes", "food": "no", "plant": "yes", "building": "yes", "water": "no", "sky": "unsure", "text": "no", "night": "no", "indoors": "unsure", "photo": "no", "anime": "yes", "painting": "no", "render3d": "no", "pixel": "no", "sketch": "no", "comic": "no", "monochrome": "no", "smiling": "no"},
+    "intended": {"young man": "present", "face": "present", "silver hair": "present", "katana": "present", "stone temple ruins": "present", "broken pillars": "unsure", "vines": "present"}
+  },
+  "g12": {
+    "checklist": {"person": "yes", "face": "yes", "hand": "yes", "group": "yes", "dog": "no", "cat": "no", "horse": "no", "bird": "no", "vehicle": "no", "sword": "no", "food": "yes", "plant": "no", "building": "yes", "water": "no", "sky": "no", "text": "unsure", "night": "no", "indoors": "yes", "photo": "no", "anime": "yes", "painting": "no", "render3d": "no", "pixel": "no", "sketch": "no", "comic": "no", "monochrome": "no", "smiling": "yes"},
+    "intended": {"three people": "present", "ramen bowls": "present", "counter": "present", "steam": "present", "paper lanterns": "present", "goldfish bowl": "present"}
+  },
+  "g13": {
+    "checklist": {"person": "no", "face": "no", "hand": "no", "group": "no", "dog": "no", "cat": "no", "horse": "no", "bird": "no", "vehicle": "no", "sword": "no", "food": "no", "plant": "yes", "building": "yes", "water": "no", "sky": "yes", "text": "no", "night": "no", "indoors": "no", "photo": "no", "anime": "yes", "painting": "no", "render3d": "no", "pixel": "no", "sketch": "no", "comic": "no", "monochrome": "no", "smiling": "no"},
+    "intended": {"road": "present", "rice fields": "present", "bus stop": "present", "wooden bench": "present", "clouds": "present", "telephone poles": "present", "green hills": "present"}
+  },
+  "g14": {
+    "checklist": {"person": "no", "face": "no", "hand": "no", "group": "no", "dog": "no", "cat": "no", "horse": "no", "bird": "yes", "vehicle": "no", "sword": "no", "food": "no", "plant": "yes", "building": "no", "water": "no", "sky": "unsure", "text": "no", "night": "no", "indoors": "no", "photo": "no", "anime": "unsure", "painting": "no", "render3d": "no", "pixel": "no", "sketch": "no", "comic": "no", "monochrome": "no", "smiling": "no"},
+    "intended": {"songbird": "present", "branch": "present", "plum blossoms": "present", "falling snow": "present", "grey sky": "unsure"}
+  },
+  "g15": {
+    "checklist": {"person": "yes", "face": "no", "hand": "no", "group": "yes", "dog": "no", "cat": "no", "horse": "no", "bird": "no", "vehicle": "unsure", "sword": "no", "food": "no", "plant": "no", "building": "yes", "water": "yes", "sky": "yes", "text": "unsure", "night": "yes", "indoors": "no", "photo": "no", "anime": "yes", "painting": "no", "render3d": "no", "pixel": "no", "sketch": "no", "comic": "no", "monochrome": "no", "smiling": "no"},
+    "intended": {"giant white robot": "present", "flooded street": "present", "rain": "present", "neon signs": "present", "pilot": "present"}
+  },
+  "g16": {
+    "checklist": {"person": "yes", "face": "yes", "hand": "yes", "group": "no", "dog": "no", "cat": "yes", "horse": "no", "bird": "no", "vehicle": "no", "sword": "no", "food": "yes", "plant": "yes", "building": "yes", "water": "yes", "sky": "yes", "text": "no", "night": "no", "indoors": "no", "photo": "no", "anime": "yes", "painting": "no", "render3d": "no", "pixel": "no", "sketch": "no", "comic": "no", "monochrome": "no", "smiling": "yes"},
+    "intended": {"girl": "present", "broom": "present", "seaside town": "present", "sea": "present", "black cat": "present", "red ribbon": "present", "wicker basket of apples": "present", "blue sky": "present"}
+  },
+  "g17": {
+    "checklist": {"person": "no", "face": "no", "hand": "no", "group": "no", "dog": "no", "cat": "no", "horse": "no", "bird": "no", "vehicle": "no", "sword": "no", "food": "no", "plant": "yes", "building": "yes", "water": "no", "sky": "yes", "text": "yes", "night": "no", "indoors": "yes", "photo": "no", "anime": "yes", "painting": "no", "render3d": "no", "pixel": "no", "sketch": "no", "comic": "no", "monochrome": "no", "smiling": "no"},
+    "intended": {"wooden desks": "present", "chalkboard": "present", "word EXAM": "present", "windows": "present", "sunlight": "present"}
+  },
+  "g18": {
+    "checklist": {"person": "yes", "face": "yes", "hand": "yes", "group": "no", "dog": "yes", "cat": "no", "horse": "no", "bird": "no", "vehicle": "no", "sword": "no", "food": "no", "plant": "yes", "building": "no", "water": "no", "sky": "yes", "text": "no", "night": "no", "indoors": "no", "photo": "no", "anime": "yes", "painting": "no", "render3d": "no", "pixel": "no", "sketch": "no", "comic": "no", "monochrome": "no", "smiling": "yes"},
+    "intended": {"boy": "present", "face": "present", "shiba inu dog": "present", "park": "present", "autumn trees": "present", "orange leaves": "present", "yellow kite": "present"}
+  }
+}

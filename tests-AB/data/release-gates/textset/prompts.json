@@ -1,0 +1,1458 @@
+{
+  "things": [
+    "cat",
+    "dog",
+    "person",
+    "woman",
+    "car",
+    "sword",
+    "water",
+    "night",
+    "snow",
+    "text",
+    "nsfw",
+    "violence"
+  ],
+  "prompts": [
+    {
+      "id": "t01",
+      "text": "1girl, red dress, city street, night, neon",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "asks",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "asks",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t02",
+      "text": "orange tabby cat, sitting on windowsill, sunlight, cozy interior",
+      "labels": {
+        "cat": "asks",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t03",
+      "text": "golden retriever, running on beach, waves, sunset",
+      "labels": {
+        "cat": "absent",
+        "dog": "asks",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "asks",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t04",
+      "text": "sports car, mountain road, autumn leaves, light dusting of snow on distant peaks, daylight",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "asks",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "asks",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t05",
+      "text": "knight in dented armor, gripping a bloodied sword after a skirmish, castle courtyard, overcast sky",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "asks",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "asks"
+      }
+    },
+    {
+      "id": "t06",
+      "text": "masterpiece, best quality, samurai warrior, katana, cherry blossoms, spring",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "asks",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t07",
+      "text": "no people, empty subway platform, fluorescent lights, night",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "negated",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "asks",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t08",
+      "text": "snowy mountain peak, clear blue sky, no clouds",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "asks",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t09",
+      "text": "vintage bicycle, cobblestone street, flower baskets, no cars anywhere, no cats in sight, daytime",
+      "labels": {
+        "cat": "negated",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "negated",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t10",
+      "text": "kitten playing with yarn, wooden floor, warm light",
+      "labels": {
+        "cat": "asks",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t11",
+      "text": "black stallion horse, galloping across a sun-baked field, no snow anywhere, hazy dusk light",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "negated",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t12",
+      "text": "beach scene, calm sea, no boats, no people",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "negated",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "asks",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t13",
+      "text": "storefront sign reading OPEN, rainy evening, reflections on wet pavement",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "asks",
+        "night": "absent",
+        "snow": "absent",
+        "text": "asks",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t14",
+      "text": "husky puppy, snow field, playful pose, winter morning",
+      "labels": {
+        "cat": "absent",
+        "dog": "asks",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "asks",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t15",
+      "text": "steampunk airship with the words 'SKYWARD BOUND' painted along its hull, clockwork gears, cloudy sky, cinematic lighting, 8k",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "asks",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t16",
+      "text": "sedan parked outside cafe, morning light, empty street",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "negated",
+        "woman": "absent",
+        "car": "asks",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t17",
+      "text": "cattle grazing beside a wide river, green pasture, farmhouse background, summer afternoon",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "asks",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t18",
+      "text": "dogwood trees blooming in a spring garden, soft pink petals, no snow left anywhere this late in the season",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "negated",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t19",
+      "text": "a woman modeling sheer lingerie on a fashion catwalk, bright stage lights, tasteful and artistic, high fashion editorial style",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "asks",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "asks",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t20",
+      "text": "steel broadsword on a stone altar, torchlit dungeon, no one present",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "negated",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "asks",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t21",
+      "text": "A woman walks her dog through a quiet park at night, streetlights casting long shadows on the empty path.",
+      "labels": {
+        "cat": "absent",
+        "dog": "asks",
+        "person": "asks",
+        "woman": "asks",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "asks",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t22",
+      "text": "An elderly man repairs an old car in his garage, tools scattered across the workbench, afternoon sunlight streaming through a window.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "absent",
+        "car": "asks",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t23",
+      "text": "A tranquil mountain lake at dawn, mist rising off the still water, no boats or people in sight, just pine trees reflecting on the surface.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "negated",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "asks",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t24",
+      "text": "A lone samurai stands at the edge of a cliff, sword sheathed at his hip, watching the sunset over a war torn valley.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "asks",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "asks"
+      }
+    },
+    {
+      "id": "t25",
+      "text": "Two children build a snowman in their front yard while snow continues to fall from a gray winter sky.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "asks",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t26",
+      "text": "A red sports car races down a coastal highway at night, headlights cutting through fog, ocean waves crashing against the rocks below.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "asks",
+        "sword": "absent",
+        "water": "asks",
+        "night": "asks",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t27",
+      "text": "A peaceful farmhouse kitchen in bright daylight, definitely not a nighttime scene, fresh bread cooling on the counter, sunlight streaming in, not a soul around.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "negated",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "negated",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t28",
+      "text": "A young woman reads a book beneath a cherry blossom tree, petals drifting in a gentle breeze, soft pastel colors throughout.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "asks",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t29",
+      "text": "A weathered fisherman casts his line from a small wooden boat on a calm lake, morning fog rolling across the water's surface.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "asks",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t30",
+      "text": "A neon sign reading 'RAMEN' glows above a crowded night market street, steam rising from food stalls, umbrellas glistening with rain.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "asks",
+        "night": "asks",
+        "snow": "absent",
+        "text": "asks",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t31",
+      "text": "swordfish leaping from ocean waves, golden hour, dynamic splash",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "asks",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t32",
+      "text": "katana resting on a silk cloth, dojo interior, dramatic side lighting",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "asks",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t33",
+      "text": "rapier duel, two fencers, indoor arena, intense expressions",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "asks",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "asks"
+      }
+    },
+    {
+      "id": "t34",
+      "text": "black cat perched on a snow-dusted graveyard tombstone, full moon, fog",
+      "labels": {
+        "cat": "asks",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "asks",
+        "snow": "asks",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t35",
+      "text": "a burlesque dancer performing at a vintage carnival at dusk, feathered corset, sultry pose, cotton candy stand, crowd of visitors, a stray cat weaving through the crowd, tasteful and stylized",
+      "labels": {
+        "cat": "asks",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "asks",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t36",
+      "text": "abandoned parking garage, no cars, broken fluorescent lights, night",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "negated",
+        "sword": "absent",
+        "water": "absent",
+        "night": "asks",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t37",
+      "text": "textile patterns, woven fabric close-up, vibrant colors, dry studio setting, no water involved, macro photography",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "negated",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t38",
+      "text": "handwritten letter on a wooden desk, cursive text, candlelight",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "asks",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t39",
+      "text": "watermelon slices piled in the back of an old pickup truck at a farm stand, a dog napping beside the crates, summer day, bright colors",
+      "labels": {
+        "cat": "absent",
+        "dog": "asks",
+        "person": "absent",
+        "woman": "absent",
+        "car": "asks",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t40",
+      "text": "waterfall cascading into a jungle pool, misty spray, vibrant green",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "asks",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t41",
+      "text": "a black cat sniffing at deadly nightshade berries growing wild in a dry garden bed, no water features nearby, botanical detail, daylight",
+      "labels": {
+        "cat": "asks",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "negated",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t42",
+      "text": "a woman in a flowing red gown standing in the rain at night, city lights reflected in puddles",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "asks",
+        "car": "absent",
+        "sword": "absent",
+        "water": "asks",
+        "night": "asks",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t43",
+      "text": "german shepherd guard dog, alert stance, military base, daytime",
+      "labels": {
+        "cat": "absent",
+        "dog": "asks",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t44",
+      "text": "a quiet library reading room, no dogs or pets allowed, warm lamp light",
+      "labels": {
+        "cat": "absent",
+        "dog": "negated",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t45",
+      "text": "a pin-up style woman in a swimsuit leaning against a vintage muscle car, chrome details, desert highway, heat haze, retro tasteful glamour photography",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "asks",
+        "car": "asks",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "asks",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t46",
+      "text": "graffiti-covered wall with the word 'REBEL' spray painted, urban alley, daytime, no cars parked nearby",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "negated",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "asks",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t47",
+      "text": "minimalist white room, blank walls, no text or signage anywhere",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "negated",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t48",
+      "text": "fresh snowfall blanketing a quiet village, smoke rising from chimneys, twilight",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "asks",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t49",
+      "text": "a sunbaked desert dune, cracked earth, no snow for a thousand miles",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "negated",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t50",
+      "text": "orange tabby and black cat curled together asleep, blanket, soft morning light",
+      "labels": {
+        "cat": "asks",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t51",
+      "text": "A soldier crouches behind rubble as smoke and debris fill the air, his uniform torn and bloodied from the ongoing battle.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "asks"
+      }
+    },
+    {
+      "id": "t52",
+      "text": "Two street brawlers exchange punches outside a bar at night, a small crowd watching from the shadows, neon signs flickering above.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "asks",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "asks"
+      }
+    },
+    {
+      "id": "t53",
+      "text": "A serene yoga retreat at sunrise, practitioners in gentle poses on the grass, a peaceful atmosphere with no conflict or aggression anywhere.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "negated"
+      }
+    },
+    {
+      "id": "t54",
+      "text": "An artist's life drawing class sketches a nude model standing on a small platform under studio lights, charcoal dust on every easel.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "asks",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t55",
+      "text": "A woman in delicate lace lingerie reclines on a velvet chaise, soft candlelight creating an intimate, sensual mood.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "asks",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "asks",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t56",
+      "text": "A family beach photo in modest swimsuits, fully clothed and sun-safe, nothing revealing or suggestive in the composition.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "asks",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "negated",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t57",
+      "text": "A 1950s style pin-up illustration of a woman in a polka dot swimsuit, winking playfully, retro color palette, slightly risque pose.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "asks",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "asks",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t58",
+      "text": "A masked vigilante leaps between rooftops at night, having just knocked out a mugger in a nearby alley, cape billowing, city lights sprawled below like a circuit board.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "asks",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "asks"
+      }
+    },
+    {
+      "id": "t59",
+      "text": "A quiet monastery courtyard at midday, an all-male order of monks in silent meditation, no women present, no weapons, no swords, only peace and stone.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "negated",
+        "car": "absent",
+        "sword": "negated",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t60",
+      "text": "A blacksmith hammers a glowing blade on his anvil, sparks flying, the half-finished sword taking shape in the forge's orange light.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "asks",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t61",
+      "text": "masterpiece, best quality, ultra detailed. A cozy cabin interior during a snowstorm at night: a fluffy white cat curled on a windowsill watching the blizzard outside, while a golden dog sleeps by a crackling fireplace. Snow piles high against the frosted window panes, and the warm glow of the fire contrasts with the cold, dark night beyond. A steaming mug of cocoa sits on a wooden table, and hand-knitted stockings hang from the mantel. The scene feels warm, quiet, and safe, a small pocket of comfort against the storm raging outside in the snowy mountain village below.",
+      "labels": {
+        "cat": "asks",
+        "dog": "asks",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "asks",
+        "snow": "asks",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t62",
+      "text": "A vintage red convertible car speeds along a coastal cliff road at golden hour, a woman with windswept auburn hair laughing in the passenger seat. A weathered wooden signpost reading 'SCENIC OVERPOINT 2 MILES' stands at the roadside, half-covered in ivy. The ocean stretches endlessly to the horizon, waves crashing against dark rocks far below. No other vehicles are in sight on this empty stretch of highway, and the mood is carefree, sun-drenched, and nostalgic, evoking a road trip from decades past, painted in warm film grain tones.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "asks",
+        "car": "asks",
+        "sword": "absent",
+        "water": "asks",
+        "night": "absent",
+        "snow": "absent",
+        "text": "asks",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t63",
+      "text": "A vast, untouched snowfield stretches to the horizon under a pale winter sky, the surface unbroken except for a single line of fox tracks. No cats, no dogs, and no people disturb this frozen wilderness. There are no signs, no text, no markers of civilization anywhere in the frame, just endless white snow meeting a soft gray horizon. The air feels still and silent, the kind of cold that seems to hum. A lone dead tree stands near the center, its bare branches reaching upward, the only vertical element breaking the flat expanse of snow and sky.",
+      "labels": {
+        "cat": "negated",
+        "dog": "negated",
+        "person": "negated",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "asks",
+        "text": "negated",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t64",
+      "text": "masterpiece, dynamic composition, cinematic lighting. Two rival knights clash in a torch-lit courtyard, their swords locked together in a shower of sparks, muscles straining under dented armor. One knight has a shallow cut along his forearm, a thin line of blood visible beneath torn chainmail, but neither fighter looks ready to yield. Onlookers press against the courtyard walls, murmuring as the duel intensifies. The stone ground is scattered with broken shields from earlier bouts. Moonlight filters faintly through drifting smoke from nearby braziers, giving the whole scene a tense, dramatic atmosphere, 8k, highly detailed, dramatic shadows.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "asks",
+        "water": "absent",
+        "night": "asks",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "asks"
+      }
+    },
+    {
+      "id": "t65",
+      "text": "A classical academic nude study of a reclining woman on a chaise lounge, rendered in soft charcoal and sanguine tones reminiscent of 19th century atelier work. The pose is calm and artistic, emphasizing anatomy and the play of light across the human form rather than anything explicit. A single sheer curtain filters warm afternoon sunlight across the studio, and dust motes float visibly in the air. The mood is contemplative and painterly, entirely free of violence or tension, just a quiet exercise in observing the human body the way old masters once did in their private ateliers.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "asks",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "asks",
+        "violence": "negated"
+      }
+    },
+    {
+      "id": "t66",
+      "text": "a woman in a modest business suit stepping out of a taxi car, fully professional, no nudity, busy downtown street",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "asks",
+        "car": "asks",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "negated",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t67",
+      "text": "carousel horses at a carnival, string lights, evening crowd, a small dog on a leash weaving between legs, cotton candy stalls",
+      "labels": {
+        "cat": "absent",
+        "dog": "asks",
+        "person": "asks",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t68",
+      "text": "sun-scorched desert at high noon, cloudless sky, not a drop of water for miles, no shade, no signs or text of any kind visible, blazing daylight",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "negated",
+        "night": "absent",
+        "snow": "absent",
+        "text": "negated",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t69",
+      "text": "midday market square, bustling with shoppers, bright sun overhead, definitely not a night scene",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "negated",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t70",
+      "text": "a warm tropical beach at high noon, palm trees swaying, no snow, no cold, nowhere near nighttime",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "asks",
+        "night": "negated",
+        "snow": "negated",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t71",
+      "text": "a disarmament ceremony, soldiers stacking rifles and swords into a pile to be melted down, symbolizing peace, no fighting, no violence, calm solemn mood",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "asks",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "negated"
+      }
+    },
+    {
+      "id": "t72",
+      "text": "an unarmed male protester holds a flower, no sword, no weapon of any kind, no women in the frame, gentle expression, daylight park setting",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "negated",
+        "car": "absent",
+        "sword": "negated",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t73",
+      "text": "a weathered knight statue stands alone atop a moss-covered pedestal, its stone hands empty, the ceremonial sword it once held long since stolen, overcast afternoon",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "negated",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t74",
+      "text": "A long paragraph describing an empty animal shelter at closing time: rows of clean, vacant kennels line a quiet hallway under humming fluorescent lights, the last cat was adopted that morning and no dogs remain either, the front desk sign has been flipped to read 'CLOSED' in bold red letters, and a lone staff member locks the front door, her silhouette framed against the darkening evening sky as the first stars begin to appear, marking the start of a quiet night watch over the empty building.",
+      "labels": {
+        "cat": "negated",
+        "dog": "negated",
+        "person": "asks",
+        "woman": "asks",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "asks",
+        "snow": "absent",
+        "text": "asks",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t75",
+      "text": "best quality, highly detailed, soft lighting. A gray tabby cat and a small brown terrier dog nap together on a sunlit porch, curled around each other on a striped cushion, a garden hose coiled nearby and a wind chime hanging still in the calm afternoon air, watercolor style, gentle pastel tones throughout the whole composition.",
+      "labels": {
+        "cat": "asks",
+        "dog": "asks",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t76",
+      "text": "an armored car idles outside a bank, engine running, guards nearby, overcast morning, no sword, no weapons drawn",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "absent",
+        "car": "asks",
+        "sword": "negated",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t77",
+      "text": "a bikini model on a yacht deck, glamour photography, tasteful, no explicit nudity, ocean spray, bright afternoon sun",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "asks",
+        "car": "absent",
+        "sword": "absent",
+        "water": "asks",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "negated",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t78",
+      "text": "boudoir photography, a woman draped in a silk sheet, soft window light, intimate but tasteful, bedroom setting",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "asks",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "absent",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "asks",
+        "violence": "absent"
+      }
+    },
+    {
+      "id": "t79",
+      "text": "A gritty crime scene at night: police tape stretched across a rain-soaked alley, a cracked pavement stained dark, a chalk outline barely visible, an evidence marker with the number '7' printed on it standing beside a discarded knife, distant sirens implied by red and blue light bleeding across wet brick walls, the entire mood heavy with aftermath and quiet dread, cinematic noir lighting, 8k, moody atmosphere.",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "absent",
+        "woman": "absent",
+        "car": "absent",
+        "sword": "absent",
+        "water": "asks",
+        "night": "asks",
+        "snow": "absent",
+        "text": "asks",
+        "nsfw": "absent",
+        "violence": "asks"
+      }
+    },
+    {
+      "id": "t80",
+      "text": "an all-male poker night in a smoky den, cards and whiskey glasses on the table, no women present, tense expressions, dim lamp light",
+      "labels": {
+        "cat": "absent",
+        "dog": "absent",
+        "person": "asks",
+        "woman": "negated",
+        "car": "absent",
+        "sword": "absent",
+        "water": "absent",
+        "night": "asks",
+        "snow": "absent",
+        "text": "absent",
+        "nsfw": "absent",
+        "violence": "absent"
+      }
+    }
+  ]
+}

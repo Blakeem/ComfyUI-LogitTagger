@@ -1,0 +1,1480 @@
+[
+  {
+    "id": "g01",
+    "file": "g01.png",
+    "prompt": "Close-up photograph of an elderly fisherman with a weathered face and grey beard, wearing a yellow raincoat, holding a coiled rope in both hands, harbor boats blurred in the background, overcast light, 85mm lens, shallow depth of field.",
+    "style": "photograph",
+    "intended": [
+      "old man",
+      "face",
+      "grey beard",
+      "yellow raincoat",
+      "coiled rope",
+      "hands",
+      "boats"
+    ],
+    "hard": [],
+    "width": 896,
+    "height": 1152,
+    "seed": 1001,
+    "steps": 26,
+    "seconds": 38.82
+  },
+  {
+    "id": "g02",
+    "file": "g02.png",
+    "prompt": "Night street photograph of a group of four friends laughing outside a small bakery, the shop sign above the window reads \"BAKERY\" in glowing neon letters, wet pavement reflecting the lights, a parked red scooter at the curb.",
+    "style": "photograph",
+    "intended": [
+      "four people",
+      "bakery storefront",
+      "neon sign reading BAKERY",
+      "wet pavement",
+      "red scooter"
+    ],
+    "hard": [],
+    "width": 1216,
+    "height": 832,
+    "seed": 1002,
+    "steps": 26,
+    "seconds": 37.53
+  },
+  {
+    "id": "g03",
+    "file": "g03.png",
+    "prompt": "A golden retriever running along a sandy beach at sunset, splashing through shallow waves, clear orange sky, a lighthouse on a distant rocky point, candid pet photography, fast shutter speed.",
+    "style": "photograph",
+    "intended": [
+      "golden retriever",
+      "sandy beach",
+      "waves",
+      "orange sky",
+      "lighthouse",
+      "rocky point"
+    ],
+    "hard": [],
+    "width": 1152,
+    "height": 896,
+    "seed": 1003,
+    "steps": 26,
+    "seconds": 38.65
+  },
+  {
+    "id": "g04",
+    "file": "g04.png",
+    "prompt": "Overhead food photograph of a rustic wooden kitchen table with a bowl of ramen, a plate of dumplings, chopsticks, and three lit candles on the table, a small blue teacup in the top corner, warm window light.",
+    "style": "photograph",
+    "intended": [
+      "wooden table",
+      "bowl of ramen",
+      "plate of dumplings",
+      "chopsticks",
+      "three lit candles",
+      "blue teacup"
+    ],
+    "hard": [
+      "three lit candles",
+      "blue teacup"
+    ],
+    "width": 1024,
+    "height": 1024,
+    "seed": 1004,
+    "steps": 26,
+    "seconds": 39.81
+  },
+  {
+    "id": "g05",
+    "file": "g05.png",
+    "prompt": "Landscape photograph of a pine forest valley at dawn, a calm river winding between the trees, snow-capped mountains behind, no people, soft golden light breaking through the clouds.",
+    "style": "photograph",
+    "intended": [
+      "pine trees",
+      "river",
+      "snow-capped mountains",
+      "clouds"
+    ],
+    "hard": [],
+    "width": 1216,
+    "height": 832,
+    "seed": 1005,
+    "steps": 26,
+    "seconds": 37.75
+  },
+  {
+    "id": "g06",
+    "file": "g06.png",
+    "prompt": "A brown horse grazing in a green meadow next to a wooden fence, an old red barn and a white farmhouse in the background, blue sky with scattered clouds, summer afternoon, 35mm film look.",
+    "style": "photograph",
+    "intended": [
+      "brown horse",
+      "meadow",
+      "wooden fence",
+      "red barn",
+      "white farmhouse",
+      "blue sky",
+      "clouds"
+    ],
+    "hard": [],
+    "width": 1152,
+    "height": 896,
+    "seed": 1006,
+    "steps": 26,
+    "seconds": 38.9
+  },
+  {
+    "id": "g07",
+    "file": "g07.png",
+    "prompt": "Interior photograph of a cozy living room, a grey tabby cat sleeping on a green velvet sofa, a bookshelf full of books, a potted fiddle leaf fig, and a small brass telescope standing by the window, afternoon light.",
+    "style": "photograph",
+    "intended": [
+      "grey tabby cat",
+      "green sofa",
+      "bookshelf",
+      "books",
+      "potted plant",
+      "brass telescope",
+      "window"
+    ],
+    "hard": [
+      "brass telescope"
+    ],
+    "width": 1152,
+    "height": 896,
+    "seed": 1007,
+    "steps": 26,
+    "seconds": 39.06
+  },
+  {
+    "id": "g08",
+    "file": "g08.png",
+    "prompt": "Urban photograph of a busy city intersection in the rain, yellow taxis and a red double-decker bus waiting at the traffic light, pedestrians with black umbrellas crossing, tall glass office buildings, overcast grey sky.",
+    "style": "photograph",
+    "intended": [
+      "yellow taxis",
+      "red double-decker bus",
+      "traffic light",
+      "pedestrians",
+      "black umbrellas",
+      "office buildings",
+      "grey sky"
+    ],
+    "hard": [],
+    "width": 1216,
+    "height": 832,
+    "seed": 1008,
+    "steps": 26,
+    "seconds": 37.93
+  },
+  {
+    "id": "g09",
+    "file": "g09.png",
+    "prompt": "Macro photograph of a woman's hands kneading bread dough on a floured marble counter, a wooden rolling pin and a cracked egg beside the dough, soft natural light, no face visible.",
+    "style": "photograph",
+    "intended": [
+      "hands",
+      "bread dough",
+      "flour",
+      "marble counter",
+      "rolling pin",
+      "cracked egg"
+    ],
+    "hard": [],
+    "width": 1024,
+    "height": 1024,
+    "seed": 1009,
+    "steps": 26,
+    "seconds": 39.97
+  },
+  {
+    "id": "g10",
+    "file": "g10.png",
+    "prompt": "Anime illustration of a schoolgirl with short blue hair and a red scarf standing on a train platform at dusk, a commuter train arriving, cherry blossom petals drifting, a station sign reading \"SAKURA\" above her, warm sunset sky.",
+    "style": "anime illustration",
+    "intended": [
+      "girl",
+      "face",
+      "blue hair",
+      "red scarf",
+      "train platform",
+      "train",
+      "cherry blossom petals",
+      "station sign reading SAKURA",
+      "sunset sky"
+    ],
+    "hard": [],
+    "width": 896,
+    "height": 1152,
+    "seed": 1010,
+    "steps": 26,
+    "seconds": 38.68
+  },
+  {
+    "id": "g11",
+    "file": "g11.png",
+    "prompt": "Anime key visual of a young swordsman with silver hair holding a glowing katana inside a ruined stone temple, broken pillars overgrown with vines, dramatic lighting, dynamic pose, detailed cel shading.",
+    "style": "anime illustration",
+    "intended": [
+      "young man",
+      "face",
+      "silver hair",
+      "katana",
+      "stone temple ruins",
+      "broken pillars",
+      "vines"
+    ],
+    "hard": [],
+    "width": 896,
+    "height": 1152,
+    "seed": 1011,
+    "steps": 26,
+    "seconds": 38.64
+  },
+  {
+    "id": "g12",
+    "file": "g12.png",
+    "prompt": "Anime illustration of three friends eating at a small ramen shop counter at night, steam rising from their bowls, paper lanterns hanging overhead, and a small goldfish bowl on the counter, cozy slice of life scene.",
+    "style": "anime illustration",
+    "intended": [
+      "three people",
+      "ramen bowls",
+      "counter",
+      "steam",
+      "paper lanterns",
+      "goldfish bowl"
+    ],
+    "hard": [
+      "goldfish bowl"
+    ],
+    "width": 1216,
+    "height": 832,
+    "seed": 1012,
+    "steps": 26,
+    "seconds": 37.8
+  },
+  {
+    "id": "g13",
+    "file": "g13.png",
+    "prompt": "Anime background art of a quiet countryside road running past rice fields, a bus stop with a wooden bench, tall summer clouds, telephone poles, lush green hills, no characters, cinematic lighting.",
+    "style": "anime illustration",
+    "intended": [
+      "road",
+      "rice fields",
+      "bus stop",
+      "wooden bench",
+      "clouds",
+      "telephone poles",
+      "green hills"
+    ],
+    "hard": [],
+    "width": 1216,
+    "height": 832,
+    "seed": 1013,
+    "steps": 26,
+    "seconds": 37.97
+  },
+  {
+    "id": "g14",
+    "file": "g14.png",
+    "prompt": "Anime illustration of a small red and yellow songbird perched on a branch of a blooming plum tree, snow falling softly, pale grey winter sky, delicate linework, close-up composition.",
+    "style": "anime illustration",
+    "intended": [
+      "songbird",
+      "branch",
+      "plum blossoms",
+      "falling snow",
+      "grey sky"
+    ],
+    "hard": [],
+    "width": 1024,
+    "height": 1024,
+    "seed": 1014,
+    "steps": 26,
+    "seconds": 39.64
+  },
+  {
+    "id": "g15",
+    "file": "g15.png",
+    "prompt": "Anime mecha illustration of a giant white robot kneeling in a flooded city street at night, rain pouring, neon signs reflecting in the water, a pilot in a flight suit standing on its open hand.",
+    "style": "anime illustration",
+    "intended": [
+      "giant white robot",
+      "flooded street",
+      "rain",
+      "neon signs",
+      "pilot"
+    ],
+    "hard": [],
+    "width": 896,
+    "height": 1152,
+    "seed": 1015,
+    "steps": 26,
+    "seconds": 38.77
+  },
+  {
+    "id": "g16",
+    "file": "g16.png",
+    "prompt": "Anime illustration of a witch girl flying on a broom over a seaside town, a black cat riding behind her, a red ribbon in her hair, and a wicker basket of apples hanging from the broom handle, bright blue sky.",
+    "style": "anime illustration",
+    "intended": [
+      "girl",
+      "broom",
+      "seaside town",
+      "sea",
+      "black cat",
+      "red ribbon",
+      "wicker basket of apples",
+      "blue sky"
+    ],
+    "hard": [
+      "wicker basket of apples"
+    ],
+    "width": 1152,
+    "height": 896,
+    "seed": 1016,
+    "steps": 26,
+    "seconds": 38.65
+  },
+  {
+    "id": "g17",
+    "file": "g17.png",
+    "prompt": "Anime background of an empty classroom after school, rows of wooden desks, a chalkboard with the word \"EXAM\" written on it, orange sunlight streaming through the windows, no people.",
+    "style": "anime illustration",
+    "intended": [
+      "wooden desks",
+      "chalkboard",
+      "word EXAM",
+      "windows",
+      "sunlight"
+    ],
+    "hard": [],
+    "width": 1216,
+    "height": 832,
+    "seed": 1017,
+    "steps": 26,
+    "seconds": 37.68
+  },
+  {
+    "id": "g18",
+    "file": "g18.png",
+    "prompt": "Anime illustration of a boy kneeling to hug a fluffy shiba inu dog in a park, both smiling, autumn trees with orange leaves, and a yellow kite tangled in the branches above them.",
+    "style": "anime illustration",
+    "intended": [
+      "boy",
+      "face",
+      "shiba inu dog",
+      "park",
+      "autumn trees",
+      "orange leaves",
+      "yellow kite"
+    ],
+    "hard": [
+      "yellow kite"
+    ],
+    "width": 1024,
+    "height": 1024,
+    "seed": 1018,
+    "steps": 26,
+    "seconds": 39.62
+  },
+  {
+    "id": "g19",
+    "file": "g19.png",
+    "prompt": "Oil painting of a Dutch harbor at sunset, wooden sailing ships with furled sails, fishermen unloading crates on the dock, golden sky reflected in the calm water, thick impasto brushstrokes, Golden Age style.",
+    "style": "oil painting",
+    "intended": [
+      "sailing ships",
+      "fishermen",
+      "crates",
+      "dock",
+      "golden sky",
+      "water"
+    ],
+    "hard": [],
+    "width": 1216,
+    "height": 832,
+    "seed": 1019,
+    "steps": 26,
+    "seconds": 37.69
+  },
+  {
+    "id": "g20",
+    "file": "g20.png",
+    "prompt": "Classical oil portrait of a noblewoman in a dark green velvet gown, seated with her hands folded in her lap, a pearl necklace, and a small hourglass on the table beside her, dark background, Rembrandt lighting.",
+    "style": "oil painting",
+    "intended": [
+      "woman",
+      "face",
+      "green velvet gown",
+      "hands",
+      "pearl necklace",
+      "table",
+      "hourglass"
+    ],
+    "hard": [
+      "hourglass"
+    ],
+    "width": 896,
+    "height": 1152,
+    "seed": 1020,
+    "steps": 26,
+    "seconds": 38.76
+  },
+  {
+    "id": "g21",
+    "file": "g21.png",
+    "prompt": "Still life oil painting of a copper pot, a loaf of bread, a wedge of cheese, purple grapes and a pheasant on a draped linen tablecloth, dark moody background, Chardin style.",
+    "style": "oil painting",
+    "intended": [
+      "copper pot",
+      "loaf of bread",
+      "wedge of cheese",
+      "purple grapes",
+      "pheasant",
+      "linen tablecloth"
+    ],
+    "hard": [],
+    "width": 1152,
+    "height": 896,
+    "seed": 1021,
+    "steps": 26,
+    "seconds": 38.74
+  },
+  {
+    "id": "g22",
+    "file": "g22.png",
+    "prompt": "Romantic oil painting of an armored knight on a white horse raising a sword, stormy sky with lightning, a castle on a cliff in the distance, dramatic chiaroscuro, sweeping brushwork.",
+    "style": "oil painting",
+    "intended": [
+      "knight",
+      "armor",
+      "white horse",
+      "sword",
+      "stormy sky",
+      "lightning",
+      "castle",
+      "cliff"
+    ],
+    "hard": [],
+    "width": 896,
+    "height": 1152,
+    "seed": 1022,
+    "steps": 26,
+    "seconds": 38.67
+  },
+  {
+    "id": "g23",
+    "file": "g23.png",
+    "prompt": "Impressionist oil painting of a field of sunflowers under a bright summer sky, a row of poplar trees on the horizon, a small stone cottage, visible thick brushstrokes, vibrant yellows and blues.",
+    "style": "oil painting",
+    "intended": [
+      "sunflowers",
+      "field",
+      "summer sky",
+      "poplar trees",
+      "stone cottage"
+    ],
+    "hard": [],
+    "width": 1216,
+    "height": 832,
+    "seed": 1023,
+    "steps": 26,
+    "seconds": 37.65
+  },
+  {
+    "id": "g24",
+    "file": "g24.png",
+    "prompt": "Oil painting of a Parisian cafe terrace at night, people sitting at small round tables, gas lamps glowing, cobblestone street, starry blue night sky, a sign reading \"CAFE\" above the awning.",
+    "style": "oil painting",
+    "intended": [
+      "people",
+      "round tables",
+      "gas lamps",
+      "cobblestone street",
+      "starry night sky",
+      "sign reading CAFE",
+      "awning"
+    ],
+    "hard": [],
+    "width": 896,
+    "height": 1152,
+    "seed": 1024,
+    "steps": 26,
+    "seconds": 38.91
+  },
+  {
+    "id": "g25",
+    "file": "g25.png",
+    "prompt": "Oil painting of an old wizard reading a large book in a candlelit study, a black cat asleep on stacked books, a stuffed owl on a shelf, and a brass globe on the desk, warm amber tones.",
+    "style": "oil painting",
+    "intended": [
+      "old wizard",
+      "face",
+      "large book",
+      "candles",
+      "black cat",
+      "stacked books",
+      "stuffed owl",
+      "shelf",
+      "brass globe",
+      "desk"
+    ],
+    "hard": [
+      "stuffed owl",
+      "brass globe"
+    ],
+    "width": 1024,
+    "height": 1024,
+    "seed": 1025,
+    "steps": 26,
+    "seconds": 39.95
+  },
+  {
+    "id": "g26",
+    "file": "g26.png",
+    "prompt": "Oil painting seascape of towering waves crashing against black rocks, spray and foam, a lone lighthouse beam cutting through grey storm clouds, turbulent brushwork, no people.",
+    "style": "oil painting",
+    "intended": [
+      "waves",
+      "black rocks",
+      "sea spray",
+      "lighthouse",
+      "storm clouds"
+    ],
+    "hard": [],
+    "width": 1152,
+    "height": 896,
+    "seed": 1026,
+    "steps": 26,
+    "seconds": 38.92
+  },
+  {
+    "id": "g27",
+    "file": "g27.png",
+    "prompt": "Oil painting of ballet dancers rehearsing in a sunlit studio, four girls in white tutus stretching at the barre, a tall mirror on the wall, soft pastel palette, Degas inspired.",
+    "style": "oil painting",
+    "intended": [
+      "four dancers",
+      "white tutus",
+      "ballet barre",
+      "tall mirror",
+      "studio"
+    ],
+    "hard": [],
+    "width": 1152,
+    "height": 896,
+    "seed": 1027,
+    "steps": 26,
+    "seconds": 38.73
+  },
+  {
+    "id": "g28",
+    "file": "g28.png",
+    "prompt": "3D render of a cute cartoon robot watering a potted cactus on a windowsill with a small watering can, big round glowing eyes, pastel colors, soft global illumination, Pixar style, shallow depth of field.",
+    "style": "3D render",
+    "intended": [
+      "robot",
+      "watering can",
+      "potted cactus",
+      "windowsill"
+    ],
+    "hard": [],
+    "width": 1024,
+    "height": 1024,
+    "seed": 1028,
+    "steps": 26,
+    "seconds": 39.66
+  },
+  {
+    "id": "g29",
+    "file": "g29.png",
+    "prompt": "3D render of a vintage red sports car parked on a desert highway at golden hour, chrome details, heat haze, cacti and rocky mesas in the background, clear sky, photorealistic Unreal Engine 5.",
+    "style": "3D render",
+    "intended": [
+      "red sports car",
+      "highway",
+      "cacti",
+      "rocky mesas",
+      "clear sky"
+    ],
+    "hard": [],
+    "width": 1216,
+    "height": 832,
+    "seed": 1029,
+    "steps": 26,
+    "seconds": 37.65
+  },
+  {
+    "id": "g30",
+    "file": "g30.png",
+    "prompt": "3D render of a minimalist Scandinavian bedroom interior, white bed with grey linen, a wooden nightstand, a monstera plant in the corner, and a yellow alarm clock on the nightstand, soft morning light, architectural visualization.",
+    "style": "3D render",
+    "intended": [
+      "bed",
+      "grey linen",
+      "wooden nightstand",
+      "monstera plant",
+      "yellow alarm clock"
+    ],
+    "hard": [
+      "yellow alarm clock"
+    ],
+    "width": 1152,
+    "height": 896,
+    "seed": 1030,
+    "steps": 26,
+    "seconds": 38.64
+  },
+  {
+    "id": "g31",
+    "file": "g31.png",
+    "prompt": "3D render of a stylized fantasy warrior woman holding a large broadsword in both hands, braided red hair, leather armor, standing on a mossy cliff edge, game character concept art, Blender Cycles.",
+    "style": "3D render",
+    "intended": [
+      "woman",
+      "face",
+      "broadsword",
+      "hands",
+      "braided red hair",
+      "leather armor",
+      "mossy cliff"
+    ],
+    "hard": [],
+    "width": 896,
+    "height": 1152,
+    "seed": 1031,
+    "steps": 26,
+    "seconds": 38.7
+  },
+  {
+    "id": "g32",
+    "file": "g32.png",
+    "prompt": "3D render of a stack of fluffy pancakes with melting butter and maple syrup dripping, fresh blueberries and strawberries on top, on a white plate, studio lighting, hyperrealistic food visualization.",
+    "style": "3D render",
+    "intended": [
+      "pancakes",
+      "butter",
+      "maple syrup",
+      "blueberries",
+      "strawberries",
+      "white plate"
+    ],
+    "hard": [],
+    "width": 1024,
+    "height": 1024,
+    "seed": 1032,
+    "steps": 26,
+    "seconds": 39.53
+  },
+  {
+    "id": "g33",
+    "file": "g33.png",
+    "prompt": "3D render of a futuristic cyberpunk city at night, flying cars between skyscrapers, holographic billboards, a giant neon sign reading \"NOODLES\", rain-slicked streets, cinematic lighting.",
+    "style": "3D render",
+    "intended": [
+      "flying cars",
+      "skyscrapers",
+      "holographic billboards",
+      "neon sign reading NOODLES",
+      "wet streets"
+    ],
+    "hard": [],
+    "width": 896,
+    "height": 1152,
+    "seed": 1033,
+    "steps": 26,
+    "seconds": 38.68
+  },
+  {
+    "id": "g34",
+    "file": "g34.png",
+    "prompt": "3D render of a family of three penguins sliding across an ice floe in the Antarctic sea, snowy peaks behind them, bright blue sky, stylized animation film look, soft lighting.",
+    "style": "3D render",
+    "intended": [
+      "three penguins",
+      "ice floe",
+      "sea",
+      "snowy peaks",
+      "blue sky"
+    ],
+    "hard": [],
+    "width": 1152,
+    "height": 896,
+    "seed": 1034,
+    "steps": 26,
+    "seconds": 38.65
+  },
+  {
+    "id": "g35",
+    "file": "g35.png",
+    "prompt": "3D render of tiny clay-style villagers building a snowman in a village square, cottages with snowy roofs, and a green bicycle leaning against a lamppost, soft toy-like lighting, tilt-shift look.",
+    "style": "3D render",
+    "intended": [
+      "villagers",
+      "snowman",
+      "village square",
+      "cottages",
+      "snowy roofs",
+      "green bicycle",
+      "lamppost"
+    ],
+    "hard": [
+      "green bicycle"
+    ],
+    "width": 1216,
+    "height": 832,
+    "seed": 1035,
+    "steps": 26,
+    "seconds": 37.68
+  },
+  {
+    "id": "g36",
+    "file": "g36.png",
+    "prompt": "3D render of a glass perfume bottle on a black marble pedestal, surrounded by floating rose petals, dramatic rim lighting, dark studio background, luxury product shot.",
+    "style": "3D render",
+    "intended": [
+      "glass perfume bottle",
+      "black marble pedestal",
+      "rose petals"
+    ],
+    "hard": [],
+    "width": 896,
+    "height": 1152,
+    "seed": 1036,
+    "steps": 26,
+    "seconds": 38.77
+  },
+  {
+    "id": "g37",
+    "file": "g37.png",
+    "prompt": "Watercolor painting of a Venetian canal with gondolas, pastel colored buildings with laundry lines, a gondolier in a striped shirt, soft reflections in the water, loose wet-on-wet washes.",
+    "style": "watercolor",
+    "intended": [
+      "canal",
+      "gondolas",
+      "pastel buildings",
+      "laundry lines",
+      "gondolier",
+      "water"
+    ],
+    "hard": [],
+    "width": 896,
+    "height": 1152,
+    "seed": 1037,
+    "steps": 26,
+    "seconds": 38.75
+  },
+  {
+    "id": "g38",
+    "file": "g38.png",
+    "prompt": "Watercolor illustration of a blue kingfisher diving into a pond to catch a fish, lily pads and reeds, splashes of water, white paper background showing through, botanical art style.",
+    "style": "watercolor",
+    "intended": [
+      "kingfisher",
+      "fish",
+      "pond",
+      "lily pads",
+      "reeds",
+      "water splashes"
+    ],
+    "hard": [],
+    "width": 1024,
+    "height": 1024,
+    "seed": 1038,
+    "steps": 26,
+    "seconds": 39.61
+  },
+  {
+    "id": "g39",
+    "file": "g39.png",
+    "prompt": "Watercolor painting of a little girl in a yellow raincoat jumping in puddles on a village street, rainy grey sky, and a red umbrella lying open on the pavement behind her, soft bleeding colors.",
+    "style": "watercolor",
+    "intended": [
+      "girl",
+      "yellow raincoat",
+      "puddles",
+      "village street",
+      "grey sky",
+      "red umbrella"
+    ],
+    "hard": [
+      "red umbrella"
+    ],
+    "width": 896,
+    "height": 1152,
+    "seed": 1039,
+    "steps": 26,
+    "seconds": 38.67
+  },
+  {
+    "id": "g40",
+    "file": "g40.png",
+    "prompt": "Watercolor recipe illustration of a fresh summer salad bowl with tomatoes, cucumber, black olives and feta cheese, a bottle of olive oil beside it, loose ink outlines, light cheerful palette.",
+    "style": "watercolor",
+    "intended": [
+      "salad bowl",
+      "tomatoes",
+      "cucumber",
+      "black olives",
+      "feta cheese",
+      "olive oil bottle"
+    ],
+    "hard": [],
+    "width": 1152,
+    "height": 896,
+    "seed": 1040,
+    "steps": 26,
+    "seconds": 38.63
+  },
+  {
+    "id": "g41",
+    "file": "g41.png",
+    "prompt": "Watercolor landscape of autumn birch trees along a forest path, golden leaves scattered on the ground, a small wooden footbridge over a stream, soft morning light, no people.",
+    "style": "watercolor",
+    "intended": [
+      "birch trees",
+      "forest path",
+      "golden leaves",
+      "wooden footbridge",
+      "stream"
+    ],
+    "hard": [],
+    "width": 896,
+    "height": 1152,
+    "seed": 1041,
+    "steps": 26,
+    "seconds": 38.71
+  },
+  {
+    "id": "g42",
+    "file": "g42.png",
+    "prompt": "Watercolor portrait of a sleepy dachshund curled up in a knitted basket by a fireplace, cozy interior, warm glow from the fire, a pair of slippers on the rug.",
+    "style": "watercolor",
+    "intended": [
+      "dachshund",
+      "knitted basket",
+      "fireplace",
+      "fire",
+      "slippers",
+      "rug"
+    ],
+    "hard": [],
+    "width": 1152,
+    "height": 896,
+    "seed": 1042,
+    "steps": 26,
+    "seconds": 38.74
+  },
+  {
+    "id": "g43",
+    "file": "g43.png",
+    "prompt": "Watercolor sketch of a flower shop storefront with buckets of tulips and roses outside, the sign above the door reads \"FLORIST\", a bicycle with a basket parked out front, and a birdcage hanging in the window.",
+    "style": "watercolor",
+    "intended": [
+      "flower shop",
+      "tulips",
+      "roses",
+      "buckets",
+      "sign reading FLORIST",
+      "bicycle",
+      "birdcage"
+    ],
+    "hard": [
+      "birdcage"
+    ],
+    "width": 1024,
+    "height": 1024,
+    "seed": 1043,
+    "steps": 26,
+    "seconds": 39.84
+  },
+  {
+    "id": "g44",
+    "file": "g44.png",
+    "prompt": "Watercolor painting of a family of four sitting around a campfire at night, roasting marshmallows on sticks, a tent behind them, tall pine trees, and a starry sky with a crescent moon.",
+    "style": "watercolor",
+    "intended": [
+      "four people",
+      "campfire",
+      "marshmallows",
+      "tent",
+      "pine trees",
+      "starry sky",
+      "crescent moon"
+    ],
+    "hard": [],
+    "width": 1152,
+    "height": 896,
+    "seed": 1044,
+    "steps": 26,
+    "seconds": 38.67
+  },
+  {
+    "id": "g45",
+    "file": "g45.png",
+    "prompt": "Watercolor painting of wild horses galloping across an open plain, dust rising under their hooves, distant blue mountains, loose expressive brushwork, muted earth tones.",
+    "style": "watercolor",
+    "intended": [
+      "horses",
+      "plain",
+      "dust",
+      "blue mountains"
+    ],
+    "hard": [],
+    "width": 1216,
+    "height": 832,
+    "seed": 1045,
+    "steps": 26,
+    "seconds": 37.68
+  },
+  {
+    "id": "g46",
+    "file": "g46.png",
+    "prompt": "Pencil sketch portrait of an old man with deep wrinkles and a flat cap, smoking a pipe, detailed cross-hatching, graphite on textured paper, realistic shading.",
+    "style": "pencil sketch",
+    "intended": [
+      "old man",
+      "face",
+      "wrinkles",
+      "flat cap",
+      "pipe"
+    ],
+    "hard": [],
+    "width": 896,
+    "height": 1152,
+    "seed": 1046,
+    "steps": 26,
+    "seconds": 38.74
+  },
+  {
+    "id": "g47",
+    "file": "g47.png",
+    "prompt": "Detailed pencil drawing study of two hands, one holding a pen and the other resting on an open notebook, graphite shading, anatomical sketchbook page.",
+    "style": "pencil sketch",
+    "intended": [
+      "two hands",
+      "pen",
+      "open notebook"
+    ],
+    "hard": [],
+    "width": 1024,
+    "height": 1024,
+    "seed": 1047,
+    "steps": 26,
+    "seconds": 39.67
+  },
+  {
+    "id": "g48",
+    "file": "g48.png",
+    "prompt": "Pencil sketch of a gothic cathedral facade with a rose window and tall spires, pigeons on the front steps, a few pedestrians walking past, architectural drawing, fine linework.",
+    "style": "pencil sketch",
+    "intended": [
+      "gothic cathedral",
+      "rose window",
+      "spires",
+      "pigeons",
+      "steps",
+      "pedestrians"
+    ],
+    "hard": [],
+    "width": 896,
+    "height": 1152,
+    "seed": 1048,
+    "steps": 26,
+    "seconds": 38.6
+  },
+  {
+    "id": "g49",
+    "file": "g49.png",
+    "prompt": "Pencil sketch of a cat sitting on a cluttered writer's desk beside a typewriter, a stack of letters, and a pair of round spectacles resting on the typewriter keys, soft graphite shading.",
+    "style": "pencil sketch",
+    "intended": [
+      "cat",
+      "desk",
+      "typewriter",
+      "stack of letters",
+      "round spectacles"
+    ],
+    "hard": [
+      "round spectacles"
+    ],
+    "width": 1152,
+    "height": 896,
+    "seed": 1049,
+    "steps": 26,
+    "seconds": 38.6
+  },
+  {
+    "id": "g50",
+    "file": "g50.png",
+    "prompt": "Pencil sketch of a steam locomotive crossing a stone viaduct over a river valley, billowing steam, detailed mechanical linework, trees on the hillsides.",
+    "style": "pencil sketch",
+    "intended": [
+      "steam locomotive",
+      "stone viaduct",
+      "river",
+      "steam",
+      "trees"
+    ],
+    "hard": [],
+    "width": 1216,
+    "height": 832,
+    "seed": 1050,
+    "steps": 26,
+    "seconds": 37.61
+  },
+  {
+    "id": "g51",
+    "file": "g51.png",
+    "prompt": "Graphite pencil drawing of an owl perched on a fence post at night, a full moon behind it, and a small mouse hiding in the grass below, detailed feather texture.",
+    "style": "pencil sketch",
+    "intended": [
+      "owl",
+      "fence post",
+      "full moon",
+      "small mouse",
+      "grass"
+    ],
+    "hard": [
+      "small mouse"
+    ],
+    "width": 896,
+    "height": 1152,
+    "seed": 1051,
+    "steps": 26,
+    "seconds": 38.61
+  },
+  {
+    "id": "g52",
+    "file": "g52.png",
+    "prompt": "Pencil sketch of a crowded outdoor market, vendors selling fruit from wooden carts, shoppers carrying baskets, striped awnings, a small dog weaving between legs, loose reportage drawing.",
+    "style": "pencil sketch",
+    "intended": [
+      "market",
+      "vendors",
+      "fruit",
+      "wooden carts",
+      "shoppers",
+      "baskets",
+      "awnings",
+      "dog"
+    ],
+    "hard": [],
+    "width": 1216,
+    "height": 832,
+    "seed": 1052,
+    "steps": 26,
+    "seconds": 37.6
+  },
+  {
+    "id": "g53",
+    "file": "g53.png",
+    "prompt": "Pencil concept sketch of an ornate fantasy sword with a dragon-shaped hilt, lying on a stone altar, handwritten annotations in the margins, graphite with white highlights.",
+    "style": "pencil sketch",
+    "intended": [
+      "sword",
+      "dragon-shaped hilt",
+      "stone altar",
+      "annotations"
+    ],
+    "hard": [],
+    "width": 1152,
+    "height": 896,
+    "seed": 1053,
+    "steps": 26,
+    "seconds": 38.67
+  },
+  {
+    "id": "g54",
+    "file": "g54.png",
+    "prompt": "Pencil landscape sketch of a mountain lake with a small rowboat tied to a wooden jetty, pine trees on the shore, reflections on the water, soft cloudy sky.",
+    "style": "pencil sketch",
+    "intended": [
+      "mountain lake",
+      "rowboat",
+      "wooden jetty",
+      "pine trees",
+      "water",
+      "cloudy sky"
+    ],
+    "hard": [],
+    "width": 1216,
+    "height": 832,
+    "seed": 1054,
+    "steps": 26,
+    "seconds": 37.71
+  },
+  {
+    "id": "g55",
+    "file": "g55.png",
+    "prompt": "Pixel art of a knight with a sword and shield standing before a dungeon gate, torches burning on the stone walls, 16-bit retro game style, limited color palette.",
+    "style": "pixel art",
+    "intended": [
+      "knight",
+      "sword",
+      "shield",
+      "dungeon gate",
+      "torches",
+      "stone walls"
+    ],
+    "hard": [],
+    "width": 1024,
+    "height": 1024,
+    "seed": 1055,
+    "steps": 26,
+    "seconds": 39.67
+  },
+  {
+    "id": "g56",
+    "file": "g56.png",
+    "prompt": "Pixel art of a rainy city street at night, a ramen stand with a glowing sign reading \"OPEN\", a person holding an umbrella, neon reflections on the wet ground, 32-bit style.",
+    "style": "pixel art",
+    "intended": [
+      "city street",
+      "ramen stand",
+      "sign reading OPEN",
+      "person",
+      "umbrella",
+      "neon reflections"
+    ],
+    "hard": [],
+    "width": 896,
+    "height": 1152,
+    "seed": 1056,
+    "steps": 26,
+    "seconds": 38.65
+  },
+  {
+    "id": "g57",
+    "file": "g57.png",
+    "prompt": "Pixel art farm scene, a red barn, a farmer watering crops, chickens in a pen, a brown horse by the fence, and a blue wheelbarrow near the gate, sunny day, cozy farming game style.",
+    "style": "pixel art",
+    "intended": [
+      "red barn",
+      "farmer",
+      "crops",
+      "chickens",
+      "brown horse",
+      "fence",
+      "blue wheelbarrow",
+      "gate"
+    ],
+    "hard": [
+      "blue wheelbarrow"
+    ],
+    "width": 1152,
+    "height": 896,
+    "seed": 1057,
+    "steps": 26,
+    "seconds": 38.66
+  },
+  {
+    "id": "g58",
+    "file": "g58.png",
+    "prompt": "Pixel art landscape of a waterfall pouring into a jungle lagoon, palm trees, bright blue sky with fluffy clouds, parallax background layers, vibrant 16-bit palette, no characters.",
+    "style": "pixel art",
+    "intended": [
+      "waterfall",
+      "lagoon",
+      "palm trees",
+      "blue sky",
+      "clouds"
+    ],
+    "hard": [],
+    "width": 1216,
+    "height": 832,
+    "seed": 1058,
+    "steps": 26,
+    "seconds": 37.62
+  },
+  {
+    "id": "g59",
+    "file": "g59.png",
+    "prompt": "Pixel art of a spaceship flying through an asteroid field, a large ringed planet in the background, stars, laser blasts, retro arcade shooter style.",
+    "style": "pixel art",
+    "intended": [
+      "spaceship",
+      "asteroids",
+      "ringed planet",
+      "stars",
+      "laser blasts"
+    ],
+    "hard": [],
+    "width": 1216,
+    "height": 832,
+    "seed": 1059,
+    "steps": 26,
+    "seconds": 37.66
+  },
+  {
+    "id": "g60",
+    "file": "g60.png",
+    "prompt": "Pixel art interior of a cozy bakery, shelves of bread loaves and croissants, a baker behind the counter, a layered cake on display, warm lighting, isometric view.",
+    "style": "pixel art",
+    "intended": [
+      "shelves",
+      "bread loaves",
+      "croissants",
+      "baker",
+      "counter",
+      "cake"
+    ],
+    "hard": [],
+    "width": 1024,
+    "height": 1024,
+    "seed": 1060,
+    "steps": 26,
+    "seconds": 39.66
+  },
+  {
+    "id": "g61",
+    "file": "g61.png",
+    "prompt": "Pixel art of a cat sleeping on a windowsill in a bedroom at night, the moon visible through the window, a lava lamp on the desk, and two potted succulents on the sill, lofi aesthetic.",
+    "style": "pixel art",
+    "intended": [
+      "cat",
+      "windowsill",
+      "window",
+      "moon",
+      "lava lamp",
+      "desk",
+      "two potted succulents"
+    ],
+    "hard": [
+      "lava lamp",
+      "two potted succulents"
+    ],
+    "width": 1152,
+    "height": 896,
+    "seed": 1061,
+    "steps": 26,
+    "seconds": 38.66
+  },
+  {
+    "id": "g62",
+    "file": "g62.png",
+    "prompt": "Pixel art character portrait of a smiling elf girl with green hair, pointed ears and a flower crown, RPG dialogue portrait, detailed sprite shading.",
+    "style": "pixel art",
+    "intended": [
+      "elf girl",
+      "face",
+      "green hair",
+      "pointed ears",
+      "flower crown"
+    ],
+    "hard": [],
+    "width": 1024,
+    "height": 1024,
+    "seed": 1062,
+    "steps": 26,
+    "seconds": 39.65
+  },
+  {
+    "id": "g63",
+    "file": "g63.png",
+    "prompt": "Pixel art of a party of four adventurers around a tavern table, mugs of ale, a roast chicken, a bard playing a lute, candle light, RPG town style.",
+    "style": "pixel art",
+    "intended": [
+      "four adventurers",
+      "tavern table",
+      "mugs",
+      "roast chicken",
+      "bard",
+      "lute",
+      "candles"
+    ],
+    "hard": [],
+    "width": 1152,
+    "height": 896,
+    "seed": 1063,
+    "steps": 26,
+    "seconds": 38.63
+  },
+  {
+    "id": "g64",
+    "file": "g64.png",
+    "prompt": "Comic book panel of a superhero in a blue and silver suit landing on a rooftop at night, cape flowing, city skyline behind, bold ink lines, halftone shading, dynamic angle.",
+    "style": "comic book",
+    "intended": [
+      "superhero",
+      "face",
+      "cape",
+      "rooftop",
+      "city skyline",
+      "night sky"
+    ],
+    "hard": [],
+    "width": 896,
+    "height": 1152,
+    "seed": 1064,
+    "steps": 26,
+    "seconds": 38.66
+  },
+  {
+    "id": "g65",
+    "file": "g65.png",
+    "prompt": "Comic book cover illustration of a detective in a trench coat and fedora standing in a dark alley, a speech bubble saying \"WHO DID IT?\", falling rain, noir ink style.",
+    "style": "comic book",
+    "intended": [
+      "detective",
+      "trench coat",
+      "fedora",
+      "alley",
+      "speech bubble reading WHO DID IT?",
+      "rain"
+    ],
+    "hard": [],
+    "width": 896,
+    "height": 1152,
+    "seed": 1065,
+    "steps": 26,
+    "seconds": 38.66
+  },
+  {
+    "id": "g66",
+    "file": "g66.png",
+    "prompt": "Comic book panel of a car chase through a city street, a yellow taxi swerving past a fire hydrant, and a hot dog cart knocked over with sausages flying, sound effect lettering \"SCREECH\", bold colors.",
+    "style": "comic book",
+    "intended": [
+      "yellow taxi",
+      "city street",
+      "fire hydrant",
+      "hot dog cart",
+      "sausages",
+      "lettering SCREECH"
+    ],
+    "hard": [
+      "fire hydrant",
+      "hot dog cart"
+    ],
+    "width": 1216,
+    "height": 832,
+    "seed": 1066,
+    "steps": 26,
+    "seconds": 37.72
+  },
+  {
+    "id": "g67",
+    "file": "g67.png",
+    "prompt": "Comic strip illustration of a scruffy dog and a grumpy cat sharing a sofa, a bowl of popcorn between them, a TV glowing in front, simple bold outlines, flat colors, newspaper comic look.",
+    "style": "comic book",
+    "intended": [
+      "dog",
+      "cat",
+      "sofa",
+      "bowl of popcorn",
+      "TV"
+    ],
+    "hard": [],
+    "width": 1152,
+    "height": 896,
+    "seed": 1067,
+    "steps": 26,
+    "seconds": 38.69
+  },
+  {
+    "id": "g68",
+    "file": "g68.png",
+    "prompt": "Comic book splash page of a samurai and a ninja clashing swords on a bamboo forest path, motion lines, sparks, dramatic ink shading, manga-influenced American comic style.",
+    "style": "comic book",
+    "intended": [
+      "samurai",
+      "ninja",
+      "swords",
+      "bamboo forest",
+      "path",
+      "sparks"
+    ],
+    "hard": [],
+    "width": 896,
+    "height": 1152,
+    "seed": 1068,
+    "steps": 26,
+    "seconds": 38.67
+  },
+  {
+    "id": "g69",
+    "file": "g69.png",
+    "prompt": "Comic book illustration of a mad scientist in a lab coat in his laboratory, bubbling green flasks, a chalkboard of equations, and a rubber duck sitting on top of the control panel, ink and flat colors.",
+    "style": "comic book",
+    "intended": [
+      "scientist",
+      "lab coat",
+      "green flasks",
+      "chalkboard",
+      "rubber duck",
+      "control panel"
+    ],
+    "hard": [
+      "rubber duck"
+    ],
+    "width": 1024,
+    "height": 1024,
+    "seed": 1069,
+    "steps": 26,
+    "seconds": 39.66
+  },
+  {
+    "id": "g70",
+    "file": "g70.png",
+    "prompt": "Comic book landscape of a desert canyon at noon, red rock formations, a winding dirt road, a vulture circling in the bright sky, bold outlines and Ben-Day dots, no characters.",
+    "style": "comic book",
+    "intended": [
+      "desert canyon",
+      "red rock formations",
+      "dirt road",
+      "vulture",
+      "sky"
+    ],
+    "hard": [],
+    "width": 1216,
+    "height": 832,
+    "seed": 1070,
+    "steps": 26,
+    "seconds": 37.68
+  },
+  {
+    "id": "g71",
+    "file": "g71.png",
+    "prompt": "Comic book panel of a family of five at a dinner table celebrating a birthday, a cake with lit candles, balloons tied to the chairs, everyone cheering, bright pop art colors.",
+    "style": "comic book",
+    "intended": [
+      "five people",
+      "dinner table",
+      "birthday cake",
+      "lit candles",
+      "balloons",
+      "chairs"
+    ],
+    "hard": [],
+    "width": 1152,
+    "height": 896,
+    "seed": 1071,
+    "steps": 26,
+    "seconds": 38.64
+  },
+  {
+    "id": "g72",
+    "file": "g72.png",
+    "prompt": "Comic book panel of pirates on a wooden ship fighting a giant octopus in a stormy sea, one pirate swinging a cutlass, and a parrot wearing a tiny hat on the captain's shoulder, bold inks, dramatic lightning.",
+    "style": "comic book",
+    "intended": [
+      "pirates",
+      "wooden ship",
+      "giant octopus",
+      "stormy sea",
+      "cutlass",
+      "parrot",
+      "tiny hat",
+      "lightning"
+    ],
+    "hard": [
+      "parrot",
+      "tiny hat"
+    ],
+    "width": 1216,
+    "height": 832,
+    "seed": 1072,
+    "steps": 26,
+    "seconds": 37.75
+  }
+]
