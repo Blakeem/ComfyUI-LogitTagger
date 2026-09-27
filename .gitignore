@@ -1,0 +1,19 @@
+# Local Claude state
+.claude/
+
+# A/B harness scratch
+tests-AB/cache/
+tests-AB/out/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# OS / editor
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/

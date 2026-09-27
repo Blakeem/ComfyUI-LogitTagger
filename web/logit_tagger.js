@@ -1,0 +1,103 @@
+import { app } from "../../scripts/app.js";
+
+const NODE_TYPE = "LogitTagger";
+const FALLBACK_WIDGET = "tags_preview";
+
+// The frontend's own text preview, the one Preview as Text uses. Older frontends lack it.
+function textPreview() {
+    return window.comfyAPI?.textPreviewWidgets;
+}
+
+function toText(text) {
+    if (text == null) {
+        return "";
+    }
+    return Array.isArray(text) ? text.filter((entry) => entry != null).join("\n\n") : String(text);
+}
+
+function addFallbackWidget(node) {
+    const widgets = window.comfyAPI?.widgets?.ComfyWidgets;
+    const widget = widgets?.STRING(node, FALLBACK_WIDGET, ["STRING", { multiline: true }], app).widget;
+
+    if (!widget) {
+        return;
+    }
+    // A preview never enters the saved workflow or the queued prompt.
+    widget.serialize = false;
+    widget.options.serialize = false;
+    if (widget.inputEl) {
+        widget.inputEl.readOnly = true;
+        widget.inputEl.style.opacity = 0.6;
+    }
+}
+
+function fillFallbackWidget(node, output) {
+    const widget = node.widgets?.find((entry) => entry.name === FALLBACK_WIDGET);
+
+    if (widget) {
+        widget.value = toText(output?.text);
+    }
+}
+
+function showTags(node, output) {
+    const preview = textPreview();
+
+    if (preview?.updateTextPreviewWidgets) {
+        preview.updateTextPreviewWidgets(node, output);
+    } else {
+        fillFallbackWidget(node, output);
+    }
+}
+
+// The frontend keeps its own getNodeByExecutionId off window.comfyAPI.
+function nodeByExecutionId(executionId) {
+    const segments = String(executionId).split(":");
+    let graph = app.rootGraph;
+    let node = null;
+
+    for (const segment of segments) {
+        node = graph?.getNodeById(segment) ?? null;
+        if (!node) {
+            return null;
+        }
+        graph = node.subgraph;
+    }
+    return node;
+}
+
+app.registerExtension({
+    name: "LogitTagger.TagPreview",
+    async beforeRegisterNodeDef(nodeType, nodeData) {
+        if (nodeData.name !== NODE_TYPE) {
+            return;
+        }
+        const onNodeCreated = nodeType.prototype.onNodeCreated;
+        const onExecuted = nodeType.prototype.onExecuted;
+
+        nodeType.prototype.onNodeCreated = function () {
+            onNodeCreated?.apply(this, arguments);
+            const preview = textPreview();
+
+            if (preview?.addTextPreviewWidgets) {
+                preview.addTextPreviewWidgets(this);
+            } else {
+                addFallbackWidget(this);
+            }
+        };
+        nodeType.prototype.onExecuted = function (output) {
+            onExecuted?.apply(this, arguments);
+            showTags(this, output);
+        };
+    },
+    // A workflow tab switch and a queue history reopen restore outputs without onExecuted.
+    onNodeOutputsUpdated(nodeOutputs) {
+        for (const [executionId, output] of Object.entries(nodeOutputs)) {
+            const node = nodeByExecutionId(executionId);
+
+            if (node?.constructor?.comfyClass !== NODE_TYPE && node?.type !== NODE_TYPE) {
+                continue;
+            }
+            showTags(node, output);
+        }
+    },
+});
