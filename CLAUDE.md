@@ -8,12 +8,14 @@ second model loads and no generated text is parsed. Ideas for later nodes live i
 
 | Node | Status | Inputs | Outputs |
 |---|---|---|---|
-| Logit Tagger | built | `clip`, `image`, optional `prompt` and `instruction` sockets | `tags` STRING list, `images` IMAGE list |
+| Logit Tagger | built | `clip`, `image`, optional `prompt`, `instruction` and `tags` sockets | `tags` STRING list, `images` IMAGE list |
 | Logit Image Check | built | `clip`, `image`, `question` widget | `answer` BOOLEAN, `probability` FLOAT list, `yes_images`, `no_images` |
 | Logit Text Check | built | `clip`, `text` socket, `question` widget | `answer` BOOLEAN, `probability` FLOAT list, `yes_texts`, `no_texts` |
-| Logit Tagger tag list | planned | optional `tags` socket on Logit Tagger | the listed tags the image shows |
-| Logit Prompt Check | planned | `clip`, `image`, `prompt` socket | `all_present`, `score`, `missing`, `images` |
-| Logit Image Classify | planned | `clip`, `image`, `question` and `options` widgets | `choice`, `index`, `confidence` |
+| Logit Prompt Check | built | `clip`, `image`, `prompt` socket | `all_present`, `score`, `missing`, `images` |
+| Logit Image Classify | built | `clip`, `image`, `question` and `options` widgets | `choice`, `index`, `confidence` |
+
+A connected `tags` list makes the Tagger check only those tags, and it rejects a prompt or an
+instruction connected beside it.
 
 Shared contract for every node:
 
@@ -24,8 +26,9 @@ Shared contract for every node:
 - A text input pairs one to all or one to one (`lists.pair_texts`). A widget under
   `INPUT_IS_LIST` arrives as a list, and differing values are an error (`lists.single_value`).
 - One progress bar per run, with core's per-token generate bars routed into it, and a status line
-  under the node (`progress.RunProgress`). A `ui.text` display below the inputs
-  (`web/logit_tagger.js`).
+  under the node (`progress.RunProgress`). The run ends on "4 images in 9.3 s", "cancelled" or
+  "failed", since frontend 1.53.6 ignores an empty progress text. A `ui.text` display below the
+  inputs (`web/logit_tagger.js`).
 - An empty yes or no side is `[ExecutionBlocker(None)]`, which skips the nodes wired to it.
 - Errors name the node and the fix.
 - Every tuning value (wording, threshold, budget, cap) is a backend constant set by a script in
@@ -44,8 +47,8 @@ nodes.py ──> tagging.py ──> engine.py ──> logit_classifier (Classifi
 
 | Module | Holds |
 |---|---|
-| `logit_tagger/engine.py` | model access every node shares: `resize_for_vl` (1 MP cap), `build_classifier`, `clip_generate` (CUDA graph cleanup), `stop_when`, `chat`, `generate_text`, `nouls` |
-| `logit_tagger/tagging.py` | the tagger pipeline: propose, prompt things, merge, thing check, verify, clean. `tag_image`, `tag_images`, `TagTrace` |
+| `logit_tagger/engine.py` | model access every node shares: `resize_for_vl` (1 MP cap), `build_classifier`, `clip_generate` (CUDA graph cleanup), `stop_when`, `chat` (escapes control-token spellings), `generate_text`, `nouls`, `choose`, `presence_question` |
+| `logit_tagger/tagging.py` | the tagger pipeline and the prompt check: `prompt_things`, `english_prompt`, `tag_image`, `check_tag_list`, `tag_images`, `check_prompt`, `TagTrace`, `PromptCheck` |
 | `logit_tagger/lists.py` | list input rules |
 | `logit_tagger/progress.py` | `RunProgress`, `send_status` |
 | `logit_tagger/nodes.py` | every node class |
@@ -58,13 +61,26 @@ Ported from ContextAnchoredTileRefine's tile tagger (`context_anchored_tile_refi
 `tests-AB/tags-bench-log.md` measured precision 0.778 to 0.972).
 
 ```
-prompt ──> [prompt stage] ──────────────┐   one text-only generate per distinct prompt,
-                                        │   kept when grounded in the prompt's words
-image ──> [resize] ──> [propose] ──> [merge] ──> [thing check] ──> [verify] ──> [clean] ──> tags
-          1 MP cap     greedy, stops  model tags   text-only choice   noul per tag   drop_subsets
-                       at 25 tags or  first, then  drops scene,       0.9, or 0.9999
-                       a repeat       prompt tags  light, mood words  for prompt-only
+prompt ──> [language gate] ──> [translate] ──> [prompt stage] ──┐  once per distinct prompt, text only
+           noul "Is this text   generate,        list, keep what │
+           written in English?" only below 0.5   the English     │
+                                                 text grounds    │
+                                                 and the thing   │
+                                                 check calls a   │
+                                                 thing           │
+image ──> [resize] ──> [propose] ──> [merge] ────────────────────┴──> [verify] ──> [clean] ──> tags
+          1 MP cap     greedy, stops  model tags first, then          noul per tag   drop_subsets,
+                       at 40 tags or  prompt tags, category nouns     0.9, or 0.9999 score order
+                       a repeat       dropped, 80 at most             for prompt-only
 ```
+
+- A propose reply that holds only the instruction's category nouns gets one more propose with
+  `ECHO_FALLBACK_INSTRUCTION`. A connected instruction never triggers it.
+- The thing check judges only a prompt's things. On the model's own tags it dropped tags the
+  judges graded correct, such as "watermark" and "pixel art".
+- The prompt stage grounds each listed thing in the English text's words, and two ungrounded tags in
+  a row end the list. That guard stops the padding the model writes past a prompt's own things, and
+  the translation keeps it working for a prompt in another language.
 
 - Propose and verify run inside the library's `shared_vision_encode`, so the vision tower runs once
   per image.
@@ -78,7 +94,32 @@ image ──> [resize] ──> [propose] ──> [merge] ──> [thing check] �
 - `engine.stop_when` wraps core's `sample_token` and returns the stop token once a predicate on the
   complete tags so far holds, since core's decode loop takes no stop condition.
 - The CLIP loader types `krea2`, default and `mage` gave identical tags. `flux` and `flux2` load the
-  encoder without its vision tower, and `build_classifier` rejects them by name.
+  encoder without its vision tower, and `build_classifier` rejects them by name. A text-only Qwen3
+  fails the library's model check, and `build_classifier` names the node and the Load CLIP fix.
+
+## Tagger A/B
+
+`tests-AB/ab_tagger_compare.py` tags 72 Krea 2 renders without and with their prompts and 30 COCO
+photos, per arm. Blind judges grade each kept tag by `tests-AB/data/tagger-ab/RUBRIC.md` into
+`verdicts.json` (102 images, 2,775 tags), and `tests-AB/ab_tagger_score.py` scores the arms.
+Precision is yes over yes, no and vague. All arms ran with DynamicVRAM on.
+
+| Condition | Arm | Precision | Correct tags per image | Seconds per image |
+|---|---|---|---|---|
+| renders, no prompt | the first tagger, `4cbd732` | 0.912 | 16.6 | 6.90 |
+| renders, no prompt | the port, `934f901` | 0.940 | 12.8 | 2.76 |
+| renders, no prompt | round 2 arm, shipped in `53d9c34` | 0.918 | 15.3 | 2.51 |
+| renders, with prompt | the first tagger | 0.900 | 16.4 | 7.66 |
+| renders, with prompt | the port | 0.945 | 14.1 | 3.77 |
+| renders, with prompt | shipped | 0.923 | 16.7 | 3.50 |
+| COCO photos | the first tagger | 0.898 | 10.9 | 4.28 |
+| COCO photos | the port | 0.945 | 8.6 | 1.77 |
+| COCO photos | shipped | 0.925 | 11.5 | 1.82 |
+
+The port lost correct tags to the 25 tag cap (52%), the thing check on model tags (25%) and
+`drop_subsets` dropping a whole beside its part, such as "cat" beside "cat ear" (20%). The shipped
+arm removes all three. The library's `drop_subsets` now folds an item only into a superset with the
+same head noun.
 
 ## Measured question shapes
 
@@ -94,6 +135,7 @@ labeled by two blind judges, 80 labeled prompts).
 | fixed tag list, "Is there X in this image?" | precision 0.971, recall 0.748 at 0.9999 on COCO |
 | per-thing missing list | precision 0.976, recall 0.927 at 0.5 on renders |
 | whole-prompt yes/no | AUC 0.899 on near-miss prompts only: report per thing instead |
+| text yes/no, "Is this text written in English?" | 0.000 to 0.027 on 13 prompts in 10 other languages, 1.000 on 10 English prompts (`tests-AB/ab_prompt_language.py`) |
 | choice over 8 styles | accuracy 0.875, confidence AUC 0.949 on renders |
 | score | ranks brightness at Spearman 0.99, but "sharp" also falls with darkness. Not shipped |
 | ranking written prompts | at chance against a blind judge. Not shipped |
@@ -156,8 +198,9 @@ Read from the server source at commit `88ab4a06` on 2026-09-27.
 - Lint gate: `uvx ruff@0.16.2 check .` reports zero findings, and `node --check web/logit_tagger.js`.
 - Harness: `.venv\Scripts\python.exe tests-AB\ab_tagger.py <image>... [--prompt] [--instruction]`
   prints each stage's result and time. Check `nvidia-smi` is idle first.
-- `tests-AB/ab_env.py` does not yet enable core's dynamic VRAM, so harness generates run without
-  graph decode and time about 84 ms per token. ContextAnchoredTileRefine's `ab_env.py` enables it.
+- `tests-AB/ab_env.py` parses the app's memory flags and enables core's DynamicVRAM as `main.py`
+  does, so harness decode takes the CUDA graph path at about 30 ms per token on the fp8 encoder.
+  A harness that runs several node executions calls `ab_env.end_node_execution()` between them.
 
 ## Conventions
 
