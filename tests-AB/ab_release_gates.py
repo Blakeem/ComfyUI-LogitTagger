@@ -767,6 +767,8 @@ def main() -> None:
     coco_images: dict = {}
     record = read_record(out_path)
 
+    # Created before the model loads, so a new --out folder never fails the run after its first probe.
+    out_path.parent.mkdir(parents=True, exist_ok=True)
     # Every input is read and checked before the CLIP loads, so a missing file fails in seconds.
     if wanted & RENDER_PROBES:
         all_renders = load_renders(args.data / "renders" / "manifest.json")
