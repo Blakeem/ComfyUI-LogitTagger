@@ -1,0 +1,61 @@
+{
+ "runs": [
+  {
+   "clip": "qwen3vl_4b_fp8_scaled.safetensors",
+   "new_root": "C:\\Users\\Blake\\AppData\\Local\\Temp\\claude\\C--Users-Blake-Documents-ComfyUI-custom-nodes-ComfyUI-LogitTagger\\881685d9-511e-44da-819b-dab5bf1ac48d\\scratchpad\\tagger_ab\\new",
+   "old_tagging": "C:\\Users\\Blake\\AppData\\Local\\Temp\\claude\\C--Users-Blake-Documents-ComfyUI-custom-nodes-ComfyUI-LogitTagger\\881685d9-511e-44da-819b-dab5bf1ac48d\\scratchpad\\tagger_ab\\old\\old_tagging.py",
+   "dynamic_vram": true,
+   "disable_cuda_graphs": false,
+   "graph_warmed_modules": 0,
+   "wall_ms": {
+    "render-noprompt": {
+     "new": 199090.48089996213,
+     "old": 497164.54080003314
+    },
+    "render-prompt": {
+     "new": 271722.70300000673,
+     "old": 552036.0189999919
+    },
+    "coco": {
+     "new": 53196.62559998687,
+     "old": 128428.50699997507
+    }
+   },
+   "decode": {
+    "new": {
+     "propose": {
+      "generates": 174,
+      "tokens": 7341,
+      "pooled_ms_per_token": 32.235573894220884,
+      "median_ms_per_token": 32.24518548149432,
+      "median_step_ms": 27.904274975298904,
+      "median_prefill_ms": 672.8842500015162
+     },
+     "prompt": {
+      "generates": 72,
+      "tokens": 1368,
+      "pooled_ms_per_token": 36.55834984556911,
+      "median_ms_per_token": 36.552498757102384,
+      "median_step_ms": 28.298275006818585,
+      "median_prefill_ms": 206.227199989371
+     }
+    },
+    "old": {
+     "propose": {
+      "generates": 174,
+      "tokens": 9882,
+      "pooled_ms_per_token": 98.63971175319796,
+      "median_ms_per_token": 96.80140026818246,
+      "median_step_ms": 95.79425000993069,
+      "median_prefill_ms": 681.0419499815907
+     },
+     "prompt": {
+      "generates": 0,
+      "pooled_ms_per_token": null,
+      "median_step_ms": null
+     }
+    }
+   }
+  }
+ ]
+}

@@ -17,6 +17,7 @@ import pytest
 from logit_tagger import progress
 
 PACK_ROOT = Path(__file__).parent.parent.resolve()
+NODE = "Some Node"
 NODE_ID = "7"
 FINISHED_TWO = r"2 images in \d+\.\d s"
 
@@ -118,7 +119,7 @@ def test_module_scope_imports_no_comfy_no_torch_no_server_and_no_library():
 
 
 def test_one_bar_across_three_items_with_a_token_bar_each_never_decreases_and_ends_at_the_total(fake_comfy):
-    with progress.RunProgress(total_items=3, unique_id=NODE_ID, noun="image") as run:
+    with progress.RunProgress(total_items=3, unique_id=NODE_ID, noun="image", node=NODE) as run:
         for index in range(3):
             run.item(index, "writing tags")
             bar = token_bar(20)
@@ -135,14 +136,14 @@ def test_one_bar_across_three_items_with_a_token_bar_each_never_decreases_and_en
 
 
 def test_the_run_bar_starts_at_zero_over_the_item_total(fake_comfy):
-    progress.RunProgress(total_items=4, unique_id=NODE_ID, noun="image")
+    progress.RunProgress(total_items=4, unique_id=NODE_ID, noun="image", node=NODE)
 
     assert run_bar().total == 4 * progress.ITEM_UNITS
     assert run_bar().updates == [(0, 4 * progress.ITEM_UNITS)]
 
 
 def test_a_token_bar_fills_the_generate_share_at_the_fill_ratio_of_its_budget(fake_comfy):
-    with progress.RunProgress(total_items=3, unique_id=NODE_ID, noun="image") as run:
+    with progress.RunProgress(total_items=3, unique_id=NODE_ID, noun="image", node=NODE) as run:
         run.item(1, "writing tags")
         bar = token_bar(100)
         bar.update_absolute(13)
@@ -158,11 +159,11 @@ def test_a_token_bar_fills_the_generate_share_at_the_fill_ratio_of_its_budget(fa
 
 
 def test_a_clean_exit_fills_the_bar_and_a_raised_exit_does_not(fake_comfy):
-    with progress.RunProgress(total_items=3, unique_id=NODE_ID, noun="image") as run:
+    with progress.RunProgress(total_items=3, unique_id=NODE_ID, noun="image", node=NODE) as run:
         run.item(0, "writing tags")
         token_bar(10).update_absolute(10)
     with pytest.raises(RuntimeError, match="out of memory"), \
-            progress.RunProgress(total_items=3, unique_id=NODE_ID, noun="image") as run:
+            progress.RunProgress(total_items=3, unique_id=NODE_ID, noun="image", node=NODE) as run:
         run.item(0, "writing tags")
         token_bar(10).update_absolute(10)
         raise RuntimeError("out of memory")
@@ -173,7 +174,7 @@ def test_a_clean_exit_fills_the_bar_and_a_raised_exit_does_not(fake_comfy):
 
 
 def test_a_token_bar_that_restarts_inside_an_item_never_moves_the_bar_back(fake_comfy):
-    with progress.RunProgress(total_items=2, unique_id=NODE_ID, noun="image") as run:
+    with progress.RunProgress(total_items=2, unique_id=NODE_ID, noun="image", node=NODE) as run:
         run.item(0, "writing tags")
         token_bar(10).update_absolute(6)
         token_bar(10).update_absolute(1)
@@ -183,7 +184,7 @@ def test_a_token_bar_that_restarts_inside_an_item_never_moves_the_bar_back(fake_
 
 
 def test_a_routed_bar_before_the_first_item_changes_nothing(fake_comfy):
-    with progress.RunProgress(total_items=2, unique_id=NODE_ID, noun="image"):
+    with progress.RunProgress(total_items=2, unique_id=NODE_ID, noun="image", node=NODE):
         before = list(run_bar().updates)
         bar = token_bar(10)
         bar.update(5)
@@ -201,7 +202,7 @@ def test_a_routed_bar_before_the_first_item_changes_nothing(fake_comfy):
 def test_the_patch_routes_bars_inside_the_run_and_is_undone_on_exit(fake_comfy):
     utils = sys.modules["comfy.utils"]
 
-    with progress.RunProgress(total_items=1, unique_id=NODE_ID, noun="image"):
+    with progress.RunProgress(total_items=1, unique_id=NODE_ID, noun="image", node=NODE):
         inside = utils.ProgressBar
 
     assert inside is not RecordingProgressBar
@@ -212,7 +213,7 @@ def test_the_patch_is_undone_and_the_status_says_failed_after_a_raise(fake_comfy
     utils = sys.modules["comfy.utils"]
 
     with pytest.raises(RuntimeError, match="out of memory"), \
-            progress.RunProgress(total_items=2, unique_id=NODE_ID, noun="image") as run:
+            progress.RunProgress(total_items=2, unique_id=NODE_ID, noun="image", node=NODE) as run:
         run.item(0, "writing tags")
         raise RuntimeError("out of memory")
 
@@ -224,7 +225,7 @@ def test_the_patch_is_undone_and_the_status_says_failed_after_a_raise(fake_comfy
 
 
 def test_the_status_line_for_one_item_is_the_stage_alone_and_sent_only_on_change(fake_comfy):
-    with progress.RunProgress(total_items=1, unique_id=NODE_ID, noun="image") as run:
+    with progress.RunProgress(total_items=1, unique_id=NODE_ID, noun="image", node=NODE) as run:
         run.item(0, "writing tags")
         run.item(0, "writing tags")
         run.item(0, "checking tags")
@@ -235,7 +236,7 @@ def test_the_status_line_for_one_item_is_the_stage_alone_and_sent_only_on_change
 
 
 def test_the_status_line_for_three_items_names_the_noun_and_the_position(fake_comfy):
-    with progress.RunProgress(total_items=3, unique_id=NODE_ID, noun="text") as run:
+    with progress.RunProgress(total_items=3, unique_id=NODE_ID, noun="text", node=NODE) as run:
         for index in range(3):
             run.item(index, "checking")
 
@@ -250,7 +251,7 @@ def test_the_status_line_for_three_items_names_the_noun_and_the_position(fake_co
 
 @pytest.mark.parametrize(("count", "pattern"), [(2, r"^2 images in \d+\.\d s$"), (1, r"^1 image in \d+\.\d s$")])
 def test_a_finished_run_ends_on_its_item_count_and_duration(fake_comfy, count, pattern):
-    with progress.RunProgress(total_items=count, unique_id=NODE_ID, noun="image") as run:
+    with progress.RunProgress(total_items=count, unique_id=NODE_ID, noun="image", node=NODE) as run:
         for index in range(count):
             run.item(index, "writing tags")
 
@@ -258,7 +259,8 @@ def test_a_finished_run_ends_on_its_item_count_and_duration(fake_comfy, count, p
 
 
 def test_a_cancelled_run_ends_on_cancelled_and_the_interrupt_propagates(fake_comfy):
-    with pytest.raises(Interrupted), progress.RunProgress(total_items=2, unique_id=NODE_ID, noun="image") as run:
+    with pytest.raises(Interrupted), \
+            progress.RunProgress(total_items=2, unique_id=NODE_ID, noun="image", node=NODE) as run:
         run.item(0, "writing tags")
         raise Interrupted()
 
@@ -268,7 +270,8 @@ def test_a_cancelled_run_ends_on_cancelled_and_the_interrupt_propagates(fake_com
 def test_a_cancel_raised_by_the_clean_exit_fill_ends_on_cancelled_and_propagates(fake_comfy, monkeypatch):
     monkeypatch.setattr(sys.modules["comfy.utils"], "ProgressBar", CancelOnFinalUpdateBar)
 
-    with pytest.raises(Interrupted), progress.RunProgress(total_items=1, unique_id=NODE_ID, noun="image") as run:
+    with pytest.raises(Interrupted), \
+            progress.RunProgress(total_items=1, unique_id=NODE_ID, noun="image", node=NODE) as run:
         run.item(0, "checking")
         fake_comfy.interrupted = True
 
@@ -277,7 +280,7 @@ def test_a_cancel_raised_by_the_clean_exit_fill_ends_on_cancelled_and_propagates
 
 def test_a_failed_run_ends_on_failed_and_the_error_propagates(fake_comfy):
     with pytest.raises(ValueError, match="bad input"), \
-            progress.RunProgress(total_items=2, unique_id=NODE_ID, noun="image") as run:
+            progress.RunProgress(total_items=2, unique_id=NODE_ID, noun="image", node=NODE) as run:
         run.item(0, "writing tags")
         raise ValueError("bad input")
 
@@ -285,7 +288,7 @@ def test_a_failed_run_ends_on_failed_and_the_error_propagates(fake_comfy):
 
 
 def test_item_checks_for_an_interrupt_before_it_announces_the_item(fake_comfy):
-    with progress.RunProgress(total_items=2, unique_id=NODE_ID, noun="image") as run:
+    with progress.RunProgress(total_items=2, unique_id=NODE_ID, noun="image", node=NODE) as run:
         run.item(0, "writing tags")
         fake_comfy.interrupted = True
         with pytest.raises(Interrupted):
@@ -299,42 +302,28 @@ def test_item_checks_for_an_interrupt_before_it_announces_the_item(fake_comfy):
     assert after_interrupt == 0
 
 
-# --- send_status ------------------------------------------------------------------------
-
-
-def test_send_status_sends_the_text_to_the_node(fake_comfy):
-    progress.send_status(NODE_ID, "writing tags")
-
-    assert fake_comfy.server.sent == [("writing tags", NODE_ID)]
-
-
-def test_send_status_swallows_a_failed_send(fake_comfy):
+def test_a_failed_status_send_never_fails_the_run(fake_comfy):
     fake_comfy.server.fail = True
 
-    progress.send_status(NODE_ID, "writing tags")
-    with progress.RunProgress(total_items=1, unique_id=NODE_ID, noun="image") as run:
+    with progress.RunProgress(total_items=1, unique_id=NODE_ID, noun="image", node=NODE) as run:
         run.item(0, "writing tags")
 
     assert run_bar().updates[-1] == (progress.ITEM_UNITS, progress.ITEM_UNITS)
 
 
-def test_send_status_does_nothing_without_a_node_id(fake_comfy):
-    progress.send_status(None, "writing tags")
+def test_a_run_without_a_node_id_sends_no_status(fake_comfy):
+    with progress.RunProgress(total_items=1, unique_id=None, noun="image", node=NODE) as run:
+        run.item(0, "writing tags")
 
     assert fake_comfy.server.sent == []
 
 
-def test_send_status_does_nothing_without_a_server_instance(fake_comfy):
-    sys.modules["server"].PromptServer = SimpleNamespace()
-
-    progress.send_status(NODE_ID, "writing tags")
-
-    assert fake_comfy.server.sent == []
+# --- library loading --------------------------------------------------------------------
 
 
-def test_send_status_does_nothing_without_a_server_module(fake_comfy, monkeypatch):
-    monkeypatch.setitem(sys.modules, "server", None)
+def test_a_run_without_the_toolkit_names_the_node_and_the_pip_command_before_any_bar(fake_comfy, monkeypatch):
+    monkeypatch.setitem(sys.modules, "logit_classifier.toolkit.comfyui", None)
 
-    progress.send_status(NODE_ID, "writing tags")
-
-    assert fake_comfy.server.sent == []
+    with pytest.raises(RuntimeError, match=rf"^{NODE}: .*pip install -U logit-classifier"):
+        progress.RunProgress(total_items=1, unique_id=NODE_ID, noun="image", node=NODE)
+    assert RecordingProgressBar.instances == []

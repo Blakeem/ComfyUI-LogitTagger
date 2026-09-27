@@ -1,8 +1,8 @@
 """Check the prompt stage's language gate and translation over a real Qwen3-VL-4B CLIP, with no server.
 
-Each prompt prints the gate's p(English), the text the listing reads and the things prompt_things keeps. The English
+Each prompt prints the gate's p(English), the text the listing reads and the things prompt_tags keeps. The English
 set holds style-only prompts, since those list no things and so look foreign to word grounding alone.
-The output sets LANGUAGE_QUESTION, ENGLISH_THRESHOLD and TRANSLATE_INSTRUCTION in logit_tagger/tagging.py.
+The output sets the TagSettings fields language_question, english_threshold and translate_instruction.
 Usage: python tests-AB/ab_prompt_language.py [--clip NAME]
 """
 
@@ -50,34 +50,35 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     ab_env.bootstrap()
+    from logit_classifier.toolkit.comfyui import prompt_tags
+
     from logit_tagger import engine, tagging
 
     args = parse_args()
+    settings = tagging.tag_settings()
     clip = ab_env.load_clip(args.clip)
     classifier = engine.build_classifier(clip, tagging.PROMPT_CHECK_NAME, needs_images=False)
     gate: dict[str, list[float]] = {"foreign": [], "english": []}
     p_english = 0.0
-    text = ""
-    things: tuple[str, ...] = ()
+    listing = None
     started = 0.0
 
     # The first generate pays the model load and graph capture, so it runs once untimed.
-    tagging.prompt_things(clip, classifier, ENGLISH[3], {})
+    prompt_tags(clip, classifier, ENGLISH[3], settings, {})
     ab_env.end_node_execution()
 
     for group, prompts in (("foreign", FOREIGN), ("english", ENGLISH)):
         for prompt in prompts:
             started = time.perf_counter()
-            p_english = engine.nouls(classifier, [tagging.LANGUAGE_QUESTION], state=prompt)[0]
-            text = tagging.english_prompt(clip, classifier, prompt)
-            things = tagging.prompt_things(clip, classifier, prompt, {})
+            p_english = classifier.nouls([settings.language_question], state=prompt)[0]
+            listing = prompt_tags(clip, classifier, prompt, settings, {})
             ab_env.end_node_execution()
             gate[group].append(p_english)
             print(f"{group:7} p(English) {p_english:.3f} {(time.perf_counter() - started):5.2f} s  {prompt[:60]!r}\n"
-                  f"        read as {text[:100]!r}\n        things {things}", flush=True)
+                  f"        read as {listing.text[:100]!r}\n        things {listing.tags}", flush=True)
 
     print(f"foreign p(English) {min(gate['foreign']):.3f} to {max(gate['foreign']):.3f}, "
-          f"english {min(gate['english']):.3f} to {max(gate['english']):.3f}, threshold {tagging.ENGLISH_THRESHOLD}")
+          f"english {min(gate['english']):.3f} to {max(gate['english']):.3f}, threshold {settings.english_threshold}")
 
 
 if __name__ == "__main__":

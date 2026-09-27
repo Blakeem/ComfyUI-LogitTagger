@@ -96,23 +96,27 @@ def fake_comfy(monkeypatch):
 
 @pytest.fixture
 def fake_engine(monkeypatch):
-    """Replaces the classifier build, the resize and nouls, which answers each call with the next queued score."""
+    """Replaces the classifier build and the toolkit's fit, with a classifier whose nouls answers each call with the
+    next queued score."""
+    toolkit = pytest.importorskip("logit_classifier.toolkit.comfyui")
     record = SimpleNamespace(scores=[], built=[], calls=[])
+
+    class RecordingClassifier:
+        def nouls(self, statements, *, image=None, state=""):
+            record.calls.append(SimpleNamespace(classifier=self, statements=statements, image=image, state=state))
+            return [record.scores.pop(0)]
+
+    record.classifier = RecordingClassifier()
 
     def build_classifier(clip, node, *, needs_images=True):
         record.built.append((clip, node, needs_images))
-        return "classifier"
+        return record.classifier
 
-    def resize_for_vl(image, *, max_pixels=None):
+    def fit_picture(image, max_pixels):
         return SimpleNamespace(resized=image)
 
-    def nouls(classifier, statements, *, image=None, state=""):
-        record.calls.append(SimpleNamespace(classifier=classifier, statements=statements, image=image, state=state))
-        return [record.scores.pop(0)]
-
     monkeypatch.setattr(engine, "build_classifier", build_classifier)
-    monkeypatch.setattr(engine, "resize_for_vl", resize_for_vl)
-    monkeypatch.setattr(engine, "nouls", nouls)
+    monkeypatch.setattr(toolkit, "fit_picture", fit_picture)
     return record
 
 
@@ -287,7 +291,7 @@ def test_the_image_check_reads_the_clip_from_its_list_and_needs_images(fake_comf
     check_images([an_image()], clip=clip)
 
     assert fake_engine.built == [(clip, "Logit Image Check", True)]
-    assert fake_engine.calls[0].classifier == "classifier"
+    assert fake_engine.calls[0].classifier is fake_engine.classifier
 
 
 def test_the_text_check_pairs_each_text_with_its_own_answer(fake_comfy, fake_engine):

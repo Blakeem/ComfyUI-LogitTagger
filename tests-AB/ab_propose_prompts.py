@@ -1,6 +1,6 @@
-"""Compare PROPOSE_INSTRUCTION wordings on the same images over a real Qwen3-VL-4B CLIP, with no server.
+"""Compare propose_instruction wordings on the same images over a real Qwen3-VL-4B CLIP, with no server.
 
-The output sets the backend constant PROPOSE_INSTRUCTION. Each wording runs through the node's own
+The output sets the TagSettings field propose_instruction. Each wording runs through the node's own
 propose stage, so the repeat stop applies, and a reply it ended counts as a loop.
 Usage: python tests-AB/ab_propose_prompts.py <image> [<image> ...]
 """
@@ -39,7 +39,7 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     ab_env.bootstrap()
-    from logit_classifier.tags import complete_tags, repeated_block
+    from logit_classifier.toolkit.tags import complete_tags, repeated_block
 
     from logit_tagger import engine, tagging
 
@@ -67,17 +67,17 @@ def main() -> None:
 
     clip.generate = counting_generate
     # The first decode pays the model load, so it is run once and discarded.
-    tagging.tag_image(clip, classifier, load_image(args.images[0]))
+    tagging.tag_image(clip, classifier, load_image(args.images[0]), known={})
 
     for path in args.images:
         image = load_image(path)
         base_kept: set[str] = set()
         print(f"== {path.name}")
         for name, wording in WORDINGS.items():
-            trace = tagging.tag_image(clip, classifier, image, instruction=wording)
+            trace = tagging.tag_image(clip, classifier, image, instruction=wording, known={})
             kept = set(trace.tags.split(", ")) if trace.tags else set()
             looped = bool(repeated_block(complete_tags(trace.reply + ",")))
-            hit_budget = token_counts[-1] >= tagging.PROPOSE_MAX_TOKENS
+            hit_budget = token_counts[-1] >= tagging.tag_settings().propose_max_tokens
             category = sorted(kept & CATEGORY_WORDS)
             total = totals[name]
             if name == "current":

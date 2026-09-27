@@ -49,10 +49,12 @@ def main() -> int:
     from ab_tagger import load_image
     from logit_classifier import Classifier, Config, NoulQuestion, SystemOneRequest
     from logit_classifier.backends.comfy_clip import ComfyClipBackend
+    from logit_classifier.toolkit.comfyui import fit_picture
 
-    from logit_tagger.engine import resize_for_vl
-    from logit_tagger.tagging import VERIFY_STATEMENT, VERIFY_THRESHOLD
+    from logit_tagger.engine import VL_MAX_PIXELS
+    from logit_tagger.tagging import tag_settings
 
+    settings = tag_settings()
     clip = ab_env.load_clip(args.clip)
     backend = ComfyClipBackend(clip)
     classifier = Classifier(Config(use_prior_debias=False, calibration_path=None), backend=backend)
@@ -60,8 +62,8 @@ def main() -> int:
     flips = 0
 
     for path, tags in CASES:
-        image = resize_for_vl(load_image(path))
-        questions = {f"q{i}": NoulQuestion(instructions=VERIFY_STATEMENT.replace("{TAG}", tag))
+        image = fit_picture(load_image(path), VL_MAX_PIXELS)
+        questions = {f"q{i}": NoulQuestion(instructions=settings.verify_statement.replace("{TAG}", tag))
                      for i, tag in enumerate(tags + ABSENT)}
         request = SystemOneRequest(state="", questions=questions)
         slow, slow_ms = run(classifier, backend, backend._score_by_generate, request, image)
@@ -71,12 +73,12 @@ def main() -> int:
         for i, tag in enumerate(tags + ABSENT):
             a = slow.answers[f"q{i}"].noul
             b = fast.answers[f"q{i}"].noul
-            flipped = (a >= VERIFY_THRESHOLD) != (b >= VERIFY_THRESHOLD)
+            flipped = (a >= settings.verify_threshold) != (b >= settings.verify_threshold)
             worst = max(worst, abs(a - b))
             flips += flipped
             print(f"  {a:.6f} {b:.6f} {'FLIP' if flipped else '    '} {tag}")
     del backend.score
-    print(f"\nlargest |diff| {worst:.6f} (limit {MAX_DIFF}), flips at {VERIFY_THRESHOLD}: {flips}")
+    print(f"\nlargest |diff| {worst:.6f} (limit {MAX_DIFF}), flips at {settings.verify_threshold}: {flips}")
     return 0 if flips == 0 and worst < MAX_DIFF else 1
 
 

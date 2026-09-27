@@ -1,10 +1,11 @@
-"""Compare PROPOSE_MAX_TOKENS budgets on the same images over a real Qwen3-VL-4B CLIP, with no server.
+"""Compare propose_max_tokens budgets on the same images over a real Qwen3-VL-4B CLIP, with no server.
 
-The output sets the backend constant PROPOSE_MAX_TOKENS.
+The output sets the TagSettings field propose_max_tokens.
 Usage: python tests-AB/ab_propose_budget.py <image> [<image> ...] [--budgets 128,192]
 """
 
 import argparse
+import dataclasses
 from pathlib import Path
 
 import ab_env
@@ -22,7 +23,7 @@ def parse_args() -> argparse.Namespace:
 
 def count_items(proposal: str) -> int:
     """Items the proposal wrote before parse_candidates removed repeats, so a loop shows as items above unique."""
-    from logit_classifier.tags import complete_tags
+    from logit_classifier.toolkit.tags import complete_tags
 
     # The appended separator counts the last item, which complete_tags would treat as mid tag.
     return len(complete_tags(proposal + ","))
@@ -55,14 +56,14 @@ def main() -> None:
 
     clip.generate = counting_generate
     # The first decode pays the model load, so it is run once and discarded.
-    tagging.tag_image(clip, classifier, load_image(args.images[0]))
+    tagging.tag_image(clip, classifier, load_image(args.images[0]), known={})
 
     for path in args.images:
         image = load_image(path)
         runs = {}
         for budget in budgets:
-            tagging.PROPOSE_MAX_TOKENS = budget
-            trace = tagging.tag_image(clip, classifier, image)
+            settings = dataclasses.replace(tagging.tag_settings(), propose_max_tokens=budget)
+            trace = tagging.tag_image(clip, classifier, image, known={}, settings=settings)
             runs[budget] = (trace, token_counts[-1])
         print(f"== {path.name}")
         for budget, (trace, tokens) in runs.items():

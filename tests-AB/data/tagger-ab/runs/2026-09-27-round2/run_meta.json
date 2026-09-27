@@ -1,0 +1,143 @@
+{
+ "runs": [
+  {
+   "arms": [
+    "N1",
+    "N2"
+   ],
+   "head_noun_twins": {
+    "N1": "N1h",
+    "N2": "N2h"
+   },
+   "variants": {
+    "N1": {
+     "THING_CHECK_ORIGINS": [
+      "prompt"
+     ],
+     "ECHO_FALLBACK_INSTRUCTION": "List the things you can see in this image as short lowercase noun phrases separated by commas. Output only the list."
+    },
+    "N2": {
+     "THING_CHECK_ORIGINS": [
+      "prompt"
+     ],
+     "ECHO_FALLBACK_INSTRUCTION": "List the things you can see in this image as short lowercase noun phrases separated by commas. Output only the list.",
+     "MAX_PROPOSED_TAGS": 40
+    }
+   },
+   "clip": "qwen3vl_4b_fp8_scaled.safetensors",
+   "new_root": "C:\\Users\\Blake\\AppData\\Local\\Temp\\claude\\C--Users-Blake-Documents-ComfyUI-custom-nodes-ComfyUI-LogitTagger\\881685d9-511e-44da-819b-dab5bf1ac48d\\scratchpad\\tagger_ab\\r2",
+   "old_tagging": null,
+   "dynamic_vram": true,
+   "disable_cuda_graphs": false,
+   "graph_warmed_modules": 0,
+   "wall_ms": {
+    "render-noprompt": {
+     "N1": 161710.10580001166,
+     "N2": 180749.7062999755
+    },
+    "render-prompt": {
+     "N1": 238172.92509996332,
+     "N2": 252132.337499992
+    },
+    "coco": {
+     "N1": 47454.013799957465,
+     "N2": 54694.79489995865
+    }
+   },
+   "counts": {
+    "render-noprompt": {
+     "N1": {
+      "images": 72,
+      "echo_fallbacks": 1,
+      "token_cap_hits": 0,
+      "tag_cap_hits": 14,
+      "merge_cap_drops": 0,
+      "head_noun_extra_tags": 20
+     },
+     "N2": {
+      "images": 72,
+      "echo_fallbacks": 1,
+      "token_cap_hits": 4,
+      "tag_cap_hits": 4,
+      "merge_cap_drops": 0,
+      "head_noun_extra_tags": 42
+     }
+    },
+    "render-prompt": {
+     "N1": {
+      "images": 72,
+      "echo_fallbacks": 1,
+      "token_cap_hits": 0,
+      "tag_cap_hits": 14,
+      "merge_cap_drops": 0,
+      "head_noun_extra_tags": 35
+     },
+     "N2": {
+      "images": 72,
+      "echo_fallbacks": 1,
+      "token_cap_hits": 4,
+      "tag_cap_hits": 4,
+      "merge_cap_drops": 0,
+      "head_noun_extra_tags": 54
+     }
+    },
+    "coco": {
+     "N1": {
+      "images": 30,
+      "echo_fallbacks": 3,
+      "token_cap_hits": 0,
+      "tag_cap_hits": 6,
+      "merge_cap_drops": 0,
+      "head_noun_extra_tags": 10
+     },
+     "N2": {
+      "images": 30,
+      "echo_fallbacks": 3,
+      "token_cap_hits": 2,
+      "tag_cap_hits": 1,
+      "merge_cap_drops": 0,
+      "head_noun_extra_tags": 12
+     }
+    }
+   },
+   "decode": {
+    "N1": {
+     "propose": {
+      "generates": 179,
+      "tokens": 7570,
+      "pooled_ms_per_token": 30.35100566898129,
+      "median_ms_per_token": 30.48562820559033,
+      "median_step_ms": 26.748200005386025,
+      "median_prefill_ms": 627.0883000106551
+     },
+     "prompt": {
+      "generates": 72,
+      "tokens": 1368,
+      "pooled_ms_per_token": 34.57644814814018,
+      "median_ms_per_token": 34.676258055454426,
+      "median_step_ms": 26.552100011031143,
+      "median_prefill_ms": 200.1089499972295
+     }
+    },
+    "N2": {
+     "propose": {
+      "generates": 179,
+      "tokens": 9329,
+      "pooled_ms_per_token": 29.720099989039813,
+      "median_ms_per_token": 30.13798205080466,
+      "median_step_ms": 26.738099986687303,
+      "median_prefill_ms": 625.0632999581285
+     },
+     "prompt": {
+      "generates": 72,
+      "tokens": 1368,
+      "pooled_ms_per_token": 34.31590625018824,
+      "median_ms_per_token": 34.454173528287996,
+      "median_step_ms": 26.46680000179913,
+      "median_prefill_ms": 189.80689998716116
+     }
+    }
+   }
+  }
+ ]
+}

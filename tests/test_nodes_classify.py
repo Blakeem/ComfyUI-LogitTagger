@@ -86,14 +86,16 @@ def fake_comfy(monkeypatch):
 
 @pytest.fixture
 def fake_engine(monkeypatch):
-    """Replaces the classifier build, the resize and choose, which answers each call with the next queued answer."""
+    """Replaces the classifier build, the toolkit's fit and choose, which answers each call with the next queued
+    answer."""
+    toolkit = pytest.importorskip("logit_classifier.toolkit.comfyui")
     record = SimpleNamespace(answers=[], built=[], calls=[])
 
     def build_classifier(clip, node, *, needs_images=True):
         record.built.append((clip, node, needs_images))
         return "classifier"
 
-    def resize_for_vl(image, *, max_pixels=None):
+    def fit_picture(image, max_pixels):
         return SimpleNamespace(resized=image)
 
     def choose(classifier, question, options, *, image):
@@ -101,7 +103,7 @@ def fake_engine(monkeypatch):
         return record.answers.pop(0)
 
     monkeypatch.setattr(engine, "build_classifier", build_classifier)
-    monkeypatch.setattr(engine, "resize_for_vl", resize_for_vl)
+    monkeypatch.setattr(toolkit, "fit_picture", fit_picture)
     monkeypatch.setattr(engine, "choose", choose)
     return record
 
@@ -220,7 +222,9 @@ def test_2_and_51_options_are_accepted(fake_comfy, fake_engine, count):
 
 
 def test_a_missing_library_prints_the_pip_command_naming_the_node(fake_comfy, monkeypatch):
-    monkeypatch.setitem(sys.modules, "logit_classifier", None)
+    # A module an earlier test imported would still import by its full name, so every one is blocked.
+    for name in ["logit_classifier", *(module for module in sys.modules if module.startswith("logit_classifier."))]:
+        monkeypatch.setitem(sys.modules, name, None)
 
     with pytest.raises(RuntimeError, match=r"^Logit Image Classify: .*pip install -U logit-classifier"):
         classify([an_image()])

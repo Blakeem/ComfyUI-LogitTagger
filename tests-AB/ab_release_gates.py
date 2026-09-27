@@ -42,6 +42,7 @@ from ab_question_shapes import (
     spearman,
 )
 from ab_tagger import DEFAULT_CLIP, load_image
+from logit_classifier.toolkit.tags import head_noun, presence_question, reads_plural
 
 DEFAULT_DATA = Path(__file__).resolve().parent / "data" / "release-gates"
 DEFAULT_CORPUS = Path(__file__).resolve().parent / "cache" / "coco60" / "coco60.json"
@@ -86,13 +87,6 @@ JUDGE_STYLE = {
 # The judges found almost every intended thing present, so absent examples come from other renders.
 FOREIGN_PER_IMAGE = 3
 MATCH_KINDS = ("same-style", "other-style", "near-miss")
-ARTICLES = frozenset({"a", "an", "the", "some"})
-NUMBER_WORDS = frozenset({"two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"})
-IRREGULAR_PLURALS = frozenset({"people", "children", "cacti", "mice"})
-# Head nouns that take no article, so a question never reads "Is there a water in this image?".
-MASS_NOUNS = frozenset({"water", "butter", "steam", "rain", "sunlight", "dust", "grass", "lightning", "armor",
-                        "flour", "fruit", "syrup", "hair", "snow", "cheese", "linen", "dough", "spray"})
-
 TEXT_WORDINGS = {
     "W1": TEXT_STATEMENT,
     "W2": "Does this text mention {noun}?",
@@ -352,17 +346,6 @@ def probe_render_style(asker: Asker, renders: list[Render], images: dict, labels
 # ---------------------------------------------------------------- adherence
 
 
-def head_noun(phrase: str) -> str:
-    """The noun a thing phrase names: its last word before 'of', 'reading' or a quoted capitalized word."""
-    words: list[str] = []
-
-    for word in phrase.split():
-        if word in ("of", "reading") or word.isupper():
-            break
-        words.append(word.lower())
-    return words[-1] if words else phrase.lower()
-
-
 def word_forms(word: str) -> set[str]:
     forms = {word, f"{word}s", f"{word}es"}
 
@@ -371,26 +354,6 @@ def word_forms(word: str) -> set[str]:
     if word.endswith("s"):
         forms.add(word[:-1])
     return forms
-
-
-def reads_plural(phrase: str) -> bool:
-    first = phrase.split()[0].lower()
-    head = head_noun(phrase)
-
-    if first in NUMBER_WORDS or first.isdigit() or head in IRREGULAR_PLURALS or head.endswith("men"):
-        return True
-    return head.endswith("s") and not head.endswith(("ss", "us"))
-
-
-def with_article(phrase: str) -> str:
-    """The phrase with a or an, unless it opens with an article or number, reads plural or names a mass noun."""
-    first = phrase.split()[0].lower()
-
-    if first in ARTICLES or first in NUMBER_WORDS or first.isdigit() or reads_plural(phrase):
-        return phrase
-    if head_noun(phrase) in MASS_NOUNS:
-        return phrase
-    return f"{'an' if first[0] in 'aeiou' else 'a'} {phrase}"
 
 
 def phrase_pattern(phrase: str) -> re.Pattern:
@@ -477,7 +440,7 @@ def probe_adherence(asker: Asker, renders: list[Render], all_renders: list[Rende
         things += [("foreign", source, thing, "absent") for source, thing in foreign]
         questions = {kind: NoulQuestion(instructions=MATCH_STATEMENT.format(caption=text))
                      for kind, (_source, text) in prompts.items()}
-        questions |= {f"t{index}": NoulQuestion(instructions=QUESTION.format(noun=with_article(thing)))
+        questions |= {f"t{index}": NoulQuestion(instructions=presence_question(thing))
                       for index, (_origin, _source, thing, _label) in enumerate(things)}
         answers, _ms = asker.ask("adherence", "", questions, images[render.id])
         match_items += [{"unit": render.id, "kind": kind, "source": source, "p": answers[kind].noul}
@@ -748,8 +711,9 @@ def read_record(path: Path) -> dict:
 def main() -> None:
     ab_env.bootstrap()
     from logit_classifier import NoulQuestion
+    from logit_classifier.toolkit.comfyui import fit_picture
 
-    from logit_tagger.engine import CHECK_MAX_PIXELS, build_classifier, resize_for_vl
+    from logit_tagger.engine import CHECK_MAX_PIXELS, build_classifier
 
     args = parse_args()
     max_pixels = CHECK_MAX_PIXELS if args.max_pixels is None else args.max_pixels
@@ -776,14 +740,14 @@ def main() -> None:
         checklist = load_checklist(args.data / "renders" / "JUDGE.md")
         renders = [render for render in all_renders if render.id in labels][: args.limit]
         require_files([render.file for render in renders])
-        render_images = {render.id: resize_for_vl(load_image(render.file), max_pixels=max_pixels)
+        render_images = {render.id: fit_picture(load_image(render.file), max_pixels)
                          for render in renders}
     if "text-check" in wanted:
         prompts = load_textset(args.data / "textset" / "prompts.json")[: args.limit]
     if "declared-tags" in wanted:
         categories, _supercategories, samples = load_corpus(args.corpus, args.limit)
         require_files([sample.file for sample in samples])
-        coco_images = {sample.file: resize_for_vl(load_image(sample.file), max_pixels=max_pixels)
+        coco_images = {sample.file: fit_picture(load_image(sample.file), max_pixels)
                        for sample in samples}
 
     asker = Asker(build_classifier(ab_env.load_clip(args.clip), "ab_release_gates"))

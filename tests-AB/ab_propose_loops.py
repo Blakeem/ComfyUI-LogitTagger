@@ -46,7 +46,7 @@ class Decoder:
 
     def __call__(self, tokens, **kwargs):
         import torch
-        from logit_classifier.tags import complete_tags, repeated_block
+        from logit_classifier.toolkit.tags import complete_tags, repeated_block
 
         history: list[int] = []
         stopped: list[int] = []
@@ -81,7 +81,7 @@ class Decoder:
 
 def main() -> None:
     ab_env.bootstrap()
-    from logit_classifier.tags import complete_tags
+    from logit_classifier.toolkit.tags import complete_tags
 
     from logit_tagger import engine, tagging
 
@@ -99,7 +99,7 @@ def main() -> None:
     decoder = Decoder(clip)
     clip.generate = decoder
     # The first decode pays the model load, so it is run once and discarded.
-    tagging.tag_image(clip, classifier, load_image(args.images[0]))
+    tagging.tag_image(clip, classifier, load_image(args.images[0]), known={})
 
     for path in args.images:
         image = load_image(path)
@@ -108,7 +108,7 @@ def main() -> None:
         for name, (overrides, longest) in VARIANTS.items():
             decoder.overrides = {**SAMPLED_TOP1, **overrides} if overrides else {}
             decoder.longest = longest
-            trace = tagging.tag_image(clip, classifier, image)
+            trace = tagging.tag_image(clip, classifier, image, known={})
             scores = dict(zip(trace.candidates, trace.scores, strict=True))
             kept = set(trace.tags.split(", ")) if trace.tags else set()
             items = len(complete_tags(trace.reply + ","))

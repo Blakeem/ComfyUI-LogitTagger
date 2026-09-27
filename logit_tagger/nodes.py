@@ -69,12 +69,15 @@ def _tag_list(values: list[str] | None, prompts: list[str], instruction: str | N
 
 
 def _image_probability(classifier: Any, question: str, image: Any) -> float:
-    return engine.nouls(classifier, [question],
-                        image=engine.resize_for_vl(image, max_pixels=engine.CHECK_MAX_PIXELS))[0]
+    from logit_classifier.toolkit.comfyui import fit_picture
+
+    picture = fit_picture(image, engine.CHECK_MAX_PIXELS)
+
+    return classifier.nouls([question], image=picture)[0]
 
 
 def _text_probability(classifier: Any, question: str, text: str) -> float:
-    return engine.nouls(classifier, [question], state=text)[0]
+    return classifier.nouls([question], state=text)[0]
 
 
 def _split_sides(items: list[Any], passed: list[bool]) -> tuple[list[Any], list[Any]]:
@@ -109,7 +112,7 @@ def _run_check(clip: Any, items: list[Any], question: list[str], unique_id: list
         wording = default_question
     classifier = engine.build_classifier(clip, node, needs_images=needs_images)
 
-    with progress.RunProgress(total_items=len(items), unique_id=node_id, noun=noun) as run:
+    with progress.RunProgress(total_items=len(items), unique_id=node_id, noun=noun, node=node) as run:
         for index, item in enumerate(items):
             run.item(index, CHECK_STAGE)
             probabilities.append(float(probability_of(classifier, wording, item)))
@@ -218,7 +221,8 @@ class LogitTagger:
         wording = _propose_instruction(instruction)
         tag_list = _tag_list(tags, prompts, wording)
 
-        with progress.RunProgress(total_items=len(images), unique_id=node_id, noun="image") as run:
+        with progress.RunProgress(total_items=len(images), unique_id=node_id, noun="image",
+                                  node=tagging.NODE_NAME) as run:
             tag_texts = [trace.tags for trace in tagging.tag_images(model, images, prompts, instruction=wording,
                                                                    tag_list=tag_list, on_progress=run.item)]
 
@@ -360,7 +364,8 @@ class LogitPromptCheck:
             )
         prompts = lists.pair_texts(prompt, len(images), tagging.PROMPT_CHECK_NAME, "prompt")
 
-        with progress.RunProgress(total_items=len(images), unique_id=node_id, noun="image") as run:
+        with progress.RunProgress(total_items=len(images), unique_id=node_id, noun="image",
+                                  node=tagging.PROMPT_CHECK_NAME) as run:
             checks = tagging.check_prompt(clip[0], images, prompts, on_progress=run.item)
 
         missing_texts = [", ".join(check.missing) for check in checks]
@@ -427,12 +432,13 @@ class LogitImageClassify:
         wording = _widget_text(question, CLASSIFY_NAME, "question", CLASSIFY_QUESTION)
         option_list = _classify_options(_widget_text(options, CLASSIFY_NAME, "options", CLASSIFY_OPTIONS))
         classifier = engine.build_classifier(clip[0], CLASSIFY_NAME, needs_images=True)
+        from logit_classifier.toolkit.comfyui import fit_picture
 
-        with progress.RunProgress(total_items=len(images), unique_id=node_id, noun="image") as run:
+        with progress.RunProgress(total_items=len(images), unique_id=node_id, noun="image", node=CLASSIFY_NAME) as run:
             for index, item in enumerate(images):
                 run.item(index, CLASSIFY_STAGE)
                 answers.append(engine.choose(classifier, wording, option_list,
-                                             image=engine.resize_for_vl(item, max_pixels=engine.CHECK_MAX_PIXELS)))
+                                             image=fit_picture(item, engine.CHECK_MAX_PIXELS)))
 
         choices = [choice for choice, _confidence in answers]
         indexes = [option_list.index(choice) for choice in choices]

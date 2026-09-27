@@ -1,0 +1,22 @@
+condition        arm    imgs tags/img    precision [95% CI]  wrong correct/img [95% CI] unsure unjudged   s/img: prompt propose verify total
+render-noprompt  N1       72    15.53 0.925 [0.894, 0.951]  0.013 13.88 [12.81, 14.94]     38        0     0.00   1.97   0.27   2.25
+render-noprompt  N1h      72    15.81 0.926 [0.895, 0.953]  0.012 14.15 [13.04, 15.32]     38        0     0.00   1.97   0.27   2.25
+render-noprompt  N2       72    16.93 0.917 [0.886, 0.943]  0.016 14.79 [13.43, 16.21]     57        0     0.00   2.25   0.26   2.51
+render-noprompt  N2h      72    17.51 0.918 [0.888, 0.945]  0.016 15.31 [13.82, 16.85]     61        0     0.00   2.25   0.26   2.51
+render-noprompt  N1h minus N1, paired: precision +0.001 [+0.001, +0.002], correct/img +0.28 [+0.15, +0.42]
+render-noprompt  N2 minus N1, paired: precision -0.008 [-0.019, +0.001], correct/img +0.92 [+0.38, +1.54]
+render-noprompt  N2h minus N1, paired: precision -0.007 [-0.017, +0.002], correct/img +1.43 [+0.78, +2.18]
+render-prompt    N1       72    16.76 0.931 [0.903, 0.954]  0.012 15.08 [14.01, 16.12]     40        0     1.04   1.98   0.29   3.31
+render-prompt    N1h      72    17.25 0.931 [0.903, 0.955]  0.011 15.54 [14.40, 16.65]     40        0     1.04   1.98   0.29   3.31
+render-prompt    N2       72    18.22 0.923 [0.895, 0.947]  0.015 16.06 [14.68, 17.46]     59        0     0.99   2.24   0.27   3.50
+render-prompt    N2h      72    18.97 0.923 [0.895, 0.948]  0.015 16.71 [15.28, 18.24]     63        0     0.99   2.24   0.27   3.50
+render-prompt    N1h minus N1, paired: precision +0.000 [-0.002, +0.002], correct/img +0.46 [+0.31, +0.62]
+render-prompt    N2 minus N1, paired: precision -0.008 [-0.018, +0.000], correct/img +0.97 [+0.40, +1.62]
+render-prompt    N2h minus N1, paired: precision -0.007 [-0.016, +0.001], correct/img +1.62 [+0.99, +2.38]
+coco             N1       30    11.63 0.946 [0.918, 0.972]  0.014 10.53 [ 8.77, 12.27]     15        0     0.00   1.41   0.17   1.58
+coco             N1h      30    11.97 0.948 [0.920, 0.973]  0.014 10.87 [ 9.07, 12.67]     15        0     0.00   1.41   0.17   1.58
+coco             N2       30    12.60 0.922 [0.881, 0.959]  0.013 11.10 [ 9.07, 13.27]     17        0     0.00   1.68   0.14   1.82
+coco             N2h      30    13.00 0.925 [0.887, 0.959]  0.013 11.50 [ 9.40, 13.73]     17        0     0.00   1.68   0.14   1.82
+coco             N1h minus N1, paired: precision +0.002 [+0.001, +0.003], correct/img +0.33 [+0.13, +0.60]
+coco             N2 minus N1, paired: precision -0.024 [-0.065, +0.003], correct/img +0.57 [-0.03, +1.43]
+coco             N2h minus N1, paired: precision -0.021 [-0.061, +0.005], correct/img +0.97 [+0.30, +1.87]

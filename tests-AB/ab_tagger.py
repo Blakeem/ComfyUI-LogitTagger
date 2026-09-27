@@ -1,6 +1,6 @@
 """Run the Logit Tagger pipeline on image files over a real Qwen3-VL-4B CLIP, with no server.
 
-The output sets the backend constants PROPOSE_INSTRUCTION, VERIFY_THRESHOLD and PROMPT_ONLY_THRESHOLD.
+The output sets the TagSettings fields propose_instruction, verify_threshold and prompt_only_threshold.
 Usage: python tests-AB/ab_tagger.py <image> [<image> ...] [--prompt TEXT] [--instruction TEXT]
 """
 
@@ -18,7 +18,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("images", nargs="+", type=Path, help="image files to tag")
     parser.add_argument("--prompt", default="", help="text for the prompt input, empty by default")
     parser.add_argument("--clip", default=DEFAULT_CLIP, help="text encoder file name under models/clip")
-    parser.add_argument("--instruction", default=None, help="replaces PROPOSE_INSTRUCTION for this run")
+    parser.add_argument("--instruction", default=None, help="replaces the propose_instruction setting for this run")
     return parser.parse_args()
 
 

@@ -112,13 +112,12 @@ def render(wording: str, request: str) -> str:
 
 
 def clip_generate(clip, tokens, graphs: bool, **kwargs) -> list[int]:
-    """engine.clip_generate, with core's CUDA graph decode on or off for the whole process."""
+    """The toolkit's clip_generate, with core's CUDA graph decode on or off for the whole process."""
     import comfy.model_management as model_management
-
-    from logit_tagger import engine
+    from logit_classifier.toolkit import comfyui
 
     model_management.args.disable_cuda_graphs = not graphs
-    return engine.clip_generate(clip, tokens, **kwargs)
+    return comfyui.clip_generate(clip, tokens, **kwargs)
 
 
 def content_words(request: str) -> set[str]:

@@ -2,6 +2,7 @@
   {
     "id": "g01",
     "file": "g01.png",
+    "sha256": "e8ef8b34f2badf4f52c6cdf3e9c1ee3d2fea9dc593468abe0000c63aa4059e3f",
     "prompt": "Close-up photograph of an elderly fisherman with a weathered face and grey beard, wearing a yellow raincoat, holding a coiled rope in both hands, harbor boats blurred in the background, overcast light, 85mm lens, shallow depth of field.",
     "style": "photograph",
     "intended": [
@@ -23,6 +24,7 @@
   {
     "id": "g02",
     "file": "g02.png",
+    "sha256": "e70131b27fc9bb1307af805cab72877b0ca11102eb057b9da1c7259a487e2b5f",
     "prompt": "Night street photograph of a group of four friends laughing outside a small bakery, the shop sign above the window reads \"BAKERY\" in glowing neon letters, wet pavement reflecting the lights, a parked red scooter at the curb.",
     "style": "photograph",
     "intended": [
@@ -42,6 +44,7 @@
   {
     "id": "g03",
     "file": "g03.png",
+    "sha256": "a46750271244533b9074cb3a43554fe38f4c0089fb7f545ebdc45c8ec612ff25",
     "prompt": "A golden retriever running along a sandy beach at sunset, splashing through shallow waves, clear orange sky, a lighthouse on a distant rocky point, candid pet photography, fast shutter speed.",
     "style": "photograph",
     "intended": [
@@ -62,6 +65,7 @@
   {
     "id": "g04",
     "file": "g04.png",
+    "sha256": "b10f31014945c1e60047884f6c9fb7526bee9d2f9dd43d5f310b48442a8b19b5",
     "prompt": "Overhead food photograph of a rustic wooden kitchen table with a bowl of ramen, a plate of dumplings, chopsticks, and three lit candles on the table, a small blue teacup in the top corner, warm window light.",
     "style": "photograph",
     "intended": [
@@ -85,6 +89,7 @@
   {
     "id": "g05",
     "file": "g05.png",
+    "sha256": "29a2528a0ee0bf024c3456b1118a4604bd5d43798cce9fec00a4a193fc60832c",
     "prompt": "Landscape photograph of a pine forest valley at dawn, a calm river winding between the trees, snow-capped mountains behind, no people, soft golden light breaking through the clouds.",
     "style": "photograph",
     "intended": [
@@ -103,6 +108,7 @@
   {
     "id": "g06",
     "file": "g06.png",
+    "sha256": "0c162a30db5f39182580d922d09b6a2be1212cd88e031fffd713ea292ff2d44b",
     "prompt": "A brown horse grazing in a green meadow next to a wooden fence, an old red barn and a white farmhouse in the background, blue sky with scattered clouds, summer afternoon, 35mm film look.",
     "style": "photograph",
     "intended": [
@@ -124,6 +130,7 @@
   {
     "id": "g07",
     "file": "g07.png",
+    "sha256": "1d3083c27c42ec38a41a2460221c05d67938bad31cf00dd11078ad7153cbaa69",
     "prompt": "Interior photograph of a cozy living room, a grey tabby cat sleeping on a green velvet sofa, a bookshelf full of books, a potted fiddle leaf fig, and a small brass telescope standing by the window, afternoon light.",
     "style": "photograph",
     "intended": [
@@ -147,6 +154,7 @@
   {
     "id": "g08",
     "file": "g08.png",
+    "sha256": "f0f7a7c450296ad845a24d61c2bc0f8c36debb779bacb87ad4367c9521463a48",
     "prompt": "Urban photograph of a busy city intersection in the rain, yellow taxis and a red double-decker bus waiting at the traffic light, pedestrians with black umbrellas crossing, tall glass office buildings, overcast grey sky.",
     "style": "photograph",
     "intended": [
@@ -168,6 +176,7 @@
   {
     "id": "g09",
     "file": "g09.png",
+    "sha256": "a3ebe49fa81292729181c2aeb29b6b48247ac509ec5aeb6e33cd63f191fc7de0",
     "prompt": "Macro photograph of a woman's hands kneading bread dough on a floured marble counter, a wooden rolling pin and a cracked egg beside the dough, soft natural light, no face visible.",
     "style": "photograph",
     "intended": [
@@ -188,6 +197,7 @@
   {
     "id": "g10",
     "file": "g10.png",
+    "sha256": "a1ed69826bbf681a4a4af13823c450c911cca7d9690f974beff07143b3781bc9",
     "prompt": "Anime illustration of a schoolgirl with short blue hair and a red scarf standing on a train platform at dusk, a commuter train arriving, cherry blossom petals drifting, a station sign reading \"SAKURA\" above her, warm sunset sky.",
     "style": "anime illustration",
     "intended": [
@@ -211,6 +221,7 @@
   {
     "id": "g11",
     "file": "g11.png",
+    "sha256": "04245c85a530e02816fbc3a8ef1e6c9b57800804c62e6ae4a12bc0575ef19a81",
     "prompt": "Anime key visual of a young swordsman with silver hair holding a glowing katana inside a ruined stone temple, broken pillars overgrown with vines, dramatic lighting, dynamic pose, detailed cel shading.",
     "style": "anime illustration",
     "intended": [
@@ -232,6 +243,7 @@
   {
     "id": "g12",
     "file": "g12.png",
+    "sha256": "ed2827818035883fd2a31e21072b0f9f244d1f84c092f461582765c99f76e1be",
     "prompt": "Anime illustration of three friends eating at a small ramen shop counter at night, steam rising from their bowls, paper lanterns hanging overhead, and a small goldfish bowl on the counter, cozy slice of life scene.",
     "style": "anime illustration",
     "intended": [
@@ -254,6 +266,7 @@
   {
     "id": "g13",
     "file": "g13.png",
+    "sha256": "10ef785869a0534d4ddc32dc671302288992f836b1cc4f4cb8e958b180d839b6",
     "prompt": "Anime background art of a quiet countryside road running past rice fields, a bus stop with a wooden bench, tall summer clouds, telephone poles, lush green hills, no characters, cinematic lighting.",
     "style": "anime illustration",
     "intended": [
@@ -275,6 +288,7 @@
   {
     "id": "g14",
     "file": "g14.png",
+    "sha256": "0048ecbe8ad5c179155177d1e7642127597db0b298b7103892d6658ca61cc17a",
     "prompt": "Anime illustration of a small red and yellow songbird perched on a branch of a blooming plum tree, snow falling softly, pale grey winter sky, delicate linework, close-up composition.",
     "style": "anime illustration",
     "intended": [
@@ -294,6 +308,7 @@
   {
     "id": "g15",
     "file": "g15.png",
+    "sha256": "a2fd6bafb39e43465ea2ef153d62df36c7224cecbe55edd1f31c309a49e96849",
     "prompt": "Anime mecha illustration of a giant white robot kneeling in a flooded city street at night, rain pouring, neon signs reflecting in the water, a pilot in a flight suit standing on its open hand.",
     "style": "anime illustration",
     "intended": [
@@ -313,6 +328,7 @@
   {
     "id": "g16",
     "file": "g16.png",
+    "sha256": "b8b9cedef85e221d8bee880c15aa4e974a31d1e726e39e199ff7b2b60e0bb6d1",
     "prompt": "Anime illustration of a witch girl flying on a broom over a seaside town, a black cat riding behind her, a red ribbon in her hair, and a wicker basket of apples hanging from the broom handle, bright blue sky.",
     "style": "anime illustration",
     "intended": [
@@ -337,6 +353,7 @@
   {
     "id": "g17",
     "file": "g17.png",
+    "sha256": "07d8ad7be3db68552400b5184eb149938be2cf02ce4c6d15f803de7c1297bf55",
     "prompt": "Anime background of an empty classroom after school, rows of wooden desks, a chalkboard with the word \"EXAM\" written on it, orange sunlight streaming through the windows, no people.",
     "style": "anime illustration",
     "intended": [
@@ -356,6 +373,7 @@
   {
     "id": "g18",
     "file": "g18.png",
+    "sha256": "337dece3ebb752da38462ab85919bb5d6e928cc7355aaa0b7862a7542e4f7728",
     "prompt": "Anime illustration of a boy kneeling to hug a fluffy shiba inu dog in a park, both smiling, autumn trees with orange leaves, and a yellow kite tangled in the branches above them.",
     "style": "anime illustration",
     "intended": [
@@ -379,6 +397,7 @@
   {
     "id": "g19",
     "file": "g19.png",
+    "sha256": "bba790f5bb0597683d9b1633b276b6592b42ec1fc8e24c2742b373edbabbe5cd",
     "prompt": "Oil painting of a Dutch harbor at sunset, wooden sailing ships with furled sails, fishermen unloading crates on the dock, golden sky reflected in the calm water, thick impasto brushstrokes, Golden Age style.",
     "style": "oil painting",
     "intended": [
@@ -399,6 +418,7 @@
   {
     "id": "g20",
     "file": "g20.png",
+    "sha256": "fab643b88dc27fd7dcbce00c8725970ea0efcca515b95d94993f143040e159fd",
     "prompt": "Classical oil portrait of a noblewoman in a dark green velvet gown, seated with her hands folded in her lap, a pearl necklace, and a small hourglass on the table beside her, dark background, Rembrandt lighting.",
     "style": "oil painting",
     "intended": [
@@ -422,6 +442,7 @@
   {
     "id": "g21",
     "file": "g21.png",
+    "sha256": "3919415b0f53af56deb4ffeb9bfc9e7ea5bbf8f6431ca0a810efa640d7a84486",
     "prompt": "Still life oil painting of a copper pot, a loaf of bread, a wedge of cheese, purple grapes and a pheasant on a draped linen tablecloth, dark moody background, Chardin style.",
     "style": "oil painting",
     "intended": [
@@ -442,6 +463,7 @@
   {
     "id": "g22",
     "file": "g22.png",
+    "sha256": "9f240a723394ef77328cc2146826f3506feb44f7d4bbbc298e7b44c520c3036d",
     "prompt": "Romantic oil painting of an armored knight on a white horse raising a sword, stormy sky with lightning, a castle on a cliff in the distance, dramatic chiaroscuro, sweeping brushwork.",
     "style": "oil painting",
     "intended": [
@@ -464,6 +486,7 @@
   {
     "id": "g23",
     "file": "g23.png",
+    "sha256": "70a10246ca1d019ecd61f150e0d4d5a15caa972f9ac3fbcedd43eb2fdd12d4d3",
     "prompt": "Impressionist oil painting of a field of sunflowers under a bright summer sky, a row of poplar trees on the horizon, a small stone cottage, visible thick brushstrokes, vibrant yellows and blues.",
     "style": "oil painting",
     "intended": [
@@ -483,6 +506,7 @@
   {
     "id": "g24",
     "file": "g24.png",
+    "sha256": "622c72bef454b56597bf0412346a5588acd788c272220752d2ef0d5ca9c036d4",
     "prompt": "Oil painting of a Parisian cafe terrace at night, people sitting at small round tables, gas lamps glowing, cobblestone street, starry blue night sky, a sign reading \"CAFE\" above the awning.",
     "style": "oil painting",
     "intended": [
@@ -504,6 +528,7 @@
   {
     "id": "g25",
     "file": "g25.png",
+    "sha256": "c983dacd2783e9889d39d0ae1126f66a5425d0715af23e1b4c47d53897ca752c",
     "prompt": "Oil painting of an old wizard reading a large book in a candlelit study, a black cat asleep on stacked books, a stuffed owl on a shelf, and a brass globe on the desk, warm amber tones.",
     "style": "oil painting",
     "intended": [
@@ -531,6 +556,7 @@
   {
     "id": "g26",
     "file": "g26.png",
+    "sha256": "b1fc4574c3f348ef965fbc317656366daa4e9f27c8a702d2398b9fee48d90cd7",
     "prompt": "Oil painting seascape of towering waves crashing against black rocks, spray and foam, a lone lighthouse beam cutting through grey storm clouds, turbulent brushwork, no people.",
     "style": "oil painting",
     "intended": [
@@ -550,6 +576,7 @@
   {
     "id": "g27",
     "file": "g27.png",
+    "sha256": "d4f3020ad5413dd4cc227a951c6c409a28825d12fb30456982fba2cfa022498c",
     "prompt": "Oil painting of ballet dancers rehearsing in a sunlit studio, four girls in white tutus stretching at the barre, a tall mirror on the wall, soft pastel palette, Degas inspired.",
     "style": "oil painting",
     "intended": [
@@ -569,6 +596,7 @@
   {
     "id": "g28",
     "file": "g28.png",
+    "sha256": "6a7da14dac83b3fd80dfb71ada37bd22d9dced8a137248b08a0307301acbb5f8",
     "prompt": "3D render of a cute cartoon robot watering a potted cactus on a windowsill with a small watering can, big round glowing eyes, pastel colors, soft global illumination, Pixar style, shallow depth of field.",
     "style": "3D render",
     "intended": [
@@ -587,6 +615,7 @@
   {
     "id": "g29",
     "file": "g29.png",
+    "sha256": "6099ded18830740b9af1d986791b4d5f6a14403c17ed42081f23758d03257ec1",
     "prompt": "3D render of a vintage red sports car parked on a desert highway at golden hour, chrome details, heat haze, cacti and rocky mesas in the background, clear sky, photorealistic Unreal Engine 5.",
     "style": "3D render",
     "intended": [
@@ -606,6 +635,7 @@
   {
     "id": "g30",
     "file": "g30.png",
+    "sha256": "47a6552ec4230ae6d501cb18a7c8c6affad81bb08867f9a4bbd49eb6b2df21f8",
     "prompt": "3D render of a minimalist Scandinavian bedroom interior, white bed with grey linen, a wooden nightstand, a monstera plant in the corner, and a yellow alarm clock on the nightstand, soft morning light, architectural visualization.",
     "style": "3D render",
     "intended": [
@@ -627,6 +657,7 @@
   {
     "id": "g31",
     "file": "g31.png",
+    "sha256": "89dd92b218658191617a25b1ec3637846224ee2673a7d2758793bfe7bda1068d",
     "prompt": "3D render of a stylized fantasy warrior woman holding a large broadsword in both hands, braided red hair, leather armor, standing on a mossy cliff edge, game character concept art, Blender Cycles.",
     "style": "3D render",
     "intended": [
@@ -648,6 +679,7 @@
   {
     "id": "g32",
     "file": "g32.png",
+    "sha256": "1c1a45eb926919a3c680318897f103e4ab73592be17881abf41fb93d678ca062",
     "prompt": "3D render of a stack of fluffy pancakes with melting butter and maple syrup dripping, fresh blueberries and strawberries on top, on a white plate, studio lighting, hyperrealistic food visualization.",
     "style": "3D render",
     "intended": [
@@ -668,6 +700,7 @@
   {
     "id": "g33",
     "file": "g33.png",
+    "sha256": "0e74cb40a912ba0e61a424f9d2840d88107dd15301e923a775aa55c5e42ba569",
     "prompt": "3D render of a futuristic cyberpunk city at night, flying cars between skyscrapers, holographic billboards, a giant neon sign reading \"NOODLES\", rain-slicked streets, cinematic lighting.",
     "style": "3D render",
     "intended": [
@@ -687,6 +720,7 @@
   {
     "id": "g34",
     "file": "g34.png",
+    "sha256": "05c180ff07798003289eac0b3a1be81ec273dbc040a29fa257e8b2d8afcbe3db",
     "prompt": "3D render of a family of three penguins sliding across an ice floe in the Antarctic sea, snowy peaks behind them, bright blue sky, stylized animation film look, soft lighting.",
     "style": "3D render",
     "intended": [
@@ -706,6 +740,7 @@
   {
     "id": "g35",
     "file": "g35.png",
+    "sha256": "cfc8d9db0c9d8924713798bb2af0918a492a8a49d54085e0ae788fa48de36088",
     "prompt": "3D render of tiny clay-style villagers building a snowman in a village square, cottages with snowy roofs, and a green bicycle leaning against a lamppost, soft toy-like lighting, tilt-shift look.",
     "style": "3D render",
     "intended": [
@@ -729,6 +764,7 @@
   {
     "id": "g36",
     "file": "g36.png",
+    "sha256": "42c1dba0ef9cd80d4d4f9413a16f5a7f8840c410199e8e340e141414d964b31d",
     "prompt": "3D render of a glass perfume bottle on a black marble pedestal, surrounded by floating rose petals, dramatic rim lighting, dark studio background, luxury product shot.",
     "style": "3D render",
     "intended": [
@@ -746,6 +782,7 @@
   {
     "id": "g37",
     "file": "g37.png",
+    "sha256": "3ea8ba48921584e03454cf711bd4e4fa399bb36fc5ca7e7a6d598877f9d65fa2",
     "prompt": "Watercolor painting of a Venetian canal with gondolas, pastel colored buildings with laundry lines, a gondolier in a striped shirt, soft reflections in the water, loose wet-on-wet washes.",
     "style": "watercolor",
     "intended": [
@@ -766,6 +803,7 @@
   {
     "id": "g38",
     "file": "g38.png",
+    "sha256": "d90634c8b67e8e35d5311d00243c0acd9a46945978d35af64fdca40be78a2668",
     "prompt": "Watercolor illustration of a blue kingfisher diving into a pond to catch a fish, lily pads and reeds, splashes of water, white paper background showing through, botanical art style.",
     "style": "watercolor",
     "intended": [
@@ -786,6 +824,7 @@
   {
     "id": "g39",
     "file": "g39.png",
+    "sha256": "53f883b29ac02a9b083afa96da7bf2e29296327bfc6677b252f4b331d03dc1ca",
     "prompt": "Watercolor painting of a little girl in a yellow raincoat jumping in puddles on a village street, rainy grey sky, and a red umbrella lying open on the pavement behind her, soft bleeding colors.",
     "style": "watercolor",
     "intended": [
@@ -808,6 +847,7 @@
   {
     "id": "g40",
     "file": "g40.png",
+    "sha256": "719fecbdac6cc7c111ca2db03687b3c8cff398366c22794f7b23a22adcf15586",
     "prompt": "Watercolor recipe illustration of a fresh summer salad bowl with tomatoes, cucumber, black olives and feta cheese, a bottle of olive oil beside it, loose ink outlines, light cheerful palette.",
     "style": "watercolor",
     "intended": [
@@ -828,6 +868,7 @@
   {
     "id": "g41",
     "file": "g41.png",
+    "sha256": "704a6a1a4e35247527b3dd1b5a64148d8bc70d17570faaf4bdf50b576804054b",
     "prompt": "Watercolor landscape of autumn birch trees along a forest path, golden leaves scattered on the ground, a small wooden footbridge over a stream, soft morning light, no people.",
     "style": "watercolor",
     "intended": [
@@ -847,6 +888,7 @@
   {
     "id": "g42",
     "file": "g42.png",
+    "sha256": "4b60efcfd59c220a027a8b0ae01bcf69a4f9846c1fdd4a26c71e9270f1f1af4f",
     "prompt": "Watercolor portrait of a sleepy dachshund curled up in a knitted basket by a fireplace, cozy interior, warm glow from the fire, a pair of slippers on the rug.",
     "style": "watercolor",
     "intended": [
@@ -867,6 +909,7 @@
   {
     "id": "g43",
     "file": "g43.png",
+    "sha256": "5261eca51a3ead6003cc7b0b95e3a25b24faf56975bf483111d3426a93e7072c",
     "prompt": "Watercolor sketch of a flower shop storefront with buckets of tulips and roses outside, the sign above the door reads \"FLORIST\", a bicycle with a basket parked out front, and a birdcage hanging in the window.",
     "style": "watercolor",
     "intended": [
@@ -890,6 +933,7 @@
   {
     "id": "g44",
     "file": "g44.png",
+    "sha256": "211b17db9978e01e835f0869c1bb97ffcfdb6ee0fce61faed4b7a62f53d23a81",
     "prompt": "Watercolor painting of a family of four sitting around a campfire at night, roasting marshmallows on sticks, a tent behind them, tall pine trees, and a starry sky with a crescent moon.",
     "style": "watercolor",
     "intended": [
@@ -911,6 +955,7 @@
   {
     "id": "g45",
     "file": "g45.png",
+    "sha256": "b66ce80f31ae3b6612bacb6a3ffcfde1e1771c5dd38c74eae8a55188effa24a4",
     "prompt": "Watercolor painting of wild horses galloping across an open plain, dust rising under their hooves, distant blue mountains, loose expressive brushwork, muted earth tones.",
     "style": "watercolor",
     "intended": [
@@ -929,6 +974,7 @@
   {
     "id": "g46",
     "file": "g46.png",
+    "sha256": "216bfd55710f90b32c4c5e4d8407cd771df8d414e2c2edfc61c685e02885e5ad",
     "prompt": "Pencil sketch portrait of an old man with deep wrinkles and a flat cap, smoking a pipe, detailed cross-hatching, graphite on textured paper, realistic shading.",
     "style": "pencil sketch",
     "intended": [
@@ -948,6 +994,7 @@
   {
     "id": "g47",
     "file": "g47.png",
+    "sha256": "c5d5b2e2dfda4c3e23612b36d91f5025a73e7c9b739bfa7254b7d1b3ee99976d",
     "prompt": "Detailed pencil drawing study of two hands, one holding a pen and the other resting on an open notebook, graphite shading, anatomical sketchbook page.",
     "style": "pencil sketch",
     "intended": [
@@ -965,6 +1012,7 @@
   {
     "id": "g48",
     "file": "g48.png",
+    "sha256": "5c4a938f87cdb057b4091dc5bbe5138bcee6715e95041b313ee5674e5448a6f6",
     "prompt": "Pencil sketch of a gothic cathedral facade with a rose window and tall spires, pigeons on the front steps, a few pedestrians walking past, architectural drawing, fine linework.",
     "style": "pencil sketch",
     "intended": [
@@ -985,6 +1033,7 @@
   {
     "id": "g49",
     "file": "g49.png",
+    "sha256": "6d06548a29c0efe5bf13b95599c847114b68d76d55d4fc197d7c926dbe05af1a",
     "prompt": "Pencil sketch of a cat sitting on a cluttered writer's desk beside a typewriter, a stack of letters, and a pair of round spectacles resting on the typewriter keys, soft graphite shading.",
     "style": "pencil sketch",
     "intended": [
@@ -1006,6 +1055,7 @@
   {
     "id": "g50",
     "file": "g50.png",
+    "sha256": "7da5ffed56a95f72d604a4a0695378b371c9bbace022c5fade25a7a8f928737b",
     "prompt": "Pencil sketch of a steam locomotive crossing a stone viaduct over a river valley, billowing steam, detailed mechanical linework, trees on the hillsides.",
     "style": "pencil sketch",
     "intended": [
@@ -1025,6 +1075,7 @@
   {
     "id": "g51",
     "file": "g51.png",
+    "sha256": "5ce359cc88d603e21a021d96fd0b9d815463c24653f04afe357ef5b4656cf447",
     "prompt": "Graphite pencil drawing of an owl perched on a fence post at night, a full moon behind it, and a small mouse hiding in the grass below, detailed feather texture.",
     "style": "pencil sketch",
     "intended": [
@@ -1046,6 +1097,7 @@
   {
     "id": "g52",
     "file": "g52.png",
+    "sha256": "3f9da98777de2471be4a2a65b48ed2075a8b58666adeac300062b1c45d8b15a4",
     "prompt": "Pencil sketch of a crowded outdoor market, vendors selling fruit from wooden carts, shoppers carrying baskets, striped awnings, a small dog weaving between legs, loose reportage drawing.",
     "style": "pencil sketch",
     "intended": [
@@ -1068,6 +1120,7 @@
   {
     "id": "g53",
     "file": "g53.png",
+    "sha256": "afaca8fc6166c4147767f25f06b1624d3ba8b75b2be0b08eb4e815e50347766b",
     "prompt": "Pencil concept sketch of an ornate fantasy sword with a dragon-shaped hilt, lying on a stone altar, handwritten annotations in the margins, graphite with white highlights.",
     "style": "pencil sketch",
     "intended": [
@@ -1086,6 +1139,7 @@
   {
     "id": "g54",
     "file": "g54.png",
+    "sha256": "64f672eb117148c08ef3d1cebf129f079fa8cb6da944cebf8a8e5b610df84ffd",
     "prompt": "Pencil landscape sketch of a mountain lake with a small rowboat tied to a wooden jetty, pine trees on the shore, reflections on the water, soft cloudy sky.",
     "style": "pencil sketch",
     "intended": [
@@ -1106,6 +1160,7 @@
   {
     "id": "g55",
     "file": "g55.png",
+    "sha256": "0acee5b8d5ce2d081dce82c2589862ffb1fcc4a45fdb3e16372d6ef7a5d89aa3",
     "prompt": "Pixel art of a knight with a sword and shield standing before a dungeon gate, torches burning on the stone walls, 16-bit retro game style, limited color palette.",
     "style": "pixel art",
     "intended": [
@@ -1126,6 +1181,7 @@
   {
     "id": "g56",
     "file": "g56.png",
+    "sha256": "8dc0712593d792bf7f24734a568a3fcbab255c9603b27db69a59798ce8fdca41",
     "prompt": "Pixel art of a rainy city street at night, a ramen stand with a glowing sign reading \"OPEN\", a person holding an umbrella, neon reflections on the wet ground, 32-bit style.",
     "style": "pixel art",
     "intended": [
@@ -1146,6 +1202,7 @@
   {
     "id": "g57",
     "file": "g57.png",
+    "sha256": "540d2b2d6fa8450be16cdc4fec3ae525e57d601f6b55b51716aade06fb624323",
     "prompt": "Pixel art farm scene, a red barn, a farmer watering crops, chickens in a pen, a brown horse by the fence, and a blue wheelbarrow near the gate, sunny day, cozy farming game style.",
     "style": "pixel art",
     "intended": [
@@ -1170,6 +1227,7 @@
   {
     "id": "g58",
     "file": "g58.png",
+    "sha256": "05f7f8c64037fcfef3303ea02c12b80b4ae1025170df7c091ba205b32a944a7f",
     "prompt": "Pixel art landscape of a waterfall pouring into a jungle lagoon, palm trees, bright blue sky with fluffy clouds, parallax background layers, vibrant 16-bit palette, no characters.",
     "style": "pixel art",
     "intended": [
@@ -1189,6 +1247,7 @@
   {
     "id": "g59",
     "file": "g59.png",
+    "sha256": "ea01169d99079019ea3f7bceda34c5fd22d939098d9242fb348dda0affbbd1d3",
     "prompt": "Pixel art of a spaceship flying through an asteroid field, a large ringed planet in the background, stars, laser blasts, retro arcade shooter style.",
     "style": "pixel art",
     "intended": [
@@ -1208,6 +1267,7 @@
   {
     "id": "g60",
     "file": "g60.png",
+    "sha256": "4ab858a418de395d9f87dede9d5bf605c90285684a2bb995f994a3c52aabac37",
     "prompt": "Pixel art interior of a cozy bakery, shelves of bread loaves and croissants, a baker behind the counter, a layered cake on display, warm lighting, isometric view.",
     "style": "pixel art",
     "intended": [
@@ -1228,6 +1288,7 @@
   {
     "id": "g61",
     "file": "g61.png",
+    "sha256": "183e97836d8e595a32b52978a125a2b5a11db447996b3cdf463e5c631c7f4a01",
     "prompt": "Pixel art of a cat sleeping on a windowsill in a bedroom at night, the moon visible through the window, a lava lamp on the desk, and two potted succulents on the sill, lofi aesthetic.",
     "style": "pixel art",
     "intended": [
@@ -1252,6 +1313,7 @@
   {
     "id": "g62",
     "file": "g62.png",
+    "sha256": "0870457b18f824302fdf57e595c00e6f20bc03bc5a5d9116580f3875f8a59d4d",
     "prompt": "Pixel art character portrait of a smiling elf girl with green hair, pointed ears and a flower crown, RPG dialogue portrait, detailed sprite shading.",
     "style": "pixel art",
     "intended": [
@@ -1271,6 +1333,7 @@
   {
     "id": "g63",
     "file": "g63.png",
+    "sha256": "a9807b55e5990ee80383ef62879912017c70d43bc906e57f139c8e4b490f43fb",
     "prompt": "Pixel art of a party of four adventurers around a tavern table, mugs of ale, a roast chicken, a bard playing a lute, candle light, RPG town style.",
     "style": "pixel art",
     "intended": [
@@ -1292,6 +1355,7 @@
   {
     "id": "g64",
     "file": "g64.png",
+    "sha256": "8982f8485706af67f6e8504a0c61b9b7ea589ee640ad362f150ba2cdab64eaad",
     "prompt": "Comic book panel of a superhero in a blue and silver suit landing on a rooftop at night, cape flowing, city skyline behind, bold ink lines, halftone shading, dynamic angle.",
     "style": "comic book",
     "intended": [
@@ -1312,6 +1376,7 @@
   {
     "id": "g65",
     "file": "g65.png",
+    "sha256": "2929455ccf3d052ff7b376793ba56930302f17e345f80cf2e6fb8d59bc549ed6",
     "prompt": "Comic book cover illustration of a detective in a trench coat and fedora standing in a dark alley, a speech bubble saying \"WHO DID IT?\", falling rain, noir ink style.",
     "style": "comic book",
     "intended": [
@@ -1332,6 +1397,7 @@
   {
     "id": "g66",
     "file": "g66.png",
+    "sha256": "a425edab923bd115a850286108ddc5aff5a371fdb5cab11bf4a7518462ce1c6c",
     "prompt": "Comic book panel of a car chase through a city street, a yellow taxi swerving past a fire hydrant, and a hot dog cart knocked over with sausages flying, sound effect lettering \"SCREECH\", bold colors.",
     "style": "comic book",
     "intended": [
@@ -1355,6 +1421,7 @@
   {
     "id": "g67",
     "file": "g67.png",
+    "sha256": "72f264b2be4b5364b751732024e7d2ae478cb96ac50df85d86f94f18f9b062f4",
     "prompt": "Comic strip illustration of a scruffy dog and a grumpy cat sharing a sofa, a bowl of popcorn between them, a TV glowing in front, simple bold outlines, flat colors, newspaper comic look.",
     "style": "comic book",
     "intended": [
@@ -1374,6 +1441,7 @@
   {
     "id": "g68",
     "file": "g68.png",
+    "sha256": "6310d66e716745c76bb4d1c166853e4573e14f9c6d8701ed97695eba2e6b7f0c",
     "prompt": "Comic book splash page of a samurai and a ninja clashing swords on a bamboo forest path, motion lines, sparks, dramatic ink shading, manga-influenced American comic style.",
     "style": "comic book",
     "intended": [
@@ -1394,6 +1462,7 @@
   {
     "id": "g69",
     "file": "g69.png",
+    "sha256": "82e783f941f2f3dc680f2d91cb2652c12db8e4803a81a4c4ce3eab3fc3bb772e",
     "prompt": "Comic book illustration of a mad scientist in a lab coat in his laboratory, bubbling green flasks, a chalkboard of equations, and a rubber duck sitting on top of the control panel, ink and flat colors.",
     "style": "comic book",
     "intended": [
@@ -1416,6 +1485,7 @@
   {
     "id": "g70",
     "file": "g70.png",
+    "sha256": "10decbaafadf71fe7d7b628544a3330f21cf0a80942d3dbbd44970712bb2d60d",
     "prompt": "Comic book landscape of a desert canyon at noon, red rock formations, a winding dirt road, a vulture circling in the bright sky, bold outlines and Ben-Day dots, no characters.",
     "style": "comic book",
     "intended": [
@@ -1435,6 +1505,7 @@
   {
     "id": "g71",
     "file": "g71.png",
+    "sha256": "13fde721d7a303c5904addd3ff72c0c772c4eac8957de165005ba8cb01519b7e",
     "prompt": "Comic book panel of a family of five at a dinner table celebrating a birthday, a cake with lit candles, balloons tied to the chairs, everyone cheering, bright pop art colors.",
     "style": "comic book",
     "intended": [
@@ -1455,6 +1526,7 @@
   {
     "id": "g72",
     "file": "g72.png",
+    "sha256": "bbf80a5d6fe89274c2a7c26e6b61eac44b6f5b4199237cbbd953edaa7bbec3ac",
     "prompt": "Comic book panel of pirates on a wooden ship fighting a giant octopus in a stormy sea, one pirate swinging a cutlass, and a parrot wearing a tiny hat on the captain's shoulder, bold inks, dramatic lightning.",
     "style": "comic book",
     "intended": [

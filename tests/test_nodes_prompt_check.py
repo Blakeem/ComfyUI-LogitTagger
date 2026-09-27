@@ -1,7 +1,7 @@
 """nodes.py and tagging.check_prompt: the Logit Prompt Check node, its contract, scores, missing things and display.
 
-The engine, prompt_things, comfy, comfy_execution and the server are stubbed, so no comfy install, no GPU and no
-model are needed.
+The engine, the toolkit's prompt_tags and fit, comfy, comfy_execution and the server are stubbed, so no comfy
+install, no GPU and no model are needed.
 """
 
 import re
@@ -95,36 +95,42 @@ def fake_comfy(monkeypatch):
 
 @pytest.fixture
 def fake_engine(monkeypatch):
-    """Replaces the classifier build, the resize and nouls, which answers each call with the next queued list."""
+    """Replaces the classifier build and the toolkit's fit, with a classifier whose nouls answers each call with the
+    next queued list."""
+    toolkit = pytest.importorskip("logit_classifier.toolkit.comfyui")
     record = SimpleNamespace(scores=[], built=[], calls=[])
+
+    class RecordingClassifier:
+        def nouls(self, statements, *, image=None, state=""):
+            record.calls.append(SimpleNamespace(classifier=self, statements=statements, image=image, state=state))
+            return record.scores.pop(0)
+
+    record.classifier = RecordingClassifier()
 
     def build_classifier(clip, node, *, needs_images=True):
         record.built.append((clip, node, needs_images))
-        return "classifier"
+        return record.classifier
 
-    def resize_for_vl(image, *, max_pixels=None):
+    def fit_picture(image, max_pixels):
         return SimpleNamespace(resized=image)
 
-    def nouls(classifier, statements, *, image=None, state=""):
-        record.calls.append(SimpleNamespace(classifier=classifier, statements=statements, image=image, state=state))
-        return record.scores.pop(0)
-
     monkeypatch.setattr(engine, "build_classifier", build_classifier)
-    monkeypatch.setattr(engine, "resize_for_vl", resize_for_vl)
-    monkeypatch.setattr(engine, "nouls", nouls)
+    monkeypatch.setattr(toolkit, "fit_picture", fit_picture)
     return record
 
 
 @pytest.fixture
 def fake_things(monkeypatch):
-    """Replaces prompt_things with a lookup in things_of, recording each call."""
+    """Replaces the toolkit's prompt_tags with a lookup in things_of, recording each call."""
+    toolkit = pytest.importorskip("logit_classifier.toolkit.comfyui")
     record = SimpleNamespace(things_of={}, calls=[])
 
-    def prompt_things(clip, classifier, prompt, known_things):
-        record.calls.append(SimpleNamespace(clip=clip, classifier=classifier, prompt=prompt, known=known_things))
-        return record.things_of[prompt]
+    def prompt_tags(clip, classifier, prompt, settings, known):
+        record.calls.append(SimpleNamespace(clip=clip, classifier=classifier, prompt=prompt, settings=settings,
+                                            known=known))
+        return SimpleNamespace(tags=record.things_of[prompt])
 
-    monkeypatch.setattr(tagging, "prompt_things", prompt_things)
+    monkeypatch.setattr(toolkit, "prompt_tags", prompt_tags)
     return record
 
 
@@ -185,9 +191,10 @@ def test_every_thing_present_answers_true_with_a_full_score(fake_comfy, fake_eng
     assert len(complete_images) == 1 and complete_images[0] is images[0]
     assert is_blocked(incomplete_images)
     assert fake_engine.built == [(clip, "Logit Prompt Check", True)]
-    assert [(call.clip, call.classifier) for call in fake_things.calls] == [(clip, "classifier")]
+    assert [(call.clip, call.classifier) for call in fake_things.calls] == [(clip, fake_engine.classifier)]
+    assert fake_things.calls[0].settings is tagging.tag_settings()
     assert fake_engine.calls[0].statements == ["Is there a cat in this image?", "Is there a red hat in this image?"]
-    assert fake_engine.calls[0].classifier == "classifier"
+    assert fake_engine.calls[0].classifier is fake_engine.classifier
     assert output["ui"] == {"text": ("cat, red hat\n1.00 all present",)}
 
 

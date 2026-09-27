@@ -1,0 +1,17 @@
+{
+ "N1": {
+  "THING_CHECK_ORIGINS": ["prompt"],
+  "ECHO_FALLBACK_INSTRUCTION": "List the things you can see in this image as short lowercase noun phrases separated by commas. Output only the list."
+ },
+ "N2": {
+  "THING_CHECK_ORIGINS": ["prompt"],
+  "ECHO_FALLBACK_INSTRUCTION": "List the things you can see in this image as short lowercase noun phrases separated by commas. Output only the list.",
+  "MAX_PROPOSED_TAGS": 40
+ },
+ "N2t192": {
+  "THING_CHECK_ORIGINS": ["prompt"],
+  "ECHO_FALLBACK_INSTRUCTION": "List the things you can see in this image as short lowercase noun phrases separated by commas. Output only the list.",
+  "MAX_PROPOSED_TAGS": 40,
+  "PROPOSE_MAX_TOKENS": 192
+ }
+}
