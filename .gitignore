@@ -17,3 +17,6 @@ Thumbs.db
 .DS_Store
 .vscode/
 .idea/
+
+# Browser automation output
+.playwright-mcp/
