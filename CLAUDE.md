@@ -59,6 +59,7 @@ nodes.py ──> tagging.py ──> engine.py ──> logit_classifier (Classifi
 | `logit_tagger/progress.py` | `RunProgress`, `send_status` |
 | `logit_tagger/nodes.py` | every node class |
 | `web/logit_tagger.js` | the result display below each node |
+| `example_workflows/` | four workflows core lists in its template browser, each run once on this machine |
 | `tests-AB/` | measurement harnesses, bootstrapped by `ab_env.py` |
 
 ## The tagger pipeline

@@ -1,6 +1,6 @@
 [project]
 name = "logit-tagger"
-description = "Tag an image with the Qwen3-VL text encoder the workflow already holds. The encoder proposes candidate tags, and a logit classifier keeps only the tags the image shows."
+description = "Tag, check and classify images with the Qwen3-VL text encoder a workflow already loads. Each answer is a probability read from the encoder's logits."
 version = "0.1.0"
 license = { file = "LICENSE" }
 requires-python = ">=3.12"
