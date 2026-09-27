@@ -1,0 +1,102 @@
+{
+ "c25-a-w": {
+  "propose_cap": 25,
+  "merge_cap": 80,
+  "thing_check": "all",
+  "subsets_rule": "words"
+ },
+ "c25-a-h": {
+  "propose_cap": 25,
+  "merge_cap": 80,
+  "thing_check": "all",
+  "subsets_rule": "head-noun"
+ },
+ "c25-p-w": {
+  "propose_cap": 25,
+  "merge_cap": 80,
+  "thing_check": "prompt",
+  "subsets_rule": "words"
+ },
+ "c25-p-h": {
+  "propose_cap": 25,
+  "merge_cap": 80,
+  "thing_check": "prompt",
+  "subsets_rule": "head-noun"
+ },
+ "c30-a-w": {
+  "propose_cap": 30,
+  "merge_cap": 80,
+  "thing_check": "all",
+  "subsets_rule": "words"
+ },
+ "c30-a-h": {
+  "propose_cap": 30,
+  "merge_cap": 80,
+  "thing_check": "all",
+  "subsets_rule": "head-noun"
+ },
+ "c30-p-w": {
+  "propose_cap": 30,
+  "merge_cap": 80,
+  "thing_check": "prompt",
+  "subsets_rule": "words"
+ },
+ "c30-p-h": {
+  "propose_cap": 30,
+  "merge_cap": 80,
+  "thing_check": "prompt",
+  "subsets_rule": "head-noun"
+ },
+ "c40-a-w": {
+  "propose_cap": 40,
+  "merge_cap": 80,
+  "thing_check": "all",
+  "subsets_rule": "words"
+ },
+ "c40-a-h": {
+  "propose_cap": 40,
+  "merge_cap": 80,
+  "thing_check": "all",
+  "subsets_rule": "head-noun"
+ },
+ "c40-p-w": {
+  "propose_cap": 40,
+  "merge_cap": 80,
+  "thing_check": "prompt",
+  "subsets_rule": "words"
+ },
+ "c40-p-h": {
+  "propose_cap": 40,
+  "merge_cap": 80,
+  "thing_check": "prompt",
+  "subsets_rule": "head-noun"
+ },
+ "catr-v0.95": {
+  "propose_cap": 25,
+  "merge_cap": 80,
+  "thing_check": "all",
+  "subsets_rule": "words",
+  "verify_threshold": 0.95
+ },
+ "catr-v0.99": {
+  "propose_cap": 25,
+  "merge_cap": 80,
+  "thing_check": "all",
+  "subsets_rule": "words",
+  "verify_threshold": 0.99
+ },
+ "lt-v0.95": {
+  "propose_cap": 40,
+  "merge_cap": 80,
+  "thing_check": "prompt",
+  "subsets_rule": "head-noun",
+  "verify_threshold": 0.95
+ },
+ "lt-v0.99": {
+  "propose_cap": 40,
+  "merge_cap": 80,
+  "thing_check": "prompt",
+  "subsets_rule": "head-noun",
+  "verify_threshold": 0.99
+ }
+}

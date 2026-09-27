@@ -1,0 +1,82 @@
+{
+ "new": {
+  "propose_instruction": "Tag this image. List every distinct visible thing in it: objects, people, animals, clothing, materials, and the setting. Use short lowercase noun phrases separated by commas. List each thing once. Do not list moods, styles, or ideas. Output only the tags.",
+  "echo_fallback_instruction": "List the things you can see in this image as short lowercase noun phrases separated by commas. Output only the list.",
+  "propose_max_tokens": 128,
+  "propose_cap": 40,
+  "merge_cap": 80,
+  "category_nouns": [
+   "animals",
+   "clothing",
+   "materials",
+   "objects",
+   "people",
+   "setting"
+  ],
+  "prompt_tags_instruction": "This is a prompt for an image:\n{PROMPT}\n\nList the physical things the prompt names that could be pointed at in the image: objects, people, animals, plants, clothing, materials, buildings and parts of the scene. Use short lowercase noun phrases of one to four words, separated by commas. Keep each thing's own descriptive words, such as its color. Leave out places and settings, actions, sizes, moods, the image's style, medium, quality, camera and lighting, artist names and position words. List each thing once. Output only the list.",
+  "prompt_tags_max_tokens": 256,
+  "ungrounded_streak": 2,
+  "language_question": "Is this text written in English?",
+  "english_threshold": 0.5,
+  "translate_instruction": "Translate this image prompt into English. Output only the translation.\n\n{PROMPT}",
+  "translate_max_tokens": 512,
+  "thing_question": "What does the image tag \"{TAG}\" name",
+  "thing_criteria": [
+   [
+    "thing",
+    "something that could be pointed at in a picture: an object, a person, a group of people or animals, an animal, a plant, a body part, a garment, a material, a building, a landscape feature such as hills, cliffs, sky, the moon or stars, a light source such as lamps, signs or lit windows, or a substance such as water, smoke, fire, clouds or rain"
+   ],
+   [
+    "other",
+    "nothing to point at: a kind of place or a whole scene, a time of day, a color alone, a shape or form, lighting in general, a camera or render effect, a style, a mood, a quality or an idea"
+   ]
+  ],
+  "thing_threshold": 0.9,
+  "thing_check": "prompt",
+  "verify_statement": "This image visibly contains {TAG}",
+  "verify_threshold": 0.9,
+  "prompt_only_threshold": 0.9999,
+  "subsets_rule": "head-noun",
+  "order": "score"
+ },
+ "S": {
+  "propose_instruction": "Tag this image. List every distinct visible thing in it: objects, people, animals, clothing, materials, and the setting. Use short lowercase noun phrases separated by commas. List each thing once. Do not list moods, styles, or ideas. Output only the tags.",
+  "echo_fallback_instruction": "List the things you can see in this image as short lowercase noun phrases separated by commas. Output only the list.",
+  "propose_max_tokens": 128,
+  "propose_cap": 40,
+  "merge_cap": 120,
+  "category_nouns": [
+   "animals",
+   "clothing",
+   "materials",
+   "objects",
+   "people",
+   "setting"
+  ],
+  "prompt_tags_instruction": "This is a prompt for an image:\n{PROMPT}\n\nList the physical things the prompt names that could be pointed at in the image: objects, people, animals, plants, clothing, materials, buildings and parts of the scene. Use short lowercase noun phrases of one to four words, separated by commas. Keep each thing's own descriptive words, such as its color. Leave out places and settings, actions, sizes, moods, the image's style, medium, quality, camera and lighting, artist names and position words. List each thing once. Output only the list.",
+  "prompt_tags_max_tokens": 256,
+  "ungrounded_streak": 2,
+  "language_question": "Is this text written in English?",
+  "english_threshold": 0.5,
+  "translate_instruction": "Translate this image prompt into English. Output only the translation.\n\n{PROMPT}",
+  "translate_max_tokens": 512,
+  "thing_question": "What does the image tag \"{TAG}\" name",
+  "thing_criteria": [
+   [
+    "thing",
+    "something that could be pointed at in a picture: an object, a person, a group of people or animals, an animal, a plant, a body part, a garment, a material, a building, a landscape feature such as hills, cliffs, sky, the moon or stars, a light source such as lamps, signs or lit windows, or a substance such as water, smoke, fire, clouds or rain"
+   ],
+   [
+    "other",
+    "nothing to point at: a kind of place or a whole scene, a time of day, a color alone, a shape or form, lighting in general, a camera or render effect, a style, a mood, a quality or an idea"
+   ]
+  ],
+  "thing_threshold": 0.9,
+  "thing_check": "prompt",
+  "verify_statement": "This image visibly contains {TAG}",
+  "verify_threshold": 0.9,
+  "prompt_only_threshold": 0.9999,
+  "subsets_rule": "head-noun",
+  "order": "score"
+ }
+}

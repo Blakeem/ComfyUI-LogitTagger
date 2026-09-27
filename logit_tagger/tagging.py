@@ -79,29 +79,18 @@ class PromptCheck:
 
 @functools.cache
 def tag_settings() -> TagSettings:
-    """The Tagger's settings: the toolkit's defaults, which hold this pack's wordings and values, and four overrides.
+    """The Tagger's settings, the toolkit's defaults.
 
-    A function and not a constant, since TagSettings lives in the library and module scope imports no library.
+    On the fp8 encoder they kept 12.8 correct, 0.12 wrong and 0.61 vague tags per render, against 15.3, 0.28 and 1.08
+    under the pack's earlier overrides (tests-AB/ab_tagger_score.py --replay, runs/2026-09-27-settings). A function,
+    since module scope imports no library.
     """
     try:
         from logit_classifier.toolkit.comfyui import TagSettings
     except ImportError as error:
         raise engine.library_error(NODE_NAME) from error
 
-    return TagSettings(
-        # 40 over 25 added 1.2 correct tags per image on 72 Krea 2 renders, at precision 0.918 against 0.926
-        # (tests-AB/ab_tagger_compare.py).
-        propose_cap=40,
-        # The model's 40 and a long prompt's 30 to 40 tags in one packed verify pass. Model tags come first.
-        merge_cap=80,
-        # On the model's tags the thing check dropped "watermark" and "pixel art", which the judges graded correct
-        # (tests-AB/ab_tagger_compare.py), so it judges the prompt's tags only.
-        thing_check="prompt",
-        # The "words" rule dropped "cat" beside "cat ear", 20% of the correct tags the port lost
-        # (tests-AB/ab_tagger_compare.py). The "head-noun" rule keeps it.
-        subsets_rule="head-noun",
-        order="score",
-    )
+    return TagSettings()
 
 
 def _check_one_image(image: Any, node: str = NODE_NAME) -> None:

@@ -163,17 +163,12 @@ def test_module_scope_imports_no_comfy_and_no_library():
 # --- tag_settings ---------------------------------------------------------------------
 
 
-def test_tag_settings_are_the_toolkit_defaults_with_the_four_measured_overrides():
+def test_tag_settings_are_the_toolkit_defaults():
     toolkit = pytest.importorskip("logit_classifier.toolkit.comfyui")
 
     pack_settings = tagging.tag_settings()
-    assert pack_settings.propose_cap == 40
-    assert pack_settings.merge_cap == 80
-    assert pack_settings.thing_check == "prompt"
-    assert pack_settings.subsets_rule == "head-noun"
+    assert pack_settings == toolkit.TagSettings()
     assert pack_settings.order == "score"
-    assert pack_settings == dataclasses.replace(toolkit.TagSettings(), propose_cap=40, merge_cap=80,
-                                                thing_check="prompt", subsets_rule="head-noun", order="score")
     assert tagging.tag_settings() is pack_settings
 
 
@@ -193,7 +188,7 @@ def test_tag_settings_without_the_library_prints_the_pip_command(monkeypatch):
 
 def test_tag_image_reports_every_stage(fake_classifier, monkeypatch):
     monkeypatch.setattr(engine, "VL_MAX_PIXELS", 100)
-    fake_classifier.probabilities = {"cat": 0.95, "dog": 0.3, "fox": 0.99}
+    fake_classifier.probabilities = {"cat": 0.9995, "dog": 0.3, "fox": 0.99}
     fake_classifier.other = {"sunset": 0.95}
 
     trace = tagging.tag_image(FakeClip(reply="cat, objects, sunset, dog"), fake_classifier, an_image(40, 20),
@@ -203,10 +198,10 @@ def test_tag_image_reports_every_stage(fake_classifier, monkeypatch):
     assert trace.reply == "cat, objects, sunset, dog"
     assert trace.echo_reply is None
     assert trace.proposed == ("cat", "objects", "sunset", "dog")
-    assert trace.candidates == ("cat", "sunset", "dog", "fox")
-    assert trace.origins == ("model", "model", "both", "prompt")
-    assert trace.dropped == (("objects", "category noun"),)
-    assert trace.scores == (0.95, 0.0, 0.3, 0.99)
+    assert trace.candidates == ("cat", "dog", "fox")
+    assert trace.origins == ("model", "both", "prompt")
+    assert trace.dropped == (("objects", "category noun"), ("sunset", "not a thing"))
+    assert trace.scores == (0.9995, 0.3, 0.99)
     assert trace.kept == ("cat",)
     assert trace.tags == "cat"
     assert trace.propose_ms >= 0
@@ -222,24 +217,32 @@ def test_tag_image_verifies_every_candidate_on_the_fitted_image(fake_classifier)
     assert tuple(image.shape) == (1, 8, 8, 3)
 
 
-def test_tag_image_keeps_a_model_tag_the_thing_check_would_call_other(fake_classifier):
-    fake_classifier.probabilities = {"watermark": 0.95}
+def test_tag_image_drops_a_model_tag_the_thing_check_calls_other(fake_classifier):
+    fake_classifier.probabilities = {"watermark": 0.9995}
     fake_classifier.other = {"watermark": 0.99}
 
     trace = tag_one(FakeClip(reply="watermark"), fake_classifier)
-    assert trace.kept == ("watermark",)
-    assert fake_classifier.calls_of("choice") == []
+    assert trace.kept == ()
+    assert trace.dropped == (("watermark", "not a thing"),)
+    assert len(fake_classifier.calls_of("choice")) == 1
 
 
-def test_tag_image_drops_a_subset_with_the_same_head_noun_and_keeps_a_whole_beside_its_part(fake_classifier):
-    fake_classifier.probabilities = {"hat": 0.95, "red hat": 0.95, "dog": 0.95, "cat": 0.95, "cat ear": 0.95}
+def test_tag_image_drops_a_tag_whose_words_all_sit_inside_a_longer_kept_tag(fake_classifier):
+    fake_classifier.probabilities = dict.fromkeys(["hat", "red hat", "dog", "cat", "cat ear"], 0.9995)
 
     trace = tag_one(FakeClip(reply="hat, red hat, dog, cat, cat ear"), fake_classifier)
-    assert trace.tags == "red hat, dog, cat, cat ear"
+    assert trace.tags == "red hat, dog, cat ear"
+
+
+def test_tag_image_drops_a_model_tag_below_the_verify_threshold(fake_classifier):
+    fake_classifier.probabilities = {"cat": 0.999, "dog": 0.998}
+
+    trace = tag_one(FakeClip(reply="cat, dog"), fake_classifier)
+    assert trace.kept == ("cat",)
 
 
 def test_tag_image_orders_by_probability_and_ties_keep_proposal_order(fake_classifier):
-    fake_classifier.probabilities = {"cat": 0.95, "dog": 0.99, "fox": 0.95, "owl": 0.999}
+    fake_classifier.probabilities = {"cat": 0.9995, "dog": 0.9999, "fox": 0.9995, "owl": 0.99999}
 
     trace = tag_one(FakeClip(reply="cat, dog, fox, owl"), fake_classifier)
     assert trace.tags == "owl, dog, cat, fox"
@@ -264,7 +267,7 @@ def test_tag_image_skips_the_requests_when_nothing_parses(fake_classifier):
 
 
 def test_tag_image_proposes_again_when_the_reply_echoes_only_category_nouns(fake_classifier):
-    fake_classifier.probabilities = {"red car": 0.95}
+    fake_classifier.probabilities = {"red car": 0.9995}
     clip = ScriptedClip(replies=["objects, people, animals", "red car, road"])
 
     trace = tag_one(clip, fake_classifier)
@@ -327,11 +330,11 @@ def test_tag_image_calls_each_stage_before_its_model_call(fake_classifier):
 
     fake_classifier.classify = classify
     tag_one(RecordingClip(reply="cat"), fake_classifier, on_stage=events.append)
-    assert events == ["writing tags", "generate", "checking tags", "noul"]
+    assert events == ["writing tags", "generate", "choice", "checking tags", "noul"]
 
 
 def test_tag_image_proposes_and_verifies_inside_one_shared_vision_scope(fake_classifier):
-    fake_classifier.probabilities = {"cat": 0.95}
+    fake_classifier.probabilities = {"cat": 0.9995}
     seen = []
 
     class ScopeClip(FakeClip):
@@ -348,7 +351,7 @@ def test_tag_image_proposes_and_verifies_inside_one_shared_vision_scope(fake_cla
     fake_classifier.classify = classify
     clip = ScopeClip(reply="cat")
     tag_one(clip, fake_classifier)
-    assert seen == [("propose", [True]), ("check", [True])]
+    assert seen == [("propose", [True]), ("check", [True]), ("check", [True])]
     assert [scope["clip"] for scope in fake_classifier.scopes] == [clip]
     assert fake_classifier.scopes[0]["open"] is False
 
@@ -365,7 +368,7 @@ def test_tag_image_rejects_a_batch(fake_classifier):
 
 
 def test_tag_images_runs_in_order_with_one_classifier(fake_classifier):
-    fake_classifier.probabilities = {"cat": 0.95, "dog": 0.9}
+    fake_classifier.probabilities = {"cat": 0.9995, "dog": 0.999}
     clip = FakeClip(reply="cat, dog")
     images = [an_image(), an_image()]
 
@@ -393,21 +396,21 @@ def test_tag_images_reads_each_prompt_at_its_first_image(fake_classifier):
                         (1, "checking tags")]
 
 
-def test_tag_images_lists_each_distinct_prompt_once_and_checks_only_prompt_things(fake_classifier):
-    fake_classifier.probabilities = {"cat": 0.95, "fox": 0.99999}
+def test_tag_images_lists_each_distinct_prompt_once_and_asks_the_thing_check_once_per_tag(fake_classifier):
+    fake_classifier.probabilities = {"cat": 0.9995, "fox": 0.99999}
     clip = FakeClip(reply="cat", prompt_reply="fox")
 
     traces = tagging.tag_images(clip, [an_image(), an_image(), an_image()], ["a fox", "a fox", " "])
     asked = [q.instructions for request, _image in fake_classifier.calls_of("choice")
              for q in request.questions.values()]
     assert len(clip.text_only_calls()) == 1
-    assert asked == ['What does the image tag "fox" name']
+    assert asked == ['What does the image tag "fox" name', 'What does the image tag "cat" name']
     assert [trace.tags for trace in traces] == ["fox, cat", "fox, cat", "cat"]
     assert [trace.origins for trace in traces] == [("model", "prompt"), ("model", "prompt"), ("model",)]
 
 
 def test_tag_images_drops_a_prompt_thing_the_thing_check_calls_other(fake_classifier):
-    fake_classifier.probabilities = {"cat": 0.95, "fox": 0.99999, "dusk": 0.99999}
+    fake_classifier.probabilities = {"cat": 0.9995, "fox": 0.99999, "dusk": 0.99999}
     fake_classifier.other = {"dusk": 0.95}
     clip = FakeClip(reply="cat", prompt_reply="fox, dusk")
 

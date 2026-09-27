@@ -1,0 +1,9 @@
+{
+ "new": {},
+ "S": {
+  "propose_cap": 40,
+  "merge_cap": 120,
+  "thing_check": "prompt",
+  "subsets_rule": "head-noun"
+ }
+}

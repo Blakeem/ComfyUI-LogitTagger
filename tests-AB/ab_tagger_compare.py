@@ -10,7 +10,7 @@ file grades yet, unlabeled and sorted, for blind judges) and run_meta<suffix>.js
 fallback counts). Judges grade to_judge by data/tagger-ab/RUBRIC.md, and ab_tagger_score.py scores the arms
 against their verdicts.
 --record-thing-scores adds each candidate's thing check p("other") to its record, cached per tag in
-data/tagger-ab/thing_scores_<clip stem>.json, so ab_tagger_score.py --replay can re-derive stricter arms offline.
+cache/thing_scores_<clip stem>.json, so ab_tagger_score.py --replay can re-derive stricter arms offline.
 A superset run for --replay sets the loosest value of each field under test, such as propose_cap 40, merge_cap 120
 and thing_check "prompt", so every merged candidate carries a verify score.
 Each render must match the sha256 in its manifest entry and each COCO image its entry in data/tagger-ab/coco30.json.
@@ -42,7 +42,7 @@ DEFAULT_MANIFEST = HERE / "data" / "release-gates" / "renders" / "manifest.json"
 DEFAULT_COCO = HERE / "cache" / "coco60" / "coco60.json"
 DEFAULT_COCO_HASHES = HERE / "data" / "tagger-ab" / "coco30.json"
 DEFAULT_OUT = HERE / "out" / "tagger-ab"
-THING_SCORES_DIR = HERE / "data" / "tagger-ab"
+THING_SCORES_DIR = HERE / "cache"
 CONDITIONS = ("render-noprompt", "render-prompt", "coco")
 OLD_ARM = "old"
 NEW_ARM = "new"
@@ -613,6 +613,8 @@ def main() -> None:
                                              for record in results[condition][arm].values()],
                                 settings, known_p_other)
         write_json(results_path, results)
+        # The cache folder is gitignored, so a fresh checkout lacks it.
+        thing_cache_path.parent.mkdir(parents=True, exist_ok=True)
         write_json(thing_cache_path, {**thing_wording_asked, "p_other": dict(sorted(known_p_other.items()))})
         print(f"thing check p(other) recorded for arms {list(settings_of)}, {len(known_p_other)} tags cached in "
               f"{thing_cache_path}", flush=True)

@@ -20,7 +20,9 @@ import ab_tagger_score as score  # noqa: E402
 
 TagSettings = pytest.importorskip("logit_classifier.toolkit.comfyui").TagSettings
 
-SUPERSET = TagSettings(propose_cap=4, merge_cap=6, thing_check="prompt", subsets_rule="head-noun", order="score")
+# The recorded verify scores sit between 0.9 and 0.999, so the superset pins its threshold.
+SUPERSET = TagSettings(propose_cap=4, merge_cap=6, thing_check="prompt", subsets_rule="head-noun", order="score",
+                       verify_threshold=0.9)
 
 # p("other") marks "sunset" as no thing. "curtain" is prompt only below the 0.9999 prompt_only_threshold.
 CANDIDATES = [
