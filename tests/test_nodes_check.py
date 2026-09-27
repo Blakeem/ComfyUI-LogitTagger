@@ -78,6 +78,7 @@ def fake_comfy(monkeypatch):
     RecordingProgressBar.instances = []
     utils.ProgressBar = RecordingProgressBar
     model_management.throw_exception_if_processing_interrupted = throw_exception_if_processing_interrupted
+    model_management.InterruptProcessingException = Interrupted
     graph_utils.ExecutionBlocker = ExecutionBlocker
     server.PromptServer = SimpleNamespace(instance=SimpleNamespace(
         send_progress_text=lambda text, node_id: state.sent.append((text, node_id))))
@@ -347,7 +348,8 @@ def test_one_bar_closes_each_item_and_the_status_names_the_stage(fake_comfy, fak
     assert bar.total == 2 * progress.ITEM_UNITS
     assert bar.updates[-1] == (200, 200)
     assert fake_comfy.interrupt_checks == 2
-    assert fake_comfy.sent == [("image 1/2: checking", NODE_ID), ("image 2/2: checking", NODE_ID), ("", NODE_ID)]
+    assert fake_comfy.sent[:-1] == [("image 1/2: checking", NODE_ID), ("image 2/2: checking", NODE_ID)]
+    assert re.fullmatch(r"2 images in \d+\.\d s", fake_comfy.sent[-1][0])
     assert sys.modules["comfy.utils"].ProgressBar is RecordingProgressBar
 
 
@@ -359,4 +361,4 @@ def test_an_interrupt_stops_the_run_before_the_first_check(fake_comfy, fake_engi
         check_texts(["a cat"])
 
     assert fake_engine.calls == []
-    assert fake_comfy.sent == [("", NODE_ID)]
+    assert fake_comfy.sent == [("cancelled", NODE_ID)]

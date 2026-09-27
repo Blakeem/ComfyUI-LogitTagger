@@ -55,14 +55,14 @@ def main() -> None:
 
     clip.generate = counting_generate
     # The first decode pays the model load, so it is run once and discarded.
-    tagging.tag_image(clip, classifier, load_image(args.images[0]), known_things={})
+    tagging.tag_image(clip, classifier, load_image(args.images[0]))
 
     for path in args.images:
         image = load_image(path)
         runs = {}
         for budget in budgets:
             tagging.PROPOSE_MAX_TOKENS = budget
-            trace = tagging.tag_image(clip, classifier, image, known_things={})
+            trace = tagging.tag_image(clip, classifier, image)
             runs[budget] = (trace, token_counts[-1])
         print(f"== {path.name}")
         for budget, (trace, tokens) in runs.items():

@@ -70,6 +70,7 @@ def fake_comfy(monkeypatch):
     RecordingProgressBar.instances = []
     utils.ProgressBar = RecordingProgressBar
     model_management.throw_exception_if_processing_interrupted = throw_exception_if_processing_interrupted
+    model_management.InterruptProcessingException = Interrupted
     server.PromptServer = SimpleNamespace(instance=SimpleNamespace(
         send_progress_text=lambda text, node_id: state.sent.append((text, node_id))))
     comfy.utils = utils
@@ -167,7 +168,7 @@ def test_k_prompts_pair_with_k_images_after_the_batches_split(fake_comfy, stub_p
 
 
 def test_a_wrong_prompt_count_is_an_error_before_the_run_starts(fake_comfy, stub_pipeline):
-    with pytest.raises(ValueError, match="Logit Tagger: the prompt input has 2 texts for 3 items"):
+    with pytest.raises(ValueError, match="Logit Tagger: the prompt input has 2 texts for 3 images"):
         run_node([an_image(batch=3)], prompt=["a cat", "a dog"])
 
     assert stub_pipeline == []
@@ -223,6 +224,16 @@ def test_tags_with_a_prompt_are_an_error_before_the_run_starts(fake_comfy, stub_
 
     with pytest.raises(ValueError, match="Logit Tagger: the prompt only guides the tags the node writes itself"):
         run_node([an_image(batch=2)], prompt=["", "a cat"], tags=["cat"])
+
+    assert stub_pipeline == []
+    assert RecordingProgressBar.instances == []
+
+
+def test_tags_with_an_instruction_are_an_error_before_the_run_starts(fake_comfy, stub_pipeline):
+    pytest.importorskip("logit_classifier")
+
+    with pytest.raises(ValueError, match="Logit Tagger: the instruction only guides the tags the node writes itself"):
+        run_node([an_image()], instruction=["List the tags."], tags=["cat"])
 
     assert stub_pipeline == []
     assert RecordingProgressBar.instances == []
@@ -293,12 +304,12 @@ def test_one_bar_closes_each_image_and_the_status_names_each_stage(fake_comfy, s
     assert [value for value, _total in bar.updates] == [0, 0, 0, 100, 100, 100, 200, 200, 200, 300]
     assert bar.updates[-1] == (300, 300)
     assert fake_comfy.interrupt_checks == 6
-    assert fake_comfy.sent == [
+    assert fake_comfy.sent[:-1] == [
         ("image 1/3: writing tags", NODE_ID), ("image 1/3: checking tags", NODE_ID),
         ("image 2/3: writing tags", NODE_ID), ("image 2/3: checking tags", NODE_ID),
         ("image 3/3: writing tags", NODE_ID), ("image 3/3: checking tags", NODE_ID),
-        ("", NODE_ID),
     ]
+    assert re.fullmatch(r"3 images in \d+\.\d s", fake_comfy.sent[-1][0])
 
 
 def test_a_tag_list_run_closes_each_image_and_the_status_names_the_check(fake_comfy, stub_pipeline):
@@ -308,10 +319,11 @@ def test_a_tag_list_run_closes_each_image_and_the_status_names_the_check(fake_co
 
     bar = RecordingProgressBar.instances[0]
     assert [value for value, _total in bar.updates] == [0, 0, 100, 200, 300]
-    assert fake_comfy.sent == [
+    assert fake_comfy.sent[:-1] == [
         ("image 1/3: checking tags", NODE_ID), ("image 2/3: checking tags", NODE_ID),
-        ("image 3/3: checking tags", NODE_ID), ("", NODE_ID),
+        ("image 3/3: checking tags", NODE_ID),
     ]
+    assert re.fullmatch(r"3 images in \d+\.\d s", fake_comfy.sent[-1][0])
 
 
 def test_core_bars_route_into_the_run_only_while_the_pipeline_runs(fake_comfy, stub_pipeline):
@@ -321,13 +333,13 @@ def test_core_bars_route_into_the_run_only_while_the_pipeline_runs(fake_comfy, s
     assert sys.modules["comfy.utils"].ProgressBar is RecordingProgressBar
 
 
-def test_an_interrupt_stops_the_run_and_clears_the_status(fake_comfy, stub_pipeline):
+def test_an_interrupt_stops_the_run_and_the_status_says_cancelled(fake_comfy, stub_pipeline):
     fake_comfy.interrupted = True
 
     with pytest.raises(Interrupted):
         run_node([an_image(batch=3)])
 
-    assert fake_comfy.sent == [("", NODE_ID)]
+    assert fake_comfy.sent == [("cancelled", NODE_ID)]
     assert sys.modules["comfy.utils"].ProgressBar is RecordingProgressBar
 
 
@@ -351,7 +363,7 @@ def test_an_interrupt_during_the_prompt_generates_stops_the_run_before_the_first
         run_node([an_image(batch=3)], prompt=["cat", "dog", "fox"])
 
     assert tokens == ["cat"]
-    assert fake_comfy.sent == [("", NODE_ID)]
+    assert fake_comfy.sent == [("cancelled", NODE_ID)]
     assert sys.modules["comfy.utils"].ProgressBar is RecordingProgressBar
 
 

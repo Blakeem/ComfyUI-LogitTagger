@@ -51,7 +51,7 @@ def report(path: Path, trace) -> str:
     lines += [f"  {name}: {reason}" for name, reason in trace.dropped]
     lines += [
         f"kept: {trace.tags}",
-        f"propose {trace.propose_ms:.0f} ms, thing check and verify {trace.verify_ms:.0f} ms",
+        f"propose {trace.propose_ms:.0f} ms, verify {trace.verify_ms:.0f} ms",
         "",
     ]
     return "\n".join(lines)

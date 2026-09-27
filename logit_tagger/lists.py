@@ -22,7 +22,7 @@ def split_images(images: list[Any], node: str) -> list[Any]:
 
 
 def pair_texts(texts: list[str] | None, count: int, node: str, input_name: str) -> list[str]:
-    """One text per item: none gives empty texts, one text repeats, count texts pair one to one."""
+    """One text per image: none gives empty texts, one text repeats, count texts pair one to one."""
     values = list(texts or [])
 
     if not values:
@@ -32,8 +32,8 @@ def pair_texts(texts: list[str] | None, count: int, node: str, input_name: str) 
     if len(values) == count:
         return values
     raise ValueError(
-        f"{node}: the {input_name} input has {len(values)} texts for {count} items. Connect one text "
-        f"to use for every item, or {count} texts to pair one to one with the items."
+        f"{node}: the {input_name} input has {len(values)} texts for {count} images. Connect one text "
+        f"to use for every image, or {count} texts to pair one to one with the images."
     )
 
 

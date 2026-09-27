@@ -84,8 +84,8 @@ def test_pair_texts_rejects_any_other_length_naming_the_node_the_input_both_leng
     assert NODE in message
     assert "prompt" in message
     assert "2 texts" in message
-    assert "3 items" in message
-    assert "one text to use for every item" in message
+    assert "3 images" in message
+    assert "one text to use for every image" in message
 
 
 # --- single_value -----------------------------------------------------------------------

@@ -5,6 +5,7 @@ No comfy module is imported at module scope, so the unit tests run without Comfy
 
 from __future__ import annotations
 
+import re
 from collections.abc import Callable
 from typing import Any
 
@@ -15,7 +16,8 @@ TEXT_CHECK_NAME = "Logit Text Check"
 CHECK_STAGE = "checking"
 YES_THRESHOLD = 0.5
 IMAGE_QUESTION = "Is there a person in this image?"
-# On 80 labeled prompts this said no to every negated mention ("no cats") and decoy word ("dogwood"), where "Does this text mention" said yes.
+# On 80 labeled prompts this said no to every negated mention ("no cats") and decoy word ("dogwood"),
+# where "Does this text mention" said yes.
 TEXT_QUESTION = "Does this prompt ask for a person in the image?"
 NO_THINGS_LINE = "no things in the prompt"
 CLASSIFY_NAME = "Logit Image Classify"
@@ -46,7 +48,7 @@ def _propose_instruction(values: list[str] | None) -> str | None:
     return value if value.strip() else None
 
 
-def _tag_list(values: list[str] | None, prompts: list[str]) -> tuple[str, ...]:
+def _tag_list(values: list[str] | None, prompts: list[str], instruction: str | None) -> tuple[str, ...]:
     """The connected tags to check, or () for tags the pipeline writes when unconnected or blank."""
     tag_list: tuple[str, ...] = ()
 
@@ -57,6 +59,11 @@ def _tag_list(values: list[str] | None, prompts: list[str]) -> tuple[str, ...]:
         raise ValueError(
             f"{tagging.NODE_NAME}: the prompt only guides the tags the node writes itself. Connect the prompt "
             "or the tags, not both."
+        )
+    if tag_list and instruction is not None:
+        raise ValueError(
+            f"{tagging.NODE_NAME}: the instruction only guides the tags the node writes itself. Connect the "
+            "instruction or the tags, not both."
         )
     return tag_list
 
@@ -122,17 +129,19 @@ def _run_check(clip: Any, items: list[Any], question: list[str], unique_id: list
 
 
 def _prompt_check_display(checks: list[tagging.PromptCheck], missing_texts: list[str]) -> str:
-    """The things read from the prompts on the first line, then each image's score and missing things."""
-    things: list[str] = []
-    header = NO_THINGS_LINE
+    """Each image's score and missing things, under one line of things when every image was checked for the same
+    things, otherwise each after its own things."""
+    shared = len({check.things for check in checks}) == 1
+    things_texts: list[str] = []
     verdicts: list[str] = []
 
-    things = list(dict.fromkeys(thing for check in checks for thing in check.things))
-    if things:
-        header = ", ".join(things)
+    things_texts = [", ".join(check.things) or NO_THINGS_LINE for check in checks]
     verdicts = [f"{check.score:.2f} missing: {missing}" if missing else f"{check.score:.2f} all present"
                 for check, missing in zip(checks, missing_texts, strict=True)]
-    return f"{header}\n{format_display(verdicts)}"
+    if shared:
+        return f"{things_texts[0]}\n{format_display(verdicts)}"
+    # One line of every prompt's things would name things an image was never checked for.
+    return format_display([f"{things} | {verdict}" for things, verdict in zip(things_texts, verdicts, strict=True)])
 
 
 def _widget_text(values: list[str], node: str, input_name: str, default: str) -> str:
@@ -143,9 +152,17 @@ def _widget_text(values: list[str], node: str, input_name: str, default: str) ->
 
 
 def _classify_options(text: str) -> list[str]:
-    """The cleaned options of a comma or newline separated list, each once, in order."""
-    options = list(tagging.parse_tag_list(text, node=CLASSIFY_NAME))
+    """The options of a comma or newline separated list, in order and spelled as typed."""
+    options = [part.strip() for part in re.split(r"[,\n]", text) if part.strip()]
+    seen: set[str] = set()
 
+    for option in options:
+        if option.casefold() in seen:
+            raise ValueError(
+                f"{CLASSIFY_NAME}: the options input names {option!r} more than once. Name each option once, so the "
+                "index output matches its position."
+            )
+        seen.add(option.casefold())
     if not MIN_OPTIONS <= len(options) <= MAX_OPTIONS:
         raise ValueError(
             f"{CLASSIFY_NAME}: the node takes {MIN_OPTIONS} to {MAX_OPTIONS} different options, and the options "
@@ -201,7 +218,7 @@ class LogitTagger:
             raise ValueError(f"{tagging.NODE_NAME}: the image input holds no images. Connect at least one image.")
         prompts = lists.pair_texts(prompt, len(images), tagging.NODE_NAME, "prompt")
         wording = _propose_instruction(instruction)
-        tag_list = _tag_list(tags, prompts)
+        tag_list = _tag_list(tags, prompts, wording)
 
         with progress.RunProgress(total_items=len(images), unique_id=node_id, noun="image") as run:
             tag_texts = [trace.tags for trace in tagging.tag_images(model, images, prompts, instruction=wording,

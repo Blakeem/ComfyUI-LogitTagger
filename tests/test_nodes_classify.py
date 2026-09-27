@@ -16,7 +16,7 @@ from logit_tagger import engine, progress
 from logit_tagger.nodes import CLASSIFY_OPTIONS, CLASSIFY_QUESTION, LogitImageClassify
 
 NODE_ID = "41"
-DEFAULT_OPTIONS = ["photograph", "anime illustration", "oil painting", "3d render", "watercolor", "pencil sketch",
+DEFAULT_OPTIONS = ["photograph", "anime illustration", "oil painting", "3D render", "watercolor", "pencil sketch",
                    "pixel art", "comic book"]
 
 
@@ -72,6 +72,7 @@ def fake_comfy(monkeypatch):
     RecordingProgressBar.instances = []
     utils.ProgressBar = RecordingProgressBar
     model_management.throw_exception_if_processing_interrupted = throw_exception_if_processing_interrupted
+    model_management.InterruptProcessingException = Interrupted
     server.PromptServer = SimpleNamespace(instance=SimpleNamespace(
         send_progress_text=lambda text, node_id: state.sent.append((text, node_id))))
     comfy.utils = utils
@@ -166,18 +167,36 @@ def test_blank_widgets_use_the_defaults(fake_comfy, fake_engine, blank):
     assert fake_engine.calls[0].options == DEFAULT_OPTIONS
 
 
-def test_options_split_on_commas_and_newlines_are_cleaned_and_keep_the_first_of_each_repeat(fake_comfy, fake_engine):
-    fake_engine.answers = [("dog", 0.9)]
+def test_options_split_on_commas_and_newlines_keep_their_spelling_and_drop_blanks(fake_comfy, fake_engine):
+    fake_engine.answers = [("Dog", 0.9)]
 
-    classify([an_image()], question=["Which animal is this?"], options=['Cat, "Dog"\n- bird.\ncat, , DOG'])
+    classify([an_image()], question=["Which animal is this?"], options=[" Cat, Dog\r\nbird, ,\n"])
 
     assert fake_engine.calls[0].question == "Which animal is this?"
-    assert fake_engine.calls[0].options == ["cat", "dog", "bird"]
+    assert fake_engine.calls[0].options == ["Cat", "Dog", "bird"]
+
+
+def test_the_choice_output_keeps_the_typed_spelling_of_each_option(fake_comfy, fake_engine):
+    fake_engine.answers = [("Photo", 0.9), ("3D Render", 0.8)]
+
+    choices, indexes, _confidences = classify([an_image(batch=2)], options=["Photo, 3D Render"])["result"]
+
+    assert fake_engine.calls[0].options == ["Photo", "3D Render"]
+    assert choices == ["Photo", "3D Render"]
+    assert indexes == [0, 1]
+
+
+def test_an_option_named_twice_is_an_error_before_the_run_starts(fake_comfy, fake_engine):
+    with pytest.raises(ValueError, match=r"^Logit Image Classify: the options input names 'Cat' more than once\."):
+        classify([an_image()], options=["cat, Cat"])
+
+    assert fake_engine.built == []
+    assert RecordingProgressBar.instances == []
 
 
 @pytest.mark.parametrize(("options", "count"), [
     ("cat", 1),
-    ("cat, Cat, CAT.", 1),
+    ("cat, , \n", 1),
     (", ".join(f"option {index}" for index in range(52)), 52),
 ])
 def test_an_option_count_outside_2_to_51_is_an_error_before_the_run_starts(fake_comfy, fake_engine, options, count):
@@ -200,13 +219,13 @@ def test_2_and_51_options_are_accepted(fake_comfy, fake_engine, count):
     assert fake_engine.calls[0].options == options
 
 
-def test_the_options_without_the_library_print_the_pip_command_naming_the_node(fake_comfy, fake_engine, monkeypatch):
-    monkeypatch.setitem(sys.modules, "logit_classifier.tags", None)
+def test_a_missing_library_prints_the_pip_command_naming_the_node(fake_comfy, monkeypatch):
+    monkeypatch.setitem(sys.modules, "logit_classifier", None)
 
     with pytest.raises(RuntimeError, match=r"^Logit Image Classify: .*pip install -U logit-classifier"):
         classify([an_image()])
 
-    assert fake_engine.built == []
+    assert RecordingProgressBar.instances == []
 
 
 def test_conflicting_options_are_an_error_before_the_run_starts(fake_comfy, fake_engine):
@@ -229,12 +248,12 @@ def test_no_images_is_an_error_before_the_run_starts(fake_comfy, fake_engine, im
 # --- choices, indexes and confidences -------------------------------------------------
 
 
-def test_each_choice_maps_to_its_position_among_the_cleaned_options(fake_comfy, fake_engine):
-    fake_engine.answers = [("comic book", 0.61), ("photograph", 0.97), ("3d render", 0.44)]
+def test_each_choice_maps_to_its_position_among_the_typed_options(fake_comfy, fake_engine):
+    fake_engine.answers = [("comic book", 0.61), ("photograph", 0.97), ("3D render", 0.44)]
 
     choices, indexes, confidences = classify([an_image(batch=3)])["result"]
 
-    assert choices == ["comic book", "photograph", "3d render"]
+    assert choices == ["comic book", "photograph", "3D render"]
     assert indexes == [7, 0, 3]
     assert confidences == [0.61, 0.97, 0.44]
     assert all(type(index) is int for index in indexes)
@@ -288,7 +307,8 @@ def test_one_bar_closes_each_image_and_the_status_names_the_stage(fake_comfy, fa
     bar = RecordingProgressBar.instances[0]
     assert bar.total == 2 * progress.ITEM_UNITS
     assert bar.updates[-1] == (200, 200)
-    assert fake_comfy.sent == [("image 1/2: classifying", NODE_ID), ("image 2/2: classifying", NODE_ID), ("", NODE_ID)]
+    assert fake_comfy.sent[:-1] == [("image 1/2: classifying", NODE_ID), ("image 2/2: classifying", NODE_ID)]
+    assert re.fullmatch(r"2 images in \d+\.\d s", fake_comfy.sent[-1][0])
     assert sys.modules["comfy.utils"].ProgressBar is RecordingProgressBar
 
 
@@ -300,4 +320,4 @@ def test_an_interrupt_stops_the_run_before_the_first_image(fake_comfy, fake_engi
         classify([an_image()])
 
     assert fake_engine.calls == []
-    assert fake_comfy.sent == [("", NODE_ID)]
+    assert fake_comfy.sent == [("cancelled", NODE_ID)]

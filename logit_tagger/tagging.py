@@ -1,4 +1,4 @@
-"""The Logit Tagger pipeline for one whole image: propose, merge, thing check, verify and clean, or a tag list check.
+"""The Logit Tagger pipeline for one whole image: propose, merge, verify and clean, or a tag list check.
 
 The prompt check lists a prompt's things with the pipeline's prompt stage and asks each image about them.
 
@@ -35,6 +35,13 @@ PROPOSE_INSTRUCTION = (
     "commas. List each thing once. Do not list moods, styles, or ideas. Output only the tags."
 )
 
+# A reply that echoed only the propose instruction's category nouns left 4 of 174 images without a tag
+# (tests-AB/ab_tagger_compare.py). This wording names no category.
+ECHO_FALLBACK_INSTRUCTION = (
+    "List the things you can see in this image as short lowercase noun phrases separated by commas. "
+    "Output only the list."
+)
+
 # Asked text only, so a long prompt never lengthens the image's own reply. It must hold {PROMPT}.
 PROMPT_TAGS_INSTRUCTION = (
     "This is a prompt for an image:\n{PROMPT}\n\nList the physical things the prompt names that "
@@ -45,15 +52,26 @@ PROMPT_TAGS_INSTRUCTION = (
     "lighting, artist names and position words. List each thing once. Output only the list."
 )
 
+# It read 0.000 to 0.027 on 10 non-English prompts and 1.000 on 10 English ones (tests-AB/ab_prompt_language.py).
+LANGUAGE_QUESTION = "Is this text written in English?"
+ENGLISH_THRESHOLD = 0.5
+
+# Grounding and its padding stop match the prompt's own words, so a non-English prompt is listed from its English
+# translation. It must hold {PROMPT}.
+TRANSLATE_INSTRUCTION = "Translate this image prompt into English. Output only the translation.\n\n{PROMPT}"
+
+# About 380 English words, so only a very long prompt loses its tail.
+TRANSLATE_MAX_TOKENS = 512
+
 # In tests-AB/ab_propose_budget.py both images that reached 128 were repeating tags, and 192 added no tag.
 PROPOSE_MAX_TOKENS = 128
 
-# The wrong tags of a greedy list sit at its tail. Stopping at 25 raised precision from 0.865 to 0.915
-# (ContextAnchoredTileRefine tests-AB/tags-bench-log.md).
-MAX_PROPOSED_TAGS = 25
+# 40 over 25 added 1.2 correct tags per image on 72 Krea 2 renders, at precision 0.918 against 0.926
+# (tests-AB/ab_tagger_compare.py).
+MAX_PROPOSED_TAGS = 40
 
-# The model's 25 and a long prompt's 30 to 40 tags in one packed verify pass. Model tags come first.
-MAX_MERGED_TAGS = 64
+# The model's 40 and a long prompt's 30 to 40 tags in one packed verify pass. Model tags come first.
+MAX_MERGED_TAGS = 80
 
 # The propose instruction's own nouns came back as tags and passed verify.
 CATEGORY_NOUNS = frozenset({"objects", "people", "animals", "clothing", "materials", "setting"})
@@ -74,8 +92,8 @@ VERIFY_THRESHOLD = 0.9
 # A near name passes 0.9. 0.9999 cut wrong tags per tile 0.92 to 0.29 (ContextAnchoredTileRefine tags-bench-log.md).
 PROMPT_ONLY_THRESHOLD = 0.9999
 
-# No verify threshold separates scene, lighting, color and quality words from things, so a text-only
-# choice drops them. This wording keeps landscape features, groups and light sources.
+# No verify threshold separates a prompt's scene, lighting, color and quality words from its things. On model tags
+# it dropped "watermark" and "pixel art", graded correct (tests-AB/ab_tagger_compare.py), so it judges prompts only.
 THING_QUESTION = 'What does the image tag "{TAG}" name'
 THING_CRITERIA = {
     "thing": "something that could be pointed at in a picture: an object, a person, a group of people "
@@ -103,7 +121,8 @@ class TagTrace:
     """One image's pass through every stage, for the node and the harness to read.
 
     `origins` is "model", "prompt", "both" or "list" per candidate, `dropped` holds (name, reason) pairs
-    from the merge and the thing check, and `kept` is in output order.
+    from the merge, and `kept` is in output order. `echo_reply` holds the replaced reply when the echo
+    fallback ran.
     """
 
     size_in: tuple[int, int]
@@ -118,6 +137,7 @@ class TagTrace:
     tags: str
     propose_ms: float
     verify_ms: float
+    echo_reply: str | None = None
 
 
 @dataclass(frozen=True)
@@ -241,10 +261,26 @@ def propose(clip: Any, image: Any, instruction: str) -> str:
                                 should_stop=_full_or_repeating)
 
 
+def english_prompt(clip: Any, classifier: Any, prompt: str) -> str:
+    """prompt when it reads as English, otherwise its English translation, or prompt when that comes back blank."""
+    translation = ""
+
+    if engine.nouls(classifier, [LANGUAGE_QUESTION], state=prompt)[0] >= ENGLISH_THRESHOLD:
+        return prompt
+    # A literal replace, so braces in the prompt are never read as format fields.
+    translation = engine.generate_text(clip, TRANSLATE_INSTRUCTION.replace(PROMPT_PLACEHOLDER, prompt),
+                                       max_tokens=TRANSLATE_MAX_TOKENS, whole_tags=False).strip()
+    return translation or prompt
+
+
 def prompt_things(clip: Any, classifier: Any, prompt: str, known_things: dict[str, float],
                   instruction: str | None = None) -> tuple[str, ...]:
-    """The physical things prompt names that its own words ground and the thing check keeps."""
+    """The physical things prompt names that its own words ground and the thing check keeps.
+
+    The things come from the prompt's English translation when the prompt is not English.
+    """
     wording = PROMPT_TAGS_INSTRUCTION if instruction is None else instruction
+    text = ""
     prompt_words: set[str] = set()
     reply = ""
     listed: tuple[str, ...] = ()
@@ -254,9 +290,10 @@ def prompt_things(clip: Any, classifier: Any, prompt: str, known_things: dict[st
         return ()
     from logit_classifier.tags import parse_candidates
 
-    prompt_words = prompt_forms(prompt)
+    text = english_prompt(clip, classifier, prompt)
+    prompt_words = prompt_forms(text)
     # A literal replace, so braces in the prompt are never read as format fields.
-    reply = engine.generate_text(clip, wording.replace(PROMPT_PLACEHOLDER, prompt),
+    reply = engine.generate_text(clip, wording.replace(PROMPT_PLACEHOLDER, text),
                                  max_tokens=PROMPT_TAGS_MAX_TOKENS,
                                  should_stop=lambda tags: _off_prompt_or_repeating(tags, prompt_words))
     listed = tuple(tag for tag in parse_candidates(reply) if grounded(tag, prompt_words))
@@ -274,18 +311,15 @@ def _check_one_image(image: Any, node: str = NODE_NAME) -> None:
 
 
 def tag_image(clip: Any, classifier: Any, image: Any, *, prompt_tags: tuple[str, ...] = (),
-              known_things: dict[str, float], instruction: str | None = None,
-              on_stage: Callable[[str], None] | None = None) -> TagTrace:
+              instruction: str | None = None, on_stage: Callable[[str], None] | None = None) -> TagTrace:
     """Run every stage on one [1, H, W, C] image and report what each stage produced."""
     wording = PROPOSE_INSTRUCTION if instruction is None else instruction
     announce = on_stage if on_stage is not None else (lambda _stage: None)
     resized = None
     reply = ""
+    echo_reply: str | None = None
     proposed: tuple[str, ...] = ()
-    merged: tuple[str, ...] = ()
-    merged_origins: tuple[str, ...] = ()
     dropped: tuple[tuple[str, str], ...] = ()
-    p_other: tuple[float, ...] = ()
     candidates: tuple[str, ...] = ()
     origins: tuple[str, ...] = ()
     statements: list[str] = []
@@ -306,15 +340,15 @@ def tag_image(clip: Any, classifier: Any, image: Any, *, prompt_tags: tuple[str,
         announce(STAGE_WRITING)
         started = time.perf_counter()
         reply = propose(clip, resized, wording)
-        propose_ms = (time.perf_counter() - started) * 1000.0
         proposed = tuple(parse_candidates(reply, max_candidates=MAX_PROPOSED_TAGS))
-        merged, merged_origins, dropped = merge_trace(proposed, prompt_tags)
+        if instruction is None and not merge_trace(proposed, ())[0]:
+            echo_reply = reply
+            reply = propose(clip, resized, ECHO_FALLBACK_INSTRUCTION)
+            proposed = tuple(parse_candidates(reply, max_candidates=MAX_PROPOSED_TAGS))
+        propose_ms = (time.perf_counter() - started) * 1000.0
+        candidates, origins, dropped = merge_trace(proposed, prompt_tags)
         announce(STAGE_CHECKING)
         started = time.perf_counter()
-        p_other = thing_scores(classifier, merged, known_things)
-        candidates = tuple(tag for tag, p in zip(merged, p_other, strict=True) if is_thing(p))
-        origins = tuple(origin for origin, p in zip(merged_origins, p_other, strict=True) if is_thing(p))
-        dropped += tuple((tag, "not a thing") for tag, p in zip(merged, p_other, strict=True) if not is_thing(p))
         statements = [VERIFY_STATEMENT.replace(TAG_PLACEHOLDER, tag) for tag in candidates]
         scores = tuple(engine.nouls(classifier, statements, image=resized))
         verify_ms = (time.perf_counter() - started) * 1000.0
@@ -336,10 +370,11 @@ def tag_image(clip: Any, classifier: Any, image: Any, *, prompt_tags: tuple[str,
         tags=", ".join(kept),
         propose_ms=propose_ms,
         verify_ms=verify_ms,
+        echo_reply=echo_reply,
     )
 
 
-def parse_tag_list(text: str, *, node: str = NODE_NAME) -> tuple[str, ...]:
+def parse_tag_list(text: str) -> tuple[str, ...]:
     """The cleaned tags of a comma or newline separated list, in order, each once."""
     parts: list[str] = []
 
@@ -349,7 +384,7 @@ def parse_tag_list(text: str, *, node: str = NODE_NAME) -> tuple[str, ...]:
     try:
         from logit_classifier.tags import clean_item
     except ImportError as error:
-        raise engine.library_error(node) from error
+        raise engine.library_error(NODE_NAME) from error
 
     parts = [clean_item(part) for part in re.split(r"[,\n]", text)]
     return tuple(dict.fromkeys(part for part in parts if part))
@@ -426,12 +461,15 @@ def tag_images(clip: Any, images: list[Any], prompts: list[str], *, instruction:
                 on_progress(index, STAGE_CHECKING)
             traces.append(check_tag_list(clip, classifier, image, tag_list))
         return traces
-    things_by_prompt = {prompt: prompt_things(clip, classifier, prompt, known_things)
-                        for prompt in dict.fromkeys(prompts)}
     for index, (image, prompt) in enumerate(zip(images, prompts, strict=True)):
+        # Read at its first image, so the prompt's generate runs under that image's progress share and status.
+        if prompt not in things_by_prompt:
+            if on_progress is not None and prompt.strip():
+                on_progress(index, STAGE_READING_PROMPT)
+            things_by_prompt[prompt] = prompt_things(clip, classifier, prompt, known_things)
         on_stage = None if on_progress is None else (lambda stage, index=index: on_progress(index, stage))
         traces.append(tag_image(clip, classifier, image, prompt_tags=things_by_prompt[prompt],
-                                known_things=known_things, instruction=instruction, on_stage=on_stage))
+                                instruction=instruction, on_stage=on_stage))
     return traces
 
 

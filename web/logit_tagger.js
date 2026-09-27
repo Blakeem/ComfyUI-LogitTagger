@@ -50,7 +50,7 @@ function showPreview(node, output) {
     }
 }
 
-// The frontend keeps its own getNodeByExecutionId off window.comfyAPI.
+// The frontend keeps its own node lookups off window.comfyAPI.
 function nodeByExecutionId(executionId) {
     const segments = String(executionId).split(":");
     let graph = app.rootGraph;
@@ -64,6 +64,18 @@ function nodeByExecutionId(executionId) {
         graph = node.subgraph;
     }
     return node;
+}
+
+// Frontend 1.53.6 hands onNodeOutputsUpdated node locator ids, "<subgraph uuid>:<local id>" for a node in a
+// subgraph, and keeps every subgraph definition, nested ones included, in the root graph's subgraphs Map.
+function nodeByOutputKey(key) {
+    const parts = String(key).split(":");
+    const subgraph = parts.length === 2 ? app.rootGraph?.subgraphs?.get?.(parts[0]) : null;
+
+    if (subgraph) {
+        return subgraph.getNodeById(parts[1]) ?? null;
+    }
+    return nodeByExecutionId(key);
 }
 
 app.registerExtension({
@@ -92,8 +104,8 @@ app.registerExtension({
     },
     // A workflow tab switch and a queue history reopen restore outputs without onExecuted.
     onNodeOutputsUpdated(nodeOutputs) {
-        for (const [executionId, output] of Object.entries(nodeOutputs)) {
-            const node = nodeByExecutionId(executionId);
+        for (const [key, output] of Object.entries(nodeOutputs)) {
+            const node = nodeByOutputKey(key);
 
             if (!NODE_TYPES.has(node?.constructor?.comfyClass) && !NODE_TYPES.has(node?.type)) {
                 continue;

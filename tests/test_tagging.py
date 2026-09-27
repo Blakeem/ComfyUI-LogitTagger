@@ -1,4 +1,4 @@
-"""tagging.py: the propose, merge, thing check, verify and clean pipeline behind the Logit Tagger node.
+"""tagging.py: the propose, merge, verify and clean pipeline behind the Logit Tagger node.
 
 A duck typed CLIP stands in for the Qwen3-VL text encoder and a fake classifier stands in
 for the library's Classifier, so no comfy install, no GPU and no model are needed.
@@ -45,11 +45,15 @@ class FakeClip:
 
 
 class FakeClassifier:
-    """Answers each verify noul from `probabilities` and each thing check from `other`, both by tag."""
+    """Answers each verify noul from `probabilities` and each thing check from `other`, both by tag.
 
-    def __init__(self, probabilities=None, other=None):
+    The language question gets `english`, so a prompt reads as English unless a test says otherwise.
+    """
+
+    def __init__(self, probabilities=None, other=None, english=1.0):
         self.probabilities = probabilities or {}
         self.other = other or {}
+        self.english = english
         self.calls = []
 
     def classify(self, request, *, image=None):
@@ -60,6 +64,8 @@ class FakeClassifier:
             if question.type == "choice":
                 p_other = self.other.get(question.instructions.split('"')[1], 0.0)
                 answers[qid] = SimpleNamespace(probabilities={"thing": 1.0 - p_other, "other": p_other})
+            elif question.instructions == tagging.LANGUAGE_QUESTION:
+                answers[qid] = SimpleNamespace(noul=self.english)
             else:
                 tag = question.instructions.removeprefix(VERIFY_PREFIX)
                 answers[qid] = SimpleNamespace(noul=self.probabilities.get(tag, 0.0))
@@ -68,6 +74,19 @@ class FakeClassifier:
     def calls_of(self, kind):
         return [(request, image) for request, image in self.calls
                 if all(question.type == kind for question in request.questions.values())]
+
+
+class ScriptedClip(FakeClip):
+    """Decodes each generate to the next scripted reply of its kind, image or text only."""
+
+    def __init__(self, replies=(), prompt_replies=()):
+        super().__init__()
+        self.replies = list(replies)
+        self.prompt_replies = list(prompt_replies)
+
+    def decode(self, ids):
+        _text, kwargs = self.tokenize_calls[-1]
+        return (self.replies if "images" in kwargs else self.prompt_replies).pop(0)
 
 
 @pytest.fixture
@@ -103,7 +122,6 @@ def an_image(height=8, width=8, channels=3, batch=1):
 
 
 def tag_one(clip, classifier, **kwargs):
-    kwargs.setdefault("known_things", {})
     return tagging.tag_image(clip, classifier, an_image(), **kwargs)
 
 
@@ -300,6 +318,44 @@ def test_prompt_things_instruction_override():
     assert "Things in: a fox" in clip.text_only_calls()[0]
 
 
+# --- prompt language ------------------------------------------------------------------
+
+
+def test_prompt_things_list_a_non_english_prompt_from_its_english_translation():
+    pytest.importorskip("logit_classifier")
+    prompt = "Eine Katze liegt auf einer Computertastatur."
+    clip = ScriptedClip(prompt_replies=["A cat on a keyboard.", "cat, keyboard"])
+    classifier = FakeClassifier(english=0.01)
+
+    things = tagging.prompt_things(clip, classifier, prompt, {})
+    translate, listing = clip.text_only_calls()
+    (language_request, _image), = classifier.calls_of("noul")
+    assert things == ("cat", "keyboard")
+    assert [q.instructions for q in language_request.questions.values()] == [tagging.LANGUAGE_QUESTION]
+    assert language_request.state == prompt
+    assert tagging.TRANSLATE_INSTRUCTION.replace(tagging.PROMPT_PLACEHOLDER, prompt) in translate
+    assert "A cat on a keyboard." in listing
+    assert prompt not in listing
+    assert clip.generate_calls[0][1]["max_length"] == tagging.TRANSLATE_MAX_TOKENS
+
+
+def test_prompt_things_of_an_english_prompt_run_no_translation():
+    pytest.importorskip("logit_classifier")
+    clip = FakeClip(prompt_reply="fox")
+
+    assert tagging.prompt_things(clip, FakeClassifier(english=0.99), "a fox", {}) == ("fox",)
+    assert len(clip.generate_calls) == 1
+    assert "Translate" not in clip.text_only_calls()[0]
+
+
+def test_a_blank_translation_falls_back_to_the_prompt():
+    pytest.importorskip("logit_classifier")
+    clip = ScriptedClip(prompt_replies=[" \n", "fox"])
+
+    assert tagging.prompt_things(clip, FakeClassifier(english=0.01), "a fox", {}) == ("fox",)
+    assert "a fox" in clip.text_only_calls()[1]
+
+
 # --- merge and thing check ------------------------------------------------------------
 
 
@@ -368,29 +424,38 @@ def test_tag_image_reports_every_stage(fake_classifier, monkeypatch):
     fake_classifier.other = {"sunset": 0.95}
 
     trace = tagging.tag_image(FakeClip(reply="cat, objects, sunset, dog"), fake_classifier, an_image(40, 20),
-                              prompt_tags=("dog", "fox"), known_things={})
+                              prompt_tags=("dog", "fox"))
     assert trace.size_in == (40, 20)
     assert trace.size_out == (14, 7)
     assert trace.reply == "cat, objects, sunset, dog"
+    assert trace.echo_reply is None
     assert trace.proposed == ("cat", "objects", "sunset", "dog")
-    assert trace.candidates == ("cat", "dog", "fox")
-    assert trace.origins == ("model", "both", "prompt")
-    assert trace.dropped == (("objects", "category noun"), ("sunset", "not a thing"))
-    assert trace.scores == (0.95, 0.3, 0.99)
+    assert trace.candidates == ("cat", "sunset", "dog", "fox")
+    assert trace.origins == ("model", "model", "both", "prompt")
+    assert trace.dropped == (("objects", "category noun"),)
+    assert trace.scores == (0.95, 0.0, 0.3, 0.99)
     assert trace.kept == ("cat",)
     assert trace.tags == "cat"
     assert trace.propose_ms >= 0
     assert trace.verify_ms >= 0
 
 
-def test_tag_image_verifies_only_things_on_the_resized_image(fake_classifier):
-    fake_classifier.other = {"sunset": 0.95}
-
+def test_tag_image_verifies_every_candidate_on_the_resized_image(fake_classifier):
     tag_one(FakeClip(reply="cat, sunset"), fake_classifier)
     ((request, image),) = fake_classifier.calls_of("noul")
-    assert [q.instructions for q in request.questions.values()] == ["This image visibly contains cat"]
+    assert [q.instructions for q in request.questions.values()] == ["This image visibly contains cat",
+                                                                     "This image visibly contains sunset"]
     assert request.state == ""
     assert tuple(image.shape) == (1, 8, 8, 3)
+
+
+def test_tag_image_keeps_a_model_tag_the_thing_check_would_call_other(fake_classifier):
+    fake_classifier.probabilities = {"watermark": 0.95}
+    fake_classifier.other = {"watermark": 0.99}
+
+    trace = tag_one(FakeClip(reply="watermark"), fake_classifier)
+    assert trace.kept == ("watermark",)
+    assert fake_classifier.calls_of("choice") == []
 
 
 def test_tag_image_drops_subsets(fake_classifier):
@@ -423,6 +488,27 @@ def test_tag_image_skips_the_requests_when_nothing_parses(fake_classifier):
     assert fake_classifier.calls == []
 
 
+def test_tag_image_proposes_again_when_the_reply_echoes_only_category_nouns(fake_classifier):
+    fake_classifier.probabilities = {"red car": 0.95}
+    clip = ScriptedClip(replies=["objects, people, animals", "red car, road"])
+
+    trace = tag_one(clip, fake_classifier)
+    assert trace.echo_reply == "objects, people, animals"
+    assert trace.reply == "red car, road"
+    assert "red car" in trace.candidates
+    assert trace.tags == "red car"
+    assert tagging.ECHO_FALLBACK_INSTRUCTION in clip.tokenize_calls[1][0]
+
+
+def test_a_custom_instruction_never_triggers_the_echo_fallback(fake_classifier):
+    clip = ScriptedClip(replies=["objects, people, animals", "red car, road"])
+
+    trace = tag_one(clip, fake_classifier, instruction="Name the things.")
+    assert len(clip.generate_calls) == 1
+    assert trace.echo_reply is None
+    assert trace.candidates == ()
+
+
 def test_tag_image_instruction_override(fake_classifier):
     clip = FakeClip()
 
@@ -448,7 +534,7 @@ def test_tag_image_calls_each_stage_before_its_model_call(fake_classifier):
 
     fake_classifier.classify = classify
     tag_one(RecordingClip(reply="cat"), fake_classifier, on_stage=events.append)
-    assert events == ["writing tags", "generate", "checking tags", "choice", "noul"]
+    assert events == ["writing tags", "generate", "checking tags", "noul"]
 
 
 def test_tag_image_proposes_and_verifies_inside_one_shared_vision_scope(fake_classifier):
@@ -469,7 +555,7 @@ def test_tag_image_proposes_and_verifies_inside_one_shared_vision_scope(fake_cla
     fake_classifier.classify = classify
     clip = ScopeClip(reply="cat")
     tag_one(clip, fake_classifier)
-    assert seen == [("propose", [True]), ("check", [True]), ("check", [True])]
+    assert seen == [("propose", [True]), ("check", [True])]
     assert [scope["clip"] for scope in fake_classifier.scopes] == [clip]
     assert fake_classifier.scopes[0]["open"] is False
 
@@ -478,7 +564,7 @@ def test_tag_image_rejects_a_batch(fake_classifier):
     clip = FakeClip()
 
     with pytest.raises(ValueError, match="Logit Tagger"):
-        tagging.tag_image(clip, fake_classifier, an_image(batch=2), known_things={})
+        tagging.tag_image(clip, fake_classifier, an_image(batch=2))
     assert clip.generate_calls == []
 
 
@@ -505,7 +591,16 @@ def test_tag_images_reports_both_stages_per_image(fake_classifier):
     assert progress == [(0, "writing tags"), (0, "checking tags"), (1, "writing tags"), (1, "checking tags")]
 
 
-def test_tag_images_lists_each_distinct_prompt_once_and_shares_thing_answers(fake_classifier):
+def test_tag_images_reads_each_prompt_at_its_first_image(fake_classifier):
+    progress = []
+
+    tagging.tag_images(FakeClip(reply="cat", prompt_reply="fox"), [an_image(), an_image()], ["a fox", "a fox"],
+                       on_progress=lambda index, stage: progress.append((index, stage)))
+    assert progress == [(0, "reading prompt"), (0, "writing tags"), (0, "checking tags"), (1, "writing tags"),
+                        (1, "checking tags")]
+
+
+def test_tag_images_lists_each_distinct_prompt_once_and_checks_only_prompt_things(fake_classifier):
     fake_classifier.probabilities = {"cat": 0.95, "fox": 0.99999}
     clip = FakeClip(reply="cat", prompt_reply="fox")
 
@@ -513,7 +608,7 @@ def test_tag_images_lists_each_distinct_prompt_once_and_shares_thing_answers(fak
     asked = [q.instructions for request, _image in fake_classifier.calls_of("choice")
              for q in request.questions.values()]
     assert len(clip.text_only_calls()) == 1
-    assert sorted(asked) == ['What does the image tag "cat" name', 'What does the image tag "fox" name']
+    assert asked == ['What does the image tag "fox" name']
     assert [trace.tags for trace in traces] == ["fox, cat", "fox, cat", "cat"]
     assert [trace.origins for trace in traces] == [("model", "prompt"), ("model", "prompt"), ("model",)]
 
@@ -666,10 +761,10 @@ def test_tag_images_with_a_tag_list_checks_every_image_and_never_generates(fake_
 
 
 def test_a_clip_that_is_not_a_qwen_model_fails_before_any_generate():
-    library = pytest.importorskip("logit_classifier.backends.base")
+    pytest.importorskip("logit_classifier.backends.comfy_clip")
     clip = FakeClip()
 
-    with pytest.raises(library.UnsupportedModelError):
+    with pytest.raises(ValueError, match=r"^Logit Tagger: this CLIP is not a Qwen3-VL text encoder"):
         tagging.tag_images(clip, [an_image()], ["a fox"])
     assert clip.generate_calls == []
 

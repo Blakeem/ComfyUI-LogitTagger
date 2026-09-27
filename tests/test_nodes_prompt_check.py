@@ -69,6 +69,7 @@ def fake_comfy(monkeypatch):
     RecordingProgressBar.instances = []
     utils.ProgressBar = RecordingProgressBar
     model_management.throw_exception_if_processing_interrupted = throw_exception_if_processing_interrupted
+    model_management.InterruptProcessingException = Interrupted
     server.PromptServer = SimpleNamespace(instance=SimpleNamespace(
         send_progress_text=lambda text, node_id: state.sent.append((text, node_id))))
     comfy.utils = utils
@@ -225,7 +226,26 @@ def test_two_prompts_for_two_images_pair_in_order_and_share_one_thing_cache(fake
     assert [call.statements for call in fake_engine.calls] == [["Is there a cat in this image?"],
                                                                ["Is there a dog in this image?"]]
     assert output["result"][:3] == (False, [1.0, 0.0], ["", "dog"])
-    assert output["ui"] == {"text": ("cat, dog\n0: 1.00 all present\n1: 0.00 missing: dog",)}
+    assert output["ui"] == {"text": ("0: cat | 1.00 all present\n1: dog | 0.00 missing: dog",)}
+
+
+def test_prompts_with_different_things_show_each_image_after_its_own_things(fake_comfy, fake_engine, fake_things):
+    fake_things.things_of = {"a cat and a dog": ("cat", "dog"), "a car on a road": ("car", "road"), "calm": ()}
+    fake_engine.scores = [[0.9, 0.8], [0.1, 0.9]]
+
+    output = run_check([a_batch(0.1, 0.2, 0.3)], ["a cat and a dog", "a car on a road", "calm"])
+
+    assert output["ui"] == {"text": (
+        f"0: cat, dog | 1.00 all present\n1: car, road | 0.50 missing: car\n2: {NO_THINGS_LINE} | 1.00 all present",)}
+
+
+def test_prompts_with_the_same_things_share_one_line_of_things(fake_comfy, fake_engine, fake_things):
+    fake_things.things_of = {"a cat and a dog": ("cat", "dog"), "a dog and a cat": ("cat", "dog")}
+    fake_engine.scores = [[0.9, 0.8], [0.1, 0.9]]
+
+    output = run_check([a_batch(0.1, 0.2)], ["a cat and a dog", "a dog and a cat"])
+
+    assert output["ui"] == {"text": ("cat, dog\n0: 1.00 all present\n1: 0.50 missing: cat",)}
 
 
 def test_a_repeated_prompt_is_read_once(fake_comfy, fake_engine, fake_things):
@@ -239,7 +259,7 @@ def test_a_repeated_prompt_is_read_once(fake_comfy, fake_engine, fake_things):
 
 
 def test_a_wrong_prompt_count_is_an_error_before_the_run_starts(fake_comfy, fake_engine, fake_things):
-    with pytest.raises(ValueError, match="Logit Prompt Check: the prompt input has 2 texts for 3 items"):
+    with pytest.raises(ValueError, match="Logit Prompt Check: the prompt input has 2 texts for 3 images"):
         run_check([a_batch(0.1, 0.2, 0.3)], ["a cat", "a dog"])
 
     assert fake_engine.built == []
@@ -281,12 +301,12 @@ def test_one_bar_closes_each_image_and_the_status_names_each_stage(fake_comfy, f
     bar = RecordingProgressBar.instances[0]
     assert bar.total == 3 * progress.ITEM_UNITS
     assert bar.updates[-1] == (300, 300)
-    assert fake_comfy.sent == [
+    assert fake_comfy.sent[:-1] == [
         ("image 1/3: reading prompt", NODE_ID), ("image 1/3: checking", NODE_ID),
         ("image 2/3: checking", NODE_ID),
         ("image 3/3: reading prompt", NODE_ID), ("image 3/3: checking", NODE_ID),
-        ("", NODE_ID),
     ]
+    assert re.fullmatch(r"3 images in \d+\.\d s", fake_comfy.sent[-1][0])
     assert sys.modules["comfy.utils"].ProgressBar is RecordingProgressBar
 
 
@@ -299,4 +319,4 @@ def test_an_interrupt_stops_the_run_before_the_prompt_is_read(fake_comfy, fake_e
 
     assert fake_things.calls == []
     assert fake_engine.calls == []
-    assert fake_comfy.sent == [("", NODE_ID)]
+    assert fake_comfy.sent == [("cancelled", NODE_ID)]

@@ -7,6 +7,7 @@ Module scope is stdlib only, so comfy and the server are imported inside the fun
 
 from __future__ import annotations
 
+import time
 from typing import Any
 
 # The run's bar carries integers, so this is its resolution per item.
@@ -63,6 +64,7 @@ class RunProgress:
         self._value = 0
         self._total = self._total_items * ITEM_UNITS
         self._status_text: str | None = None
+        self._started = time.perf_counter()
         self._bar = self._bar_class(self._total)
         self._emit(0)
 
@@ -99,11 +101,21 @@ class RunProgress:
         return self
 
     def __exit__(self, exc_type: Any, exc: Any, traceback: Any) -> bool:
+        import comfy.model_management
         import comfy.utils
 
+        seconds = time.perf_counter() - self._started
+        noun = self._noun if self._total_items == 1 else f"{self._noun}s"
+        text = f"{self._total_items} {noun} in {seconds:.1f} s"
+
         comfy.utils.ProgressBar = self._bar_class
-        # An empty line removes the status row, so a raise cannot leave a stale stage under the node.
-        self._send_status("")
+        if exc_type is not None and issubclass(exc_type, comfy.model_management.InterruptProcessingException):
+            text = "cancelled"
+        elif exc_type is not None:
+            text = "failed"
+        # Frontend 1.53.6 keeps the last progress text and ignores an empty one, so the run ends on a line that
+        # says how it ended.
+        self._send_status(text)
         return False
 
     def _emit(self, units: float) -> None:

@@ -4,6 +4,7 @@ Fake comfy.utils, comfy.model_management and server modules stand in for ComfyUI
 and no GPU are needed.
 """
 
+import re
 import subprocess
 import sys
 import types
@@ -17,6 +18,7 @@ from logit_tagger import progress
 
 PACK_ROOT = Path(__file__).parent.parent.resolve()
 NODE_ID = "7"
+FINISHED_TWO = r"2 images in \d+\.\d s"
 
 
 class RecordingProgressBar:
@@ -33,8 +35,8 @@ class RecordingProgressBar:
         self.updates.append((value, total))
 
 
-class Interrupted(Exception):
-    pass
+class Interrupted(BaseException):
+    """Stands in for core's InterruptProcessingException, a BaseException."""
 
 
 class RecordingServer:
@@ -67,6 +69,7 @@ def fake_comfy(monkeypatch):
     RecordingProgressBar.instances = []
     utils.ProgressBar = RecordingProgressBar
     model_management.throw_exception_if_processing_interrupted = throw_exception_if_processing_interrupted
+    model_management.InterruptProcessingException = Interrupted
     server.PromptServer = SimpleNamespace(instance=state.server)
     comfy.utils = utils
     comfy.model_management = model_management
@@ -174,7 +177,8 @@ def test_a_routed_bar_before_the_first_item_changes_nothing(fake_comfy):
         after = list(run_bar().updates)
 
     assert after == before
-    assert fake_comfy.server.sent == [("", NODE_ID)]
+    assert len(fake_comfy.server.sent) == 1
+    assert re.fullmatch(FINISHED_TWO, fake_comfy.server.sent[0][0])
 
 
 # --- the patch window -------------------------------------------------------------------
@@ -190,7 +194,7 @@ def test_the_patch_routes_bars_inside_the_run_and_is_undone_on_exit(fake_comfy):
     assert utils.ProgressBar is RecordingProgressBar
 
 
-def test_the_patch_is_undone_and_the_status_cleared_after_a_raise(fake_comfy):
+def test_the_patch_is_undone_and_the_status_says_failed_after_a_raise(fake_comfy):
     utils = sys.modules["comfy.utils"]
 
     with pytest.raises(RuntimeError, match="out of memory"), \
@@ -199,7 +203,7 @@ def test_the_patch_is_undone_and_the_status_cleared_after_a_raise(fake_comfy):
         raise RuntimeError("out of memory")
 
     assert utils.ProgressBar is RecordingProgressBar
-    assert fake_comfy.server.sent[-1] == ("", NODE_ID)
+    assert fake_comfy.server.sent[-1] == ("failed", NODE_ID)
 
 
 # --- the status line --------------------------------------------------------------------
@@ -212,7 +216,9 @@ def test_the_status_line_for_one_item_is_the_stage_alone_and_sent_only_on_change
         run.item(0, "checking tags")
         run.item_done(0)
 
-    assert fake_comfy.server.sent == [("writing tags", NODE_ID), ("checking tags", NODE_ID), ("", NODE_ID)]
+    assert fake_comfy.server.sent[:2] == [("writing tags", NODE_ID), ("checking tags", NODE_ID)]
+    assert len(fake_comfy.server.sent) == 3
+    assert re.fullmatch(r"1 image in \d+\.\d s", fake_comfy.server.sent[2][0])
 
 
 def test_the_status_line_for_three_items_names_the_noun_and_the_position(fake_comfy):
@@ -221,12 +227,40 @@ def test_the_status_line_for_three_items_names_the_noun_and_the_position(fake_co
             run.item(index, "checking")
             run.item_done(index)
 
-    assert [text for text, _node_id in fake_comfy.server.sent] == [
+    assert [text for text, _node_id in fake_comfy.server.sent][:3] == [
         "text 1/3: checking",
         "text 2/3: checking",
         "text 3/3: checking",
-        "",
     ]
+    assert len(fake_comfy.server.sent) == 4
+    assert re.fullmatch(r"3 texts in \d+\.\d s", fake_comfy.server.sent[3][0])
+
+
+@pytest.mark.parametrize(("count", "pattern"), [(2, r"^2 images in \d+\.\d s$"), (1, r"^1 image in \d+\.\d s$")])
+def test_a_finished_run_ends_on_its_item_count_and_duration(fake_comfy, count, pattern):
+    with progress.RunProgress(total_items=count, unique_id=NODE_ID, noun="image") as run:
+        for index in range(count):
+            run.item(index, "writing tags")
+            run.item_done(index)
+
+    assert re.match(pattern, fake_comfy.server.sent[-1][0])
+
+
+def test_a_cancelled_run_ends_on_cancelled_and_the_interrupt_propagates(fake_comfy):
+    with pytest.raises(Interrupted), progress.RunProgress(total_items=2, unique_id=NODE_ID, noun="image") as run:
+        run.item(0, "writing tags")
+        raise Interrupted()
+
+    assert fake_comfy.server.sent[-1] == ("cancelled", NODE_ID)
+
+
+def test_a_failed_run_ends_on_failed_and_the_error_propagates(fake_comfy):
+    with pytest.raises(ValueError, match="bad input"), \
+            progress.RunProgress(total_items=2, unique_id=NODE_ID, noun="image") as run:
+        run.item(0, "writing tags")
+        raise ValueError("bad input")
+
+    assert fake_comfy.server.sent[-1] == ("failed", NODE_ID)
 
 
 def test_item_checks_for_an_interrupt_before_it_announces_the_item(fake_comfy):
@@ -237,7 +271,9 @@ def test_item_checks_for_an_interrupt_before_it_announces_the_item(fake_comfy):
             run.item(1, "writing tags")
 
     assert fake_comfy.interrupt_checks == 2
-    assert [text for text, _node_id in fake_comfy.server.sent] == ["image 1/2: writing tags", ""]
+    assert fake_comfy.server.sent[0] == ("image 1/2: writing tags", NODE_ID)
+    assert len(fake_comfy.server.sent) == 2
+    assert re.fullmatch(FINISHED_TWO, fake_comfy.server.sent[1][0])
     assert run_bar().updates[-1][0] == 0
 
 

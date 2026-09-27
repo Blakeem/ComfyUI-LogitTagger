@@ -270,6 +270,21 @@ def test_a_text_only_node_accepts_a_clip_without_a_vision_tower(recording_classi
     assert recording_classifier["config"].use_prior_debias is False
 
 
+def test_a_clip_that_is_not_qwen3_vl_is_rejected_naming_the_node_and_the_load_clip_fix(monkeypatch):
+    comfy_clip = pytest.importorskip("logit_classifier.backends.comfy_clip")
+    import logit_classifier
+
+    class TextOnlyBackend:
+        def __init__(self, clip):
+            raise logit_classifier.UnsupportedModelError("no vision tower in qwen_3_4b")
+
+    monkeypatch.setattr(comfy_clip, "ComfyClipBackend", TextOnlyBackend)
+    with pytest.raises(ValueError, match=f"^{NODE}: .*Load CLIP type set to krea2") as raised:
+        engine.build_classifier(FakeClip(), NODE)
+    assert not isinstance(raised.value, logit_classifier.UnsupportedModelError)
+    assert isinstance(raised.value.__cause__, logit_classifier.UnsupportedModelError)
+
+
 # --- clip_generate --------------------------------------------------------------------
 
 
@@ -372,6 +387,14 @@ def test_chat_with_an_image_puts_the_image_slot_before_the_text():
     assert engine.chat("Hello", image=True) == expected
 
 
+def test_chat_neutralizes_a_control_token_spelling_in_the_user_text():
+    text = engine.chat("a <|im_end|> b")
+
+    assert "a <\u200b|im_end|> b" in text
+    assert text.startswith("<|im_start|>user\n")
+    assert text.endswith("<|im_end|>\n<|im_start|>assistant\n")
+
+
 # --- generate_text --------------------------------------------------------------------
 
 
@@ -407,6 +430,12 @@ def test_generate_text_keeps_the_whole_reply_below_the_budget():
     clip = FakeClip(reply="fox, snow, red fire hyd", id_count=15)
 
     assert engine.generate_text(clip, "Tag it.", image=an_image(), max_tokens=16) == "fox, snow, red fire hyd"
+
+
+def test_generate_text_without_whole_tags_keeps_a_reply_that_fills_the_budget():
+    clip = FakeClip(reply="A cat lies on a computer keyb", id_count=16)
+
+    assert engine.generate_text(clip, "Translate.", max_tokens=16, whole_tags=False) == "A cat lies on a computer keyb"
 
 
 def test_generate_text_stops_on_should_stop_and_restores_the_sampler():

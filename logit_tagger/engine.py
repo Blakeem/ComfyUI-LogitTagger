@@ -72,12 +72,18 @@ def build_classifier(clip: Any, node: str, *, needs_images: bool = True) -> Any:
     """One Classifier over the workflow's CLIP, with no prior drift and no calibration file."""
     # shared_vision_encode is imported so a library older than 0.3.0 fails here with the pip command.
     try:
-        from logit_classifier import Classifier, Config
+        from logit_classifier import Classifier, Config, UnsupportedModelError
         from logit_classifier.backends.comfy_clip import ComfyClipBackend, shared_vision_encode  # noqa: F401
     except ImportError as error:
         raise library_error(node) from error
 
-    backend = ComfyClipBackend(clip)
+    try:
+        backend = ComfyClipBackend(clip)
+    except UnsupportedModelError as error:
+        raise ValueError(
+            f"{node}: this CLIP is not a Qwen3-VL text encoder, so {node} cannot ask it questions ({error}). Load a "
+            "Qwen3-VL text encoder, such as qwen3vl_4b_fp8_scaled.safetensors, with the Load CLIP type set to krea2."
+        ) from error
     if needs_images and not backend.sees_images:
         raise ValueError(
             f"{node}: this CLIP was loaded without its vision tower, so {node} cannot read the "
@@ -153,13 +159,18 @@ def stop_when(clip: Any, should_stop: Callable[[list[str]], bool]) -> Iterator[N
 
 def chat(user: str, *, image: bool = False) -> str:
     """The Qwen chat text for one user turn, with the image slot first when image is true."""
-    # A text starting with <|im_start|> skips core's template, whose empty think block made this model reply empty or refuse.
-    return f"<|im_start|>user\n{_IMAGE_TOKENS if image else ''}{user}<|im_end|>\n<|im_start|>assistant\n"
+    # The tokenizer reads a <|...|> spelling in plain text as a control token, so an unescaped prompt could
+    # close the user turn.
+    safe_user = user.replace("<|", "<\u200b|")
+
+    # A text starting with <|im_start|> skips core's template, whose empty think block made this model reply
+    # empty or refuse.
+    return f"<|im_start|>user\n{_IMAGE_TOKENS if image else ''}{safe_user}<|im_end|>\n<|im_start|>assistant\n"
 
 
 def generate_text(clip: Any, user: str, *, image: Any = None, max_tokens: int,
-                  should_stop: Callable[[list[str]], bool] | None = None) -> str:
-    """One greedy reply to user, cut back to its last whole tag when it fills max_tokens."""
+                  should_stop: Callable[[list[str]], bool] | None = None, whole_tags: bool = True) -> str:
+    """One greedy reply to user. With whole_tags, a reply that fills max_tokens is cut back to its last whole tag."""
     text = chat(user, image=image is not None)
     stopper: Any = nullcontext() if should_stop is None else stop_when(clip, should_stop)
     tokens = None
@@ -171,7 +182,7 @@ def generate_text(clip: Any, user: str, *, image: Any = None, max_tokens: int,
         ids = clip_generate(clip, tokens, do_sample=False, max_length=max_tokens)
     reply = clip.decode(ids)
     # Core stops early only on a stop token, so a decode that fills the budget ends mid tag.
-    if len(ids) >= max_tokens:
+    if whole_tags and len(ids) >= max_tokens:
         from logit_classifier.tags import drop_unfinished_tag
 
         return drop_unfinished_tag(reply)
