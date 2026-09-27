@@ -2,7 +2,8 @@
 
 A ComfyUI node pack built on the `logit-classifier` library. Every node reads the Qwen3-VL-4B text
 encoder the workflow already loads (Krea 2's CLIP) and reads its answers from the logits, so no
-second model loads and no generated text is parsed. Ideas for later nodes live in `TODO.md`.
+second model loads. The Tagger's stages come from the library's toolkit (`logit_classifier.toolkit`),
+which ContextAnchoredTileRefine shares. Ideas for later nodes live in `TODO.md`.
 
 ## Nodes
 
@@ -44,28 +45,29 @@ Shared contract for every node:
 ## Modules
 
 ```
-nodes.py ──> tagging.py ──> engine.py ──> logit_classifier (Classifier, ComfyClipBackend, tags)
-   │                           ^
-   ├──> lists.py               │
-   ├──> progress.py            │
-   └───────────────────────────┘
+nodes.py ─┬─> tagging.py ─┬─> engine.py ──> logit_classifier.toolkit.comfyui (classifier) ──> logit_classifier
+          │               └─> logit_classifier.toolkit (tags, comfyui tagger and generate)
+          ├─> engine.py
+          ├─> lists.py
+          └─> progress.py ──> logit_classifier.toolkit.comfyui (progress)
 ```
 
 | Module | Holds |
 |---|---|
-| `logit_tagger/engine.py` | model access every node shares: `resize_for_vl` (1 MP, or 0.5 MP for the logit-only paths), `build_classifier`, `clip_generate` (CUDA graph cleanup), `stop_when`, `chat` (escapes control-token spellings), `generate_text`, `nouls`, `choose`, `presence_question` |
-| `logit_tagger/tagging.py` | the tagger pipeline and the prompt check: `prompt_things`, `english_prompt`, `tag_image`, `check_tag_list`, `tag_images`, `check_prompt`, `TagTrace`, `PromptCheck` |
+| `logit_tagger/engine.py` | what every node shares: the pixel caps `VL_MAX_PIXELS` (1 MP) and `CHECK_MAX_PIXELS` (0.5 MP), `check_images`, `library_error` (the pip command), `build_classifier` (the toolkit's `comfy_classifier`), `choose` |
+| `logit_tagger/tagging.py` | the Tagger's runs and the prompt check over the toolkit: `tag_settings`, `tag_image`, `parse_tag_list`, `check_tag_list`, `tag_images`, `check_prompt`, `TagTrace`, `PromptCheck` |
 | `logit_tagger/lists.py` | list input rules |
-| `logit_tagger/progress.py` | `RunProgress`, `send_status` |
+| `logit_tagger/progress.py` | `RunProgress`, over the toolkit's `routed_progress_bars`, `send_status` and `run_outcome` |
 | `logit_tagger/nodes.py` | every node class |
 | `web/logit_tagger.js` | the result display below each node |
 | `example_workflows/` | four workflows core lists in its template browser, each run once on this machine |
-| `tests-AB/` | measurement harnesses, bootstrapped by `ab_env.py` |
+| `tests-AB/` | measurement harnesses, bootstrapped by `ab_env.py` over the library's `tests-AB/comfy_env.py` |
 
 ## The tagger pipeline
 
-Ported from ContextAnchoredTileRefine's tile tagger (`context_anchored_tile_refine/tags.py`, its
-`tests-AB/tags-bench-log.md` measured precision 0.778 to 0.972).
+The stages are the toolkit's `prompt_tags` and `tag_picture`, driven by `tagging.tag_settings()`,
+which returns the toolkit's `TagSettings` defaults. ContextAnchoredTileRefine runs the same stages on
+tiles with its own preset values.
 
 ```
 prompt ──> [language gate] ──> [translate] ──> [prompt stage] ──┐  once per distinct prompt, text only
@@ -75,31 +77,27 @@ prompt ──> [language gate] ──> [translate] ──> [prompt stage] ──
                                                  and the thing   │
                                                  check calls a   │
                                                  thing           │
-image ──> [resize] ──> [propose] ──> [merge] ────────────────────┴──> [verify] ──> [clean] ──> tags
-          1 MP cap     greedy, stops  model tags first, then          noul per tag   drop_subsets,
-                       at 40 tags or  prompt tags, category nouns     0.9, or 0.9999 score order
-                       a repeat       dropped, 80 at most             for prompt-only
+image ──> [resize] ──> [propose] ──> [merge] ──> [thing check] ─┴──> [verify] ──> [clean] ──> tags
+          1 MP cap     greedy, stops  model tags   drops a tag            noul per tag   drop_subsets
+                       at 25 tags or  first, then  whose p("other")       0.999, or      (words rule),
+                       a repeat       prompt tags, reaches 0.9            0.9999 for     score order
+                                      64 at most                          prompt-only
 ```
 
-- A propose reply that holds only the instruction's category nouns gets one more propose with
-  `ECHO_FALLBACK_INSTRUCTION`. A connected instruction never triggers it.
-- The thing check judges only a prompt's things. On the model's own tags it dropped tags the
-  judges graded correct, such as "watermark" and "pixel art".
+- A propose reply that holds only the instruction's category nouns gets one more propose with the
+  settings' `echo_fallback_instruction`. A connected instruction never triggers it.
+- The thing check judges every tag. On the model's own tags it drops some correct ones, such as
+  "watermark" and "pixel art", and it removes more vague ones (see Tagger A/B).
 - The prompt stage grounds each listed thing in the English text's words, and two ungrounded tags in
   a row end the list. That guard stops the padding the model writes past a prompt's own things, and
   the translation keeps it working for a prompt in another language.
 
-- Propose and verify run inside the library's `shared_vision_encode`, so the vision tower runs once
+- Propose and verify run inside the toolkit's `shared_vision_encode`, so the vision tower runs once
   per image.
-- The propose stage writes the Qwen chat template itself (`engine.chat`). Core's `thinking=False`
-  appends an empty `<think>` block that made Qwen3-VL-4B-Instruct reply empty, refuse, or open with
-  `assistant`.
-- `engine.clip_generate` calls `comfy.model_prefetch.cleanup_prefetch_queues` after each generate.
-  Core's Qwen3 CUDA graph decode keeps each layer's graph bound to the freed KV cache and asserts on
-  the next generate in the same node (issue #16441). The cleanup keeps graph decode on, which
-  ContextAnchoredTileRefine measured at 100 to 16.5 ms per token.
-- `engine.stop_when` wraps core's `sample_token` and returns the stop token once a predicate on the
-  complete tags so far holds, since core's decode loop takes no stop condition.
+- The toolkit's `generate_text` writes the Qwen chat template itself, since core's `thinking=False`
+  appends an empty `<think>` block that made Qwen3-VL-4B-Instruct reply empty. Its `clip_generate`
+  clears core's CUDA graph decode queues after each generate (core issue #16441), and `stop_when`
+  ends core's decode loop on a predicate over the complete tags so far.
 - The CLIP loader types `krea2`, default and `mage` gave identical tags. `flux` and `flux2` load the
   encoder without its vision tower, and `build_classifier` rejects them by name. A text-only Qwen3
   fails the library's model check, and `build_classifier` names the node and the Load CLIP fix.
@@ -108,8 +106,9 @@ image ──> [resize] ──> [propose] ──> [merge] ───────�
 
 `tests-AB/ab_tagger_compare.py` tags 72 Krea 2 renders without and with their prompts and 30 COCO
 photos, per arm. Blind judges grade each kept tag by `tests-AB/data/tagger-ab/RUBRIC.md` into
-`verdicts.json` (102 images, 2,775 tags), and `tests-AB/ab_tagger_score.py` scores the arms.
-Precision is yes over yes, no and vague. All arms ran with DynamicVRAM on.
+`verdicts.json` (102 images, 3,309 tags), and `tests-AB/ab_tagger_score.py` scores the arms.
+Precision is yes over yes, no and vague. All arms ran with DynamicVRAM on. Each run's records sit in
+`tests-AB/data/tagger-ab/runs/<experiment>/`.
 
 | Condition | Arm | Precision | Correct tags per image | Seconds per image |
 |---|---|---|---|---|
@@ -122,11 +121,25 @@ Precision is yes over yes, no and vague. All arms ran with DynamicVRAM on.
 | COCO photos | the first tagger | 0.898 | 10.9 | 4.28 |
 | COCO photos | the port | 0.945 | 8.6 | 1.77 |
 | COCO photos | shipped | 0.925 | 11.5 | 1.82 |
+| renders, no prompt | toolkit defaults, `3bd946c` | 0.946 | 12.8 | 2.23 |
+| renders, with prompt | toolkit defaults | 0.950 | 14.0 | 3.36 |
+| COCO photos | toolkit defaults | 0.964 | 9.7 | 1.58 |
 
-The port lost correct tags to the 25 tag cap (52%), the thing check on model tags (25%) and
-`drop_subsets` dropping a whole beside its part, such as "cat" beside "cat ear" (20%). The shipped
-arm removes all three. The library's `drop_subsets` now folds an item only into a superset with the
-same head noun.
+The owner ranks fewer wrong tags above more correct ones. So the round 2 arm's three changes were
+measured again on the fp8 encoder, as a replay of 16 settings from one superset run
+(`ab_tagger_score.py --replay`, `runs/2026-09-27-settings`). Each row changes one field from cap 25,
+the thing check on every tag, the words rule and verify 0.9:
+
+| Change | Correct per render | Wrong and vague per render |
+|---|---|---|
+| propose cap 40 over 25 | +0.85 | +0.15 |
+| thing check on the prompt's tags only | +0.88 | +0.30 |
+| verify threshold 0.999 over 0.9 | -0.21 | -0.08 |
+
+The head-noun subsets rule added no wrong tag on renders. It kept single words beside a longer kept
+tag ("bread" beside "loaf of bread"), and on ContextAnchoredTileRefine's tiles it added 0.03 wrong tags
+per tile, so the words rule stays. The defaults kept 0.12 wrong and 0.61 vague tags per render against
+0.28 and 1.08 for the round 2 arm. A real run of the defaults matched the replay (`runs/2026-09-27-defaults`).
 
 ## Measured question shapes
 
@@ -184,8 +197,8 @@ A Registry install gets the published wheel instead, through `[project] dependen
   missing library raises an error that prints the pip command.
 - A bug in the library is fixed in `E:\logit-classifier` and not patched around here. The owner
   publishes the fix to PyPI.
-- The library's first prime directive bars `generate`, so the generate side of the tagger lives here.
-  ContextAnchoredTileRefine holds a second copy of it, which is known duplication.
+- The library's toolkit holds the generate side of the tagger. Its first prime directive bars
+  `generate` only for a classifier answer.
 
 ## Verified against the installed core
 
@@ -210,9 +223,15 @@ Read from the server source at commit `88ab4a06` on 2026-09-27.
 - Lint gate: `uvx ruff@0.16.2 check .` reports zero findings, and `node --check web/logit_tagger.js`.
 - Harness: `.venv\Scripts\python.exe tests-AB\ab_tagger.py <image>... [--prompt] [--instruction]`
   prints each stage's result and time. Check `nvidia-smi` is idle first.
-- `tests-AB/ab_env.py` parses the app's memory flags and enables core's DynamicVRAM as `main.py`
-  does, so harness decode takes the CUDA graph path at about 30 ms per token on the fp8 encoder.
-  A harness that runs several node executions calls `ab_env.end_node_execution()` between them.
+- `tests-AB/ab_env.py` holds this machine's paths and memory flags and calls the library's
+  `tests-AB/comfy_env.py`, which enables core's DynamicVRAM as `main.py` does. So harness decode takes
+  the CUDA graph path at about 30 ms per token on the fp8 encoder. A harness that runs several node
+  executions calls `ab_env.end_node_execution()` between them.
+- A tuning question runs as one superset: `ab_tagger_compare.py --variants V.json --record-thing-scores`
+  at the loosest value of each field, then `ab_tagger_score.py --replay ARMS.json --results ...`
+  derives the stricter arms offline. `ab_judge.py store` copies a run into `runs/<experiment>/`,
+  `ab_judge.py split` writes blind judge batches with calibration pairs, and `ab_judge.py merge` adds
+  the verdicts to the store.
 
 ## Conventions
 

@@ -86,7 +86,7 @@ The tests use 72 Krea 2 renders and 80 prompts labeled by blind judges, plus COC
 
 | Node | Accuracy | Time per image | Script |
 |---|---|---|---|
-| Logit Tagger | 92% of kept tags judged correct, 11.5 to 16.7 correct tags per image | 1.8 to 3.5 s | `ab_tagger_compare.py` |
+| Logit Tagger | 95% of kept tags judged correct, 9.7 to 14.0 correct tags per image | 1.6 to 3.4 s | `ab_tagger_compare.py` |
 | Logit Tagger with `tags` | 97% precision and 75% recall over the 80 COCO categories | 0.5 s | `ab_release_gates.py` |
 | Logit Image Check | 97% over 27 questions | 0.28 s | `ab_release_gates.py` |
 | Logit Text Check | 97% over 80 prompts | 0.1 s | `ab_release_gates.py` |
