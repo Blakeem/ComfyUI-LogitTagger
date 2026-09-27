@@ -1,7 +1,7 @@
 import { app } from "../../scripts/app.js";
 
 // The frontend renders a ui text only on a node an extension opts in.
-const NODE_TYPES = new Set(["LogitTagger", "LogitImageCheck", "LogitTextCheck"]);
+const NODE_TYPES = new Set(["LogitTagger", "LogitImageCheck", "LogitTextCheck", "LogitPromptCheck", "LogitImageClassify"]);
 const FALLBACK_WIDGET = "tags_preview";
 
 // The frontend's own text preview, the one Preview as Text uses. Older frontends lack it.

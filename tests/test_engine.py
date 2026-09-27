@@ -455,3 +455,54 @@ def test_nouls_sends_no_request_without_statements():
 
     assert engine.nouls(classifier, [], image=an_image()) == []
     assert classifier.calls == []
+
+
+# --- choose ---------------------------------------------------------------------------
+
+
+class ChoosingClassifier:
+    """Answers every choice question with a fixed choice and confidence, recording each request."""
+
+    def __init__(self, choice, confidence):
+        self.answer = SimpleNamespace(choice=choice, confidence=confidence)
+        self.calls = []
+
+    def classify(self, request, *, image=None):
+        self.calls.append((request, image))
+        return SimpleNamespace(answers=dict.fromkeys(request.questions, self.answer)), None
+
+
+def test_choose_sends_one_choice_question_over_the_options_in_order_and_returns_the_answer():
+    classifier = ChoosingClassifier("oil painting", 0.83)
+    image = an_image()
+
+    result = engine.choose(classifier, "What is the style?", ["photograph", "oil painting", "pixel art"], image=image)
+    (request, sent_image), = classifier.calls
+    (question,) = request.questions.values()
+    assert result == ("oil painting", 0.83)
+    assert sent_image is image
+    assert request.state == ""
+    assert question.type == "choice"
+    assert question.instructions == "What is the style?"
+    assert question.criteria == {"photograph": None, "oil painting": None, "pixel art": None}
+    assert list(question.criteria) == ["photograph", "oil painting", "pixel art"]
+
+
+@pytest.mark.parametrize(("thing", "phrase"), [
+    ("dog", "a dog"),
+    ("apple", "an apple"),
+    ("glass", "a glass"),
+    ("cactus", "a cactus"),
+])
+def test_with_article_gives_a_singular_count_noun_a_or_an(thing, phrase):
+    assert engine.with_article(thing) == phrase
+
+
+@pytest.mark.parametrize("thing", ["dogs", "people", "three candles", "the moon", "water", "fresh water"])
+def test_with_article_leaves_a_plural_a_number_an_article_or_a_mass_noun_bare(thing):
+    assert engine.with_article(thing) == thing
+
+
+def test_presence_question_asks_about_the_thing_with_its_article():
+    assert engine.presence_question("apple") == "Is there an apple in this image?"
+    assert engine.presence_question("water") == "Is there water in this image?"

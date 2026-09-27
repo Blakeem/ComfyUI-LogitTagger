@@ -1,4 +1,6 @@
-"""The Logit Tagger pipeline for one whole image: propose, merge, thing check, verify and clean.
+"""The Logit Tagger pipeline for one whole image: propose, merge, thing check, verify and clean, or a tag list check.
+
+The prompt check lists a prompt's things with the pipeline's prompt stage and asks each image about them.
 
 No comfy, torch or logit_classifier module is imported at module scope, so the unit tests
 run without ComfyUI and a missing library fails with its pip command.
@@ -15,9 +17,12 @@ from typing import Any
 from . import engine
 
 NODE_NAME = "Logit Tagger"
+PROMPT_CHECK_NAME = "Logit Prompt Check"
 
 STAGE_WRITING = "writing tags"
 STAGE_CHECKING = "checking tags"
+STAGE_READING_PROMPT = "reading prompt"
+STAGE_CHECKING_THINGS = "checking"
 
 PROMPT_PLACEHOLDER = "{PROMPT}"
 TAG_PLACEHOLDER = "{TAG}"
@@ -84,12 +89,20 @@ THING_CRITERIA = {
 # Mid scores mix real things with non-things ("chinese characters" 0.45), so only a confident "other" drops a tag.
 THING_THRESHOLD = 0.9
 
+# The 80 COCO categories listed on 60 images kept precision 0.971 at recall 0.748, and 0.99 fell to precision
+# 0.786 (tests-AB/ab_release_gates.py, probe declared-tags).
+TAG_LIST_THRESHOLD = 0.9999
+
+# On 72 Krea 2 renders a thing the image lacked scored below 0.5 at precision 0.976 and recall 0.927
+# (tests-AB/ab_release_gates.py, probe adherence).
+MISSING_THRESHOLD = 0.5
+
 
 @dataclass(frozen=True)
 class TagTrace:
     """One image's pass through every stage, for the node and the harness to read.
 
-    `origins` is "model", "prompt" or "both" per candidate, `dropped` holds (name, reason) pairs
+    `origins` is "model", "prompt", "both" or "list" per candidate, `dropped` holds (name, reason) pairs
     from the merge and the thing check, and `kept` is in output order.
     """
 
@@ -105,6 +118,17 @@ class TagTrace:
     tags: str
     propose_ms: float
     verify_ms: float
+
+
+@dataclass(frozen=True)
+class PromptCheck:
+    """One image checked against its prompt: the prompt's things, each one's presence probability, the missing
+    things in prompt order, and the share of things present, 1.0 when the prompt names none."""
+
+    things: tuple[str, ...]
+    probabilities: tuple[float, ...]
+    missing: tuple[str, ...]
+    score: float
 
 
 def _word_forms(text: str) -> dict[str, set[str]]:
@@ -240,11 +264,11 @@ def prompt_things(clip: Any, classifier: Any, prompt: str, known_things: dict[st
     return tuple(tag for tag, p in zip(listed, p_other, strict=True) if is_thing(p))
 
 
-def _check_one_image(image: Any) -> None:
-    engine.check_images(image, NODE_NAME)
+def _check_one_image(image: Any, node: str = NODE_NAME) -> None:
+    engine.check_images(image, node)
     if image.shape[0] != 1:
         raise ValueError(
-            f"{NODE_NAME}: each image must be one image of shape [1, H, W, C], got a batch of "
+            f"{node}: each image must be one image of shape [1, H, W, C], got a batch of "
             f"{image.shape[0]}. Split the batch into single images first."
         )
 
@@ -315,9 +339,72 @@ def tag_image(clip: Any, classifier: Any, image: Any, *, prompt_tags: tuple[str,
     )
 
 
+def parse_tag_list(text: str, *, node: str = NODE_NAME) -> tuple[str, ...]:
+    """The cleaned tags of a comma or newline separated list, in order, each once."""
+    parts: list[str] = []
+
+    if not text.strip():
+        return ()
+    # The node parses the list before build_classifier checks the library.
+    try:
+        from logit_classifier.tags import clean_item
+    except ImportError as error:
+        raise engine.library_error(node) from error
+
+    parts = [clean_item(part) for part in re.split(r"[,\n]", text)]
+    return tuple(dict.fromkeys(part for part in parts if part))
+
+
+def check_tag_list(clip: Any, classifier: Any, image: Any, tags: tuple[str, ...]) -> TagTrace:
+    """Ask the presence question of every listed tag about one [1, H, W, C] image and keep the tags it shows."""
+    resized = None
+    questions: list[str] = []
+    scores: list[float] = []
+    passed: list[tuple[str, float]] = []
+    kept: tuple[str, ...] = ()
+    started = 0.0
+    verify_ms = 0.0
+
+    _check_one_image(image)
+    from logit_classifier.backends.comfy_clip import shared_vision_encode
+    from logit_classifier.config import JEV_MAX_QUESTIONS
+
+    resized = engine.resize_for_vl(image)
+    questions = [engine.presence_question(tag) for tag in tags]
+    started = time.perf_counter()
+    # One scope over every request, so the vision tower encodes the picture once.
+    with shared_vision_encode(clip):
+        # The library rejects a request of more than JEV_MAX_QUESTIONS questions.
+        for start in range(0, len(questions), JEV_MAX_QUESTIONS):
+            scores += engine.nouls(classifier, questions[start:start + JEV_MAX_QUESTIONS], image=resized)
+    verify_ms = (time.perf_counter() - started) * 1000.0
+
+    passed = [(tag, p) for tag, p in zip(tags, scores, strict=True) if p >= TAG_LIST_THRESHOLD]
+    # sorted is stable, so tied tags keep their list order.
+    kept = tuple(tag for tag, _p in sorted(passed, key=lambda pair: pair[1], reverse=True))
+    return TagTrace(
+        size_in=(int(image.shape[1]), int(image.shape[2])),
+        size_out=(int(resized.shape[1]), int(resized.shape[2])),
+        reply="",
+        proposed=(),
+        candidates=tuple(tags),
+        origins=("list",) * len(tags),
+        dropped=(),
+        scores=tuple(scores),
+        kept=kept,
+        tags=", ".join(kept),
+        propose_ms=0.0,
+        verify_ms=verify_ms,
+    )
+
+
 def tag_images(clip: Any, images: list[Any], prompts: list[str], *, instruction: str | None = None,
+               tag_list: tuple[str, ...] = (),
                on_progress: Callable[[int, str], None] | None = None) -> list[TagTrace]:
-    """One TagTrace per [1, H, W, C] image, in order, each tagged with the prompt at its index."""
+    """One TagTrace per [1, H, W, C] image, in order, checked against tag_list when it holds tags.
+
+    Otherwise each image is tagged with the prompt at its index.
+    """
     classifier = None
     known_things: dict[str, float] = {}
     things_by_prompt: dict[str, tuple[str, ...]] = {}
@@ -333,6 +420,12 @@ def tag_images(clip: Any, images: list[Any], prompts: list[str], *, instruction:
         _check_one_image(image)
     # Built before any generate, so a wrong CLIP fails before the model runs.
     classifier = engine.build_classifier(clip, NODE_NAME)
+    if tag_list:
+        for index, image in enumerate(images):
+            if on_progress is not None:
+                on_progress(index, STAGE_CHECKING)
+            traces.append(check_tag_list(clip, classifier, image, tag_list))
+        return traces
     things_by_prompt = {prompt: prompt_things(clip, classifier, prompt, known_things)
                         for prompt in dict.fromkeys(prompts)}
     for index, (image, prompt) in enumerate(zip(images, prompts, strict=True)):
@@ -340,3 +433,46 @@ def tag_images(clip: Any, images: list[Any], prompts: list[str], *, instruction:
         traces.append(tag_image(clip, classifier, image, prompt_tags=things_by_prompt[prompt],
                                 known_things=known_things, instruction=instruction, on_stage=on_stage))
     return traces
+
+
+def _presence_probabilities(classifier: Any, image: Any, things: tuple[str, ...]) -> tuple[float, ...]:
+    """The presence probability of every thing from one request about image, or () and no request without things."""
+    if not things:
+        return ()
+    # The prompt list holds at most one thing per PROMPT_TAGS_MAX_TOKENS token, within the library's 256 question cap.
+    return tuple(engine.nouls(classifier, [engine.presence_question(thing) for thing in things],
+                              image=engine.resize_for_vl(image)))
+
+
+def check_prompt(clip: Any, images: list[Any], prompts: list[str], *,
+                 on_progress: Callable[[int, str], None] | None = None) -> list[PromptCheck]:
+    """One PromptCheck per [1, H, W, C] image, in order, asking it about the things its paired prompt names."""
+    announce = on_progress if on_progress is not None else (lambda _index, _stage: None)
+    classifier = None
+    known_things: dict[str, float] = {}
+    things_by_prompt: dict[str, tuple[str, ...]] = {}
+    things: tuple[str, ...] = ()
+    probabilities: tuple[float, ...] = ()
+    missing: tuple[str, ...] = ()
+    score = 0.0
+    checks: list[PromptCheck] = []
+
+    if len(images) != len(prompts):
+        raise ValueError(
+            f"{PROMPT_CHECK_NAME}: got {len(images)} images and {len(prompts)} prompts. Give one prompt per image."
+        )
+    for image in images:
+        _check_one_image(image, PROMPT_CHECK_NAME)
+    # Built before any generate, so a wrong CLIP fails before the model runs.
+    classifier = engine.build_classifier(clip, PROMPT_CHECK_NAME)
+    for index, (image, prompt) in enumerate(zip(images, prompts, strict=True)):
+        if prompt not in things_by_prompt:
+            announce(index, STAGE_READING_PROMPT)
+            things_by_prompt[prompt] = prompt_things(clip, classifier, prompt, known_things)
+        things = things_by_prompt[prompt]
+        announce(index, STAGE_CHECKING_THINGS)
+        probabilities = _presence_probabilities(classifier, image, things)
+        missing = tuple(thing for thing, p in zip(things, probabilities, strict=True) if p < MISSING_THRESHOLD)
+        score = (len(things) - len(missing)) / len(things) if things else 1.0
+        checks.append(PromptCheck(things=things, probabilities=probabilities, missing=missing, score=score))
+    return checks

@@ -17,6 +17,16 @@ YES_THRESHOLD = 0.5
 IMAGE_QUESTION = "Is there a person in this image?"
 # On 80 labeled prompts this said no to every negated mention ("no cats") and decoy word ("dogwood"), where "Does this text mention" said yes.
 TEXT_QUESTION = "Does this prompt ask for a person in the image?"
+NO_THINGS_LINE = "no things in the prompt"
+CLASSIFY_NAME = "Logit Image Classify"
+CLASSIFY_STAGE = "classifying"
+CLASSIFY_QUESTION = "What is the art style of this image?"
+# The 8 styles tests-AB/ab_release_gates.py measured on 72 Krea 2 renders, probe render-style.
+CLASSIFY_OPTIONS = ("photograph, anime illustration, oil painting, 3D render, watercolor, pencil sketch, pixel art, "
+                    "comic book")
+MIN_OPTIONS = 2
+# One library branch holds 52 labels, and its abstain label takes one of them.
+MAX_OPTIONS = 51
 
 
 def format_display(tags: list[str]) -> str:
@@ -34,6 +44,21 @@ def _propose_instruction(values: list[str] | None) -> str | None:
         return None
     value = lists.single_value(values, tagging.NODE_NAME, "instruction")
     return value if value.strip() else None
+
+
+def _tag_list(values: list[str] | None, prompts: list[str]) -> tuple[str, ...]:
+    """The connected tags to check, or () for tags the pipeline writes when unconnected or blank."""
+    tag_list: tuple[str, ...] = ()
+
+    if not values:
+        return ()
+    tag_list = tagging.parse_tag_list(lists.single_value(values, tagging.NODE_NAME, "tags"))
+    if tag_list and any(prompt.strip() for prompt in prompts):
+        raise ValueError(
+            f"{tagging.NODE_NAME}: the prompt only guides the tags the node writes itself. Connect the prompt "
+            "or the tags, not both."
+        )
+    return tag_list
 
 
 def _image_progress(run: progress.RunProgress) -> Callable[[int, str], None]:
@@ -96,6 +121,39 @@ def _run_check(clip: Any, items: list[Any], question: list[str], unique_id: list
     }
 
 
+def _prompt_check_display(checks: list[tagging.PromptCheck], missing_texts: list[str]) -> str:
+    """The things read from the prompts on the first line, then each image's score and missing things."""
+    things: list[str] = []
+    header = NO_THINGS_LINE
+    verdicts: list[str] = []
+
+    things = list(dict.fromkeys(thing for check in checks for thing in check.things))
+    if things:
+        header = ", ".join(things)
+    verdicts = [f"{check.score:.2f} missing: {missing}" if missing else f"{check.score:.2f} all present"
+                for check, missing in zip(checks, missing_texts, strict=True)]
+    return f"{header}\n{format_display(verdicts)}"
+
+
+def _widget_text(values: list[str], node: str, input_name: str, default: str) -> str:
+    """The widget's one value, or default when that value is blank."""
+    value = lists.single_value(values, node, input_name)
+
+    return value if value.strip() else default
+
+
+def _classify_options(text: str) -> list[str]:
+    """The cleaned options of a comma or newline separated list, each once, in order."""
+    options = list(tagging.parse_tag_list(text, node=CLASSIFY_NAME))
+
+    if not MIN_OPTIONS <= len(options) <= MAX_OPTIONS:
+        raise ValueError(
+            f"{CLASSIFY_NAME}: the node takes {MIN_OPTIONS} to {MAX_OPTIONS} different options, and the options "
+            f"input names {len(options)}. Separate the options with commas."
+        )
+    return options
+
+
 class LogitTagger:
     @classmethod
     def INPUT_TYPES(s):
@@ -107,6 +165,7 @@ class LogitTagger:
             "optional": {
                 "prompt": ("STRING", {"forceInput": True, "tooltip": "The things this prompt names join the candidate tags, and each is kept only where the image shows it. Connect one prompt for every image, or a list with one prompt per image."}),
                 "instruction": ("STRING", {"forceInput": True, "tooltip": "This text replaces the built-in question that asks the encoder to list what each image holds. A blank text keeps the built-in question."}),
+                "tags": ("STRING", {"forceInput": True, "tooltip": "The node checks only these tags against each image instead of writing its own. Separate the tags with commas or new lines."}),
             },
             "hidden": {"unique_id": "UNIQUE_ID"},
         }
@@ -126,28 +185,32 @@ class LogitTagger:
     )
 
     def tag(self, clip: list[Any], image: list[Any], prompt: list[str] | None = None,
-            instruction: list[str] | None = None, unique_id: list[str] | None = None) -> dict[str, Any]:
+            instruction: list[str] | None = None, tags: list[str] | None = None,
+            unique_id: list[str] | None = None) -> dict[str, Any]:
         # INPUT_IS_LIST delivers every input as a list, the CLIP and the hidden node id included.
         model = clip[0]
         node_id = unique_id[0] if unique_id else None
         images: list[Any] = []
         prompts: list[str] = []
         wording: str | None = None
-        tags: list[str] = []
+        tag_list: tuple[str, ...] = ()
+        tag_texts: list[str] = []
 
         images = lists.split_images(image, tagging.NODE_NAME)
         if not images:
             raise ValueError(f"{tagging.NODE_NAME}: the image input holds no images. Connect at least one image.")
         prompts = lists.pair_texts(prompt, len(images), tagging.NODE_NAME, "prompt")
         wording = _propose_instruction(instruction)
+        tag_list = _tag_list(tags, prompts)
 
         with progress.RunProgress(total_items=len(images), unique_id=node_id, noun="image") as run:
-            tags = [trace.tags for trace in tagging.tag_images(model, images, prompts, instruction=wording,
-                                                              on_progress=_image_progress(run))]
+            tag_texts = [trace.tags for trace in tagging.tag_images(model, images, prompts, instruction=wording,
+                                                                   tag_list=tag_list,
+                                                                   on_progress=_image_progress(run))]
             run.item_done(len(images) - 1)
 
         # The frontend joins a ui list's entries with blank lines, so the display travels as one string.
-        return {"ui": {"text": (format_display(tags),)}, "result": (tags, images)}
+        return {"ui": {"text": (format_display(tag_texts),)}, "result": (tag_texts, images)}
 
 
 class LogitImageCheck:
@@ -214,3 +277,116 @@ class LogitTextCheck:
               unique_id: list[str] | None = None) -> dict[str, Any]:
         return _run_check(clip[0], text, question, unique_id, node=TEXT_CHECK_NAME, noun="text",
                           default_question=TEXT_QUESTION, needs_images=False, probability_of=_text_probability)
+
+
+class LogitPromptCheck:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "clip": ("CLIP", {"tooltip": "A Qwen3-VL text encoder, such as the one Krea 2 loads. It lists the things the prompt names and looks for each one in the image."}),
+                "image": ("IMAGE", {"tooltip": "The images to check, as a batch or a list of batches. Each image is checked on its own."}),
+                "prompt": ("STRING", {"forceInput": True, "tooltip": "The prompt the images were made from. Connect one prompt for every image, or a list with one prompt per image."}),
+            },
+            "hidden": {"unique_id": "UNIQUE_ID"},
+        }
+
+    RETURN_TYPES = ("BOOLEAN", "FLOAT", "STRING", "IMAGE")
+    RETURN_NAMES = ("all_present", "score", "missing", "images")
+    INPUT_IS_LIST = True
+    OUTPUT_IS_LIST = (False, True, True, True)
+    # So the node runs and shows its scores with nothing wired to its output.
+    OUTPUT_NODE = True
+    FUNCTION = "check"
+    CATEGORY = "Logit Tagger"
+    DESCRIPTION = (
+        "The node checks each image for every physical thing its prompt names, with the Qwen3-VL text encoder "
+        "the workflow already holds. The encoder lists the prompt's things, and a logit classifier reads whether "
+        "the image shows each one. It returns the share of those things each image shows and the things it lacks."
+    )
+
+    def check(self, clip: list[Any], image: list[Any], prompt: list[str],
+              unique_id: list[str] | None = None) -> dict[str, Any]:
+        node_id = unique_id[0] if unique_id else None
+        images: list[Any] = []
+        prompts: list[str] = []
+        checks: list[tagging.PromptCheck] = []
+        missing_texts: list[str] = []
+
+        images = lists.split_images(image, tagging.PROMPT_CHECK_NAME)
+        if not images:
+            raise ValueError(
+                f"{tagging.PROMPT_CHECK_NAME}: the image input holds no images. Connect at least one image."
+            )
+        prompts = lists.pair_texts(prompt, len(images), tagging.PROMPT_CHECK_NAME, "prompt")
+
+        with progress.RunProgress(total_items=len(images), unique_id=node_id, noun="image") as run:
+            checks = tagging.check_prompt(clip[0], images, prompts, on_progress=run.item)
+            run.item_done(len(images) - 1)
+
+        missing_texts = [", ".join(check.missing) for check in checks]
+        return {
+            "ui": {"text": (_prompt_check_display(checks, missing_texts),)},
+            "result": (all(not check.missing for check in checks), [check.score for check in checks],
+                       missing_texts, images),
+        }
+
+
+class LogitImageClassify:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "clip": ("CLIP", {"tooltip": "A Qwen3-VL text encoder, such as the one Krea 2 loads. It reads each image and picks one of the options."}),
+                "image": ("IMAGE", {"tooltip": "The images to classify, as a batch or a list of batches. Each image gets its own choice."}),
+                "question": ("STRING", {"default": CLASSIFY_QUESTION, "multiline": False, "tooltip": "The question the options answer, asked about each image. A blank question asks the default one."}),
+                "options": ("STRING", {"default": CLASSIFY_OPTIONS, "multiline": False, "tooltip": f"The {MIN_OPTIONS} to {MAX_OPTIONS} answers each image picks one from, separated by commas. A blank widget uses the default art styles."}),
+            },
+            "hidden": {"unique_id": "UNIQUE_ID"},
+        }
+
+    RETURN_TYPES = ("STRING", "INT", "FLOAT")
+    RETURN_NAMES = ("choice", "index", "confidence")
+    INPUT_IS_LIST = True
+    OUTPUT_IS_LIST = (True, True, True)
+    # So the node runs and shows its choices with nothing wired to its output.
+    OUTPUT_NODE = True
+    FUNCTION = "classify"
+    CATEGORY = "Logit Tagger"
+    DESCRIPTION = (
+        "The node picks one of the options for each image with the Qwen3-VL text encoder the workflow already "
+        "holds. It reads the choice from the logits of one question instead of generating text. It returns each "
+        "image's choice, the choice's position among the options and the confidence of the choice."
+    )
+
+    def classify(self, clip: list[Any], image: list[Any], question: list[str], options: list[str],
+                 unique_id: list[str] | None = None) -> dict[str, Any]:
+        node_id = unique_id[0] if unique_id else None
+        images: list[Any] = []
+        wording = ""
+        option_list: list[str] = []
+        classifier = None
+        answers: list[tuple[str, float]] = []
+        choices: list[str] = []
+        indexes: list[int] = []
+        confidences: list[float] = []
+        verdicts: list[str] = []
+
+        images = lists.split_images(image, CLASSIFY_NAME)
+        if not images:
+            raise ValueError(f"{CLASSIFY_NAME}: the image input holds no images. Connect at least one image.")
+        wording = _widget_text(question, CLASSIFY_NAME, "question", CLASSIFY_QUESTION)
+        option_list = _classify_options(_widget_text(options, CLASSIFY_NAME, "options", CLASSIFY_OPTIONS))
+        classifier = engine.build_classifier(clip[0], CLASSIFY_NAME, needs_images=True)
+
+        with progress.RunProgress(total_items=len(images), unique_id=node_id, noun="image") as run:
+            for index, item in enumerate(images):
+                run.item(index, CLASSIFY_STAGE)
+                answers.append(engine.choose(classifier, wording, option_list, image=engine.resize_for_vl(item)))
+                run.item_done(index)
+
+        choices = [choice for choice, _confidence in answers]
+        indexes = [option_list.index(choice) for choice in choices]
+        confidences = [float(confidence) for _choice, confidence in answers]
+        verdicts = [f"{choice} {confidence:.2f}" for choice, confidence in zip(choices, confidences, strict=True)]
+        return {"ui": {"text": (format_display(verdicts),)}, "result": (choices, indexes, confidences)}

@@ -550,6 +550,118 @@ def test_tag_images_rejects_an_image_with_fewer_than_3_channels(fake_classifier)
     assert clip.generate_calls == []
 
 
+# --- tag list -------------------------------------------------------------------------
+
+
+def listed(**probabilities):
+    """The fake classifier's noul table, keyed by the presence question each tag asks."""
+    return {engine.presence_question(tag.replace("_", " ")): p for tag, p in probabilities.items()}
+
+
+def test_parse_tag_list_splits_on_commas_and_newlines_and_cleans_each_tag():
+    pytest.importorskip("logit_classifier")
+
+    assert tagging.parse_tag_list('Cat, "Red Car"\r\n- dog.\n\nbird') == ("cat", "red car", "dog", "bird")
+
+
+def test_parse_tag_list_keeps_the_first_of_each_repeat_in_order():
+    pytest.importorskip("logit_classifier")
+
+    assert tagging.parse_tag_list("dog, Cat\ncat, DOG, fox") == ("dog", "cat", "fox")
+
+
+@pytest.mark.parametrize("text", ["", " \n ", ", \n ,"])
+def test_parse_tag_list_of_a_blank_list_is_empty(text):
+    pytest.importorskip("logit_classifier")
+
+    assert tagging.parse_tag_list(text) == ()
+
+
+def test_parse_tag_list_without_the_library_prints_the_pip_command(monkeypatch):
+    monkeypatch.setitem(sys.modules, "logit_classifier.tags", None)
+
+    with pytest.raises(RuntimeError, match=r"^Logit Tagger: .*pip install -U logit-classifier"):
+        tagging.parse_tag_list("cat")
+
+
+def test_parse_tag_list_has_no_cap():
+    pytest.importorskip("logit_classifier")
+
+    assert len(tagging.parse_tag_list(", ".join(f"tag {index}" for index in range(300)))) == 300
+
+
+def test_check_tag_list_keeps_tags_at_or_above_the_threshold(fake_classifier):
+    threshold = tagging.TAG_LIST_THRESHOLD
+    fake_classifier.probabilities = listed(cat=threshold, dog=threshold - 1e-6)
+
+    trace = tagging.check_tag_list(FakeClip(), fake_classifier, an_image(), ("cat", "dog"))
+    assert trace.kept == ("cat",)
+    assert trace.scores == (threshold, threshold - 1e-6)
+
+
+def test_check_tag_list_orders_by_probability_and_ties_keep_list_order(fake_classifier):
+    fake_classifier.probabilities = listed(cat=0.99991, dog=0.99999, fox=0.99991, owl=0.5)
+
+    trace = tagging.check_tag_list(FakeClip(), fake_classifier, an_image(), ("cat", "dog", "fox", "owl"))
+    assert trace.tags == "dog, cat, fox"
+
+
+def test_check_tag_list_reports_the_listed_tags_as_its_only_candidates(fake_classifier):
+    fake_classifier.probabilities = listed(cat=1.0)
+
+    trace = tagging.check_tag_list(FakeClip(), fake_classifier, an_image(height=16), ("cat", "red car"))
+    assert (trace.reply, trace.proposed, trace.dropped, trace.propose_ms) == ("", (), (), 0.0)
+    assert trace.candidates == ("cat", "red car")
+    assert trace.origins == ("list", "list")
+    assert (trace.size_in, trace.size_out) == ((16, 8), (16, 8))
+
+
+def test_check_tag_list_asks_the_presence_question_about_the_resized_image(fake_classifier, monkeypatch):
+    monkeypatch.setattr(engine, "VL_MAX_PIXELS", 16)
+    clip = FakeClip()
+
+    tagging.check_tag_list(clip, fake_classifier, an_image(), ("cat", "red car"))
+    ((request, image),) = fake_classifier.calls_of("noul")
+    assert [q.instructions for q in request.questions.values()] == [
+        "Is there a cat in this image?", "Is there a red car in this image?"]
+    assert request.state == ""
+    assert tuple(image.shape) == (1, 4, 4, 3)
+    assert clip.generate_calls == []
+
+
+def test_check_tag_list_splits_300_tags_into_requests_of_256_inside_one_scope(fake_classifier):
+    tags = tuple(f"tag {index}" for index in range(300))
+    open_during: list[list[bool]] = []
+    original_classify = fake_classifier.classify
+
+    def classify(request, *, image=None):
+        open_during.append([scope["open"] for scope in fake_classifier.scopes])
+        return original_classify(request, image=image)
+
+    fake_classifier.probabilities = listed(tag_0=1.0, tag_299=1.0)
+    fake_classifier.classify = classify
+    trace = tagging.check_tag_list(FakeClip(), fake_classifier, an_image(), tags)
+    assert [len(request.questions) for request, _image in fake_classifier.calls] == [256, 44]
+    assert open_during == [[True], [True]]
+    assert fake_classifier.scopes[0]["open"] is False
+    assert len(trace.scores) == 300
+    assert trace.kept == ("tag 0", "tag 299")
+
+
+def test_tag_images_with_a_tag_list_checks_every_image_and_never_generates(fake_classifier):
+    fake_classifier.probabilities = listed(cat=1.0)
+    clip = FakeClip(reply="dog", prompt_reply="fox")
+    progress = []
+
+    traces = tagging.tag_images(clip, [an_image(), an_image()], ["", ""], tag_list=("cat", "dog"),
+                                on_progress=lambda index, stage: progress.append((index, stage)))
+    assert [trace.tags for trace in traces] == ["cat", "cat"]
+    assert progress == [(0, "checking tags"), (1, "checking tags")]
+    assert clip.generate_calls == []
+    assert fake_classifier.calls_of("choice") == []
+    assert fake_classifier.built == [(clip, tagging.NODE_NAME)]
+
+
 # --- library loading ------------------------------------------------------------------
 
 

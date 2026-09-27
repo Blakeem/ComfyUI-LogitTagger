@@ -1,4 +1,4 @@
-"""Model access every node of the pack shares: image checks, the classifier, generate and nouls.
+"""Model access every node of the pack shares: image checks, the classifier, generate, nouls, choices and the presence question.
 
 No comfy, torch or logit_classifier module is imported at module scope, so the unit tests
 run without ComfyUI and a missing library fails with its pip command.
@@ -15,6 +15,14 @@ from typing import Any
 VL_MAX_PIXELS = 1024 * 1024
 
 _IMAGE_TOKENS = "<|vision_start|><|image_pad|><|vision_end|>"
+
+PRESENCE_QUESTION = "Is there {THING} in this image?"
+ARTICLES = frozenset({"a", "an", "the", "some"})
+NUMBER_WORDS = frozenset({"two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"})
+IRREGULAR_PLURALS = frozenset({"people", "children", "cacti", "mice"})
+# Head nouns that take no article, so a question never reads "Is there a water in this image?".
+MASS_NOUNS = frozenset({"water", "butter", "steam", "rain", "sunlight", "dust", "grass", "lightning", "armor",
+                        "flour", "fruit", "syrup", "hair", "snow", "cheese", "linen", "dough", "spray"})
 
 
 def check_images(images: Any, node: str) -> None:
@@ -51,6 +59,15 @@ def resize_for_vl(image: Any) -> Any:
     return samples.movedim(1, -1)
 
 
+def library_error(node: str) -> RuntimeError:
+    """The error for a missing or outdated logit-classifier, with the pip command that fixes it."""
+    return RuntimeError(
+        f"{node}: this node needs logit-classifier>=0.3.0, which provides the ComfyUI CLIP "
+        "backend. Install or upgrade it in the ComfyUI Python environment with: "
+        "pip install -U logit-classifier"
+    )
+
+
 def build_classifier(clip: Any, node: str, *, needs_images: bool = True) -> Any:
     """One Classifier over the workflow's CLIP, with no prior drift and no calibration file."""
     # shared_vision_encode is imported so a library older than 0.3.0 fails here with the pip command.
@@ -58,11 +75,7 @@ def build_classifier(clip: Any, node: str, *, needs_images: bool = True) -> Any:
         from logit_classifier import Classifier, Config
         from logit_classifier.backends.comfy_clip import ComfyClipBackend, shared_vision_encode  # noqa: F401
     except ImportError as error:
-        raise RuntimeError(
-            f"{node}: this node needs logit-classifier>=0.3.0, which provides the ComfyUI CLIP "
-            "backend. Install or upgrade it in the ComfyUI Python environment with: "
-            "pip install -U logit-classifier"
-        ) from error
+        raise library_error(node) from error
 
     backend = ComfyClipBackend(clip)
     if needs_images and not backend.sees_images:
@@ -177,3 +190,51 @@ def nouls(classifier: Any, statements: list[str], *, image: Any = None, state: s
     # The empty state is what the library renders as its image only state.
     response, _diagnostics = classifier.classify(SystemOneRequest(state=state, questions=questions), image=image)
     return [response.answers[qid].noul for qid in questions]
+
+
+def choose(classifier: Any, question: str, options: list[str], *, image: Any) -> tuple[str, float]:
+    """The option one choice question picks about image, with the answer's confidence."""
+    from logit_classifier import ChoiceQuestion, SystemOneRequest
+
+    request = SystemOneRequest(state="", questions={
+        "choice": ChoiceQuestion(instructions=question, criteria=dict.fromkeys(options)),
+    })
+    response, _diagnostics = classifier.classify(request, image=image)
+    answer = response.answers["choice"]
+    return answer.choice, answer.confidence
+
+
+def head_noun(phrase: str) -> str:
+    """The noun a thing phrase names: its last word before 'of', 'reading' or an upper case word."""
+    words: list[str] = []
+
+    for word in phrase.split():
+        if word in ("of", "reading") or word.isupper():
+            break
+        words.append(word.lower())
+    return words[-1] if words else phrase.lower()
+
+
+def reads_plural(phrase: str) -> bool:
+    first = phrase.split()[0].lower()
+    head = head_noun(phrase)
+
+    if first in NUMBER_WORDS or first.isdigit() or head in IRREGULAR_PLURALS or head.endswith("men"):
+        return True
+    return head.endswith("s") and not head.endswith(("ss", "us"))
+
+
+def with_article(phrase: str) -> str:
+    """The phrase with a or an, unless it opens with an article or number, reads plural or names a mass noun."""
+    first = phrase.split()[0].lower()
+
+    if first in ARTICLES or first in NUMBER_WORDS or first.isdigit() or reads_plural(phrase):
+        return phrase
+    if head_noun(phrase) in MASS_NOUNS:
+        return phrase
+    return f"{'an' if first[0] in 'aeiou' else 'a'} {phrase}"
+
+
+def presence_question(thing: str) -> str:
+    """PRESENCE_QUESTION about thing, with the article its head noun takes."""
+    return PRESENCE_QUESTION.replace("{THING}", with_article(thing))

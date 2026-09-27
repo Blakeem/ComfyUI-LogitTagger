@@ -83,14 +83,15 @@ def fake_comfy(monkeypatch):
 
 @pytest.fixture
 def stub_pipeline(monkeypatch):
-    """Replaces tag_images with a stub that returns one canned trace per image and reports both stages."""
+    """Replaces tag_images with a stub that returns one canned trace per image and reports the stages it runs."""
     calls = []
 
-    def tag_images(clip, images, prompts, *, instruction=None, on_progress=None):
+    def tag_images(clip, images, prompts, *, instruction=None, tag_list=(), on_progress=None):
+        stages = (tagging.STAGE_CHECKING,) if tag_list else (tagging.STAGE_WRITING, tagging.STAGE_CHECKING)
         calls.append(SimpleNamespace(clip=clip, images=images, prompts=prompts, instruction=instruction,
-                                     bar_class=sys.modules["comfy.utils"].ProgressBar))
+                                     tag_list=tag_list, bar_class=sys.modules["comfy.utils"].ProgressBar))
         for index in range(len(images)):
-            for stage in (tagging.STAGE_WRITING, tagging.STAGE_CHECKING):
+            for stage in stages:
                 if on_progress is not None:
                     on_progress(index, stage)
         return [SimpleNamespace(tags=f"tag{index}") for index in range(len(images))]
@@ -102,13 +103,13 @@ def stub_pipeline(monkeypatch):
 # --- input and output contract --------------------------------------------------------
 
 
-def test_inputs_are_clip_and_image_then_two_text_sockets_and_the_node_id():
+def test_inputs_are_clip_and_image_then_three_text_sockets_and_the_node_id():
     spec = LogitTagger.INPUT_TYPES()
 
     assert list(spec) == ["required", "optional", "hidden"]
     assert [(name, definition[0]) for name, definition in spec["required"].items()] == [
         ("clip", "CLIP"), ("image", "IMAGE")]
-    assert list(spec["optional"]) == ["prompt", "instruction"]
+    assert list(spec["optional"]) == ["prompt", "instruction", "tags"]
     for name, definition in spec["optional"].items():
         assert definition[0] == "STRING", name
         assert definition[1]["forceInput"] is True, name
@@ -194,6 +195,39 @@ def test_an_unconnected_or_blank_instruction_keeps_the_pipeline_instruction(fake
     assert stub_pipeline[0].instruction is None
 
 
+def test_connected_tags_reach_the_pipeline_as_the_parsed_tag_list(fake_comfy, stub_pipeline):
+    pytest.importorskip("logit_classifier")
+
+    run_node([an_image(batch=2)], prompt=[" "], tags=["Cat, dog\ncat", "Cat, dog\ncat"])
+
+    assert stub_pipeline[0].tag_list == tagging.parse_tag_list("Cat, dog\ncat") == ("cat", "dog")
+
+
+@pytest.mark.parametrize("optional", [{}, {"tags": [""]}, {"tags": [" \n"], "prompt": ["a cat"]}])
+def test_unconnected_or_blank_tags_leave_the_pipeline_writing_tags(fake_comfy, stub_pipeline, optional):
+    run_node([an_image()], **optional)
+
+    assert stub_pipeline[0].tag_list == ()
+
+
+def test_conflicting_tags_are_an_error_before_the_run_starts(fake_comfy, stub_pipeline):
+    with pytest.raises(ValueError, match="Logit Tagger: the tags input received 2 different values"):
+        run_node([an_image()], tags=["cat", "dog"])
+
+    assert stub_pipeline == []
+    assert RecordingProgressBar.instances == []
+
+
+def test_tags_with_a_prompt_are_an_error_before_the_run_starts(fake_comfy, stub_pipeline):
+    pytest.importorskip("logit_classifier")
+
+    with pytest.raises(ValueError, match="Logit Tagger: the prompt only guides the tags the node writes itself"):
+        run_node([an_image(batch=2)], prompt=["", "a cat"], tags=["cat"])
+
+    assert stub_pipeline == []
+    assert RecordingProgressBar.instances == []
+
+
 @pytest.mark.parametrize("image", [[], [torch.zeros(0, 8, 8, 3)]])
 def test_no_images_is_an_error_before_the_run_starts(fake_comfy, stub_pipeline, image):
     with pytest.raises(ValueError, match="Logit Tagger: the image input holds no images"):
@@ -267,6 +301,19 @@ def test_one_bar_closes_each_image_and_the_status_names_each_stage(fake_comfy, s
     ]
 
 
+def test_a_tag_list_run_closes_each_image_and_the_status_names_the_check(fake_comfy, stub_pipeline):
+    pytest.importorskip("logit_classifier")
+
+    run_node([an_image(batch=3)], tags=["cat"])
+
+    bar = RecordingProgressBar.instances[0]
+    assert [value for value, _total in bar.updates] == [0, 0, 100, 200, 300]
+    assert fake_comfy.sent == [
+        ("image 1/3: checking tags", NODE_ID), ("image 2/3: checking tags", NODE_ID),
+        ("image 3/3: checking tags", NODE_ID), ("", NODE_ID),
+    ]
+
+
 def test_core_bars_route_into_the_run_only_while_the_pipeline_runs(fake_comfy, stub_pipeline):
     run_node([an_image()])
 
@@ -287,7 +334,7 @@ def test_an_interrupt_stops_the_run_and_clears_the_status(fake_comfy, stub_pipel
 def test_an_interrupt_during_the_prompt_generates_stops_the_run_before_the_first_image(fake_comfy, monkeypatch):
     tokens = []
 
-    def tag_images(clip, images, prompts, *, instruction=None, on_progress=None):
+    def tag_images(clip, images, prompts, *, instruction=None, tag_list=(), on_progress=None):
         for prompt in dict.fromkeys(prompts):
             bar = sys.modules["comfy.utils"].ProgressBar(256)
             for _step in range(256):
@@ -331,12 +378,15 @@ def test_loads_via_comfyui_directory_mechanism(pack):
 
     assert isinstance(node_class, type)
     assert node_class.__name__ == "LogitTagger"
-    assert list(pack.NODE_CLASS_MAPPINGS) == ["LogitTagger", "LogitImageCheck", "LogitTextCheck"]
+    assert list(pack.NODE_CLASS_MAPPINGS) == ["LogitTagger", "LogitImageCheck", "LogitTextCheck", "LogitPromptCheck",
+                                              "LogitImageClassify"]
     assert all(pack.NODE_CLASS_MAPPINGS[name].__name__ == name for name in pack.NODE_CLASS_MAPPINGS)
     assert pack.NODE_DISPLAY_NAME_MAPPINGS == {
         "LogitTagger": "Logit Tagger",
         "LogitImageCheck": "Logit Image Check",
         "LogitTextCheck": "Logit Text Check",
+        "LogitPromptCheck": "Logit Prompt Check",
+        "LogitImageClassify": "Logit Image Classify",
     }
     assert pack.WEB_DIRECTORY == "./web"
     assert set(pack.__all__) == {"NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "WEB_DIRECTORY"}
