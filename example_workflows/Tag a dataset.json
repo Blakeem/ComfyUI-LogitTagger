@@ -1,0 +1,340 @@
+{
+  "id": "694fef1c-e710-4e86-879c-fc5bafe595a4",
+  "revision": 0,
+  "last_node_id": 5,
+  "last_link_id": 8,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "CLIPLoader",
+      "pos": [
+        0,
+        200
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "clip_name",
+          "name": "clip_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "clip_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "type",
+          "name": "type",
+          "type": "COMBO",
+          "widget": {
+            "name": "type"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "device",
+          "name": "device",
+          "shape": 7,
+          "type": "COMBO",
+          "widget": {
+            "name": "device"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "CLIP",
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            5
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPLoader"
+      },
+      "widgets_values": [
+        "qwen3vl_4b_fp8_scaled.safetensors",
+        "krea2",
+        "default"
+      ],
+      "widgets_values_named": {
+        "clip_name": "qwen3vl_4b_fp8_scaled.safetensors",
+        "type": "krea2",
+        "device": "default"
+      }
+    },
+    {
+      "id": 2,
+      "type": "LoadImageDataSetFromFolder",
+      "pos": [
+        0,
+        376
+      ],
+      "size": [
+        270,
+        58
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "folder",
+          "name": "folder",
+          "type": "COMBO",
+          "widget": {
+            "name": "folder"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "images",
+          "name": "images",
+          "shape": 6,
+          "type": "IMAGE",
+          "links": [
+            6
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImageDataSetFromFolder"
+      },
+      "widgets_values": [
+        "dataset"
+      ],
+      "widgets_values_named": {
+        "folder": "dataset"
+      }
+    },
+    {
+      "id": 3,
+      "type": "LogitTagger",
+      "pos": [
+        330,
+        200
+      ],
+      "size": [
+        440,
+        300
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "clip",
+          "name": "clip",
+          "type": "CLIP",
+          "link": 5
+        },
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "IMAGE",
+          "link": 6
+        },
+        {
+          "localized_name": "prompt",
+          "name": "prompt",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        },
+        {
+          "localized_name": "instruction",
+          "name": "instruction",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        },
+        {
+          "localized_name": "tags",
+          "name": "tags",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "tags",
+          "name": "tags",
+          "shape": 6,
+          "type": "STRING",
+          "links": [
+            8
+          ]
+        },
+        {
+          "localized_name": "images",
+          "name": "images",
+          "shape": 6,
+          "type": "IMAGE",
+          "links": [
+            7
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LogitTagger"
+      },
+      "widgets_values": [],
+      "widgets_values_named": {}
+    },
+    {
+      "id": 4,
+      "type": "SaveImageTextDataSetToFolder",
+      "pos": [
+        830,
+        200
+      ],
+      "size": [
+        282.9869140625,
+        126
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "images",
+          "name": "images",
+          "type": "IMAGE",
+          "link": 7
+        },
+        {
+          "localized_name": "texts",
+          "name": "texts",
+          "shape": 7,
+          "type": "STRING",
+          "link": 8
+        },
+        {
+          "localized_name": "folder_name",
+          "name": "folder_name",
+          "type": "STRING",
+          "widget": {
+            "name": "folder_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "filename_prefix",
+          "name": "filename_prefix",
+          "type": "STRING",
+          "widget": {
+            "name": "filename_prefix"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "mode",
+          "name": "mode",
+          "type": "COMBO",
+          "widget": {
+            "name": "mode"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveImageTextDataSetToFolder"
+      },
+      "widgets_values": [
+        "tagged",
+        "image",
+        "overwrite"
+      ],
+      "widgets_values_named": {
+        "folder_name": "tagged",
+        "filename_prefix": "image",
+        "mode": "overwrite"
+      }
+    },
+    {
+      "id": 5,
+      "type": "Note",
+      "pos": [
+        0,
+        0
+      ],
+      "size": [
+        560,
+        100
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "Load Image (from Folder) reads the images in a folder of the ComfyUI input directory. Logit Tagger tags each image, and Save Image-Text (to Folder) saves each image beside a text file of its tags. Pick your folder, then run."
+      ],
+      "widgets_values_named": {
+        "text": "Load Image (from Folder) reads the images in a folder of the ComfyUI input directory. Logit Tagger tags each image, and Save Image-Text (to Folder) saves each image beside a text file of its tags. Pick your folder, then run."
+      },
+      "color": "#432",
+      "bgcolor": "#653"
+    }
+  ],
+  "links": [
+    [
+      5,
+      1,
+      0,
+      3,
+      0,
+      "CLIP"
+    ],
+    [
+      6,
+      2,
+      0,
+      3,
+      1,
+      "IMAGE"
+    ],
+    [
+      7,
+      3,
+      1,
+      4,
+      0,
+      "IMAGE"
+    ],
+    [
+      8,
+      3,
+      0,
+      4,
+      1,
+      "STRING"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.9811436111266609,
+      "offset": [
+        81.53750286172162,
+        152.30625429258242
+      ]
+    }
+  },
+  "version": 0.4
+}

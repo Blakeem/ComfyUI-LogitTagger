@@ -1,0 +1,357 @@
+{
+  "id": "fe483253-03a0-4769-aa78-2841597c24c8",
+  "revision": 0,
+  "last_node_id": 5,
+  "last_link_id": 8,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "CLIPLoader",
+      "pos": [
+        0,
+        200
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "clip_name",
+          "name": "clip_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "clip_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "type",
+          "name": "type",
+          "type": "COMBO",
+          "widget": {
+            "name": "type"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "device",
+          "name": "device",
+          "shape": 7,
+          "type": "COMBO",
+          "widget": {
+            "name": "device"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "CLIP",
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            5
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPLoader"
+      },
+      "widgets_values": [
+        "qwen3vl_4b_fp8_scaled.safetensors",
+        "krea2",
+        "default"
+      ],
+      "widgets_values_named": {
+        "clip_name": "qwen3vl_4b_fp8_scaled.safetensors",
+        "type": "krea2",
+        "device": "default"
+      }
+    },
+    {
+      "id": 2,
+      "type": "LoadImageDataSetFromFolder",
+      "pos": [
+        0,
+        376
+      ],
+      "size": [
+        270,
+        58
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "folder",
+          "name": "folder",
+          "type": "COMBO",
+          "widget": {
+            "name": "folder"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "images",
+          "name": "images",
+          "shape": 6,
+          "type": "IMAGE",
+          "links": [
+            6
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImageDataSetFromFolder"
+      },
+      "widgets_values": [
+        "dataset"
+      ],
+      "widgets_values_named": {
+        "folder": "dataset"
+      }
+    },
+    {
+      "id": 3,
+      "type": "LogitImageClassify",
+      "pos": [
+        330,
+        200
+      ],
+      "size": [
+        440,
+        300
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "clip",
+          "name": "clip",
+          "type": "CLIP",
+          "link": 5
+        },
+        {
+          "localized_name": "image",
+          "name": "image",
+          "type": "IMAGE",
+          "link": 6
+        },
+        {
+          "localized_name": "question",
+          "name": "question",
+          "type": "STRING",
+          "widget": {
+            "name": "question"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "options",
+          "name": "options",
+          "type": "STRING",
+          "widget": {
+            "name": "options"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "choice",
+          "name": "choice",
+          "shape": 6,
+          "type": "STRING",
+          "links": [
+            8
+          ]
+        },
+        {
+          "localized_name": "index",
+          "name": "index",
+          "shape": 6,
+          "type": "INT",
+          "links": null
+        },
+        {
+          "localized_name": "confidence",
+          "name": "confidence",
+          "shape": 6,
+          "type": "FLOAT",
+          "links": null
+        },
+        {
+          "localized_name": "images",
+          "name": "images",
+          "shape": 6,
+          "type": "IMAGE",
+          "links": [
+            7
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LogitImageClassify"
+      },
+      "widgets_values": [
+        "What is the art style of this image?",
+        "photograph, anime illustration, oil painting, 3D render, watercolor, pencil sketch, pixel art, comic book"
+      ],
+      "widgets_values_named": {
+        "question": "What is the art style of this image?",
+        "options": "photograph, anime illustration, oil painting, 3D render, watercolor, pencil sketch, pixel art, comic book"
+      }
+    },
+    {
+      "id": 4,
+      "type": "SaveImageTextDataSetToFolder",
+      "pos": [
+        830,
+        200
+      ],
+      "size": [
+        282.9869140625,
+        126
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "images",
+          "name": "images",
+          "type": "IMAGE",
+          "link": 7
+        },
+        {
+          "localized_name": "texts",
+          "name": "texts",
+          "shape": 7,
+          "type": "STRING",
+          "link": 8
+        },
+        {
+          "localized_name": "folder_name",
+          "name": "folder_name",
+          "type": "STRING",
+          "widget": {
+            "name": "folder_name"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "filename_prefix",
+          "name": "filename_prefix",
+          "type": "STRING",
+          "widget": {
+            "name": "filename_prefix"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "mode",
+          "name": "mode",
+          "type": "COMBO",
+          "widget": {
+            "name": "mode"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveImageTextDataSetToFolder"
+      },
+      "widgets_values": [
+        "styles",
+        "image",
+        "overwrite"
+      ],
+      "widgets_values_named": {
+        "folder_name": "styles",
+        "filename_prefix": "image",
+        "mode": "overwrite"
+      }
+    },
+    {
+      "id": 5,
+      "type": "Note",
+      "pos": [
+        0,
+        0
+      ],
+      "size": [
+        560,
+        100
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "Logit Image Classify picks one of 8 art styles for each image. Edit the options to sort by anything else, such as season or time of day. Save Image-Text (to Folder) saves each image beside its style."
+      ],
+      "widgets_values_named": {
+        "text": "Logit Image Classify picks one of 8 art styles for each image. Edit the options to sort by anything else, such as season or time of day. Save Image-Text (to Folder) saves each image beside its style."
+      },
+      "color": "#432",
+      "bgcolor": "#653"
+    }
+  ],
+  "links": [
+    [
+      5,
+      1,
+      0,
+      3,
+      0,
+      "CLIP"
+    ],
+    [
+      6,
+      2,
+      0,
+      3,
+      1,
+      "IMAGE"
+    ],
+    [
+      7,
+      3,
+      3,
+      4,
+      0,
+      "IMAGE"
+    ],
+    [
+      8,
+      3,
+      0,
+      4,
+      1,
+      "STRING"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.9811436111266609,
+      "offset": [
+        81.53750286172162,
+        152.30625429258242
+      ]
+    }
+  },
+  "version": 0.4
+}
