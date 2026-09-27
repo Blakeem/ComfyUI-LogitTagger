@@ -11,8 +11,8 @@ second model loads and no generated text is parsed. Ideas for later nodes live i
 | Logit Tagger | built | `clip`, `image`, optional `prompt`, `instruction` and `tags` sockets | `tags` STRING list, `images` IMAGE list |
 | Logit Image Check | built | `clip`, `image`, `question` widget | `answer` BOOLEAN, `probability` FLOAT list, `yes_images`, `no_images` |
 | Logit Text Check | built | `clip`, `text` socket, `question` widget | `answer` BOOLEAN, `probability` FLOAT list, `yes_texts`, `no_texts` |
-| Logit Prompt Check | built | `clip`, `image`, `prompt` socket | `all_present`, `score`, `missing`, `images` |
-| Logit Image Classify | built | `clip`, `image`, `question` and `options` widgets | `choice`, `index`, `confidence` |
+| Logit Prompt Check | built | `clip`, `image`, `prompt` socket | `all_present`, `score`, `missing`, `images`, `complete_images`, `incomplete_images` |
+| Logit Image Classify | built | `clip`, `image`, `question` and `options` widgets | `choice`, `index`, `confidence`, `images` |
 
 A connected `tags` list makes the Tagger check only those tags, and it rejects a prompt or an
 instruction connected beside it.
@@ -29,7 +29,13 @@ Shared contract for every node:
   under the node (`progress.RunProgress`). The run ends on "4 images in 9.3 s", "cancelled" or
   "failed", since frontend 1.53.6 ignores an empty progress text. A `ui.text` display below the
   inputs (`web/logit_tagger.js`).
-- An empty yes or no side is `[ExecutionBlocker(None)]`, which skips the nodes wired to it.
+- An empty yes or no side is `[ExecutionBlocker(None)]`, which skips the nodes wired to it
+  (`nodes._split_sides`). Logit Prompt Check splits its images the same way.
+- Every class carries `OUTPUT_TOOLTIPS` and `SEARCH_ALIASES`, which core sends to the frontend
+  (`server.py:783-796`).
+- The logit-only paths (Image Check, Classify, Prompt Check, tag list mode) read images at
+  `engine.CHECK_MAX_PIXELS` (0.5 MP). The Tagger's propose and verify read them at
+  `engine.VL_MAX_PIXELS` (1 MP), since they share one vision encode.
 - Errors name the node and the fix.
 - Every tuning value (wording, threshold, budget, cap) is a backend constant set by a script in
   `tests-AB/`. A long text arrives as a socket. A simple question is a widget with a measured default,
@@ -47,7 +53,7 @@ nodes.py ──> tagging.py ──> engine.py ──> logit_classifier (Classifi
 
 | Module | Holds |
 |---|---|
-| `logit_tagger/engine.py` | model access every node shares: `resize_for_vl` (1 MP cap), `build_classifier`, `clip_generate` (CUDA graph cleanup), `stop_when`, `chat` (escapes control-token spellings), `generate_text`, `nouls`, `choose`, `presence_question` |
+| `logit_tagger/engine.py` | model access every node shares: `resize_for_vl` (1 MP, or 0.5 MP for the logit-only paths), `build_classifier`, `clip_generate` (CUDA graph cleanup), `stop_when`, `chat` (escapes control-token spellings), `generate_text`, `nouls`, `choose`, `presence_question` |
 | `logit_tagger/tagging.py` | the tagger pipeline and the prompt check: `prompt_things`, `english_prompt`, `tag_image`, `check_tag_list`, `tag_images`, `check_prompt`, `TagTrace`, `PromptCheck` |
 | `logit_tagger/lists.py` | list input rules |
 | `logit_tagger/progress.py` | `RunProgress`, `send_status` |
@@ -125,22 +131,27 @@ same head noun.
 
 On this model through the ComfyUI backend. Scripts: `tests-AB/ab_question_shapes.py` (60 COCO val2017
 photos, built by `tests-AB/build_coco60.py`) and `tests-AB/ab_release_gates.py` (72 Krea 2 renders
-labeled by two blind judges, 80 labeled prompts).
+labeled by two blind judges, 80 labeled prompts). The render rows come from `ab_release_gates.py` at
+the shipped 0.5 MP cap.
 
 | Shape | Result |
 |---|---|
-| image yes/no, question wording | AUC 0.996 on photos, 0.99 or more for every presence, scene and style question on renders, accuracy 0.97 at 0.5 |
+| image yes/no, question wording | AUC 0.996 on photos, 0.986 or more for every presence, scene and style question on renders, accuracy 0.970 at 0.5 |
 | image yes/no, statement wording | "This image contains an orange" read the color: use question wording for free questions |
 | text yes/no, "Does this prompt ask for X in the image?" | accuracy 0.972, says no to negated mentions ("no cats") and decoy words ("dogwood") |
 | fixed tag list, "Is there X in this image?" | precision 0.971, recall 0.748 at 0.9999 on COCO |
-| per-thing missing list | precision 0.976, recall 0.927 at 0.5 on renders |
+| per-thing missing list | precision 0.972, recall 0.945 at 0.5 on renders, and a near miss's substituted thing flagged 0.944 |
+| image complete, every listed thing at 0.5 or more | accuracy 0.938 on 144 image and prompt pairs, 0.917 on own prompts and 0.958 on near misses |
 | whole-prompt yes/no | AUC 0.899 on near-miss prompts only: report per thing instead |
 | text yes/no, "Is this text written in English?" | 0.000 to 0.027 on 13 prompts in 10 other languages, 1.000 on 10 English prompts (`tests-AB/ab_prompt_language.py`) |
-| choice over 8 styles | accuracy 0.875, confidence AUC 0.949 on renders |
+| choice over 8 styles | accuracy 0.889, confidence AUC 0.947 on renders |
 | score | ranks brightness at Spearman 0.99, but "sharp" also falls with darkness. Not shipped |
 | ranking written prompts | at chance against a blind judge. Not shipped |
 
-One question alone costs about 160 ms per image. Each added packed question costs about 6 ms.
+On a 1 MP render read at the 0.5 MP cap, one question costs about 280 ms and 27 packed questions
+about 385 ms. At `--max-pixels 1048576` they cost 553 and 650 ms, and every probe at 0.5 MP stayed
+inside its 1 MP bootstrap interval. At 0.25 MP style accuracy fell to 0.806, so 0.5 MP ships. On a
+COCO photo of about 0.3 MP one question costs about 160 ms.
 
 ## Environment
 
