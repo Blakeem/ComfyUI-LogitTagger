@@ -71,14 +71,16 @@ The node picks one of the options for each image. The default question and optio
 
 ## Example Workflows
 
-The `example_workflows` folder holds four workflows, and ComfyUI lists them in its template browser.
+The `workflows` folder holds six workflows, and ComfyUI lists them in its template browser.
 
 | Workflow | What it does |
 |---|---|
-| Tag a dataset | Tags every image in a folder and saves each image beside a text file of its tags. |
-| Sort images by a question | Saves the images that answer yes and the images that answer no to separate folders. |
-| Render and check the prompt | Renders a prompt with Krea 2 and saves the render only when it shows every thing the prompt names. |
-| Sort images by art style | Saves each image beside the art style it shows. |
+| [Tag an image](workflows/Tag%20an%20image.json) | Tags one image. Its Prompt and Tag list nodes connect to the `prompt` and `tags` inputs. |
+| [Tag a dataset](workflows/Tag%20a%20dataset.json) | Tags every image in a folder and saves each image beside a text file of its tags. |
+| [Sort images by a question](workflows/Sort%20images%20by%20a%20question.json) | Saves the images that answer yes and the images that answer no to separate folders. |
+| [Check prompt texts](workflows/Check%20prompt%20texts.json) | Sorts four prompts into those that ask for a person and those that do not. |
+| [Render and check the prompt](workflows/Render%20and%20check%20the%20prompt.json) | Renders a prompt with Krea 2 and saves the render only when it shows every thing the prompt names. |
+| [Sort images by art style](workflows/Sort%20images%20by%20art%20style.json) | Saves each image beside the art style it shows. |
 
 ## Accuracy and Speed
 

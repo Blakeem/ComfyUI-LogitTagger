@@ -60,7 +60,7 @@ nodes.py ─┬─> tagging.py ─┬─> engine.py ──> logit_classifier.too
 | `logit_tagger/progress.py` | `RunProgress`, over the toolkit's `routed_progress_bars`, `send_status` and `run_outcome` |
 | `logit_tagger/nodes.py` | every node class |
 | `web/logit_tagger.js` | the result display below each node |
-| `example_workflows/` | four workflows core lists in its template browser, each run once on this machine |
+| `workflows/` | six workflows core lists in its template browser, each run once on this machine |
 | `tests-AB/` | measurement harnesses, bootstrapped by `ab_env.py` over the library's `tests-AB/comfy_env.py` |
 
 ## The tagger pipeline
@@ -216,6 +216,7 @@ Read from the server source at commit `88ab4a06` on 2026-09-27.
 | If/Else Switch is lazy and skips the branch not taken. Core has no N-way switch | `comfy_extras/nodes_logic.py` |
 | Save Image-Text (to Folder) pairs a list of `[1, H, W, C]` images with texts by order | `comfy_extras/nodes_dataset.py` |
 | `PromptServer.instance.send_progress_text(text, node_id)` shows text under a node | `server.py` |
+| the template browser reads a pack's `example_workflows`, `example`, `examples`, `workflow` or `workflows` folder | `app/custom_node_manager.py` |
 
 ## Tests and gates
 
