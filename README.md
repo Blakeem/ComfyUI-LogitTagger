@@ -44,7 +44,7 @@ The node asks one yes or no question about each image. A probability of 0.5 or m
 
 ### Logit Text Check
 
-The node asks one yes or no question about each text, with no image. The default question is "Does this prompt ask for a person in the image?". That wording answers no to a prompt that says "no cats", where "Does this text mention a cat?" answers yes.
+The node asks one yes or no question about each text, with no image. The default question is "Does this prompt ask for a person or people in the image?". That wording answers no to a prompt that says "no cats", where "Does this text mention a cat?" answers yes. "A person" alone answered no to most prompts of a group, so the default names both.
 
 `yes_texts` and `no_texts` hold the texts of each answer. The other outputs work as they do on Logit Image Check.
 

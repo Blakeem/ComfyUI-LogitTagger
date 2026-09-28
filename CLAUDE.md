@@ -153,6 +153,8 @@ the shipped 0.5 MP cap.
 | image yes/no, question wording | AUC 0.996 on photos, 0.986 or more for every presence, scene and style question on renders, accuracy 0.970 at 0.5 |
 | image yes/no, statement wording | "This image contains an orange" read the color: use question wording for free questions |
 | text yes/no, "Does this prompt ask for X in the image?" | accuracy 0.972, says no to negated mentions ("no cats") and decoy words ("dogwood") |
+| text yes/no, the person wording | on 112 prompts "a person or people" read accuracy 0.964 and "a person" 0.848, which said yes to 3 of 12 prompts of a group (`tests-AB/ab_person_wording.py`) |
+| image yes/no, the person wording | five wordings read accuracy 0.976 to 0.992 on 124 renders and photos, a group included, so "Is there a person in this image?" stays (`tests-AB/ab_person_wording.py`) |
 | fixed tag list, "Is there X in this image?" | precision 0.971, recall 0.748 at 0.9999 on COCO |
 | per-thing missing list | precision 0.972, recall 0.945 at 0.5 on renders, and a near miss's substituted thing flagged 0.944 |
 | image complete, every listed thing at 0.5 or more | accuracy 0.938 on 144 image and prompt pairs, 0.917 on own prompts and 0.958 on near misses |

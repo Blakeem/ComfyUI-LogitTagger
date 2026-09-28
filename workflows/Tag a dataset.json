@@ -273,7 +273,7 @@
       ],
       "size": [
         560,
-        100
+        150
       ],
       "flags": {},
       "order": 2,
@@ -282,10 +282,10 @@
       "outputs": [],
       "properties": {},
       "widgets_values": [
-        "Load Image (from Folder) reads the images in a folder of the ComfyUI input directory. Logit Tagger tags each image, and Save Image-Text (to Folder) saves each image beside a text file of its tags. Pick your folder, then run."
+        "Logit Tagger tags each image. Load Image (from Folder) reads the images in the dataset folder inside ComfyUI's input folder. Create that folder, put your images in it, then press R to refresh the folder list. Save Image-Text (to Folder) saves each image beside a text file of its tags in output/tagged."
       ],
       "widgets_values_named": {
-        "text": "Load Image (from Folder) reads the images in a folder of the ComfyUI input directory. Logit Tagger tags each image, and Save Image-Text (to Folder) saves each image beside a text file of its tags. Pick your folder, then run."
+        "text": "Logit Tagger tags each image. Load Image (from Folder) reads the images in the dataset folder inside ComfyUI's input folder. Create that folder, put your images in it, then press R to refresh the folder list. Save Image-Text (to Folder) saves each image beside a text file of its tags in output/tagged."
       },
       "color": "#432",
       "bgcolor": "#653"

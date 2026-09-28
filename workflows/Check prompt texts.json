@@ -22,10 +22,10 @@
       "outputs": [],
       "properties": {},
       "widgets_values": [
-        "Logit Text Check asks one yes or no question about each prompt. Create List joins the four prompts into one list, and each prompt goes to yes_texts or no_texts. The second prompt says there are no people, so it is answered no. Change the question to check the prompts for anything else."
+        "Logit Text Check asks one yes or no question about each prompt. Create List joins the four prompts into one list, and each prompt goes to yes_texts or no_texts. The second prompt says there are no people, so it is answered no. The third names a crowd, so it is answered yes. Change the question to check the prompts for anything else."
       ],
       "widgets_values_named": {
-        "text": "Logit Text Check asks one yes or no question about each prompt. Create List joins the four prompts into one list, and each prompt goes to yes_texts or no_texts. The second prompt says there are no people, so it is answered no. Change the question to check the prompts for anything else."
+        "text": "Logit Text Check asks one yes or no question about each prompt. Create List joins the four prompts into one list, and each prompt goes to yes_texts or no_texts. The second prompt says there are no people, so it is answered no. The third names a crowd, so it is answered yes. Change the question to check the prompts for anything else."
       },
       "color": "#432",
       "bgcolor": "#653"
@@ -230,10 +230,10 @@
         "Node name for S&R": "PrimitiveStringMultiline"
       },
       "widgets_values": [
-        "A chef slices vegetables in a busy restaurant kitchen"
+        "A crowd of fans cheers under the lights of a packed stadium"
       ],
       "widgets_values_named": {
-        "value": "A chef slices vegetables in a busy restaurant kitchen"
+        "value": "A crowd of fans cheers under the lights of a packed stadium"
       }
     },
     {
@@ -423,10 +423,10 @@
         "Node name for S&R": "LogitTextCheck"
       },
       "widgets_values": [
-        "Does this prompt ask for a person in the image?"
+        "Does this prompt ask for a person or people in the image?"
       ],
       "widgets_values_named": {
-        "question": "Does this prompt ask for a person in the image?"
+        "question": "Does this prompt ask for a person or people in the image?"
       }
     },
     {

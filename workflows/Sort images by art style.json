@@ -290,7 +290,7 @@
       ],
       "size": [
         560,
-        100
+        150
       ],
       "flags": {},
       "order": 2,
@@ -299,10 +299,10 @@
       "outputs": [],
       "properties": {},
       "widgets_values": [
-        "Logit Image Classify picks one of 8 art styles for each image. Edit the options to sort by anything else, such as season or time of day. Save Image-Text (to Folder) saves each image beside its style."
+        "Logit Image Classify picks one of 8 art styles for each image. Load Image (from Folder) reads the images in the dataset folder inside ComfyUI's input folder. Create that folder, put your images in it, then press R to refresh the folder list. Save Image-Text (to Folder) saves each image beside its style in output/styles. Edit the options to sort by anything else, such as season or time of day."
       ],
       "widgets_values_named": {
-        "text": "Logit Image Classify picks one of 8 art styles for each image. Edit the options to sort by anything else, such as season or time of day. Save Image-Text (to Folder) saves each image beside its style."
+        "text": "Logit Image Classify picks one of 8 art styles for each image. Load Image (from Folder) reads the images in the dataset folder inside ComfyUI's input folder. Create that folder, put your images in it, then press R to refresh the folder list. Save Image-Text (to Folder) saves each image beside its style in output/styles. Edit the options to sort by anything else, such as season or time of day."
       },
       "color": "#432",
       "bgcolor": "#653"

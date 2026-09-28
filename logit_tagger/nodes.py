@@ -15,10 +15,11 @@ IMAGE_CHECK_NAME = "Logit Image Check"
 TEXT_CHECK_NAME = "Logit Text Check"
 CHECK_STAGE = "checking"
 YES_THRESHOLD = 0.5
+# Five person wordings read 0.976 to 0.992 accuracy on 124 images, a group included (tests-AB/ab_person_wording.py).
 IMAGE_QUESTION = "Is there a person in this image?"
-# On 80 labeled prompts this said no to every negated mention ("no cats") and decoy word ("dogwood"),
-# where "Does this text mention" said yes.
-TEXT_QUESTION = "Does this prompt ask for a person in the image?"
+# This shape said no to every negated mention ("no cats") and decoy word ("dogwood") on 80 labeled prompts. "a person"
+# said yes to 3 of 12 prompts of a group, and "a person or people" to 11 (tests-AB/ab_person_wording.py).
+TEXT_QUESTION = "Does this prompt ask for a person or people in the image?"
 NO_THINGS_LINE = "no things in the prompt"
 CLASSIFY_NAME = "Logit Image Classify"
 CLASSIFY_STAGE = "classifying"

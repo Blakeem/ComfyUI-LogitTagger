@@ -301,7 +301,7 @@
       ],
       "size": [
         560,
-        100
+        150
       ],
       "flags": {},
       "order": 2,
@@ -310,10 +310,10 @@
       "outputs": [],
       "properties": {},
       "widgets_values": [
-        "Logit Image Check asks one yes or no question about each image. Save Image writes the yes images to output/sorted/yes and the rest to output/sorted/no. Change the question to sort by anything else."
+        "Logit Image Check asks one yes or no question about each image. Load Image (from Folder) reads the images in the dataset folder inside ComfyUI's input folder. Create that folder, put your images in it, then press R to refresh the folder list. Save Image writes the yes images to output/sorted/yes and the rest to output/sorted/no. Change the question to sort by anything else."
       ],
       "widgets_values_named": {
-        "text": "Logit Image Check asks one yes or no question about each image. Save Image writes the yes images to output/sorted/yes and the rest to output/sorted/no. Change the question to sort by anything else."
+        "text": "Logit Image Check asks one yes or no question about each image. Load Image (from Folder) reads the images in the dataset folder inside ComfyUI's input folder. Create that folder, put your images in it, then press R to refresh the folder list. Save Image writes the yes images to output/sorted/yes and the rest to output/sorted/no. Change the question to sort by anything else."
       },
       "color": "#432",
       "bgcolor": "#653"
