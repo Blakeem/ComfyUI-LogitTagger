@@ -1,6 +1,6 @@
 """Run the Logit Tagger pipeline on image files over a real Qwen3-VL-4B CLIP, with no server.
 
-The output sets the TagSettings fields propose_instruction, verify_threshold and prompt_only_threshold.
+The output sets the TagSettings fields propose_instruction and verify_thresholds.
 Usage: python tests-AB/ab_tagger.py <image> [<image> ...] [--prompt TEXT] [--instruction TEXT]
 """
 

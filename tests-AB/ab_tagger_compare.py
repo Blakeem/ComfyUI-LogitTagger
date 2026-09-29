@@ -9,7 +9,7 @@ arm's full TagSettings), to_judge<suffix>.json (each image's tags from every arm
 file grades yet, unlabeled and sorted, for blind judges) and run_meta<suffix>.json (decode speed, walls, cap and
 fallback counts). Judges grade to_judge by data/tagger-ab/RUBRIC.md, and ab_tagger_score.py scores the arms
 against their verdicts.
---record-thing-scores adds each candidate's thing check p("other") to its record, cached per tag in
+--record-thing-scores adds each candidate's thing check p("thing") to its record, cached per tag in
 cache/thing_scores_<clip stem>.json, so ab_tagger_score.py --replay can re-derive stricter arms offline.
 A superset run for --replay sets the loosest value of each field under test, such as propose_cap 40, merge_cap 120
 and thing_check "prompt", so every merged candidate carries a verify score.
@@ -47,6 +47,7 @@ CONDITIONS = ("render-noprompt", "render-prompt", "coco")
 OLD_ARM = "old"
 NEW_ARM = "new"
 SCRIPT_NAME = "ab_tagger_compare.py"
+LEGACY_THRESHOLDS = ("verify_threshold", "prompt_only_threshold")
 
 
 @dataclass(frozen=True)
@@ -83,7 +84,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--conditions", nargs="+", choices=CONDITIONS, default=list(CONDITIONS))
     parser.add_argument("--clip", default=DEFAULT_CLIP, help="text encoder file name under models/clip")
     parser.add_argument("--record-thing-scores", action="store_true",
-                        help="after tagging, add each package arm candidate's thing check p(other) to its record")
+                        help="after tagging, add each package arm candidate's thing check p(thing) to its record")
     return parser.parse_args()
 
 
@@ -136,19 +137,45 @@ def load_variants(path: Path | None, arms: list[str]) -> dict[str, dict[str, Any
 
 
 def field_value(default: Any, value: Any) -> Any:
-    """A JSON value as the field's own type, since JSON has no frozenset or tuple."""
+    """A JSON value as the field's own type, since JSON has no frozenset, tuple or named tuple."""
     if isinstance(value, list) and isinstance(default, frozenset):
         return frozenset(value)
+    # A named tuple, such as PresenceThresholds, is a tuple too, so it is rebuilt first.
+    if isinstance(value, list) and hasattr(default, "_fields"):
+        return type(default)(*value)
     if isinstance(value, list) and isinstance(default, tuple):
         return tuple(tuple(item) if isinstance(item, list) else item for item in value)
     return value
 
 
+def current_fields(base: Any, overrides: dict[str, Any]) -> dict[str, Any]:
+    """overrides, with a recorded run's verify_threshold and prompt_only_threshold moved into verify_thresholds.
+
+    Such a run's thing_threshold bounded p("other") from above, so it becomes 1 - thing_threshold, the bound on
+    p("thing") from below.
+    """
+    fields = dict(overrides)
+
+    if not fields.keys() & set(LEGACY_THRESHOLDS):
+        return fields
+    if "verify_thresholds" in fields:
+        raise SystemExit(f"Settings hold verify_thresholds beside {sorted(fields.keys() & set(LEGACY_THRESHOLDS))}. "
+                         "Keep one form.")
+    fields["verify_thresholds"] = [fields.pop("verify_threshold", base.verify_thresholds.proposed),
+                                   fields.pop("prompt_only_threshold", base.verify_thresholds.declared)]
+    if "thing_threshold" in fields:
+        # Rounded, so a recorded 0.9 reads as 0.1 and matches an arm that names 0.1.
+        fields["thing_threshold"] = round(1.0 - fields["thing_threshold"], 12)
+    return fields
+
+
 def arm_settings(base: Any, arm: str, overrides: dict[str, Any], *, source: str = "--variants") -> Any:
     """base with the arm's field overrides. A misspelled field or a value TagSettings rejects exits naming the arm."""
-    fields = {name: field_value(getattr(base, name, None), value) for name, value in overrides.items()}
+    fields: dict[str, Any] = {}
 
     try:
+        fields = {name: field_value(getattr(base, name, None), value)
+                  for name, value in current_fields(base, overrides).items()}
         return dataclasses.replace(base, **fields)
     except (TypeError, ValueError) as error:
         raise SystemExit(f"{source} arm {arm!r}: {error}") from error
@@ -169,13 +196,30 @@ def settings_path_of(results_path: Path) -> Path:
 
 
 def thing_wording(settings: Any) -> dict[str, Any]:
-    """The thing check's wording as JSON, the question every cached p("other") answers."""
+    """The thing check's wording as JSON, the question every cached p("thing") answers."""
     return {"thing_question": settings.thing_question,
             "thing_criteria": [list(criterion) for criterion in settings.thing_criteria]}
 
 
+def recorded_p_thing(held: dict[str, Any]) -> Any:
+    """held's "p_thing", else 1 - its "p_other" per value, else None.
+
+    A record or cache written before the thing check read p("thing") holds p("other"), and the two sum to 1.
+    """
+    other: Any = None
+
+    if "p_thing" in held:
+        return held["p_thing"]
+    if "p_other" not in held:
+        return None
+    other = held["p_other"]
+    if isinstance(other, dict):
+        return {tag: 1.0 - p for tag, p in other.items()}
+    return 1.0 - other
+
+
 def load_thing_cache(path: Path, settings_list: list[Any]) -> tuple[dict[str, Any], dict[str, float]]:
-    """The one thing check wording every arm asks and the cached p("other") per tag.
+    """The one thing check wording every arm asks and the cached p("thing") per tag.
 
     Stops when the arms word the check two ways or the cache answers another wording, since one tag's answer
     depends on the wording.
@@ -198,21 +242,21 @@ def load_thing_cache(path: Path, settings_list: list[Any]) -> tuple[dict[str, An
         return wordings[0], {}
     cache = json.loads(path.read_text(encoding="utf-8"))
     if {name: cache.get(name) for name in wordings[0]} != wordings[0]:
-        raise SystemExit(f"{path} holds p(other) for another thing check wording than the arms ask. Move it "
-                         "aside to record this wording.")
-    return wordings[0], cache["p_other"]
+        raise SystemExit(f"{path} answers another thing check wording than the arms ask. Move it aside to record "
+                         "this wording.")
+    return wordings[0], recorded_p_thing(cache) or {}
 
 
 def record_thing_scores(classifier: Any, records: list[dict[str, Any]], settings: Any,
-                        known: dict[str, float]) -> None:
-    """Adds each candidate's p("other") under settings to its record, asking text only the tags known lacks."""
+                        thing_cache: dict[str, float]) -> None:
+    """Adds each candidate's p("thing") under settings to its record, asking text only the tags thing_cache lacks."""
     from logit_classifier.toolkit.comfyui import thing_scores
 
     candidates = [candidate for record in records for candidate in record["candidates"]]
-    p_other = thing_scores(classifier, [candidate["tag"] for candidate in candidates], settings, known)
+    p_thing = thing_scores(classifier, [candidate["tag"] for candidate in candidates], settings, thing_cache)
 
-    for candidate, p in zip(candidates, p_other, strict=True):
-        candidate["p_other"] = p
+    for candidate, p in zip(candidates, p_thing, strict=True):
+        candidate["p_thing"] = p
 
 
 @contextlib.contextmanager
@@ -334,7 +378,7 @@ def new_record(trace: Any, prompt_ms: float, proposes: list[dict[str, Any]], set
     below = False
 
     for tag, origin, score in zip(trace.candidates, trace.origins, trace.scores, strict=True):
-        threshold = settings.prompt_only_threshold if origin == "prompt" else settings.verify_threshold
+        threshold = settings.verify_thresholds.declared if origin == "prompt" else settings.verify_thresholds.proposed
         if tag in kept:
             continue
         # A None score means the settings turned verify off, so only drop_subsets removed the tag.
@@ -386,7 +430,7 @@ def run_new_arm(tagging: Any, clip: Any, items: list[Item], images: list[Any], m
                 end_node: Callable[[], None]) -> dict[str, dict[str, Any]]:
     """One tag_images call over the condition, as one node execution, then one record per image.
 
-    prompt_calls and prompt_listings receive each prompt stage's milliseconds and PromptTags.
+    prompt_calls and prompt_listings receive each prompt stage's milliseconds and PromptTagTrace.
     """
     settings = tagging.tag_settings()
     prompts = [item.prompt for item in items]
@@ -517,7 +561,7 @@ def main() -> None:
     prompt_listings: list[Any] = []
     settings_of: dict[str, Any] = {}
     thing_wording_asked: dict[str, Any] = {}
-    known_p_other: dict[str, float] = {}
+    thing_cache: dict[str, float] = {}
     old = None
     old_classifier = None
     classifier = None
@@ -551,7 +595,7 @@ def main() -> None:
     # Built before the model loads, so a misspelled field or a rejected value fails in seconds.
     settings_of = {arm: arm_settings(tagging.tag_settings(), arm, overrides) for arm, overrides in variants.items()}
     if args.record_thing_scores:
-        thing_wording_asked, known_p_other = load_thing_cache(thing_cache_path, list(settings_of.values()))
+        thing_wording_asked, thing_cache = load_thing_cache(thing_cache_path, list(settings_of.values()))
     if OLD_ARM in args.arms:
         old = load_old_tagging(args.old_tagging.resolve())
     import comfy.memory_management
@@ -566,7 +610,7 @@ def main() -> None:
     # Measurement wrappers only. The toolkit's tagger and the pack's tag_images look these names up at call time.
     toolkit_tagger.generate_text = meter.measure(
         toolkit_tagger.generate_text, lambda kwargs: "propose" if kwargs.get("image") is not None else "prompt")
-    comfyui.prompt_tags = timed(returning(comfyui.prompt_tags, prompt_listings), prompt_calls)
+    comfyui.tag_prompt = timed(returning(comfyui.tag_prompt, prompt_listings), prompt_calls)
     if old is not None:
         old.propose = meter.measure(old.propose, lambda _kwargs: "propose")
         old_classifier = old.build_classifier(clip)
@@ -611,12 +655,12 @@ def main() -> None:
         for arm, settings in settings_of.items():
             record_thing_scores(classifier, [record for condition in args.conditions
                                              for record in results[condition][arm].values()],
-                                settings, known_p_other)
+                                settings, thing_cache)
         write_json(results_path, results)
         # The cache folder is gitignored, so a fresh checkout lacks it.
         thing_cache_path.parent.mkdir(parents=True, exist_ok=True)
-        write_json(thing_cache_path, {**thing_wording_asked, "p_other": dict(sorted(known_p_other.items()))})
-        print(f"thing check p(other) recorded for arms {list(settings_of)}, {len(known_p_other)} tags cached in "
+        write_json(thing_cache_path, {**thing_wording_asked, "p_thing": dict(sorted(thing_cache.items()))})
+        print(f"thing check p(thing) recorded for arms {list(settings_of)}, {len(thing_cache)} tags cached in "
               f"{thing_cache_path}", flush=True)
     write_json(args.out / f"to_judge{args.suffix}.json", judge_list(conditions, results, graded))
     meta["runs"].append({

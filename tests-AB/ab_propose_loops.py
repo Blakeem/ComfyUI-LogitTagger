@@ -99,7 +99,7 @@ def main() -> None:
     decoder = Decoder(clip)
     clip.generate = decoder
     # The first decode pays the model load, so it is run once and discarded.
-    tagging.tag_image(clip, classifier, load_image(args.images[0]), known={})
+    tagging.tag_image(clip, classifier, load_image(args.images[0]), thing_cache={})
 
     for path in args.images:
         image = load_image(path)
@@ -108,7 +108,7 @@ def main() -> None:
         for name, (overrides, longest) in VARIANTS.items():
             decoder.overrides = {**SAMPLED_TOP1, **overrides} if overrides else {}
             decoder.longest = longest
-            trace = tagging.tag_image(clip, classifier, image, known={})
+            trace = tagging.tag_image(clip, classifier, image, thing_cache={})
             scores = dict(zip(trace.candidates, trace.scores, strict=True))
             kept = set(trace.tags.split(", ")) if trace.tags else set()
             items = len(complete_tags(trace.reply + ","))

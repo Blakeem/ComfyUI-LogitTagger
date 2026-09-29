@@ -52,15 +52,15 @@ class FakeClip:
 
 
 class FakeClassifier:
-    """Answers each presence noul from `probabilities` and each thing check from `other`, both by tag.
+    """Answers each presence noul from `probabilities` and each thing check's p("thing") from `thing`, both by tag.
 
     The language question gets `english`, so a prompt reads as English unless a test says otherwise.
     nouls is the library's own, so its requests reach classify as they would on a real classifier.
     """
 
-    def __init__(self, probabilities=None, other=None, english=1.0):
+    def __init__(self, probabilities=None, thing=None, english=1.0):
         self.probabilities = probabilities or {}
-        self.other = other or {}
+        self.thing = thing or {}
         self.english = english
         self.calls = []
 
@@ -73,9 +73,9 @@ class FakeClassifier:
         self.calls.append((request, image))
         for qid, question in request.questions.items():
             if question.type == "choice":
-                p_other = self.other.get(question.instructions.split('"')[1], 0.0)
-                answers[qid] = ChoiceAnswer(choice="other" if p_other >= 0.5 else "thing", confidence=1.0,
-                                            probabilities={"thing": 1.0 - p_other, "other": p_other})
+                p_thing = self.thing.get(question.instructions.split('"')[1], 1.0)
+                answers[qid] = ChoiceAnswer(choice="thing" if p_thing >= 0.5 else "other", confidence=1.0,
+                                            probabilities={"thing": p_thing, "other": 1.0 - p_thing})
             elif question.instructions == settings().language_question:
                 answers[qid] = NoulAnswer(noul=self.english)
             else:
@@ -142,7 +142,7 @@ def an_image(height=8, width=8, channels=3, batch=1):
 
 
 def tag_one(clip, classifier, **kwargs):
-    return tagging.tag_image(clip, classifier, an_image(), known={}, **kwargs)
+    return tagging.tag_image(clip, classifier, an_image(), thing_cache={}, **kwargs)
 
 
 # --- module scope ---------------------------------------------------------------------
@@ -178,8 +178,7 @@ def test_strict_tag_settings_hold_the_toolkit_strict_thresholds():
     from logit_classifier.toolkit.tags import STRICT_THRESHOLDS
 
     strict_settings = tagging.tag_settings(strict=True)
-    assert strict_settings == toolkit.TagSettings(verify_threshold=STRICT_THRESHOLDS.proposed,
-                                                  prompt_only_threshold=STRICT_THRESHOLDS.declared)
+    assert strict_settings == toolkit.TagSettings(verify_thresholds=STRICT_THRESHOLDS)
     assert tagging.tag_settings(True) is strict_settings
     assert tagging.tag_settings(False) is tagging.tag_settings()
 
@@ -232,10 +231,10 @@ def test_tag_settings_without_the_library_prints_the_pip_command(monkeypatch):
 def test_tag_image_reports_every_stage(fake_classifier, monkeypatch):
     monkeypatch.setattr(engine, "VL_MAX_PIXELS", 100)
     fake_classifier.probabilities = {"cat": 0.9995, "dog": 0.3, "fox": 0.99}
-    fake_classifier.other = {"sunset": 0.95}
+    fake_classifier.thing = {"sunset": 0.05}
 
     trace = tagging.tag_image(FakeClip(reply="cat, objects, sunset, dog"), fake_classifier, an_image(40, 20),
-                              prompt_tags=("dog", "fox"), known={})
+                              prompt_tags=("dog", "fox"), thing_cache={})
     assert trace.size_in == (40, 20)
     assert trace.size_out == (14, 7)
     assert trace.reply == "cat, objects, sunset, dog"
@@ -262,7 +261,7 @@ def test_tag_image_verifies_every_candidate_on_the_fitted_image(fake_classifier)
 
 def test_tag_image_drops_a_model_tag_the_thing_check_calls_other(fake_classifier):
     fake_classifier.probabilities = {"watermark": 0.9995}
-    fake_classifier.other = {"watermark": 0.99}
+    fake_classifier.thing = {"watermark": 0.01}
 
     trace = tag_one(FakeClip(reply="watermark"), fake_classifier)
     assert trace.kept == ()
@@ -277,7 +276,7 @@ def test_tag_image_drops_a_tag_whose_words_all_sit_inside_a_longer_kept_tag(fake
     assert trace.tags == "red hat, dog, cat ear"
 
 
-def test_tag_image_drops_a_model_tag_below_the_verify_threshold(fake_classifier):
+def test_tag_image_drops_a_model_tag_below_the_proposed_threshold(fake_classifier):
     fake_classifier.probabilities = {"cat": 0.999, "dog": 0.998}
 
     trace = tag_one(FakeClip(reply="cat, dog"), fake_classifier)
@@ -330,18 +329,18 @@ def test_a_custom_instruction_never_triggers_the_echo_fallback(fake_classifier):
     assert trace.candidates == ()
 
 
-def test_a_connected_instruction_reaches_tag_picture_with_the_echo_fallback_off(monkeypatch):
+def test_a_connected_instruction_reaches_the_toolkit_tag_image_with_the_echo_fallback_off(monkeypatch):
     toolkit = pytest.importorskip("logit_classifier.toolkit.comfyui")
     received = []
 
-    def tag_picture(clip, classifier, picture, *, prompt_tags=(), settings, known, on_stage=None):
+    def tag_image(clip, classifier, image, *, prompt_tags=(), settings, thing_cache, on_stage=None):
         received.append(settings)
-        return toolkit.TagTrace(reply="", echo_reply=None, proposed=(), candidates=(), origins=(), dropped=(),
-                                scores=(), verified=(), kept=(), propose_ms=0.0, verify_ms=0.0)
+        return toolkit.ImageTagTrace(reply="", echo_reply=None, proposed=(), candidates=(), origins=(), dropped=(),
+                                     scores=(), verified=(), kept=(), propose_ms=0.0, verify_ms=0.0)
 
-    monkeypatch.setattr(toolkit, "tag_picture", tag_picture)
-    tagging.tag_image("clip", "classifier", an_image(), instruction="Name the animals.", known={})
-    tagging.tag_image("clip", "classifier", an_image(), known={})
+    monkeypatch.setattr(toolkit, "tag_image", tag_image)
+    tagging.tag_image("clip", "classifier", an_image(), instruction="Name the animals.", thing_cache={})
+    tagging.tag_image("clip", "classifier", an_image(), thing_cache={})
     connected, unconnected = received
     assert connected == dataclasses.replace(tagging.tag_settings(), propose_instruction="Name the animals.",
                                             echo_fallback_instruction=None)
@@ -403,7 +402,7 @@ def test_tag_image_rejects_a_batch(fake_classifier):
     clip = FakeClip()
 
     with pytest.raises(ValueError, match="Logit Tagger"):
-        tagging.tag_image(clip, fake_classifier, an_image(batch=2), known={})
+        tagging.tag_image(clip, fake_classifier, an_image(batch=2), thing_cache={})
     assert clip.generate_calls == []
 
 
@@ -454,7 +453,7 @@ def test_tag_images_lists_each_distinct_prompt_once_and_asks_the_thing_check_onc
 
 def test_tag_images_drops_a_prompt_thing_the_thing_check_calls_other(fake_classifier):
     fake_classifier.probabilities = {"cat": 0.9995, "fox": 0.99999, "dusk": 0.99999}
-    fake_classifier.other = {"dusk": 0.95}
+    fake_classifier.thing = {"dusk": 0.05}
     clip = FakeClip(reply="cat", prompt_reply="fox, dusk")
 
     (trace,) = tagging.tag_images(clip, [an_image()], ["a fox at dusk"])
@@ -547,7 +546,7 @@ def test_parse_tag_list_has_no_cap():
 
 def test_check_tag_list_keeps_tags_at_or_above_the_threshold(fake_classifier):
     settings = tagging.tag_settings()
-    threshold = settings.prompt_only_threshold
+    threshold = settings.verify_thresholds.declared
     fake_classifier.probabilities = listed(cat=threshold, dog=threshold - 1e-6)
 
     trace = tagging.check_tag_list(FakeClip(), fake_classifier, an_image(), ("cat", "dog"), settings)
@@ -621,8 +620,8 @@ def test_tag_images_with_a_tag_list_checks_every_image_and_never_generates(fake_
 
 
 @pytest.mark.parametrize(("strict", "kept"), [(False, "cat, dog"), (True, "cat")])
-def test_tag_images_keeps_a_listed_tag_at_the_prompt_only_threshold(fake_classifier, strict, kept):
-    # fox clears the broad verify_threshold and misses the broad prompt_only_threshold.
+def test_tag_images_keeps_a_listed_tag_at_the_declared_threshold(fake_classifier, strict, kept):
+    # fox clears the broad proposed threshold and misses the broad declared threshold.
     fake_classifier.probabilities = listed(cat=1.0, dog=0.99995, fox=0.9995)
 
     (trace,) = tagging.tag_images(FakeClip(), [an_image()], [""], tag_list=("cat", "dog", "fox"),

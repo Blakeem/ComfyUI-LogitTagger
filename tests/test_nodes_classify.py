@@ -95,7 +95,7 @@ def fake_engine(monkeypatch):
         record.built.append((clip, node, needs_images))
         return "classifier"
 
-    def fit_picture(image, max_pixels):
+    def fit_image(image, max_pixels):
         return SimpleNamespace(resized=image)
 
     def choose(classifier, question, options, *, image):
@@ -103,7 +103,7 @@ def fake_engine(monkeypatch):
         return record.answers.pop(0)
 
     monkeypatch.setattr(engine, "build_classifier", build_classifier)
-    monkeypatch.setattr(toolkit, "fit_picture", fit_picture)
+    monkeypatch.setattr(toolkit, "fit_image", fit_image)
     monkeypatch.setattr(engine, "choose", choose)
     return record
 

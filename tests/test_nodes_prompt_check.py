@@ -1,6 +1,6 @@
 """nodes.py and tagging.check_prompt: the Logit Prompt Check node, its contract, scores, missing things and display.
 
-The engine, the toolkit's prompt_tags and fit, comfy, comfy_execution and the server are stubbed, so no comfy
+The engine, the toolkit's tag_prompt and fit_image, comfy, comfy_execution and the server are stubbed, so no comfy
 install, no GPU and no model are needed.
 """
 
@@ -111,26 +111,26 @@ def fake_engine(monkeypatch):
         record.built.append((clip, node, needs_images))
         return record.classifier
 
-    def fit_picture(image, max_pixels):
+    def fit_image(image, max_pixels):
         return SimpleNamespace(resized=image)
 
     monkeypatch.setattr(engine, "build_classifier", build_classifier)
-    monkeypatch.setattr(toolkit, "fit_picture", fit_picture)
+    monkeypatch.setattr(toolkit, "fit_image", fit_image)
     return record
 
 
 @pytest.fixture
 def fake_things(monkeypatch):
-    """Replaces the toolkit's prompt_tags with a lookup in things_of, recording each call."""
+    """Replaces the toolkit's tag_prompt with a lookup in things_of, recording each call."""
     toolkit = pytest.importorskip("logit_classifier.toolkit.comfyui")
     record = SimpleNamespace(things_of={}, calls=[])
 
-    def prompt_tags(clip, classifier, prompt, settings, known):
+    def tag_prompt(clip, classifier, prompt, settings, thing_cache):
         record.calls.append(SimpleNamespace(clip=clip, classifier=classifier, prompt=prompt, settings=settings,
-                                            known=known))
+                                            thing_cache=thing_cache))
         return SimpleNamespace(tags=record.things_of[prompt])
 
-    monkeypatch.setattr(toolkit, "prompt_tags", prompt_tags)
+    monkeypatch.setattr(toolkit, "tag_prompt", tag_prompt)
     return record
 
 
@@ -252,7 +252,7 @@ def test_two_prompts_for_two_images_pair_in_order_and_share_one_thing_cache(fake
     output = run_check([a_batch(0.1, 0.2)], ["a cat", "a dog"])
 
     assert [call.prompt for call in fake_things.calls] == ["a cat", "a dog"]
-    assert fake_things.calls[0].known is fake_things.calls[1].known
+    assert fake_things.calls[0].thing_cache is fake_things.calls[1].thing_cache
     assert [call.statements for call in fake_engine.calls] == [["This image visibly contains cat"],
                                                                ["This image visibly contains dog"]]
     assert output["result"][:3] == (False, [1.0, 0.0], ["", "dog"])

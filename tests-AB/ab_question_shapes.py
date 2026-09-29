@@ -618,7 +618,7 @@ def main() -> None:
     ab_env.bootstrap()
     from logit_classifier import Classifier, Config, NoulQuestion
     from logit_classifier.backends.comfy_clip import ComfyClipBackend
-    from logit_classifier.toolkit.comfyui import fit_picture
+    from logit_classifier.toolkit.comfyui import fit_image
 
     from logit_tagger.engine import VL_MAX_PIXELS
 
@@ -630,7 +630,7 @@ def main() -> None:
 
     if missing:
         raise SystemExit(f"corpus images not found: {', '.join(missing)}")
-    images = {sample.file: fit_picture(load_image(sample.file), VL_MAX_PIXELS) for sample in samples}
+    images = {sample.file: fit_image(load_image(sample.file), VL_MAX_PIXELS) for sample in samples}
     backend = ComfyClipBackend(ab_env.load_clip(args.clip))
     asker = Asker(Classifier(Config(use_prior_debias=False, calibration_path=None), backend))
     # The first call pays CUDA and kernel warmup, which no probe should carry.

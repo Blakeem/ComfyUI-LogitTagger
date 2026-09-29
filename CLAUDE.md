@@ -65,9 +65,9 @@ nodes.py ─┬─> tagging.py ─┬─> engine.py ──> logit_classifier.too
 
 ## The tagger pipeline
 
-The stages are the toolkit's `prompt_tags` and `tag_picture`, driven by `tagging.tag_settings(strict)`,
-which returns the toolkit's `TagSettings` defaults, or those defaults with the toolkit's `STRICT_THRESHOLDS`
-when the node's `strict` is on. ContextAnchoredTileRefine runs the same stages on
+The stages are the toolkit's `tag_prompt` and `tag_image`, driven by `tagging.tag_settings(strict)`,
+which returns the toolkit's `TagSettings` defaults, or those defaults with `verify_thresholds` set to the
+toolkit's `STRICT_THRESHOLDS` when the node's `strict` is on. ContextAnchoredTileRefine runs the same stages on
 tiles with its own preset values.
 
 ```
@@ -80,8 +80,8 @@ prompt ──> [language gate] ──> [translate] ──> [prompt stage] ──
                                                  thing           │
 image ──> [resize] ──> [propose] ──> [merge] ──> [thing check] ─┴──> [verify] ──> [clean] ──> tags
           1 MP cap     greedy, stops  model tags   drops a tag            noul per tag   drop_subsets
-                       at 25 tags or  first, then  whose p("other")       0.999, or      (words rule),
-                       a repeat       prompt tags, reaches 0.9            0.9999 for     score order
+                       at 25 tags or  first, then  whose p("thing")       0.999, or      (words rule),
+                       a repeat       prompt tags, is below 0.1           0.9999 for     score order
                                       64 at most                          prompt-only
 ```
 

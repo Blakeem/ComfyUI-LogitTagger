@@ -1,5 +1,6 @@
 """tests-AB/ab_tagger_score.py per-image counts, paired deltas and the offline replay over small synthetic records."""
 
+import dataclasses
 import json
 import random
 import subprocess
@@ -19,19 +20,20 @@ import ab_tagger_compare as compare  # noqa: E402
 import ab_tagger_score as score  # noqa: E402
 
 TagSettings = pytest.importorskip("logit_classifier.toolkit.comfyui").TagSettings
+PresenceThresholds = pytest.importorskip("logit_classifier.toolkit.tags").PresenceThresholds
 
-# The recorded verify scores sit between 0.9 and 0.999, so the superset pins its threshold.
+# The recorded verify scores sit between 0.9 and 0.999, so the superset pins its proposed threshold.
 SUPERSET = TagSettings(propose_cap=4, merge_cap=6, thing_check="prompt", subsets_rule="head-noun", order="score",
-                       verify_threshold=0.9)
+                       verify_thresholds=PresenceThresholds(proposed=0.9, declared=0.9999))
 
-# p("other") marks "sunset" as no thing. "curtain" is prompt only below the 0.9999 prompt_only_threshold.
+# p("thing") marks "sunset" as no thing. "curtain" is prompt only below the 0.9999 declared threshold.
 CANDIDATES = [
-    {"tag": "cat", "origin": "model", "score": 0.99, "p_other": 0.01},
-    {"tag": "cat ear", "origin": "model", "score": 0.95, "p_other": 0.02},
-    {"tag": "sunset", "origin": "model", "score": 0.97, "p_other": 0.95},
-    {"tag": "lamp", "origin": "both", "score": 0.93, "p_other": 0.03},
-    {"tag": "window", "origin": "prompt", "score": 0.99999, "p_other": 0.1},
-    {"tag": "curtain", "origin": "prompt", "score": 0.9995, "p_other": 0.2},
+    {"tag": "cat", "origin": "model", "score": 0.99, "p_thing": 0.99},
+    {"tag": "cat ear", "origin": "model", "score": 0.95, "p_thing": 0.98},
+    {"tag": "sunset", "origin": "model", "score": 0.97, "p_thing": 0.05},
+    {"tag": "lamp", "origin": "both", "score": 0.93, "p_thing": 0.97},
+    {"tag": "window", "origin": "prompt", "score": 0.99999, "p_thing": 0.9},
+    {"tag": "curtain", "origin": "prompt", "score": 0.9995, "p_thing": 0.8},
 ]
 SUPERSET_KEPT = ["window", "cat", "sunset", "cat ear", "lamp"]
 
@@ -67,12 +69,27 @@ def test_a_lower_merge_cap_leaves_out_the_prompt_tags_past_it():
     assert replayed(merge_cap=4) == ["cat", "sunset", "cat ear", "lamp"]
 
 
-def test_a_higher_verify_threshold_drops_the_model_tags_below_it():
-    assert replayed(verify_threshold=0.96) == ["window", "cat", "sunset"]
+def test_a_higher_proposed_threshold_drops_the_model_tags_below_it():
+    assert replayed(verify_thresholds=[0.96, 0.9999]) == ["window", "cat", "sunset"]
 
 
-def test_the_thing_check_on_every_origin_drops_a_model_tag_with_a_high_p_other():
+def test_the_thing_check_on_every_origin_drops_a_model_tag_with_a_low_p_thing():
     assert replayed(thing_check="all") == ["window", "cat", "cat ear", "lamp"]
+
+
+def test_a_tag_at_the_thing_threshold_is_kept():
+    settings = dataclasses.replace(SUPERSET, thing_check="all", thing_threshold=0.05)
+
+    assert list(score.replay_image(superset_record(), settings)) == SUPERSET_KEPT
+
+
+def test_a_record_holding_p_other_replays_its_thing_check_on_one_minus_it():
+    candidates = [{**{key: value for key, value in candidate.items() if key != "p_thing"},
+                   "p_other": 1.0 - candidate["p_thing"]} for candidate in CANDIDATES]
+    settings = score.covered_settings(SUPERSET, "arm", {"thing_check": "all"})
+
+    assert list(score.replay_image(superset_record(candidates=candidates), settings)) == [
+        "window", "cat", "cat ear", "lamp"]
 
 
 @pytest.mark.parametrize(("rule", "kept"), [
@@ -83,8 +100,8 @@ def test_each_subsets_rule_keeps_its_own_list(rule, kept):
     assert replayed(subsets_rule=rule) == kept
 
 
-def test_the_proposed_order_keeps_candidate_order():
-    assert replayed(order="proposed") == ["cat", "cat ear", "sunset", "lamp", "window"]
+def test_the_candidate_order_keeps_the_merge_order():
+    assert replayed(order="candidate") == ["cat", "cat ear", "sunset", "lamp", "window"]
 
 
 def test_the_cut_counts_repeated_and_overlong_items_as_the_decode_stop_does():
@@ -113,8 +130,8 @@ def test_an_arm_that_would_run_the_echo_fallback_the_superset_never_ran_leaves_t
         score.replay_image(superset_record(), settings)
 
 
-def test_the_thing_check_without_recorded_p_other_leaves_the_image_out():
-    candidates = [{key: value for key, value in candidate.items() if key != "p_other"} for candidate in CANDIDATES]
+def test_the_thing_check_without_a_recorded_thing_score_leaves_the_image_out():
+    candidates = [{key: value for key, value in candidate.items() if key != "p_thing"} for candidate in CANDIDATES]
 
     with pytest.raises(score.NotRecorded, match="--record-thing-scores"):
         score.replay_image(superset_record(candidates=candidates),
@@ -156,6 +173,27 @@ def test_settings_round_trip_through_the_settings_file_json():
     assert compare.arm_settings(TagSettings(), "S", written) == SUPERSET
 
 
+def test_recorded_verify_threshold_fields_move_into_verify_thresholds_and_flip_the_thing_threshold():
+    recorded = {"verify_threshold": 0.9, "prompt_only_threshold": 0.9999, "thing_threshold": 0.9}
+
+    assert compare.arm_settings(TagSettings(), "S", recorded) == TagSettings(
+        verify_thresholds=PresenceThresholds(proposed=0.9, declared=0.9999), thing_threshold=0.1)
+
+
+def test_settings_holding_both_threshold_forms_exit():
+    recorded = {"verify_thresholds": [0.9, 0.9999], "verify_threshold": 0.96}
+
+    with pytest.raises(SystemExit, match=r"verify_thresholds beside \['verify_threshold'\]"):
+        compare.arm_settings(TagSettings(), "S", recorded)
+
+
+def test_a_recorded_arm_naming_one_verify_threshold_keeps_the_base_declared_threshold():
+    settings = score.covered_settings(SUPERSET, "arm", {"verify_threshold": 0.96})
+
+    assert settings.verify_thresholds == PresenceThresholds(proposed=0.96, declared=0.9999)
+    assert settings.thing_threshold == SUPERSET.thing_threshold
+
+
 VERDICTS = {"a": {"cat": "yes", "dog": "no", "sky": "vague"}, "b": {"cat": "yes", "tree": "unsure"}}
 
 
@@ -191,23 +229,31 @@ def test_the_paired_interval_of_identical_images_is_the_delta_itself():
     assert ci["correct"] == (0.0, 0.0)
 
 
-def test_record_thing_scores_writes_each_candidate_p_other_from_the_cache():
+def test_record_thing_scores_writes_each_candidate_p_thing_from_the_cache():
     records = [superset_record(), superset_record()]
-    known = {candidate["tag"]: candidate["p_other"] + 0.001 for candidate in CANDIDATES}
+    thing_cache = {candidate["tag"]: candidate["p_thing"] - 0.001 for candidate in CANDIDATES}
 
-    # Every tag is known, so thing_scores asks nothing and needs no classifier.
-    compare.record_thing_scores(None, records, SUPERSET, known)
+    # Every tag is cached, so thing_scores asks nothing and needs no classifier.
+    compare.record_thing_scores(None, records, SUPERSET, thing_cache)
 
-    assert [candidate["p_other"] for candidate in records[1]["candidates"]] == [
-        candidate["p_other"] + 0.001 for candidate in CANDIDATES]
+    assert [candidate["p_thing"] for candidate in records[1]["candidates"]] == [
+        candidate["p_thing"] - 0.001 for candidate in CANDIDATES]
 
 
 def test_the_thing_cache_of_another_wording_is_refused(tmp_path):
     cache = tmp_path / "thing_scores_clip.json"
-    cache.write_text(json.dumps({"thing_question": "Is {TAG} a thing", "thing_criteria": [], "p_other": {}}))
+    cache.write_text(json.dumps({"thing_question": "Is {TAG} a thing", "thing_criteria": [], "p_thing": {}}))
 
     with pytest.raises(SystemExit, match="another thing check wording"):
         compare.load_thing_cache(cache, [SUPERSET])
+
+
+@pytest.mark.parametrize(("held", "p_thing"), [({"p_thing": {"cat": 0.75}}, {"cat": 0.75}),
+                                                ({"p_other": {"cat": 0.25}}, {"cat": 0.75})])
+def test_the_thing_cache_reads_p_thing_or_one_minus_p_other(tmp_path, held, p_thing):
+    cache = write(tmp_path / "thing_scores_clip.json", {**compare.thing_wording(SUPERSET), **held})
+
+    assert compare.load_thing_cache(cache, [SUPERSET]) == (compare.thing_wording(SUPERSET), p_thing)
 
 
 def write(path, value):
@@ -218,7 +264,7 @@ def write(path, value):
 def test_replay_prints_each_replayed_arm_paired_with_the_superset(tmp_path):
     results = write(tmp_path / "results_s.json", {"coco": {"S": {"a": superset_record(), "b": superset_record()}}})
     write(tmp_path / "settings_s.json", {"S": compare.settings_json(SUPERSET)})
-    arms = write(tmp_path / "arms.json", {"T96": {"verify_threshold": 0.96}})
+    arms = write(tmp_path / "arms.json", {"T96": {"verify_thresholds": [0.96, 0.9999]}})
     verdicts = write(tmp_path / "verdicts.json", {key: {"cat": "yes", "cat ear": "yes", "lamp": "no",
                                                         "sunset": "vague", "window": "yes"} for key in "ab"})
 

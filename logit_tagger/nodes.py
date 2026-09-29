@@ -77,11 +77,11 @@ def _tag_list(values: list[str] | None, prompts: list[str], instruction: str | N
 
 
 def _image_probability(classifier: Any, question: str, image: Any) -> float:
-    from logit_classifier.toolkit.comfyui import fit_picture
+    from logit_classifier.toolkit.comfyui import fit_image
 
-    picture = fit_picture(image, engine.CHECK_MAX_PIXELS)
+    fitted_image = fit_image(image, engine.CHECK_MAX_PIXELS)
 
-    return classifier.nouls([question], image=picture)[0]
+    return classifier.nouls([question], image=fitted_image)[0]
 
 
 def _text_probability(classifier: Any, question: str, text: str) -> float:
@@ -444,13 +444,13 @@ class LogitImageClassify:
         wording = _widget_text(question, CLASSIFY_NAME, "question", CLASSIFY_QUESTION)
         option_list = _classify_options(_widget_text(options, CLASSIFY_NAME, "options", CLASSIFY_OPTIONS))
         classifier = engine.build_classifier(clip[0], CLASSIFY_NAME, needs_images=True)
-        from logit_classifier.toolkit.comfyui import fit_picture
+        from logit_classifier.toolkit.comfyui import fit_image
 
         with progress.RunProgress(total_items=len(images), unique_id=node_id, noun="image", node=CLASSIFY_NAME) as run:
             for index, item in enumerate(images):
                 run.item(index, CLASSIFY_STAGE)
                 answers.append(engine.choose(classifier, wording, option_list,
-                                             image=fit_picture(item, engine.CHECK_MAX_PIXELS)))
+                                             image=fit_image(item, engine.CHECK_MAX_PIXELS)))
 
         choices = [choice for choice, _confidence in answers]
         indexes = [option_list.index(choice) for choice in choices]

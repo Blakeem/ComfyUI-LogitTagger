@@ -325,7 +325,7 @@ def tile_units(max_pixels: int) -> list[dict]:
 
 
 def run(units: list[dict], arm_names: list[str], clip_name: str) -> list[dict]:
-    from logit_classifier.toolkit.comfyui import fit_picture, shared_vision_encode
+    from logit_classifier.toolkit.comfyui import fit_image, shared_vision_encode
 
     from logit_tagger.engine import build_classifier
 
@@ -335,12 +335,12 @@ def run(units: list[dict], arm_names: list[str], clip_name: str) -> list[dict]:
     rows: list[dict] = []
 
     for index, unit in enumerate(units):
-        picture = fit_picture(load_image(unit["file"]), unit["max_pixels"])
+        image = fit_image(load_image(unit["file"]), unit["max_pixels"])
         started = time.perf_counter()
         with shared_vision_encode(clip):
             for arm in arm_names:
                 statements = [arm_of[arm](item["text"]) for item in unit["items"]]
-                scores = classifier.nouls(statements, image=picture)
+                scores = classifier.nouls(statements, image=image)
                 rows += [{"set": unit["set"], "unit": unit["unit"], "arm": arm, "text": item["text"],
                           "form": item["form"], "truth": item["truth"], "statement": statement, "p": p}
                          for item, statement, p in zip(unit["items"], statements, scores, strict=True)]

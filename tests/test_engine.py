@@ -68,15 +68,15 @@ class QuietRun:
 
 @pytest.fixture
 def fit_calls(monkeypatch):
-    """Replaces the toolkit's fit_picture with one that records its pixel cap, then raises Fitted."""
+    """Replaces the toolkit's fit_image with one that records its pixel cap, then raises Fitted."""
     toolkit = pytest.importorskip("logit_classifier.toolkit.comfyui")
     calls = []
 
-    def fit_picture(image, max_pixels):
+    def fit_image(image, max_pixels):
         calls.append(max_pixels)
         raise Fitted
 
-    monkeypatch.setattr(toolkit, "fit_picture", fit_picture)
+    monkeypatch.setattr(toolkit, "fit_image", fit_image)
     return calls
 
 
@@ -110,7 +110,7 @@ def test_tag_list_fits_to_the_check_cap(fit_calls):
 
 def test_tagger_propose_and_verify_fit_to_the_tagger_cap(fit_calls):
     with pytest.raises(Fitted):
-        tagging.tag_image("clip", "classifier", an_image(), known={})
+        tagging.tag_image("clip", "classifier", an_image(), thing_cache={})
     assert fit_calls == [engine.VL_MAX_PIXELS]
 
 

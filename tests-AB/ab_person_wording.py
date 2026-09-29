@@ -154,7 +154,7 @@ def report(title: str, items: list[dict], wordings: tuple[str, ...], kinds: list
 def main() -> None:
     ab_env.bootstrap()
     from logit_classifier import NoulQuestion
-    from logit_classifier.toolkit.comfyui import fit_picture
+    from logit_classifier.toolkit.comfyui import fit_image
 
     from logit_tagger.engine import CHECK_MAX_PIXELS, build_classifier
 
@@ -164,7 +164,7 @@ def main() -> None:
     _categories, _supercategories, samples = load_corpus(DEFAULT_CORPUS, None)
     texts = text_units(load_textset(DEFAULT_DATA / "textset" / "prompts.json"))
     pictures = image_units([render for render in renders if render.id in labels], labels, samples)
-    images = {unit["unit"]: fit_picture(load_image(unit["file"]), CHECK_MAX_PIXELS) for unit in pictures}
+    images = {unit["unit"]: fit_image(load_image(unit["file"]), CHECK_MAX_PIXELS) for unit in pictures}
     text_kinds = ["set asks", "set negated", "set absent", "group", "single", "negated", "absent"]
     image_kinds = ["render group", "render single", "render none", "coco group", "coco single", "coco none"]
 

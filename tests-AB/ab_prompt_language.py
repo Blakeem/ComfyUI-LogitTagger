@@ -1,6 +1,6 @@
 """Check the prompt stage's language gate and translation over a real Qwen3-VL-4B CLIP, with no server.
 
-Each prompt prints the gate's p(English), the text the listing reads and the things prompt_tags keeps. The English
+Each prompt prints the gate's p(English), the text the listing reads and the things tag_prompt keeps. The English
 set holds style-only prompts, since those list no things and so look foreign to word grounding alone.
 The output sets the TagSettings fields language_question, english_threshold and translate_instruction.
 Usage: python tests-AB/ab_prompt_language.py [--clip NAME]
@@ -50,7 +50,7 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     ab_env.bootstrap()
-    from logit_classifier.toolkit.comfyui import prompt_tags
+    from logit_classifier.toolkit.comfyui import tag_prompt
 
     from logit_tagger import engine, tagging
 
@@ -64,14 +64,14 @@ def main() -> None:
     started = 0.0
 
     # The first generate pays the model load and graph capture, so it runs once untimed.
-    prompt_tags(clip, classifier, ENGLISH[3], settings, {})
+    tag_prompt(clip, classifier, ENGLISH[3], settings, {})
     ab_env.end_node_execution()
 
     for group, prompts in (("foreign", FOREIGN), ("english", ENGLISH)):
         for prompt in prompts:
             started = time.perf_counter()
             p_english = classifier.nouls([settings.language_question], state=prompt)[0]
-            listing = prompt_tags(clip, classifier, prompt, settings, {})
+            listing = tag_prompt(clip, classifier, prompt, settings, {})
             ab_env.end_node_execution()
             gate[group].append(p_english)
             print(f"{group:7} p(English) {p_english:.3f} {(time.perf_counter() - started):5.2f} s  {prompt[:60]!r}\n"

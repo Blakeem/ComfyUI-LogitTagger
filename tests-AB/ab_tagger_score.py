@@ -8,7 +8,10 @@ The 95% intervals come from a bootstrap over images. Each delta row pairs an arm
 over the images both hold.
 --replay re-derives each ARMS.json arm's kept lists from one superset run that ab_tagger_compare.py recorded with
 --record-thing-scores, reading its settings<suffix>.json beside its results<suffix>.json. ARMS.json maps an arm to
-TagSettings field overrides, the shape --variants takes. The replay first reproduces the superset's own kept lists.
+TagSettings field overrides, the shape --variants takes, with verify_thresholds as a [proposed, declared] list.
+Settings and arms recorded with verify_threshold and prompt_only_threshold replay as recorded, with their
+thing_threshold read as 1 - thing_threshold.
+The replay first reproduces the superset's own kept lists.
 Usage: python ab_tagger_score.py [VERDICTS.json ...] [--results results.json ...] [--rename new=N0]
        [--arms N0 N1 N2 old] [--baseline N0] [--samples 10000]
        python ab_tagger_score.py [VERDICTS.json ...] --replay ARMS.json --results SUPERSET.json
@@ -27,7 +30,7 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from ab_tagger_compare import arm_settings, settings_path_of
+from ab_tagger_compare import arm_settings, recorded_p_thing, settings_path_of
 
 VERDICTS = ("yes", "no", "vague", "unsure")
 HERE = Path(__file__).resolve().parent
@@ -40,8 +43,7 @@ TIMES = ("prompt_ms", "propose_ms", "verify_ms", "total_ms")
 CAPS = ("propose_cap", "merge_cap")
 # The fields the records re-derive. thing_threshold is not one, since the recorded prompt tags already passed the
 # prompt stage's thing check at the superset's value.
-REPLAYED_FIELDS = frozenset({*CAPS, "category_nouns", "thing_check", "verify_threshold", "prompt_only_threshold",
-                             "subsets_rule", "order"})
+REPLAYED_FIELDS = frozenset({*CAPS, "category_nouns", "thing_check", "verify_thresholds", "subsets_rule", "order"})
 
 Rows = list[dict[str, int]]
 
@@ -300,21 +302,21 @@ def proposed_tags(reply: str, cap: int) -> list[str]:
 
 
 def replay_image(record: dict[str, Any], settings: Any) -> tuple[str, ...]:
-    """The image's kept list under settings, re-derived as the toolkit's tag_picture derives it.
+    """The image's kept list under settings, re-derived as the toolkit's tag_image derives it.
 
     Raises NotRecorded when settings need a reply, a candidate or a score the superset run did not record.
     """
     from logit_classifier.toolkit.tags import drop_subsets, merge_candidates, passed_by_origin
 
-    thresholds = {"model": settings.verify_threshold, "both": settings.verify_threshold,
-                  "prompt": settings.prompt_only_threshold}
+    thresholds = {"model": settings.verify_thresholds.proposed, "both": settings.verify_thresholds.proposed,
+                  "prompt": settings.verify_thresholds.declared}
     recorded = {candidate["tag"]: candidate for candidate in record["candidates"]}
     echo_ran = record.get("echo_reply") is not None
     proposed: list[str] = []
     candidates: tuple[str, ...] = ()
     origins: tuple[str, ...] = ()
     missing: list[str] = []
-    p_other: list[float | None] = []
+    p_thing: list[float | None] = []
     is_thing: list[bool] = []
     scores: list[float | None] = []
     verified: tuple[str, ...] = ()
@@ -334,10 +336,10 @@ def replay_image(record: dict[str, Any], settings: Any) -> tuple[str, ...]:
     if missing:
         raise NotRecorded(f"no recorded score for {missing}")
     if settings.thing_check == "all":
-        p_other = [recorded[tag].get("p_other") for tag in candidates]
-        if None in p_other:
-            raise NotRecorded("no recorded p(other). Record the superset with --record-thing-scores.")
-        is_thing = [p < settings.thing_threshold for p in p_other]
+        p_thing = [recorded_p_thing(recorded[tag]) for tag in candidates]
+        if None in p_thing:
+            raise NotRecorded("no recorded thing check score. Record the superset with --record-thing-scores.")
+        is_thing = [p >= settings.thing_threshold for p in p_thing]
         candidates = tuple(itertools.compress(candidates, is_thing))
         origins = tuple(itertools.compress(origins, is_thing))
     verified = candidates
@@ -349,7 +351,7 @@ def replay_image(record: dict[str, Any], settings: Any) -> tuple[str, ...]:
 
     kept = drop_subsets(list(verified), rule=settings.subsets_rule)
     if settings.order == "score" and settings.verify_statement:
-        # sorted is stable, so tied tags keep candidate order, as in tag_picture.
+        # sorted is stable, so tied tags keep candidate order, as in tag_image.
         kept = sorted(kept, key=lambda tag: recorded[tag]["score"], reverse=True)
     return tuple(kept)
 

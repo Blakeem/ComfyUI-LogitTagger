@@ -733,7 +733,7 @@ def read_record(path: Path) -> dict:
 def main() -> None:
     ab_env.bootstrap()
     from logit_classifier import NoulQuestion
-    from logit_classifier.toolkit.comfyui import fit_picture
+    from logit_classifier.toolkit.comfyui import fit_image
 
     from logit_tagger.engine import CHECK_MAX_PIXELS, build_classifier
 
@@ -762,14 +762,14 @@ def main() -> None:
         checklist = load_checklist(args.data / "renders" / "JUDGE.md")
         renders = [render for render in all_renders if render.id in labels][: args.limit]
         require_files([render.file for render in renders])
-        render_images = {render.id: fit_picture(load_image(render.file), max_pixels)
+        render_images = {render.id: fit_image(load_image(render.file), max_pixels)
                          for render in renders}
     if "text-check" in wanted:
         prompts = load_textset(args.data / "textset" / "prompts.json")[: args.limit]
     if "declared-tags" in wanted:
         categories, _supercategories, samples = load_corpus(args.corpus, args.limit)
         require_files([sample.file for sample in samples])
-        coco_images = {sample.file: fit_picture(load_image(sample.file), max_pixels)
+        coco_images = {sample.file: fit_image(load_image(sample.file), max_pixels)
                        for sample in samples}
 
     asker = Asker(build_classifier(ab_env.load_clip(args.clip), "ab_release_gates"))

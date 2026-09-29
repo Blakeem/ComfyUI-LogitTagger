@@ -230,7 +230,7 @@ def test_split_then_merge_round_trips_every_ungraded_pair_into_the_store(tmp_pat
 def compare_output(folder, suffix=""):
     """The three files ab_tagger_compare.py writes for one run of arms S and T."""
     record = {"tags": ["a"], "reply": "a, b", "echo_reply": None, "prompt_tags": [], "proposed": ["a", "b"],
-              "candidates": [{"tag": "a", "origin": "model", "score": 0.99, "p_other": 0.1}], "dropped": [],
+              "candidates": [{"tag": "a", "origin": "model", "score": 0.99, "p_thing": 0.9}], "dropped": [],
               "prompt_ms": 0.0, "propose_ms": 1.0, "verify_ms": 2.0, "total_ms": 3.0,
               "propose_decode_ms_per_token": 30.0, "size_in": [8, 8], "propose_tokens": 4}
     write(folder / f"settings{suffix}.json", {"S": {"propose_cap": 40}, "T": {"propose_cap": 25}})

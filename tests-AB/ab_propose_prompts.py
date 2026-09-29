@@ -67,14 +67,14 @@ def main() -> None:
 
     clip.generate = counting_generate
     # The first decode pays the model load, so it is run once and discarded.
-    tagging.tag_image(clip, classifier, load_image(args.images[0]), known={})
+    tagging.tag_image(clip, classifier, load_image(args.images[0]), thing_cache={})
 
     for path in args.images:
         image = load_image(path)
         base_kept: set[str] = set()
         print(f"== {path.name}")
         for name, wording in WORDINGS.items():
-            trace = tagging.tag_image(clip, classifier, image, instruction=wording, known={})
+            trace = tagging.tag_image(clip, classifier, image, instruction=wording, thing_cache={})
             kept = set(trace.tags.split(", ")) if trace.tags else set()
             looped = bool(repeated_block(complete_tags(trace.reply + ",")))
             hit_budget = token_counts[-1] >= tagging.tag_settings().propose_max_tokens
