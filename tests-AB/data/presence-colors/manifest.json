@@ -1,0 +1,482 @@
+[
+  {
+    "id": "c01",
+    "file": "c01.png",
+    "prompt": "Still life photograph of three oranges and two limes on a plain grey stone table, soft window light, neutral grey background, sharp focus, realistic detail.",
+    "style": "photograph",
+    "intended": {
+      "orange": "color-word",
+      "lime": "color-word"
+    },
+    "distractors": {
+      "lemon": "color-word",
+      "peach": "color-word",
+      "plum": "color-word",
+      "cherry": "color-word",
+      "olive": "color-word",
+      "rose": "color-word",
+      "lavender": "color-word",
+      "gold": "color-word",
+      "chocolate": "color-word",
+      "mint": "color-word"
+    },
+    "width": 1152,
+    "height": 896,
+    "seed": 4001,
+    "steps": 26,
+    "seconds": 47.81
+  },
+  {
+    "id": "c02",
+    "file": "c02.png",
+    "prompt": "Photograph of a whole lemon and a ripe peach side by side on a white marble counter, soft daylight, minimal white background, sharp focus, realistic detail.",
+    "style": "photograph",
+    "intended": {
+      "lemon": "color-word",
+      "peach": "color-word"
+    },
+    "distractors": {
+      "orange": "color-word",
+      "lime": "color-word",
+      "plum": "color-word",
+      "cherry": "color-word",
+      "olive": "color-word",
+      "rose": "color-word",
+      "lavender": "color-word",
+      "gold": "color-word",
+      "chocolate": "color-word",
+      "mint": "color-word"
+    },
+    "width": 1152,
+    "height": 896,
+    "seed": 4002,
+    "steps": 26,
+    "seconds": 40.86
+  },
+  {
+    "id": "c03",
+    "file": "c03.png",
+    "prompt": "Photograph of a small white bowl of dark plums and red cherries on a grey linen cloth, overcast window light, neutral background, sharp focus, realistic detail.",
+    "style": "photograph",
+    "intended": {
+      "plum": "color-word",
+      "cherry": "color-word"
+    },
+    "distractors": {
+      "orange": "color-word",
+      "lime": "color-word",
+      "lemon": "color-word",
+      "peach": "color-word",
+      "olive": "color-word",
+      "rose": "color-word",
+      "lavender": "color-word",
+      "gold": "color-word",
+      "chocolate": "color-word",
+      "mint": "color-word"
+    },
+    "width": 1024,
+    "height": 1024,
+    "seed": 4003,
+    "steps": 26,
+    "seconds": 42.14
+  },
+  {
+    "id": "c04",
+    "file": "c04.png",
+    "prompt": "Photograph of a glass jar of green olives beside a single red rose lying on a grey wooden table, muted light, neutral background, sharp focus.",
+    "style": "photograph",
+    "intended": {
+      "olive": "color-word",
+      "rose": "color-word"
+    },
+    "distractors": {
+      "orange": "color-word",
+      "lime": "color-word",
+      "lemon": "color-word",
+      "peach": "color-word",
+      "plum": "color-word",
+      "cherry": "color-word",
+      "lavender": "color-word",
+      "gold": "color-word",
+      "chocolate": "color-word",
+      "mint": "color-word"
+    },
+    "width": 1024,
+    "height": 1024,
+    "seed": 4004,
+    "steps": 26,
+    "seconds": 42.51
+  },
+  {
+    "id": "c05",
+    "file": "c05.png",
+    "prompt": "Photograph of a bundle of dried lavender tied with string next to a shiny gold bar on a black slate surface, studio lighting, dark background, sharp focus.",
+    "style": "photograph",
+    "intended": {
+      "lavender": "color-word",
+      "gold": "color-word"
+    },
+    "distractors": {
+      "orange": "color-word",
+      "lime": "color-word",
+      "lemon": "color-word",
+      "peach": "color-word",
+      "plum": "color-word",
+      "cherry": "color-word",
+      "olive": "color-word",
+      "rose": "color-word",
+      "chocolate": "color-word",
+      "mint": "color-word"
+    },
+    "width": 1152,
+    "height": 896,
+    "seed": 4005,
+    "steps": 26,
+    "seconds": 40.67
+  },
+  {
+    "id": "c06",
+    "file": "c06.png",
+    "prompt": "Photograph of a broken bar of dark chocolate and a sprig of fresh mint leaves on a white ceramic plate, grey background, soft light, sharp focus.",
+    "style": "photograph",
+    "intended": {
+      "chocolate": "color-word",
+      "mint": "color-word"
+    },
+    "distractors": {
+      "orange": "color-word",
+      "lime": "color-word",
+      "lemon": "color-word",
+      "peach": "color-word",
+      "plum": "color-word",
+      "cherry": "color-word",
+      "olive": "color-word",
+      "rose": "color-word",
+      "lavender": "color-word",
+      "gold": "color-word"
+    },
+    "width": 1024,
+    "height": 1024,
+    "seed": 4006,
+    "steps": 26,
+    "seconds": 41.61
+  },
+  {
+    "id": "c07",
+    "file": "c07.png",
+    "prompt": "Fashion photograph of a woman in a bright orange wool coat walking past a lime green painted door on a grey city street, overcast light, no fruit.",
+    "style": "photograph",
+    "intended": {},
+    "distractors": {
+      "orange": "color-word",
+      "lime": "color-word",
+      "lemon": "color-word",
+      "peach": "color-word",
+      "plum": "color-word",
+      "cherry": "color-word",
+      "olive": "color-word",
+      "rose": "color-word",
+      "lavender": "color-word",
+      "gold": "color-word",
+      "chocolate": "color-word",
+      "mint": "color-word"
+    },
+    "width": 896,
+    "height": 1152,
+    "seed": 4007,
+    "steps": 26,
+    "seconds": 41.0
+  },
+  {
+    "id": "c08",
+    "file": "c08.png",
+    "prompt": "Interior photograph of a clean empty kitchen with lemon yellow cabinets and peach colored walls, a white sink, no food anywhere, soft daylight.",
+    "style": "photograph",
+    "intended": {},
+    "distractors": {
+      "orange": "color-word",
+      "lime": "color-word",
+      "lemon": "color-word",
+      "peach": "color-word",
+      "plum": "color-word",
+      "cherry": "color-word",
+      "olive": "color-word",
+      "rose": "color-word",
+      "lavender": "color-word",
+      "gold": "color-word",
+      "chocolate": "color-word",
+      "mint": "color-word"
+    },
+    "width": 1152,
+    "height": 896,
+    "seed": 4008,
+    "steps": 26,
+    "seconds": 39.27
+  },
+  {
+    "id": "c09",
+    "file": "c09.png",
+    "prompt": "Street photograph of a vintage car painted plum purple parked beside a cherry red scooter on an empty cobbled street, afternoon light, no people.",
+    "style": "photograph",
+    "intended": {},
+    "distractors": {
+      "orange": "color-word",
+      "lime": "color-word",
+      "lemon": "color-word",
+      "peach": "color-word",
+      "plum": "color-word",
+      "cherry": "color-word",
+      "olive": "color-word",
+      "rose": "color-word",
+      "lavender": "color-word",
+      "gold": "color-word",
+      "chocolate": "color-word",
+      "mint": "color-word"
+    },
+    "width": 1216,
+    "height": 832,
+    "seed": 4009,
+    "steps": 26,
+    "seconds": 39.27
+  },
+  {
+    "id": "c10",
+    "file": "c10.png",
+    "prompt": "Portrait photograph of a man in an olive green jacket holding a rose pink umbrella in light rain, blurred city background, soft light, no flowers.",
+    "style": "photograph",
+    "intended": {},
+    "distractors": {
+      "orange": "color-word",
+      "lime": "color-word",
+      "lemon": "color-word",
+      "peach": "color-word",
+      "plum": "color-word",
+      "cherry": "color-word",
+      "olive": "color-word",
+      "rose": "color-word",
+      "lavender": "color-word",
+      "gold": "color-word",
+      "chocolate": "color-word",
+      "mint": "color-word"
+    },
+    "width": 896,
+    "height": 1152,
+    "seed": 4010,
+    "steps": 26,
+    "seconds": 40.07
+  },
+  {
+    "id": "c11",
+    "file": "c11.png",
+    "prompt": "Interior photograph of a bedroom with lavender painted walls, a gold colored picture frame and a white bed with neat sheets, soft morning light.",
+    "style": "photograph",
+    "intended": {},
+    "distractors": {
+      "orange": "color-word",
+      "lime": "color-word",
+      "lemon": "color-word",
+      "peach": "color-word",
+      "plum": "color-word",
+      "cherry": "color-word",
+      "olive": "color-word",
+      "rose": "color-word",
+      "lavender": "color-word",
+      "gold": "color-word",
+      "chocolate": "color-word",
+      "mint": "color-word"
+    },
+    "width": 1152,
+    "height": 896,
+    "seed": 4011,
+    "steps": 26,
+    "seconds": 39.67
+  },
+  {
+    "id": "c12",
+    "file": "c12.png",
+    "prompt": "Interior photograph of a living room with a chocolate brown leather sofa and mint green cushions against plain white walls, soft daylight, no plants.",
+    "style": "photograph",
+    "intended": {},
+    "distractors": {
+      "orange": "color-word",
+      "lime": "color-word",
+      "lemon": "color-word",
+      "peach": "color-word",
+      "plum": "color-word",
+      "cherry": "color-word",
+      "olive": "color-word",
+      "rose": "color-word",
+      "lavender": "color-word",
+      "gold": "color-word",
+      "chocolate": "color-word",
+      "mint": "color-word"
+    },
+    "width": 1152,
+    "height": 896,
+    "seed": 4012,
+    "steps": 26,
+    "seconds": 42.93
+  },
+  {
+    "id": "c13",
+    "file": "c13.png",
+    "prompt": "Photograph of a woman in an orange knitted sweater peeling a lemon at a white kitchen table, soft window light, shallow depth of field.",
+    "style": "photograph",
+    "intended": {
+      "lemon": "color-word"
+    },
+    "distractors": {
+      "orange": "color-word",
+      "lime": "color-word",
+      "peach": "color-word",
+      "plum": "color-word",
+      "cherry": "color-word",
+      "olive": "color-word",
+      "rose": "color-word",
+      "lavender": "color-word",
+      "gold": "color-word",
+      "chocolate": "color-word",
+      "mint": "color-word"
+    },
+    "width": 896,
+    "height": 1152,
+    "seed": 4013,
+    "steps": 26,
+    "seconds": 43.08
+  },
+  {
+    "id": "c14",
+    "file": "c14.png",
+    "prompt": "Photograph of a lime green bicycle leaning against a white wall beside a wooden crate full of ripe peaches, morning light, sharp focus.",
+    "style": "photograph",
+    "intended": {
+      "peach": "color-word"
+    },
+    "distractors": {
+      "orange": "color-word",
+      "lime": "color-word",
+      "lemon": "color-word",
+      "plum": "color-word",
+      "cherry": "color-word",
+      "olive": "color-word",
+      "rose": "color-word",
+      "lavender": "color-word",
+      "gold": "color-word",
+      "chocolate": "color-word",
+      "mint": "color-word"
+    },
+    "width": 1152,
+    "height": 896,
+    "seed": 4014,
+    "steps": 26,
+    "seconds": 43.06
+  },
+  {
+    "id": "c15",
+    "file": "c15.png",
+    "prompt": "Anime illustration of a girl in a plum colored dress holding a small wicker basket of red cherries in a sunny garden, soft linework, pastel background.",
+    "style": "anime illustration",
+    "intended": {
+      "cherry": "color-word"
+    },
+    "distractors": {
+      "orange": "color-word",
+      "lime": "color-word",
+      "lemon": "color-word",
+      "peach": "color-word",
+      "plum": "color-word",
+      "olive": "color-word",
+      "rose": "color-word",
+      "lavender": "color-word",
+      "gold": "color-word",
+      "chocolate": "color-word",
+      "mint": "color-word"
+    },
+    "width": 896,
+    "height": 1152,
+    "seed": 4015,
+    "steps": 26,
+    "seconds": 43.04
+  },
+  {
+    "id": "c16",
+    "file": "c16.png",
+    "prompt": "Photograph of an olive green tent at a forest campsite with a small pot of melted chocolate warming over a campfire, evening light.",
+    "style": "photograph",
+    "intended": {
+      "chocolate": "color-word"
+    },
+    "distractors": {
+      "orange": "color-word",
+      "lime": "color-word",
+      "lemon": "color-word",
+      "peach": "color-word",
+      "plum": "color-word",
+      "cherry": "color-word",
+      "olive": "color-word",
+      "rose": "color-word",
+      "lavender": "color-word",
+      "gold": "color-word",
+      "mint": "color-word"
+    },
+    "width": 1152,
+    "height": 896,
+    "seed": 4016,
+    "steps": 26,
+    "seconds": 40.99
+  },
+  {
+    "id": "c17",
+    "file": "c17.png",
+    "prompt": "Photograph of a lavender colored vintage car parked on a quiet street with a bouquet of red roses lying on its hood, soft afternoon light.",
+    "style": "photograph",
+    "intended": {
+      "rose": "color-word"
+    },
+    "distractors": {
+      "orange": "color-word",
+      "lime": "color-word",
+      "lemon": "color-word",
+      "peach": "color-word",
+      "plum": "color-word",
+      "cherry": "color-word",
+      "olive": "color-word",
+      "lavender": "color-word",
+      "gold": "color-word",
+      "chocolate": "color-word",
+      "mint": "color-word"
+    },
+    "width": 1216,
+    "height": 832,
+    "seed": 4017,
+    "steps": 26,
+    "seconds": 40.69
+  },
+  {
+    "id": "c18",
+    "file": "c18.png",
+    "prompt": "Photograph of a mint green shop front with a white bowl of oranges in the window, a black bicycle parked outside, overcast light, sharp focus.",
+    "style": "photograph",
+    "intended": {
+      "orange": "color-word"
+    },
+    "distractors": {
+      "lime": "color-word",
+      "lemon": "color-word",
+      "peach": "color-word",
+      "plum": "color-word",
+      "cherry": "color-word",
+      "olive": "color-word",
+      "rose": "color-word",
+      "lavender": "color-word",
+      "gold": "color-word",
+      "chocolate": "color-word",
+      "mint": "color-word"
+    },
+    "width": 1216,
+    "height": 832,
+    "seed": 4018,
+    "steps": 26,
+    "seconds": 41.15
+  }
+]

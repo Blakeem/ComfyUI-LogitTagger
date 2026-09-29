@@ -49,6 +49,13 @@ def _propose_instruction(values: list[str] | None) -> str | None:
     return value if value.strip() else None
 
 
+def _strict(values: list[bool] | None) -> bool:
+    """The strict widget's value, off when an older workflow or prompt lacks the input."""
+    if not values:
+        return False
+    return bool(lists.single_value(values, tagging.NODE_NAME, "strict"))
+
+
 def _tag_list(values: list[str] | None, prompts: list[str], instruction: str | None) -> tuple[str, ...]:
     """The connected tags to check, or () for tags the pipeline writes when unconnected or blank."""
     tag_list: tuple[str, ...] = ()
@@ -180,6 +187,7 @@ class LogitTagger:
                 "prompt": ("STRING", {"forceInput": True, "tooltip": "The things this prompt names join the candidate tags, and each is kept only where the image shows it. Connect one prompt for every image, or a list with one prompt per image."}),
                 "instruction": ("STRING", {"forceInput": True, "tooltip": "This text replaces the built-in question that asks the encoder to list what each image holds. A blank text keeps the built-in question."}),
                 "tags": ("STRING", {"forceInput": True, "tooltip": "The node checks only these tags against each image instead of writing its own. Separate the tags with commas or new lines."}),
+                "strict": ("BOOLEAN", {"default": False, "tooltip": "On keeps fewer tags and fewer wrong tags, both for the tags the node writes and for a connected tag list. Off keeps more tags."}),
             },
             "hidden": {"unique_id": "UNIQUE_ID"},
         }
@@ -205,7 +213,7 @@ class LogitTagger:
 
     def tag(self, clip: list[Any], image: list[Any], prompt: list[str] | None = None,
             instruction: list[str] | None = None, tags: list[str] | None = None,
-            unique_id: list[str] | None = None) -> dict[str, Any]:
+            strict: list[bool] | None = None, unique_id: list[str] | None = None) -> dict[str, Any]:
         # INPUT_IS_LIST delivers every input as a list, the CLIP and the hidden node id included.
         model = clip[0]
         node_id = unique_id[0] if unique_id else None
@@ -213,6 +221,7 @@ class LogitTagger:
         prompts: list[str] = []
         wording: str | None = None
         tag_list: tuple[str, ...] = ()
+        settings: Any = None
         tag_texts: list[str] = []
 
         images = lists.split_images(image, tagging.NODE_NAME)
@@ -221,11 +230,13 @@ class LogitTagger:
         prompts = lists.pair_texts(prompt, len(images), tagging.NODE_NAME, "prompt")
         wording = _propose_instruction(instruction)
         tag_list = _tag_list(tags, prompts, wording)
+        settings = tagging.tag_settings(_strict(strict))
 
         with progress.RunProgress(total_items=len(images), unique_id=node_id, noun="image",
                                   node=tagging.NODE_NAME) as run:
             tag_texts = [trace.tags for trace in tagging.tag_images(model, images, prompts, instruction=wording,
-                                                                   tag_list=tag_list, on_progress=run.item)]
+                                                                   tag_list=tag_list, on_progress=run.item,
+                                                                   settings=settings)]
 
         # The frontend joins a ui list's entries with blank lines, so the display travels as one string.
         return {"ui": {"text": (format_display(tag_texts),)}, "result": (tag_texts, images)}

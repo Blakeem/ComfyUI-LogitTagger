@@ -1,0 +1,155 @@
+{
+ "c02": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-colors\\c02.png",
+  "tags": [
+   "olive",
+   "lavender",
+   "gold",
+   "plum",
+   "chocolate",
+   "mint",
+   "lemon",
+   "cherry",
+   "lime",
+   "peach",
+   "rose",
+   "orange"
+  ]
+ },
+ "c04": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-colors\\c04.png",
+  "tags": [
+   "cherry",
+   "peach",
+   "chocolate",
+   "mint",
+   "olive",
+   "lime",
+   "orange",
+   "lavender",
+   "plum",
+   "lemon",
+   "rose",
+   "gold"
+  ]
+ },
+ "c06": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-colors\\c06.png",
+  "tags": [
+   "lemon",
+   "chocolate",
+   "orange",
+   "gold",
+   "rose",
+   "cherry",
+   "plum",
+   "mint",
+   "lime",
+   "olive",
+   "lavender",
+   "peach"
+  ]
+ },
+ "c08": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-colors\\c08.png",
+  "tags": [
+   "chocolate",
+   "lime",
+   "gold",
+   "cherry",
+   "lavender",
+   "olive",
+   "plum",
+   "orange",
+   "mint",
+   "peach",
+   "rose",
+   "lemon"
+  ]
+ },
+ "c10": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-colors\\c10.png",
+  "tags": [
+   "peach",
+   "lemon",
+   "cherry",
+   "orange",
+   "lavender",
+   "mint",
+   "rose",
+   "olive",
+   "lime",
+   "plum",
+   "gold",
+   "chocolate"
+  ]
+ },
+ "c12": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-colors\\c12.png",
+  "tags": [
+   "olive",
+   "rose",
+   "lemon",
+   "peach",
+   "lavender",
+   "plum",
+   "orange",
+   "mint",
+   "chocolate",
+   "gold",
+   "cherry",
+   "lime"
+  ]
+ },
+ "c14": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-colors\\c14.png",
+  "tags": [
+   "plum",
+   "lime",
+   "gold",
+   "orange",
+   "peach",
+   "rose",
+   "lemon",
+   "lavender",
+   "mint",
+   "chocolate",
+   "cherry",
+   "olive"
+  ]
+ },
+ "c16": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-colors\\c16.png",
+  "tags": [
+   "lime",
+   "rose",
+   "cherry",
+   "plum",
+   "chocolate",
+   "mint",
+   "olive",
+   "orange",
+   "peach",
+   "lavender",
+   "gold",
+   "lemon"
+  ]
+ },
+ "c18": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-colors\\c18.png",
+  "tags": [
+   "gold",
+   "lavender",
+   "plum",
+   "cherry",
+   "orange",
+   "lime",
+   "rose",
+   "mint",
+   "chocolate",
+   "lemon",
+   "peach",
+   "olive"
+  ]
+ }
+}

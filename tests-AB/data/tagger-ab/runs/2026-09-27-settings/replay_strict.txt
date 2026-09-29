@@ -1,0 +1,22 @@
+condition        arm    imgs tags/img    precision [95% CI]  correct/img [95% CI]    wrong/img [95% CI]    vague/img [95% CI]   unsure/img [95% CI] unjudged/img [95% CI]   s/img: prompt propose verify total
+render-noprompt  new      72    17.53  0.918 [0.889, 0.945]  15.32 [13.81, 16.92]   0.28 [ 0.15,  0.42]   1.08 [ 0.64,  1.62]   0.85 [ 0.54,  1.21]   0.00 [ 0.00,  0.00]     0.00   2.26   0.29   2.55
+render-noprompt  S        72    17.53  0.918 [0.887, 0.945]  15.32 [13.88, 16.92]   0.28 [ 0.15,  0.42]   1.08 [ 0.64,  1.65]   0.85 [ 0.54,  1.22]   0.00 [ 0.00,  0.00]     0.00   2.25   0.25   2.50
+render-noprompt  broad    72    13.92  0.946 [0.921, 0.967]  12.79 [11.76, 13.86]   0.12 [ 0.04,  0.22]   0.61 [ 0.33,  0.96]   0.39 [ 0.26,  0.53]   0.00 [ 0.00,  0.00]      n/a    n/a    n/a    n/a
+render-noprompt  strict   72     8.89  0.961 [0.937, 0.980]   8.44 [ 7.60,  9.28]   0.01 [ 0.00,  0.04]   0.33 [ 0.15,  0.56]   0.10 [ 0.03,  0.17]   0.00 [ 0.00,  0.00]      n/a    n/a    n/a    n/a
+render-noprompt  new minus broad, 72 paired images: precision -0.027 [-0.043, -0.012], correct/img +2.53 [+1.83, +3.32], wrong/img +0.15 [+0.06, +0.28], wrong+vague/img +0.62 [+0.33, +0.96]
+render-noprompt  S minus broad, 72 paired images: precision -0.027 [-0.043, -0.013], correct/img +2.53 [+1.83, +3.32], wrong/img +0.15 [+0.06, +0.28], wrong+vague/img +0.62 [+0.35, +0.97]
+render-noprompt  strict minus broad, 72 paired images: precision +0.015 [+0.004, +0.026], correct/img -4.35 [-5.07, -3.67], wrong/img -0.11 [-0.19, -0.04], wrong+vague/img -0.39 [-0.58, -0.22]
+render-prompt    new      72    19.00  0.923 [0.896, 0.948]  16.74 [15.28, 18.28]   0.28 [ 0.15,  0.42]   1.11 [ 0.67,  1.67]   0.88 [ 0.57,  1.25]   0.00 [ 0.00,  0.00]     1.15   2.27   0.30   3.72
+render-prompt    S        72    19.00  0.923 [0.895, 0.948]  16.74 [15.25, 18.21]   0.28 [ 0.15,  0.42]   1.11 [ 0.67,  1.67]   0.88 [ 0.57,  1.25]   0.00 [ 0.00,  0.00]     1.07   2.24   0.26   3.57
+render-prompt    broad    72    15.15  0.949 [0.927, 0.969]  13.99 [12.92, 15.01]   0.12 [ 0.04,  0.22]   0.62 [ 0.35,  0.94]   0.42 [ 0.28,  0.56]   0.00 [ 0.00,  0.00]      n/a    n/a    n/a    n/a
+render-prompt    strict   72     9.83  0.966 [0.947, 0.983]   9.38 [ 8.53, 10.25]   0.01 [ 0.00,  0.04]   0.32 [ 0.15,  0.51]   0.12 [ 0.06,  0.21]   0.00 [ 0.00,  0.00]      n/a    n/a    n/a    n/a
+render-prompt    new minus broad, 72 paired images: precision -0.026 [-0.040, -0.012], correct/img +2.75 [+2.03, +3.53], wrong/img +0.15 [+0.06, +0.26], wrong+vague/img +0.64 [+0.35, +0.99]
+render-prompt    S minus broad, 72 paired images: precision -0.026 [-0.040, -0.013], correct/img +2.75 [+2.03, +3.53], wrong/img +0.15 [+0.06, +0.26], wrong+vague/img +0.64 [+0.35, +0.99]
+render-prompt    strict minus broad, 72 paired images: precision +0.017 [+0.007, +0.027], correct/img -4.61 [-5.38, -3.89], wrong/img -0.11 [-0.19, -0.04], wrong+vague/img -0.42 [-0.61, -0.25]
+coco             new      30    13.00  0.925 [0.887, 0.959]  11.50 [ 9.37, 13.70]   0.17 [ 0.03,  0.30]   0.77 [ 0.30,  1.33]   0.57 [ 0.30,  0.87]   0.00 [ 0.00,  0.00]     0.00   1.68   0.18   1.86
+coco             S        30    13.00  0.925 [0.885, 0.959]  11.50 [ 9.33, 13.67]   0.17 [ 0.03,  0.30]   0.77 [ 0.30,  1.37]   0.57 [ 0.27,  0.90]   0.00 [ 0.00,  0.00]     0.00   1.67   0.14   1.80
+coco             broad    30    10.50  0.961 [0.934, 0.984]   9.73 [ 8.10, 11.37]   0.07 [ 0.00,  0.17]   0.33 [ 0.13,  0.60]   0.37 [ 0.17,  0.60]   0.00 [ 0.00,  0.00]      n/a    n/a    n/a    n/a
+coco             strict   30     5.33  0.975 [0.951, 0.994]   5.13 [ 4.13,  6.23]   0.03 [ 0.00,  0.10]   0.10 [ 0.00,  0.20]   0.07 [ 0.00,  0.17]   0.00 [ 0.00,  0.00]      n/a    n/a    n/a    n/a
+coco             new minus broad, 30 paired images: precision -0.036 [-0.077, -0.004], correct/img +1.77 [+0.90, +2.83], wrong/img +0.10 [+0.00, +0.23], wrong+vague/img +0.53 [+0.13, +1.10]
+coco             S minus broad, 30 paired images: precision -0.036 [-0.076, -0.004], correct/img +1.77 [+0.93, +2.83], wrong/img +0.10 [+0.00, +0.23], wrong+vague/img +0.53 [+0.13, +1.10]
+coco             strict minus broad, 30 paired images: precision +0.014 [-0.010, +0.039], correct/img -4.60 [-6.07, -3.27], wrong/img -0.03 [-0.10, +0.00], wrong+vague/img -0.27 [-0.50, -0.07]

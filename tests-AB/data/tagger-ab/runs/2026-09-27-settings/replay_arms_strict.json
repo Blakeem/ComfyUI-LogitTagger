@@ -1,0 +1,1 @@
+{"broad": {"propose_cap": 25, "merge_cap": 64, "thing_check": "all", "subsets_rule": "words", "verify_threshold": 0.999, "prompt_only_threshold": 0.9999}, "strict": {"propose_cap": 25, "merge_cap": 64, "thing_check": "all", "subsets_rule": "words", "verify_threshold": 0.99998, "prompt_only_threshold": 0.99998}}

@@ -4,7 +4,7 @@ description = "Tag, check and classify images with the Qwen3-VL text encoder a w
 version = "0.1.0"
 license = { file = "LICENSE" }
 requires-python = ">=3.12"
-dependencies = ["logit-classifier>=0.3.0"]
+dependencies = ["logit-classifier>=0.4.0"]
 classifiers = [
     "Operating System :: OS Independent",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",

@@ -7,6 +7,7 @@ for the library's Classifier, so no comfy install, no GPU and no model are neede
 import dataclasses
 import subprocess
 import sys
+import types
 from contextlib import contextmanager
 from pathlib import Path
 from types import SimpleNamespace
@@ -51,7 +52,7 @@ class FakeClip:
 
 
 class FakeClassifier:
-    """Answers each verify noul from `probabilities` and each thing check from `other`, both by tag.
+    """Answers each presence noul from `probabilities` and each thing check from `other`, both by tag.
 
     The language question gets `english`, so a prompt reads as English unless a test says otherwise.
     nouls is the library's own, so its requests reach classify as they would on a real classifier.
@@ -172,15 +173,57 @@ def test_tag_settings_are_the_toolkit_defaults():
     assert tagging.tag_settings() is pack_settings
 
 
+def test_strict_tag_settings_hold_the_toolkit_strict_thresholds():
+    toolkit = pytest.importorskip("logit_classifier.toolkit.comfyui")
+    from logit_classifier.toolkit.tags import STRICT_THRESHOLDS
+
+    strict_settings = tagging.tag_settings(strict=True)
+    assert strict_settings == toolkit.TagSettings(verify_threshold=STRICT_THRESHOLDS.proposed,
+                                                  prompt_only_threshold=STRICT_THRESHOLDS.declared)
+    assert tagging.tag_settings(True) is strict_settings
+    assert tagging.tag_settings(False) is tagging.tag_settings()
+
+
+def test_a_library_without_the_strict_thresholds_prints_the_pip_command(monkeypatch):
+    pytest.importorskip("logit_classifier.toolkit.comfyui")
+    monkeypatch.setitem(sys.modules, "logit_classifier.toolkit.tags", types.ModuleType("logit_classifier.toolkit.tags"))
+    tagging._cached_settings.cache_clear()
+
+    try:
+        with pytest.raises(RuntimeError, match=r"^Logit Tagger: .*logit-classifier>=0\.4\.0"):
+            tagging.tag_settings()
+    finally:
+        tagging._cached_settings.cache_clear()
+
+
+def test_tag_settings_without_the_library_names_the_node_that_asked(monkeypatch):
+    monkeypatch.setitem(sys.modules, "logit_classifier.toolkit.comfyui", None)
+    tagging._cached_settings.cache_clear()
+
+    try:
+        with pytest.raises(RuntimeError, match=r"^Logit Prompt Check: .*pip install -U logit-classifier"):
+            tagging.tag_settings(node=tagging.PROMPT_CHECK_NAME)
+    finally:
+        tagging._cached_settings.cache_clear()
+
+
+def test_check_tag_list_asks_in_the_settings_verify_statement(fake_classifier):
+    settings = dataclasses.replace(tagging.tag_settings(), verify_statement="Seen: {TAG}")
+
+    tagging.check_tag_list(FakeClip(), fake_classifier, an_image(), ("cat",), settings)
+    ((request, _image),) = fake_classifier.calls_of("noul")
+    assert [q.instructions for q in request.questions.values()] == ["Seen: cat"]
+
+
 def test_tag_settings_without_the_library_prints_the_pip_command(monkeypatch):
     monkeypatch.setitem(sys.modules, "logit_classifier.toolkit.comfyui", None)
-    tagging.tag_settings.cache_clear()
+    tagging._cached_settings.cache_clear()
 
     try:
         with pytest.raises(RuntimeError, match=r"^Logit Tagger: .*pip install -U logit-classifier"):
             tagging.tag_settings()
     finally:
-        tagging.tag_settings.cache_clear()
+        tagging._cached_settings.cache_clear()
 
 
 # --- tag_image ------------------------------------------------------------------------
@@ -466,10 +509,8 @@ def test_tag_images_rejects_an_image_with_fewer_than_3_channels(fake_classifier)
 
 
 def listed(**probabilities):
-    """The fake classifier's noul table, keyed by the presence question each tag asks."""
-    from logit_classifier.toolkit.tags import presence_question
-
-    return {presence_question(tag.replace("_", " ")): p for tag, p in probabilities.items()}
+    """The fake classifier's noul table, keyed by tag, since a listed tag is asked in the verify wording."""
+    return {tag.replace("_", " "): p for tag, p in probabilities.items()}
 
 
 def test_parse_tag_list_splits_on_commas_and_newlines_and_cleans_each_tag():
@@ -505,10 +546,11 @@ def test_parse_tag_list_has_no_cap():
 
 
 def test_check_tag_list_keeps_tags_at_or_above_the_threshold(fake_classifier):
-    threshold = tagging.TAG_LIST_THRESHOLD
+    settings = tagging.tag_settings()
+    threshold = settings.prompt_only_threshold
     fake_classifier.probabilities = listed(cat=threshold, dog=threshold - 1e-6)
 
-    trace = tagging.check_tag_list(FakeClip(), fake_classifier, an_image(), ("cat", "dog"))
+    trace = tagging.check_tag_list(FakeClip(), fake_classifier, an_image(), ("cat", "dog"), settings)
     assert trace.kept == ("cat",)
     assert trace.scores == (threshold, threshold - 1e-6)
 
@@ -516,28 +558,30 @@ def test_check_tag_list_keeps_tags_at_or_above_the_threshold(fake_classifier):
 def test_check_tag_list_orders_by_probability_and_ties_keep_list_order(fake_classifier):
     fake_classifier.probabilities = listed(cat=0.99991, dog=0.99999, fox=0.99991, owl=0.5)
 
-    trace = tagging.check_tag_list(FakeClip(), fake_classifier, an_image(), ("cat", "dog", "fox", "owl"))
+    trace = tagging.check_tag_list(FakeClip(), fake_classifier, an_image(), ("cat", "dog", "fox", "owl"),
+                                   tagging.tag_settings())
     assert trace.tags == "dog, cat, fox"
 
 
 def test_check_tag_list_reports_the_listed_tags_as_its_only_candidates(fake_classifier):
     fake_classifier.probabilities = listed(cat=1.0)
 
-    trace = tagging.check_tag_list(FakeClip(), fake_classifier, an_image(height=16), ("cat", "red car"))
+    trace = tagging.check_tag_list(FakeClip(), fake_classifier, an_image(height=16), ("cat", "red car"),
+                                   tagging.tag_settings())
     assert (trace.reply, trace.proposed, trace.dropped, trace.propose_ms) == ("", (), (), 0.0)
     assert trace.candidates == ("cat", "red car")
     assert trace.origins == ("list", "list")
     assert (trace.size_in, trace.size_out) == ((16, 8), (16, 8))
 
 
-def test_check_tag_list_asks_the_presence_question_about_the_fitted_image(fake_classifier, monkeypatch):
+def test_check_tag_list_asks_the_presence_statement_about_the_fitted_image(fake_classifier, monkeypatch):
     monkeypatch.setattr(engine, "CHECK_MAX_PIXELS", 16)
     clip = FakeClip()
 
-    tagging.check_tag_list(clip, fake_classifier, an_image(), ("cat", "red car"))
+    tagging.check_tag_list(clip, fake_classifier, an_image(), ("cat", "red car"), tagging.tag_settings())
     ((request, image),) = fake_classifier.calls_of("noul")
     assert [q.instructions for q in request.questions.values()] == [
-        "Is there a cat in this image?", "Is there a red car in this image?"]
+        "This image visibly contains cat", "This image visibly contains red car"]
     assert request.state == ""
     assert tuple(image.shape) == (1, 4, 4, 3)
     assert clip.generate_calls == []
@@ -554,7 +598,7 @@ def test_check_tag_list_asks_300_tags_inside_one_scope(fake_classifier):
 
     fake_classifier.probabilities = listed(tag_0=1.0, tag_299=1.0)
     fake_classifier.classify = classify
-    trace = tagging.check_tag_list(FakeClip(), fake_classifier, an_image(), tags)
+    trace = tagging.check_tag_list(FakeClip(), fake_classifier, an_image(), tags, tagging.tag_settings())
     assert [len(request.questions) for request, _image in fake_classifier.calls] == [256, 44]
     assert open_during == [[True], [True]]
     assert fake_classifier.scopes[0]["open"] is False
@@ -574,6 +618,16 @@ def test_tag_images_with_a_tag_list_checks_every_image_and_never_generates(fake_
     assert clip.generate_calls == []
     assert fake_classifier.calls_of("choice") == []
     assert fake_classifier.built == [(clip, tagging.NODE_NAME)]
+
+
+@pytest.mark.parametrize(("strict", "kept"), [(False, "cat, dog"), (True, "cat")])
+def test_tag_images_keeps_a_listed_tag_at_the_prompt_only_threshold(fake_classifier, strict, kept):
+    # fox clears the broad verify_threshold and misses the broad prompt_only_threshold.
+    fake_classifier.probabilities = listed(cat=1.0, dog=0.99995, fox=0.9995)
+
+    (trace,) = tagging.tag_images(FakeClip(), [an_image()], [""], tag_list=("cat", "dog", "fox"),
+                                  settings=tagging.tag_settings(strict))
+    assert trace.tags == kept
 
 
 # --- library loading ------------------------------------------------------------------

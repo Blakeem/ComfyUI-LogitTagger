@@ -179,7 +179,7 @@ def test_every_input_has_a_tooltip_and_no_text_has_an_em_dash_or_semicolon():
 def test_every_thing_present_answers_true_with_a_full_score(fake_comfy, fake_engine, fake_things):
     clip = object()
     fake_things.things_of = {"a cat in a red hat": ("cat", "red hat")}
-    fake_engine.scores = [[0.9, 0.5]]
+    fake_engine.scores = [[0.9, tagging.MISSING_THRESHOLD]]
 
     output = run_check([an_image()], ["a cat in a red hat"], clip=clip)
 
@@ -193,14 +193,14 @@ def test_every_thing_present_answers_true_with_a_full_score(fake_comfy, fake_eng
     assert fake_engine.built == [(clip, "Logit Prompt Check", True)]
     assert [(call.clip, call.classifier) for call in fake_things.calls] == [(clip, fake_engine.classifier)]
     assert fake_things.calls[0].settings is tagging.tag_settings()
-    assert fake_engine.calls[0].statements == ["Is there a cat in this image?", "Is there a red hat in this image?"]
+    assert fake_engine.calls[0].statements == ["This image visibly contains cat", "This image visibly contains red hat"]
     assert fake_engine.calls[0].classifier is fake_engine.classifier
     assert output["ui"] == {"text": ("cat, red hat\n1.00 all present",)}
 
 
-def test_things_below_one_half_are_missing_in_prompt_order(fake_comfy, fake_engine, fake_things):
+def test_things_below_the_cutoff_are_missing_in_prompt_order(fake_comfy, fake_engine, fake_things):
     fake_things.things_of = {"a cat, a red hat and two dogs": ("cat", "red hat", "two dogs")}
-    fake_engine.scores = [[0.9, 0.4999, 0.1]]
+    fake_engine.scores = [[0.9, 0.0099, 0.001]]
 
     output = run_check([an_image()], ["a cat, a red hat and two dogs"])
 
@@ -228,7 +228,7 @@ def test_a_prompt_with_no_things_scores_one_and_asks_the_image_nothing(fake_comf
 
 def test_one_prompt_for_three_images_lists_its_things_once(fake_comfy, fake_engine, fake_things):
     fake_things.things_of = {"a cat": ("cat",)}
-    fake_engine.scores = [[0.9], [0.2], [0.8]]
+    fake_engine.scores = [[0.9], [0.002], [0.8]]
 
     output = run_check([a_batch(0.1, 0.2), an_image(value=0.3)], ["a cat"])
 
@@ -247,21 +247,21 @@ def test_one_prompt_for_three_images_lists_its_things_once(fake_comfy, fake_engi
 
 def test_two_prompts_for_two_images_pair_in_order_and_share_one_thing_cache(fake_comfy, fake_engine, fake_things):
     fake_things.things_of = {"a cat": ("cat",), "a dog": ("dog",)}
-    fake_engine.scores = [[0.9], [0.1]]
+    fake_engine.scores = [[0.9], [0.001]]
 
     output = run_check([a_batch(0.1, 0.2)], ["a cat", "a dog"])
 
     assert [call.prompt for call in fake_things.calls] == ["a cat", "a dog"]
     assert fake_things.calls[0].known is fake_things.calls[1].known
-    assert [call.statements for call in fake_engine.calls] == [["Is there a cat in this image?"],
-                                                               ["Is there a dog in this image?"]]
+    assert [call.statements for call in fake_engine.calls] == [["This image visibly contains cat"],
+                                                               ["This image visibly contains dog"]]
     assert output["result"][:3] == (False, [1.0, 0.0], ["", "dog"])
     assert output["ui"] == {"text": ("0: cat | 1.00 all present\n1: dog | 0.00 missing: dog",)}
 
 
 def test_prompts_with_different_things_show_each_image_after_its_own_things(fake_comfy, fake_engine, fake_things):
     fake_things.things_of = {"a cat and a dog": ("cat", "dog"), "a car on a road": ("car", "road"), "calm": ()}
-    fake_engine.scores = [[0.9, 0.8], [0.1, 0.9]]
+    fake_engine.scores = [[0.9, 0.8], [0.001, 0.9]]
 
     output = run_check([a_batch(0.1, 0.2, 0.3)], ["a cat and a dog", "a car on a road", "calm"])
 
@@ -271,7 +271,7 @@ def test_prompts_with_different_things_show_each_image_after_its_own_things(fake
 
 def test_prompts_with_the_same_things_share_one_line_of_things(fake_comfy, fake_engine, fake_things):
     fake_things.things_of = {"a cat and a dog": ("cat", "dog"), "a dog and a cat": ("cat", "dog")}
-    fake_engine.scores = [[0.9, 0.8], [0.1, 0.9]]
+    fake_engine.scores = [[0.9, 0.8], [0.001, 0.9]]
 
     output = run_check([a_batch(0.1, 0.2)], ["a cat and a dog", "a dog and a cat"])
 
@@ -285,7 +285,7 @@ def test_a_repeated_prompt_is_read_once(fake_comfy, fake_engine, fake_things):
     run_check([a_batch(0.1, 0.2, 0.3)], ["a cat", "a dog", "a cat"])
 
     assert [call.prompt for call in fake_things.calls] == ["a cat", "a dog"]
-    assert fake_engine.calls[2].statements == ["Is there a cat in this image?"]
+    assert fake_engine.calls[2].statements == ["This image visibly contains cat"]
 
 
 def test_a_wrong_prompt_count_is_an_error_before_the_run_starts(fake_comfy, fake_engine, fake_things):

@@ -1,0 +1,665 @@
+[
+  {
+    "id": "f01",
+    "file": "f01.png",
+    "prompt": "A shepherd guiding a flock of sheep across a green hillside at dawn, two dogs running beside them, low fog in the valley below, old stone walls, overcast sky.",
+    "style": "photograph",
+    "intended": {
+      "shepherd": "singular",
+      "flock of sheep": "collective",
+      "sheep": "irregular",
+      "two dogs": "count",
+      "fog": "mass",
+      "stone walls": "plural",
+      "hillside": "singular"
+    },
+    "distractors": {
+      "geese": "irregular",
+      "cows": "plural",
+      "tractor": "singular",
+      "snow": "mass",
+      "three horses": "count"
+    },
+    "width": 1152,
+    "height": 896,
+    "seed": 3001,
+    "steps": 26,
+    "seconds": 48.09
+  },
+  {
+    "id": "f02",
+    "file": "f02.png",
+    "prompt": "A farmyard with a flock of white geese walking past a red wooden barn, a pile of hay bales, chickens pecking at the mud, a rusty wheelbarrow, soft morning light.",
+    "style": "photograph",
+    "intended": {
+      "geese": "irregular",
+      "red barn": "singular",
+      "hay bales": "plural",
+      "hay": "mass",
+      "chickens": "plural",
+      "mud": "mass",
+      "wheelbarrow": "singular"
+    },
+    "distractors": {
+      "sheep": "irregular",
+      "pigs": "plural",
+      "tractor": "singular",
+      "water": "mass",
+      "mice": "irregular"
+    },
+    "width": 1216,
+    "height": 832,
+    "seed": 3002,
+    "steps": 26,
+    "seconds": 41.66
+  },
+  {
+    "id": "f03",
+    "file": "f03.png",
+    "prompt": "Close-up photograph of a smiling woman with bright white teeth, silver hoop earrings and a pair of glasses, holding a slice of orange near her face, studio lighting, pastel background.",
+    "style": "photograph",
+    "intended": {
+      "woman": "singular",
+      "teeth": "irregular",
+      "earrings": "plural",
+      "glasses": "plural-only",
+      "slice of orange": "collective",
+      "orange": "color-word",
+      "face": "singular"
+    },
+    "distractors": {
+      "necklace": "singular",
+      "lime": "color-word",
+      "hat": "singular",
+      "scissors": "plural-only",
+      "children": "irregular"
+    },
+    "width": 896,
+    "height": 1152,
+    "seed": 3003,
+    "steps": 26,
+    "seconds": 41.72
+  },
+  {
+    "id": "f04",
+    "file": "f04.png",
+    "prompt": "Overhead photograph of a kitchen counter with a bowl of rice, a loaf of bread, three eggs, a pair of scissors, a chef's knife on a cutting board, and a glass of milk, natural window light.",
+    "style": "photograph",
+    "intended": {
+      "bowl of rice": "collective",
+      "rice": "mass",
+      "loaf of bread": "collective",
+      "bread": "mass",
+      "three eggs": "count",
+      "scissors": "plural-only",
+      "chef's knife": "possessive",
+      "cutting board": "singular",
+      "glass of milk": "collective"
+    },
+    "distractors": {
+      "spoons": "plural",
+      "lemon": "singular",
+      "sugar": "mass",
+      "two cups": "count",
+      "honey": "mass"
+    },
+    "width": 1024,
+    "height": 1024,
+    "seed": 3004,
+    "steps": 26,
+    "seconds": 44.57
+  },
+  {
+    "id": "f05",
+    "file": "f05.png",
+    "prompt": "Photograph of a street fruit stall piled with oranges, limes, peaches and plums in wooden crates, a vendor in a straw hat, a hand-written sign reading \"FRESH\", afternoon sun.",
+    "style": "photograph",
+    "intended": {
+      "oranges": "color-word",
+      "limes": "color-word",
+      "peaches": "color-word",
+      "plums": "color-word",
+      "wooden crates": "plural",
+      "vendor": "singular",
+      "straw hat": "singular",
+      "sign reading FRESH": "quoted"
+    },
+    "distractors": {
+      "bananas": "plural",
+      "watermelons": "plural",
+      "cash register": "singular",
+      "cherries": "color-word",
+      "sign reading CLOSED": "quoted"
+    },
+    "width": 1152,
+    "height": 896,
+    "seed": 3005,
+    "steps": 26,
+    "seconds": 42.58
+  },
+  {
+    "id": "f06",
+    "file": "f06.png",
+    "prompt": "Aquarium photograph of a school of small silver fish swimming around an orange octopus on a coral reef, sea anemones, bubbles rising through the clear blue water.",
+    "style": "photograph",
+    "intended": {
+      "fish": "irregular",
+      "school of fish": "collective",
+      "octopus": "s-singular",
+      "coral": "color-word",
+      "sea anemones": "plural",
+      "bubbles": "plural",
+      "water": "mass"
+    },
+    "distractors": {
+      "shark": "singular",
+      "turtles": "plural",
+      "diver": "singular",
+      "whale": "singular",
+      "seaweed": "mass"
+    },
+    "width": 1216,
+    "height": 832,
+    "seed": 3006,
+    "steps": 26,
+    "seconds": 39.38
+  },
+  {
+    "id": "f07",
+    "file": "f07.png",
+    "prompt": "Photograph of a desert landscape with a tall saguaro cactus, rolling sand dunes, a lizard resting on a red rock, a clear blue sky, harsh midday sun.",
+    "style": "photograph",
+    "intended": {
+      "cactus": "s-singular",
+      "sand dunes": "plural",
+      "sand": "mass",
+      "lizard": "singular",
+      "rock": "singular",
+      "blue sky": "singular"
+    },
+    "distractors": {
+      "camels": "plural",
+      "snow": "mass",
+      "snake": "singular",
+      "palm trees": "plural",
+      "water": "mass"
+    },
+    "width": 1152,
+    "height": 896,
+    "seed": 3007,
+    "steps": 26,
+    "seconds": 41.96
+  },
+  {
+    "id": "f08",
+    "file": "f08.png",
+    "prompt": "Two children in red coats building a snowman in a snowy park, mittens on their hands, a wooden sled leaning against a bench, bare trees, snow falling.",
+    "style": "photograph",
+    "intended": {
+      "children": "irregular",
+      "two children": "count",
+      "red coats": "plural",
+      "snowman": "singular",
+      "snow": "mass",
+      "mittens": "plural",
+      "sled": "singular",
+      "bench": "singular"
+    },
+    "distractors": {
+      "dog": "singular",
+      "ice skates": "plural",
+      "men": "irregular",
+      "puddles": "plural",
+      "grass": "mass"
+    },
+    "width": 1216,
+    "height": 832,
+    "seed": 3008,
+    "steps": 26,
+    "seconds": 39.95
+  },
+  {
+    "id": "f09",
+    "file": "f09.png",
+    "prompt": "Autumn forest path covered in fallen leaves, a deer and two fawns standing among birch trees, mist between the trunks, a wooden signpost, soft golden light.",
+    "style": "photograph",
+    "intended": {
+      "leaves": "irregular",
+      "deer": "irregular",
+      "birch trees": "plural",
+      "mist": "mass",
+      "wooden signpost": "singular",
+      "path": "singular"
+    },
+    "distractors": {
+      "wolves": "irregular",
+      "bear": "singular",
+      "snow": "mass",
+      "river": "singular",
+      "mushrooms": "plural"
+    },
+    "width": 1152,
+    "height": 896,
+    "seed": 3009,
+    "steps": 26,
+    "seconds": 40.41
+  },
+  {
+    "id": "f10",
+    "file": "f10.png",
+    "prompt": "A cozy library with tall wooden shelves full of books, a stack of books on a leather armchair, an hourglass and a brass compass on the desk, a green lamp, warm evening light.",
+    "style": "photograph",
+    "intended": {
+      "shelves": "irregular",
+      "books": "plural",
+      "stack of books": "collective",
+      "leather armchair": "singular",
+      "hourglass": "vowel-sound",
+      "brass compass": "s-singular",
+      "desk": "singular",
+      "green lamp": "singular"
+    },
+    "distractors": {
+      "globe": "singular",
+      "typewriter": "singular",
+      "candles": "plural",
+      "cat": "singular",
+      "umbrella": "vowel-sound"
+    },
+    "width": 1152,
+    "height": 896,
+    "seed": 3010,
+    "steps": 26,
+    "seconds": 40.97
+  },
+  {
+    "id": "f11",
+    "file": "f11.png",
+    "prompt": "A woman with an umbrella crossing a rainy city street at night, a yellow bus passing, puddles reflecting neon lights, a cyclist behind her, a shop sign reading \"OPEN\".",
+    "style": "photograph",
+    "intended": {
+      "woman": "singular",
+      "umbrella": "vowel-sound",
+      "bus": "s-singular",
+      "puddles": "plural",
+      "neon lights": "plural",
+      "cyclist": "singular",
+      "sign reading OPEN": "quoted",
+      "rain": "mass"
+    },
+    "distractors": {
+      "taxis": "plural",
+      "dog": "singular",
+      "snow": "mass",
+      "tram": "singular",
+      "children": "irregular"
+    },
+    "width": 1216,
+    "height": 832,
+    "seed": 3011,
+    "steps": 26,
+    "seconds": 40.07
+  },
+  {
+    "id": "f12",
+    "file": "f12.png",
+    "prompt": "Fantasy illustration of a white unicorn standing in a glowing forest clearing, a ring of red mushrooms, fireflies drifting in the air, a stone archway covered in moss, a crescent moon in the night sky.",
+    "style": "fantasy illustration",
+    "intended": {
+      "unicorn": "vowel-sound",
+      "red mushrooms": "plural",
+      "fireflies": "plural",
+      "stone archway": "singular",
+      "moss": "mass",
+      "crescent moon": "singular",
+      "night sky": "singular"
+    },
+    "distractors": {
+      "dragon": "singular",
+      "castle": "singular",
+      "fairies": "plural",
+      "river": "singular",
+      "owls": "plural"
+    },
+    "width": 1152,
+    "height": 896,
+    "seed": 3012,
+    "steps": 26,
+    "seconds": 40.55
+  },
+  {
+    "id": "f13",
+    "file": "f13.png",
+    "prompt": "Anime illustration of a girl in a school uniform feeding three white mice from her palm, sunflowers in a window box behind her, warm sunlight, pastel colors, soft linework.",
+    "style": "anime illustration",
+    "intended": {
+      "girl": "singular",
+      "school uniform": "vowel-sound",
+      "mice": "irregular",
+      "three mice": "count",
+      "sunflowers": "plural",
+      "window box": "singular",
+      "sunlight": "mass"
+    },
+    "distractors": {
+      "cat": "singular",
+      "birds": "plural",
+      "bicycle": "singular",
+      "cherry blossoms": "plural",
+      "teacup": "singular"
+    },
+    "width": 896,
+    "height": 1152,
+    "seed": 3013,
+    "steps": 26,
+    "seconds": 39.08
+  },
+  {
+    "id": "f14",
+    "file": "f14.png",
+    "prompt": "Still life oil painting of a copper kettle, a bunch of grapes, two lemons, a sprig of lavender in a glass vase, a wheel of cheese and scattered walnuts on a linen cloth.",
+    "style": "oil painting",
+    "intended": {
+      "copper kettle": "singular",
+      "bunch of grapes": "collective",
+      "grapes": "plural",
+      "two lemons": "count",
+      "lavender": "color-word",
+      "glass vase": "s-singular",
+      "wheel of cheese": "collective",
+      "cheese": "mass",
+      "walnuts": "plural"
+    },
+    "distractors": {
+      "pear": "singular",
+      "bread": "mass",
+      "candle": "singular",
+      "three apples": "count",
+      "wine": "mass"
+    },
+    "width": 1152,
+    "height": 896,
+    "seed": 3014,
+    "steps": 26,
+    "seconds": 41.62
+  },
+  {
+    "id": "f15",
+    "file": "f15.png",
+    "prompt": "Oil painting of fishermen hauling nets onto a wooden boat at sunset, seagulls circling above, waves crashing on the rocks, a lighthouse on the cliff, warm amber light.",
+    "style": "oil painting",
+    "intended": {
+      "fishermen": "irregular",
+      "nets": "plural",
+      "wooden boat": "singular",
+      "seagulls": "plural",
+      "waves": "plural",
+      "rocks": "plural",
+      "lighthouse": "singular",
+      "cliff": "singular"
+    },
+    "distractors": {
+      "whale": "singular",
+      "children": "irregular",
+      "bridge": "singular",
+      "snow": "mass",
+      "horses": "plural"
+    },
+    "width": 1216,
+    "height": 832,
+    "seed": 3015,
+    "steps": 26,
+    "seconds": 39.42
+  },
+  {
+    "id": "f16",
+    "file": "f16.png",
+    "prompt": "3D render of a toy robot holding a red balloon on a wooden table, a pair of headphones, scattered dice, a potted succulent and a coffee mug, soft studio lighting, clean background.",
+    "style": "3D render",
+    "intended": {
+      "toy robot": "singular",
+      "red balloon": "singular",
+      "wooden table": "singular",
+      "pair of headphones": "collective",
+      "headphones": "plural-only",
+      "dice": "irregular",
+      "potted succulent": "singular",
+      "coffee mug": "singular"
+    },
+    "distractors": {
+      "teddy bear": "singular",
+      "glasses": "plural-only",
+      "pencils": "plural",
+      "laptop": "singular",
+      "keys": "plural"
+    },
+    "width": 1024,
+    "height": 1024,
+    "seed": 3016,
+    "steps": 26,
+    "seconds": 43.51
+  },
+  {
+    "id": "f17",
+    "file": "f17.png",
+    "prompt": "Aerial photograph of a busy harbor with container ships, cranes loading cargo, stacks of colorful shipping containers, small tugboats, and a long bridge in the distance, hazy morning.",
+    "style": "photograph",
+    "intended": {
+      "container ships": "plural",
+      "cranes": "plural",
+      "shipping containers": "plural",
+      "stacks of containers": "collective",
+      "tugboats": "plural",
+      "bridge": "singular"
+    },
+    "distractors": {
+      "airplanes": "plural",
+      "lighthouse": "singular",
+      "sailboats": "plural",
+      "beach": "singular",
+      "people": "irregular"
+    },
+    "width": 1216,
+    "height": 832,
+    "seed": 3017,
+    "steps": 26,
+    "seconds": 41.65
+  },
+  {
+    "id": "f18",
+    "file": "f18.png",
+    "prompt": "Portrait photograph of a bearded man with blue eyes wearing a wool beanie and a denim jacket, holding a cup of coffee with steam rising, a red brick wall behind him.",
+    "style": "photograph",
+    "intended": {
+      "man": "singular",
+      "beard": "singular",
+      "blue eyes": "plural",
+      "wool beanie": "singular",
+      "denim jacket": "singular",
+      "cup of coffee": "collective",
+      "steam": "mass",
+      "brick wall": "singular"
+    },
+    "distractors": {
+      "glasses": "plural-only",
+      "scarf": "singular",
+      "woman": "singular",
+      "headphones": "plural-only",
+      "tie": "singular"
+    },
+    "width": 896,
+    "height": 1152,
+    "seed": 3018,
+    "steps": 26,
+    "seconds": 42.69
+  },
+  {
+    "id": "f19",
+    "file": "f19.png",
+    "prompt": "Beach photograph of people playing volleyball on the sand, a row of colorful umbrellas, surfboards standing in the sand, palm trees and turquoise waves, bright summer day.",
+    "style": "photograph",
+    "intended": {
+      "people": "irregular",
+      "volleyball": "singular",
+      "sand": "mass",
+      "row of umbrellas": "collective",
+      "umbrellas": "plural",
+      "surfboards": "plural",
+      "palm trees": "plural",
+      "waves": "plural"
+    },
+    "distractors": {
+      "horse": "singular",
+      "snow": "mass",
+      "kites": "plural",
+      "car": "singular",
+      "geese": "irregular"
+    },
+    "width": 1216,
+    "height": 832,
+    "seed": 3019,
+    "steps": 26,
+    "seconds": 39.97
+  },
+  {
+    "id": "f20",
+    "file": "f20.png",
+    "prompt": "Pixel art of a knight in armor fighting a dragon near a castle, a treasure chest full of gold coins, flames, torches on the stone walls, dark dungeon colors, retro game style.",
+    "style": "pixel art",
+    "intended": {
+      "knight": "singular",
+      "armor": "mass",
+      "dragon": "singular",
+      "castle": "singular",
+      "treasure chest": "singular",
+      "gold coins": "color-word",
+      "flames": "plural",
+      "torches": "plural"
+    },
+    "distractors": {
+      "wizard": "singular",
+      "horses": "plural",
+      "bow and arrow": "compound",
+      "skeletons": "plural",
+      "princess": "s-singular"
+    },
+    "width": 1152,
+    "height": 896,
+    "seed": 3020,
+    "steps": 26,
+    "seconds": 40.47
+  },
+  {
+    "id": "f21",
+    "file": "f21.png",
+    "prompt": "Watercolor painting of a bouquet of roses and tulips in a blue jug, a pair of reading glasses and an open letter on the table beside it, soft washes, white paper background.",
+    "style": "watercolor",
+    "intended": {
+      "bouquet of roses": "collective",
+      "roses": "color-word",
+      "tulips": "plural",
+      "blue jug": "singular",
+      "reading glasses": "plural-only",
+      "open letter": "vowel-sound",
+      "table": "singular"
+    },
+    "distractors": {
+      "sunflowers": "plural",
+      "teapot": "singular",
+      "pen": "singular",
+      "butterflies": "plural",
+      "candle": "singular"
+    },
+    "width": 896,
+    "height": 1152,
+    "seed": 3021,
+    "steps": 26,
+    "seconds": 41.15
+  },
+  {
+    "id": "f22",
+    "file": "f22.png",
+    "prompt": "Comic book panel of a superhero in a red cape flying over the city skyline, a helicopter with a searchlight, a speech bubble reading \"UP, UP!\", skyscrapers and clouds, bold ink outlines.",
+    "style": "comic book",
+    "intended": {
+      "superhero": "singular",
+      "red cape": "singular",
+      "city skyline": "singular",
+      "helicopter": "singular",
+      "searchlight": "singular",
+      "speech bubble": "singular",
+      "skyscrapers": "plural",
+      "clouds": "plural"
+    },
+    "distractors": {
+      "train": "singular",
+      "dragon": "singular",
+      "hot air balloon": "singular",
+      "fireworks": "plural",
+      "people": "irregular"
+    },
+    "width": 896,
+    "height": 1152,
+    "seed": 3022,
+    "steps": 26,
+    "seconds": 41.22
+  },
+  {
+    "id": "f23",
+    "file": "f23.png",
+    "prompt": "Backyard photograph of a barbecue grill with sausages and corn on the cob, smoke rising, a family of four sitting at a picnic table, a dog waiting nearby, green grass and a wooden fence.",
+    "style": "photograph",
+    "intended": {
+      "barbecue grill": "singular",
+      "sausages": "plural",
+      "corn on the cob": "collective",
+      "smoke": "mass",
+      "four people": "count",
+      "picnic table": "singular",
+      "dog": "singular",
+      "grass": "mass",
+      "wooden fence": "singular"
+    },
+    "distractors": {
+      "swimming pool": "singular",
+      "cats": "plural",
+      "fish": "irregular",
+      "wine glasses": "plural",
+      "trampoline": "singular"
+    },
+    "width": 1216,
+    "height": 832,
+    "seed": 3023,
+    "steps": 26,
+    "seconds": 40.78
+  },
+  {
+    "id": "f24",
+    "file": "f24.png",
+    "prompt": "Pub photograph of fish and chips on a white plate with a lemon wedge, salt and pepper shakers, a pint of beer, a small dish of ketchup, raindrops on the window behind.",
+    "style": "photograph",
+    "intended": {
+      "fish and chips": "compound",
+      "white plate": "singular",
+      "lemon wedge": "singular",
+      "salt and pepper shakers": "compound",
+      "pint of beer": "collective",
+      "beer": "mass",
+      "ketchup": "mass",
+      "raindrops": "plural",
+      "window": "singular"
+    },
+    "distractors": {
+      "burger": "singular",
+      "candles": "plural",
+      "knife and fork": "compound",
+      "newspaper": "singular",
+      "soup": "mass"
+    },
+    "width": 1024,
+    "height": 1024,
+    "seed": 3024,
+    "steps": 26,
+    "seconds": 42.67
+  }
+]

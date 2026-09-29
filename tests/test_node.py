@@ -87,10 +87,11 @@ def stub_pipeline(monkeypatch):
     """Replaces tag_images with a stub that returns one canned trace per image and reports the stages it runs."""
     calls = []
 
-    def tag_images(clip, images, prompts, *, instruction=None, tag_list=(), on_progress=None):
+    def tag_images(clip, images, prompts, *, instruction=None, tag_list=(), on_progress=None, settings=None):
         stages = (tagging.STAGE_CHECKING,) if tag_list else (tagging.STAGE_WRITING, tagging.STAGE_CHECKING)
         calls.append(SimpleNamespace(clip=clip, images=images, prompts=prompts, instruction=instruction,
-                                     tag_list=tag_list, bar_class=sys.modules["comfy.utils"].ProgressBar))
+                                     tag_list=tag_list, settings=settings,
+                                     bar_class=sys.modules["comfy.utils"].ProgressBar))
         for index in range(len(images)):
             for stage in stages:
                 if on_progress is not None:
@@ -104,17 +105,35 @@ def stub_pipeline(monkeypatch):
 # --- input and output contract --------------------------------------------------------
 
 
-def test_inputs_are_clip_and_image_then_three_text_sockets_and_the_node_id():
+def test_inputs_are_clip_and_image_then_three_text_sockets_the_strict_switch_and_the_node_id():
     spec = LogitTagger.INPUT_TYPES()
 
     assert list(spec) == ["required", "optional", "hidden"]
     assert [(name, definition[0]) for name, definition in spec["required"].items()] == [
         ("clip", "CLIP"), ("image", "IMAGE")]
-    assert list(spec["optional"]) == ["prompt", "instruction", "tags"]
-    for name, definition in spec["optional"].items():
-        assert definition[0] == "STRING", name
-        assert definition[1]["forceInput"] is True, name
+    assert list(spec["optional"]) == ["prompt", "instruction", "tags", "strict"]
+    for name in ("prompt", "instruction", "tags"):
+        assert spec["optional"][name][0] == "STRING", name
+        assert spec["optional"][name][1]["forceInput"] is True, name
+    assert spec["optional"]["strict"][0] == "BOOLEAN"
+    assert spec["optional"]["strict"][1]["default"] is False
     assert spec["hidden"] == {"unique_id": "UNIQUE_ID"}
+
+
+def test_differing_strict_values_fail_with_one_value_asked(fake_comfy, stub_pipeline):
+    pytest.importorskip("logit_classifier.toolkit.comfyui")
+
+    with pytest.raises(ValueError, match=r"^Logit Tagger: the strict input received 2 different values"):
+        run_node([an_image()], strict=[False, True])
+    assert stub_pipeline == []
+
+
+@pytest.mark.parametrize(("optional", "strict"), [({}, False), ({"strict": [False]}, False), ({"strict": [True]}, True)])
+def test_the_strict_switch_picks_the_settings_the_run_uses(fake_comfy, stub_pipeline, optional, strict):
+    pytest.importorskip("logit_classifier.toolkit.comfyui")
+
+    run_node([an_image()], **optional)
+    assert stub_pipeline[0].settings is tagging.tag_settings(strict)
 
 
 def test_every_input_has_a_tooltip_of_one_or_two_sentences():
@@ -346,7 +365,7 @@ def test_an_interrupt_stops_the_run_and_the_status_says_cancelled(fake_comfy, st
 def test_an_interrupt_during_the_prompt_generates_stops_the_run_before_the_first_image(fake_comfy, monkeypatch):
     tokens = []
 
-    def tag_images(clip, images, prompts, *, instruction=None, tag_list=(), on_progress=None):
+    def tag_images(clip, images, prompts, *, instruction=None, tag_list=(), on_progress=None, settings=None):
         for prompt in dict.fromkeys(prompts):
             bar = sys.modules["comfy.utils"].ProgressBar(256)
             for _step in range(256):

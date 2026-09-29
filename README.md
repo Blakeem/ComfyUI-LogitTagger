@@ -14,7 +14,7 @@ ComfyUI nodes that tag, check and classify images with the Qwen3-VL text encoder
 
 ## Installation
 
-Install it through ComfyUI Manager, or clone this repository into `ComfyUI/custom_nodes`. The nodes need the `logit-classifier` package, version 0.3.0 or newer, in the Python environment ComfyUI runs in.
+Install it through ComfyUI Manager, or clone this repository into `ComfyUI/custom_nodes`. The nodes need the `logit-classifier` package, version 0.4.0 or newer, in the Python environment ComfyUI runs in.
 
 ```
 pip install -U logit-classifier
@@ -26,13 +26,14 @@ The nodes read the Qwen3-VL text encoder that Krea 2 loads, such as `qwen3vl_4b_
 
 ### Logit Tagger
 
-The encoder writes candidate tags for each image. Then each tag is asked as a yes or no question about the image, and only the tags the image shows are kept, highest first.
+The encoder writes candidate tags for each image. Then each tag is scored with a true or false statement about the image, and only the tags the image shows are kept, highest first.
 
 | Input | What it does |
 |---|---|
 | `prompt` | Optional. The things the prompt names join the candidate tags, and each is kept only where the image shows it. |
 | `instruction` | Optional. This text replaces the built-in request that asks the encoder to list what each image holds. |
 | `tags` | Optional. The node checks only these tags against each image and writes none of its own. |
+| `strict` | On keeps fewer tags and fewer wrong tags. Off keeps more tags. |
 
 `tags` holds one comma separated string per image. Wire `images` and `tags` into Save Image-Text (to Folder) to save each image beside its tags.
 
@@ -50,7 +51,7 @@ The node asks one yes or no question about each text, with no image. The default
 
 ### Logit Prompt Check
 
-The encoder lists the physical things the prompt names. Then each image is asked whether it shows each thing, and a thing below 0.5 is missing.
+The encoder lists the physical things the prompt names. Then each image is asked whether it shows each thing, and a thing that scores below 0.01 is missing.
 
 `missing` holds the missing things of each image, and `score` holds the share of things each image shows. `complete_images` and `incomplete_images` sort the images by whether any thing is missing. `images` returns every image beside its `missing` text.
 
@@ -89,11 +90,12 @@ The tests use 72 Krea 2 renders and 80 prompts labeled by blind judges, plus COC
 | Node | Accuracy | Time per image | Script |
 |---|---|---|---|
 | Logit Tagger | 95% of kept tags judged correct, 9.7 to 14.0 correct tags per image | 1.6 to 3.4 s | `ab_tagger_compare.py` |
-| Logit Tagger with `tags` | 97% precision and 75% recall over the 80 COCO categories | 0.5 s | `ab_release_gates.py` |
+| Logit Tagger with `strict` | 96 to 98% of kept tags judged correct, 5.1 to 9.4 correct tags per image | as above | `ab_tagger_score.py` |
+| Logit Tagger with `tags` | 90% precision and 76% recall over the 80 COCO categories, 95% and 42% with `strict`. Most wrong tags were "orange" on an orange colored thing. | 0.7 s | `ab_release_gates.py` |
 | Logit Image Check | 97% over 27 questions | 0.28 s | `ab_release_gates.py` |
 | Logit Text Check | 97% over 80 prompts | 0.1 s | `ab_release_gates.py` |
-| Logit Prompt Check | 97% precision and 95% recall on missing things | 0.39 s, plus about 1 s per prompt | `ab_release_gates.py`, `ab_tagger_compare.py` |
-| Logit Image Classify | 89% over 8 art styles | 0.29 s | `ab_release_gates.py` |
+| Logit Prompt Check | 98% precision and 93% recall on missing things | 0.39 s, plus about 1 s per prompt | `ab_release_gates.py`, `ab_tagger_compare.py` |
+| Logit Image Classify | 92% over 8 art styles | 0.28 s | `ab_release_gates.py` |
 
 ## License
 

@@ -1,0 +1,209 @@
+{
+ "f01": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f01.png",
+  "tags": [
+   "fog",
+   "shepherd",
+   "geese",
+   "cows",
+   "flock of sheep",
+   "stone walls",
+   "snow",
+   "sheep",
+   "tractor",
+   "two dogs",
+   "hillside",
+   "three horses"
+  ]
+ },
+ "f03": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f03.png",
+  "tags": [
+   "glasses",
+   "earrings",
+   "orange",
+   "lime",
+   "scissors",
+   "slice of orange",
+   "woman",
+   "necklace",
+   "children",
+   "face",
+   "teeth",
+   "hat"
+  ]
+ },
+ "f05": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f05.png",
+  "tags": [
+   "cherries",
+   "sign reading FRESH",
+   "peaches",
+   "straw hat",
+   "watermelons",
+   "oranges",
+   "plums",
+   "limes",
+   "wooden crates",
+   "sign reading CLOSED",
+   "vendor",
+   "bananas",
+   "cash register"
+  ]
+ },
+ "f07": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f07.png",
+  "tags": [
+   "water",
+   "rock",
+   "camels",
+   "blue sky",
+   "palm trees",
+   "sand dunes",
+   "cactus",
+   "sand",
+   "lizard",
+   "snow",
+   "snake"
+  ]
+ },
+ "f09": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f09.png",
+  "tags": [
+   "bear",
+   "wolves",
+   "snow",
+   "leaves",
+   "mist",
+   "mushrooms",
+   "path",
+   "wooden signpost",
+   "river",
+   "birch trees",
+   "deer"
+  ]
+ },
+ "f11": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f11.png",
+  "tags": [
+   "puddles",
+   "children",
+   "sign reading OPEN",
+   "dog",
+   "bus",
+   "rain",
+   "cyclist",
+   "neon lights",
+   "woman",
+   "taxis",
+   "tram",
+   "snow",
+   "umbrella"
+  ]
+ },
+ "f13": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f13.png",
+  "tags": [
+   "window box",
+   "bicycle",
+   "sunflowers",
+   "cat",
+   "sunlight",
+   "mice",
+   "cherry blossoms",
+   "girl",
+   "three mice",
+   "school uniform",
+   "teacup",
+   "birds"
+  ]
+ },
+ "f15": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f15.png",
+  "tags": [
+   "snow",
+   "seagulls",
+   "whale",
+   "rocks",
+   "bridge",
+   "nets",
+   "lighthouse",
+   "waves",
+   "horses",
+   "children",
+   "wooden boat",
+   "cliff",
+   "fishermen"
+  ]
+ },
+ "f17": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f17.png",
+  "tags": [
+   "bridge",
+   "sailboats",
+   "container ships",
+   "stacks of containers",
+   "lighthouse",
+   "shipping containers",
+   "tugboats",
+   "people",
+   "cranes",
+   "beach",
+   "airplanes"
+  ]
+ },
+ "f19": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f19.png",
+  "tags": [
+   "sand",
+   "row of umbrellas",
+   "umbrellas",
+   "volleyball",
+   "waves",
+   "horse",
+   "surfboards",
+   "car",
+   "palm trees",
+   "kites",
+   "people",
+   "snow",
+   "geese"
+  ]
+ },
+ "f21": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f21.png",
+  "tags": [
+   "roses",
+   "candle",
+   "butterflies",
+   "sunflowers",
+   "teapot",
+   "reading glasses",
+   "tulips",
+   "pen",
+   "open letter",
+   "bouquet of roses",
+   "table",
+   "blue jug"
+  ]
+ },
+ "f23": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f23.png",
+  "tags": [
+   "wooden fence",
+   "dog",
+   "four people",
+   "corn on the cob",
+   "trampoline",
+   "smoke",
+   "swimming pool",
+   "sausages",
+   "picnic table",
+   "cats",
+   "barbecue grill",
+   "fish",
+   "grass",
+   "wine glasses"
+  ]
+ }
+}

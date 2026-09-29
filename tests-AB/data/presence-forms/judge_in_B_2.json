@@ -1,0 +1,218 @@
+{
+ "f02": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f02.png",
+  "tags": [
+   "mice",
+   "sheep",
+   "tractor",
+   "mud",
+   "wheelbarrow",
+   "chickens",
+   "hay",
+   "water",
+   "geese",
+   "pigs",
+   "red barn",
+   "hay bales"
+  ]
+ },
+ "f04": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f04.png",
+  "tags": [
+   "scissors",
+   "rice",
+   "lemon",
+   "honey",
+   "bread",
+   "glass of milk",
+   "three eggs",
+   "spoons",
+   "bowl of rice",
+   "cutting board",
+   "chef's knife",
+   "loaf of bread",
+   "two cups",
+   "sugar"
+  ]
+ },
+ "f06": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f06.png",
+  "tags": [
+   "turtles",
+   "seaweed",
+   "water",
+   "bubbles",
+   "shark",
+   "school of fish",
+   "diver",
+   "octopus",
+   "sea anemones",
+   "fish",
+   "whale",
+   "coral"
+  ]
+ },
+ "f08": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f08.png",
+  "tags": [
+   "children",
+   "men",
+   "puddles",
+   "grass",
+   "two children",
+   "red coats",
+   "ice skates",
+   "snow",
+   "sled",
+   "dog",
+   "snowman",
+   "mittens",
+   "bench"
+  ]
+ },
+ "f10": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f10.png",
+  "tags": [
+   "brass compass",
+   "globe",
+   "green lamp",
+   "cat",
+   "books",
+   "umbrella",
+   "shelves",
+   "hourglass",
+   "desk",
+   "leather armchair",
+   "candles",
+   "stack of books",
+   "typewriter"
+  ]
+ },
+ "f12": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f12.png",
+  "tags": [
+   "owls",
+   "night sky",
+   "red mushrooms",
+   "dragon",
+   "crescent moon",
+   "moss",
+   "stone archway",
+   "river",
+   "fairies",
+   "fireflies",
+   "unicorn",
+   "castle"
+  ]
+ },
+ "f14": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f14.png",
+  "tags": [
+   "three apples",
+   "pear",
+   "walnuts",
+   "bunch of grapes",
+   "two lemons",
+   "candle",
+   "copper kettle",
+   "glass vase",
+   "cheese",
+   "wine",
+   "bread",
+   "wheel of cheese",
+   "lavender",
+   "grapes"
+  ]
+ },
+ "f16": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f16.png",
+  "tags": [
+   "pencils",
+   "wooden table",
+   "coffee mug",
+   "red balloon",
+   "glasses",
+   "dice",
+   "headphones",
+   "pair of headphones",
+   "keys",
+   "teddy bear",
+   "laptop",
+   "toy robot",
+   "potted succulent"
+  ]
+ },
+ "f18": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f18.png",
+  "tags": [
+   "wool beanie",
+   "headphones",
+   "denim jacket",
+   "woman",
+   "cup of coffee",
+   "brick wall",
+   "scarf",
+   "glasses",
+   "steam",
+   "tie",
+   "blue eyes",
+   "man",
+   "beard"
+  ]
+ },
+ "f20": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f20.png",
+  "tags": [
+   "wizard",
+   "armor",
+   "gold coins",
+   "horses",
+   "castle",
+   "bow and arrow",
+   "princess",
+   "dragon",
+   "skeletons",
+   "torches",
+   "flames",
+   "treasure chest",
+   "knight"
+  ]
+ },
+ "f22": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f22.png",
+  "tags": [
+   "hot air balloon",
+   "searchlight",
+   "train",
+   "superhero",
+   "fireworks",
+   "helicopter",
+   "skyscrapers",
+   "clouds",
+   "city skyline",
+   "people",
+   "speech bubble",
+   "red cape",
+   "dragon"
+  ]
+ },
+ "f24": {
+  "file": "C:\\Users\\Blake\\Documents\\ComfyUI\\custom_nodes\\ComfyUI-LogitTagger\\tests-AB\\data\\presence-forms\\f24.png",
+  "tags": [
+   "newspaper",
+   "white plate",
+   "raindrops",
+   "knife and fork",
+   "fish and chips",
+   "lemon wedge",
+   "beer",
+   "burger",
+   "window",
+   "ketchup",
+   "pint of beer",
+   "salt and pepper shakers",
+   "candles",
+   "soup"
+  ]
+ }
+}

@@ -9,7 +9,7 @@ which ContextAnchoredTileRefine shares. Ideas for later nodes live in `TODO.md`.
 
 | Node | Status | Inputs | Outputs |
 |---|---|---|---|
-| Logit Tagger | built | `clip`, `image`, optional `prompt`, `instruction` and `tags` sockets | `tags` STRING list, `images` IMAGE list |
+| Logit Tagger | built | `clip`, `image`, optional `prompt`, `instruction` and `tags` sockets, `strict` widget | `tags` STRING list, `images` IMAGE list |
 | Logit Image Check | built | `clip`, `image`, `question` widget | `answer` BOOLEAN, `probability` FLOAT list, `yes_images`, `no_images` |
 | Logit Text Check | built | `clip`, `text` socket, `question` widget | `answer` BOOLEAN, `probability` FLOAT list, `yes_texts`, `no_texts` |
 | Logit Prompt Check | built | `clip`, `image`, `prompt` socket | `all_present`, `score`, `missing`, `images`, `complete_images`, `incomplete_images` |
@@ -65,8 +65,9 @@ nodes.py ─┬─> tagging.py ─┬─> engine.py ──> logit_classifier.too
 
 ## The tagger pipeline
 
-The stages are the toolkit's `prompt_tags` and `tag_picture`, driven by `tagging.tag_settings()`,
-which returns the toolkit's `TagSettings` defaults. ContextAnchoredTileRefine runs the same stages on
+The stages are the toolkit's `prompt_tags` and `tag_picture`, driven by `tagging.tag_settings(strict)`,
+which returns the toolkit's `TagSettings` defaults, or those defaults with the toolkit's `STRICT_THRESHOLDS`
+when the node's `strict` is on. ContextAnchoredTileRefine runs the same stages on
 tiles with its own preset values.
 
 ```
@@ -84,6 +85,7 @@ image ──> [resize] ──> [propose] ──> [merge] ──> [thing check] �
                                       64 at most                          prompt-only
 ```
 
+- The verify box shows the broad thresholds. With `strict` on, every tag needs 0.99998.
 - A propose reply that holds only the instruction's category nouns gets one more propose with the
   settings' `echo_fallback_instruction`. A connected instruction never triggers it.
 - The thing check judges every tag. On the model's own tags it drops some correct ones, such as
@@ -140,6 +142,8 @@ The head-noun subsets rule added no wrong tag on renders. It kept single words b
 tag ("bread" beside "loaf of bread"), and on ContextAnchoredTileRefine's tiles it added 0.03 wrong or vague tags
 per tile, so the words rule stays. The defaults kept 0.12 wrong and 0.61 vague tags per render against
 0.28 and 1.08 for the round 2 arm. A real run of the defaults matched the replay (`runs/2026-09-27-defaults`).
+The strict thresholds, 0.99998 for every tag, kept 8.4 correct, 0.01 wrong and 0.33 vague tags per render
+(`replay_arms_strict.json`, `replay_strict.txt`).
 
 ## Measured question shapes
 
@@ -155,12 +159,13 @@ the shipped 0.5 MP cap.
 | text yes/no, "Does this prompt ask for X in the image?" | accuracy 0.972, says no to negated mentions ("no cats") and decoy words ("dogwood") |
 | text yes/no, the person wording | on 112 prompts "a person or people" read accuracy 0.964 and "a person" 0.848, which said yes to 3 of 12 prompts of a group (`tests-AB/ab_person_wording.py`) |
 | image yes/no, the person wording | five wordings read accuracy 0.976 to 0.992 on 124 renders and photos, a group included, so "Is there a person in this image?" stays (`tests-AB/ab_person_wording.py`) |
-| fixed tag list, "Is there X in this image?" | precision 0.971, recall 0.748 at 0.9999 on COCO |
-| per-thing missing list | precision 0.972, recall 0.945 at 0.5 on renders, and a near miss's substituted thing flagged 0.944 |
-| image complete, every listed thing at 0.5 or more | accuracy 0.938 on 144 image and prompt pairs, 0.917 on own prompts and 0.958 on near misses |
-| whole-prompt yes/no | AUC 0.899 on near-miss prompts only: report per thing instead |
+| fixed tag list, "This image visibly contains X" | precision 0.903, recall 0.756 at 0.9999 and 0.950, 0.422 at 0.99998 on COCO. 8 of the 11 wrong tags at 0.9999 were "orange" read as the color |
+| presence wording | on 905 judged tile candidates "This image visibly contains X" matched 0.3.0's "Is there a X in this image?" within every paired interval at pooled precision 0.95 and 0.98, and it needs no grammar. On COCO tag lists the 0.3.0 question kept 3.79 correct tags per image at precision 0.98 against 1.90 (`tests-AB/ab_presence_wording.py`, round 4) |
+| per-thing missing list | precision 0.976, recall 0.931 at 0.01 on renders, and a near miss's substituted thing flagged 0.931 |
+| image complete, every listed thing at 0.01 or more | accuracy 0.938 on 144 image and prompt pairs, 0.931 on own prompts and 0.944 on near misses |
+| whole-prompt yes/no | AUC 0.896 on near-miss prompts only: report per thing instead |
 | text yes/no, "Is this text written in English?" | 0.000 to 0.027 on 13 prompts in 10 other languages, 1.000 on 10 English prompts (`tests-AB/ab_prompt_language.py`) |
-| choice over 8 styles | accuracy 0.889, confidence AUC 0.947 on renders |
+| choice over 8 styles | the node's default question and option names read accuracy 0.917, confidence AUC 0.934 on renders |
 | score | ranks brightness at Spearman 0.99, but "sharp" also falls with darkness. Not shipped |
 | ranking written prompts | at chance against a blind judge. Not shipped |
 
@@ -193,7 +198,7 @@ A Registry install gets the published wheel instead, through `[project] dependen
 
 ## Dependency rules
 
-- `[project] dependencies` names the bare `logit-classifier>=0.3.0`, never an extra. The `[hf]` extra
+- `[project] dependencies` names the bare `logit-classifier>=0.4.0`, never an extra. The `[hf]` extra
   names torch, and pip resolving torch beside ComfyUI's pinned CUDA build breaks the install.
 - Every import of `logit_classifier`, comfy and torch is lazy, inside the function that needs it. A
   missing library raises an error that prints the pip command.

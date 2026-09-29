@@ -4,7 +4,7 @@ The data folder holds renders/ (manifest.json, labels.json, JUDGE.md and the Kre
 (prompts with 12 things each labeled asks, negated or absent). The COCO corpus comes from build_coco60.py.
 Each probe stands for one candidate node:
   render-check   image noul, every judge checklist question on the renders (image check node)
-  render-style   image choice over the 8 render styles (style router node)
+  render-style   the Logit Image Classify node's default question and options over the 8 render styles
   adherence      whole-prompt noul and per-thing nouls against judged and foreign things (prompt adherence node)
   text-check     text noul, does a prompt ask for a thing, with no image (prompt gate node)
   declared-tags  image noul over the 80 COCO categories as a declared tag list (declared tagger node)
@@ -42,7 +42,7 @@ from ab_question_shapes import (
     spearman,
 )
 from ab_tagger import DEFAULT_CLIP, load_image
-from logit_classifier.toolkit.tags import head_noun, presence_question, reads_plural
+from logit_classifier.toolkit.tags import head_noun, presence_statement
 
 DEFAULT_DATA = Path(__file__).resolve().parent / "data" / "release-gates"
 DEFAULT_CORPUS = Path(__file__).resolve().parent / "cache" / "coco60" / "coco60.json"
@@ -61,17 +61,6 @@ CHECK_GROUPS = {
 # The check node asks one question per image, so one question is also timed alone.
 SINGLE_QID = "person"
 
-STYLE_QUESTION = "The art style of this image"
-STYLE_CRITERIA = {
-    "photograph": "a real camera photo",
-    "anime illustration": "Japanese anime or manga drawing",
-    "oil painting": "visible brushwork in oil paint on canvas",
-    "3D render": "computer generated 3D graphics",
-    "watercolor": "transparent watercolor washes on paper",
-    "pencil sketch": "graphite or ink lines on paper",
-    "pixel art": "low resolution art built from visible square pixels",
-    "comic book": "western comic art with bold ink outlines",
-}
 # The judge's style question per manifest style. The judge's painting question covers oil and watercolor.
 JUDGE_STYLE = {
     "photograph": "photo",
@@ -109,8 +98,26 @@ THING_PHRASES = {
 # A decoy is an absent thing whose name sits inside a longer word of the prompt, such as cattle for cat.
 TEXT_CLASSES = ("asks", "negated", "absent", "decoy")
 
-DECLARED_WORDINGS = {"question": QUESTION, "statement": "This image visibly contains {noun}"}
-DECLARED_THRESHOLDS = (0.5, 0.9, 0.99, 0.9999)
+# The question and statement rows reproduce the 0.3.0 measurements, and the presence row asks what the toolkit ships.
+DECLARED_WORDINGS: dict[str, Callable[[str], str]] = {
+    "question": lambda category: QUESTION.format(noun=noun(category)),
+    "statement": lambda category: f"This image visibly contains {noun(category)}",
+    "presence": presence_statement,
+}
+DECLARED_THRESHOLDS = (0.5, 0.9, 0.99, 0.999, 0.9999, 0.99995, 0.99998, 0.99999)
+# The toolkit 0.3.0 plural test, kept here since editing a prompt needs its grammar and the toolkit no longer has one.
+_NUMBER_WORDS = frozenset({"two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"})
+_IRREGULAR_PLURALS = frozenset({"people", "children", "cacti", "mice"})
+
+
+def reads_plural(phrase: str) -> bool:
+    """Whether the phrase opens with a count or its head noun reads plural."""
+    first = phrase.split()[0].lower()
+    head = head_noun(phrase)
+
+    if first in _NUMBER_WORDS or first.isdigit() or head in _IRREGULAR_PLURALS or head.endswith("men"):
+        return True
+    return head.endswith("s") and not head.endswith(("ss", "us"))
 
 
 @dataclass(frozen=True)
@@ -221,9 +228,9 @@ def separation(items: list[dict]) -> float:
                [item["p"] for item in items if item["truth"] is False])
 
 
-def accuracy(items: list[dict]) -> float:
+def accuracy(items: list[dict], threshold: float = THRESHOLD) -> float:
     rows = [item for item in items if item["truth"] is not None]
-    return sum((item["p"] >= THRESHOLD) == item["truth"] for item in rows) / len(rows) if rows else math.nan
+    return sum((item["p"] >= threshold) == item["truth"] for item in rows) / len(rows) if rows else math.nan
 
 
 def yes_rate(items: list[dict]) -> float:
@@ -296,11 +303,15 @@ def probe_render_check(asker: Asker, renders: list[Render], images: dict, labels
 
 def probe_render_style(asker: Asker, renders: list[Render], images: dict, labels: dict,
                        seed: int) -> tuple[list[str], dict]:
-    """One choice over the manifest styles, scored against the manifest and against the judges' style answers."""
+    """The Logit Image Classify node's default question and options, as engine.choose sends them, scored against the
+    manifest style and against the judges' style answers."""
     from logit_classifier import ChoiceQuestion
 
+    from logit_tagger.nodes import CLASSIFY_OPTIONS, CLASSIFY_QUESTION, _classify_options
+
     items: list[dict] = []
-    question = {"style": ChoiceQuestion(instructions=STYLE_QUESTION, criteria=STYLE_CRITERIA)}
+    styles = _classify_options(CLASSIFY_OPTIONS)
+    question = {"style": ChoiceQuestion(instructions=CLASSIFY_QUESTION, criteria=dict.fromkeys(styles))}
     correct = lambda rows: mean([row["choice"] == row["style"] for row in rows])
 
     for render in renders:
@@ -322,7 +333,7 @@ def probe_render_style(asker: Asker, renders: list[Render], images: dict, labels
         f"accuracy against the manifest style {estimate(correct, items, seed)} ({len(right)}/{len(items)}), "
         f"mean {asker.mean_ms('render-style'):.0f} ms",
         "  per style: " + ", ".join(f"{style} {correct([i for i in items if i['style'] == style]):.2f}"
-                                    for style in STYLE_CRITERIA),
+                                    for style in styles),
         "  confusions, manifest -> choice: " + (", ".join(f"{truth} -> {choice} {count}"
                                                          for (truth, choice), count in confusions.most_common())
                                                 or "none"),
@@ -422,6 +433,8 @@ def probe_adherence(asker: Asker, renders: list[Render], all_renders: list[Rende
     one presence noul per intended thing and per foreign thing."""
     from logit_classifier import NoulQuestion
 
+    from logit_tagger.tagging import MISSING_THRESHOLD
+
     sources = swap_sources(all_renders, seed)
     match_items: list[dict] = []
     thing_items: list[dict] = []
@@ -440,7 +453,7 @@ def probe_adherence(asker: Asker, renders: list[Render], all_renders: list[Rende
         things += [("foreign", source, thing, "absent") for source, thing in foreign]
         questions = {kind: NoulQuestion(instructions=MATCH_STATEMENT.format(caption=text))
                      for kind, (_source, text) in prompts.items()}
-        questions |= {f"t{index}": NoulQuestion(instructions=presence_question(thing))
+        questions |= {f"t{index}": NoulQuestion(instructions=presence_statement(thing))
                       for index, (_origin, _source, thing, _label) in enumerate(things)}
         answers, _ms = asker.ask("adherence", "", questions, images[render.id])
         match_items += [{"unit": render.id, "kind": kind, "source": source, "p": answers[kind].noul}
@@ -451,7 +464,7 @@ def probe_adherence(asker: Asker, renders: list[Render], all_renders: list[Rende
                         for index, (origin, source, thing, label) in enumerate(things)]
 
     flagged = sorted(({"id": item["unit"], "thing": item["thing"], "p": item["p"], "source": item["source"]}
-                      for item in thing_items if item["origin"] == "foreign" and item["p"] >= THRESHOLD),
+                      for item in thing_items if item["origin"] == "foreign" and item["p"] >= MISSING_THRESHOLD),
                      key=lambda row: row["p"], reverse=True)
     lines = [
         *match_lines(match_items, seed),
@@ -484,30 +497,32 @@ def match_lines(match_items: list[dict], seed: int) -> list[str]:
 
 
 def thing_lines(thing_items: list[dict], flagged_count: int, seed: int) -> list[str]:
-    """(b) Presence nouls: judged present against foreign, and the missing list (p < 0.5)."""
+    """(b) Presence nouls: judged present against foreign, and the missing list at the Prompt Check's cutoff."""
+    from logit_tagger.tagging import MISSING_THRESHOLD
+
     scored = [item for item in thing_items if item["truth"] is not None]
     present = [item for item in scored if item["truth"]]
     foreign = [item for item in scored if item["origin"] == "foreign"]
     judged_absent = [item for item in scored if item["origin"] == "intended" and not item["truth"]]
     # The missing list flags the absent side, so its truth is the flip of presence.
     missing = [{**item, "truth": not item["truth"]} for item in scored]
-    flagged_missing = lambda item: item["p"] < THRESHOLD
+    flagged_missing = lambda item: item["p"] < MISSING_THRESHOLD
     missing_precision = estimate(lambda rows: precision(rows, flagged_missing), missing, seed)
     missing_recall = estimate(lambda rows: recall(rows, flagged_missing), missing, seed)
     describe = lambda item: f"{item['unit']} {item['thing']!r}"
 
     return [
-        f"(b) presence noul {QUESTION!r}: {len(present)} present, {len(foreign)} foreign, "
+        f"(b) presence noul {presence_statement('{thing}')!r}: {len(present)} present, {len(foreign)} foreign, "
         f"{len(judged_absent)} judged absent, {len(thing_items) - len(scored)} unlabeled skipped",
         f"  AUC present vs foreign {estimate(separation, present + foreign, seed)}",
         f"  p quantiles 5/25/50/75/95  present {quantiles([i['p'] for i in present])}",
         f"                             foreign {quantiles([i['p'] for i in foreign])}",
         "  judged absent: " + (", ".join(f"{describe(i)} {i['p']:.4f}" for i in judged_absent) or "none"),
-        f"  missing list (p < 0.5) against foreign and judged absent: precision {missing_precision}  "
+        f"  missing list (p < {MISSING_THRESHOLD}) against foreign and judged absent: precision {missing_precision}  "
         f"recall {missing_recall}",
-        f"  present flagged missing: {sum(i['p'] < THRESHOLD for i in present)}/{len(present)}",
+        f"  present flagged missing: {sum(i['p'] < MISSING_THRESHOLD for i in present)}/{len(present)}",
         extremes("lowest present", present, describe, False),
-        f"  foreign at p >= 0.5: {flagged_count}/{len(foreign)}, written for a judge to check",
+        f"  foreign at p >= {MISSING_THRESHOLD}: {flagged_count}/{len(foreign)}, written for a judge to check",
         extremes("highest foreign", foreign, describe, True),
     ]
 
@@ -528,26 +543,31 @@ def fraction_lines(match_items: list[dict], thing_items: list[dict], seed: int) 
 
 def near_miss_lines(match_items: list[dict], thing_items: list[dict], near_misses: list[dict],
                     seed: int) -> list[str]:
-    """(d) On each near-miss prompt, the substituted thing's presence noul beside the whole-prompt noul."""
+    """(d) On each near-miss prompt, the substituted thing's presence noul at the Prompt Check's cutoff beside the
+    whole-prompt noul at 0.5."""
+    from logit_tagger.tagging import MISSING_THRESHOLD
+
     foreign_p = {(item["unit"], item["thing"]): item["p"] for item in thing_items if item["origin"] == "foreign"}
     whole_p = {item["unit"]: item["p"] for item in match_items if item["kind"] == "near-miss"}
     rows = [{"unit": near["unit"], "thing": near["thing"], "replaced": near["replaced"],
              "p": foreign_p[(near["unit"], near["thing"])], "whole": whole_p[near["unit"]]} for near in near_misses]
-    thing_missed = lambda chosen: mean([row["p"] < THRESHOLD for row in chosen])
+    thing_missed = lambda chosen: mean([row["p"] < MISSING_THRESHOLD for row in chosen])
     whole_missed = lambda chosen: mean([row["whole"] < THRESHOLD for row in chosen])
 
     return [
-        f"(d) near miss on {len(rows)} renders: substituted thing flagged missing (p < 0.5) "
+        f"(d) near miss on {len(rows)} renders: substituted thing flagged missing (p < {MISSING_THRESHOLD}) "
         f"{estimate(thing_missed, rows, seed)}, whole-prompt noul below 0.5 {estimate(whole_missed, rows, seed)}",
         "  substituted thing not flagged: " + (", ".join(
             f"{row['unit']} {row['replaced']!r} -> {row['thing']!r} {row['p']:.4f}"
-            for row in rows if row["p"] >= THRESHOLD) or "none"),
+            for row in rows if row["p"] >= MISSING_THRESHOLD) or "none"),
     ]
 
 
 def image_level_lines(thing_items: list[dict], near_misses: list[dict], seed: int) -> list[str]:
     """(e) Whole-image completeness from the presence nouls: an image reads complete when every labeled intended
-    thing, and on a near miss the substituted thing in place of the replaced one, scores p >= 0.5."""
+    thing, and on a near miss the substituted thing in place of the replaced one, reaches the Prompt Check's cutoff."""
+    from logit_tagger.tagging import MISSING_THRESHOLD
+
     foreign_p = {(item["unit"], item["thing"]): item["p"] for item in thing_items if item["origin"] == "foreign"}
     intended: dict[str, list[dict]] = {}
     own: list[dict] = []
@@ -565,12 +585,14 @@ def image_level_lines(thing_items: list[dict], near_misses: list[dict], seed: in
                        *(item["p"] for item in intended.get(miss["unit"], []) if item["thing"] != miss["replaced"])])}
             for miss in near_misses]
     complete = [row for row in own if row["truth"]]
+    complete_accuracy = lambda rows: accuracy(rows, MISSING_THRESHOLD)
 
     return [
-        f"(e) image complete when every labeled thing reads p >= 0.5: own prompt {estimate(accuracy, own, seed)} "
-        f"on {len(own)} renders, near miss {estimate(accuracy, near, seed)} on {len(near)}, "
-        f"both {estimate(accuracy, own + near, seed)} on {len(own) + len(near)}",
-        f"  truly complete predicted incomplete: {sum(row['p'] < THRESHOLD for row in complete)}/{len(complete)}",
+        f"(e) image complete when every labeled thing reads p >= {MISSING_THRESHOLD}: own prompt "
+        f"{estimate(complete_accuracy, own, seed)} on {len(own)} renders, near miss "
+        f"{estimate(complete_accuracy, near, seed)} on {len(near)}, both {estimate(complete_accuracy, own + near, seed)} "
+        f"on {len(own) + len(near)}",
+        f"  truly complete predicted incomplete: {sum(row['p'] < MISSING_THRESHOLD for row in complete)}/{len(complete)}",
     ]
 
 
@@ -658,7 +680,7 @@ def decoy_lines(items: list[dict]) -> list[str]:
 
 def probe_declared_tags(asker: Asker, samples: list, images: dict, categories: list[str],
                         seed: int) -> tuple[list[str], dict]:
-    """All 80 COCO categories as one declared tag list, packed per image, in two wordings."""
+    """All 80 COCO categories as one declared tag list, packed per image, in each DECLARED_WORDINGS wording."""
     from logit_classifier import NoulQuestion
 
     items: list[dict] = []
@@ -666,20 +688,20 @@ def probe_declared_tags(asker: Asker, samples: list, images: dict, categories: l
     describe = lambda item: f"{item['unit']} {item['category']}"
 
     for sample in samples:
-        for wording, template in DECLARED_WORDINGS.items():
-            questions = {f"q{index}": NoulQuestion(instructions=template.format(noun=noun(category)))
+        for wording, ask in DECLARED_WORDINGS.items():
+            questions = {f"q{index}": NoulQuestion(instructions=ask(category))
                          for index, category in enumerate(categories)}
             answers, _ms = asker.ask(f"declared-tags {wording}", "", questions, images[sample.file])
             items += [{"unit": sample.file.name, "wording": wording, "category": category,
                        "truth": None if category in sample.ambiguous else category in sample.present,
                        "p": answers[f"q{index}"].noul} for index, category in enumerate(categories)]
 
-    for wording, template in DECLARED_WORDINGS.items():
+    for wording, ask in DECLARED_WORDINGS.items():
         rows = [item for item in items if item["wording"] == wording]
         scored = [item for item in rows if item["truth"] is not None]
         positives = sum(item["truth"] for item in scored)
         lines += [
-            f"{wording} {template!r}: mean {asker.mean_ms(f'declared-tags {wording}'):.0f} ms per image of "
+            f"{wording} {ask('dog')!r}: mean {asker.mean_ms(f'declared-tags {wording}'):.0f} ms per image of "
             f"{len(categories)} questions",
             f"  AUC present vs absent {estimate(separation, scored, seed)}  ({positives} present, "
             f"{len(scored) - positives} absent, {len(rows) - len(scored)} ambiguous left out)",
@@ -773,7 +795,7 @@ def main() -> None:
         out_path.write_text(json.dumps(record, indent=1), encoding="utf-8")
         if name == "adherence":
             flagged_path.write_text(json.dumps(result["foreign_flagged"], indent=1), encoding="utf-8")
-            print(f"foreign things at p >= 0.5: {flagged_path}", flush=True)
+            print(f"foreign things the Prompt Check would not flag missing: {flagged_path}", flush=True)
     print(f"raw results: {out_path}")
 
 

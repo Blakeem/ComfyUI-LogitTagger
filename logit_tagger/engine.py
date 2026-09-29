@@ -35,7 +35,7 @@ def check_images(images: Any, node: str) -> None:
 def library_error(node: str) -> RuntimeError:
     """The error for a missing or outdated logit-classifier, with the pip command that fixes it."""
     return RuntimeError(
-        f"{node}: this node needs logit-classifier>=0.3.0, which provides the ComfyUI toolkit "
+        f"{node}: this node needs logit-classifier>=0.4.0, which provides the ComfyUI toolkit "
         "logit_classifier.toolkit. Install or upgrade it in the ComfyUI Python environment with: "
         "pip install -U logit-classifier"
     )

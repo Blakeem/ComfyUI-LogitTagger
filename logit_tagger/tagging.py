@@ -33,13 +33,9 @@ STAGE_CHECKING_THINGS = "checking"
 # The toolkit names its stages, and the status line shows the pack's words for them.
 _STAGE_WORDS = {"propose": STAGE_WRITING, "verify": STAGE_CHECKING}
 
-# The 80 COCO categories listed on 60 images kept precision 0.971 at recall 0.748, and 0.99 fell to precision
-# 0.786 (tests-AB/ab_release_gates.py, probe declared-tags).
-TAG_LIST_THRESHOLD = 0.9999
-
-# On 72 Krea 2 renders a thing the image lacked scored below 0.5 at precision 0.976 and recall 0.927
-# (tests-AB/ab_release_gates.py, probe adherence).
-MISSING_THRESHOLD = 0.5
+# On 72 Krea 2 renders under "This image visibly contains {TAG}", 0.01 flagged a missing thing at precision 0.976 and
+# recall 0.931. It was chosen on those renders (tests-AB/ab_release_gates.py, probe adherence).
+MISSING_THRESHOLD = 0.01
 
 
 @dataclass(frozen=True)
@@ -77,20 +73,29 @@ class PromptCheck:
     score: float
 
 
-@functools.cache
-def tag_settings() -> TagSettings:
-    """The Tagger's settings, the toolkit's defaults.
+def tag_settings(strict: bool = False, *, node: str = NODE_NAME) -> TagSettings:
+    """The Tagger's settings: the toolkit's defaults, which hold its broad thresholds, or its strict thresholds when
+    strict is on. A missing or outdated library raises the pip command under node's name.
 
-    On the fp8 encoder they kept 12.8 correct, 0.12 wrong and 0.61 vague tags per render, against 15.3, 0.28 and 1.08
-    under the pack's earlier overrides (tests-AB/ab_tagger_score.py --replay, runs/2026-09-27-settings). A function,
-    since module scope imports no library.
+    On the fp8 encoder the defaults kept 12.8 correct, 0.12 wrong and 0.61 vague tags per render, and the strict
+    thresholds 8.4, 0.01 and 0.33 (tests-AB/ab_tagger_score.py --replay, runs/2026-09-27-settings). A function, since
+    module scope imports no library.
     """
     try:
-        from logit_classifier.toolkit.comfyui import TagSettings
+        return _cached_settings(bool(strict))
     except ImportError as error:
-        raise engine.library_error(NODE_NAME) from error
+        raise engine.library_error(node) from error
 
-    return TagSettings()
+
+@functools.cache
+def _cached_settings(strict: bool) -> TagSettings:
+    # Keyed on the bool alone, so every call form of tag_settings returns the one object per setting.
+    from logit_classifier.toolkit.comfyui import TagSettings
+    from logit_classifier.toolkit.tags import STRICT_THRESHOLDS
+
+    if not strict:
+        return TagSettings()
+    return TagSettings(verify_threshold=STRICT_THRESHOLDS.proposed, prompt_only_threshold=STRICT_THRESHOLDS.declared)
 
 
 def _check_one_image(image: Any, node: str = NODE_NAME) -> None:
@@ -160,8 +165,13 @@ def parse_tag_list(text: str) -> tuple[str, ...]:
     return tuple(dict.fromkeys(part for part in parts if part))
 
 
-def check_tag_list(clip: Any, classifier: Any, image: Any, tags: tuple[str, ...]) -> TagTrace:
-    """Ask the presence question of every listed tag about one [1, H, W, C] image and keep the tags it shows."""
+def check_tag_list(clip: Any, classifier: Any, image: Any, tags: tuple[str, ...], settings: TagSettings) -> TagTrace:
+    """Score every listed tag about one [1, H, W, C] image in the settings' verify statement, and keep the tags that
+    reach its prompt_only_threshold, since a listed tag is one the encoder did not propose.
+
+    On the 80 COCO categories 0.9999 kept precision 0.903 at recall 0.756, and 0.99998 kept 0.950 at 0.422. 8 of the 11
+    wrong tags at 0.9999 were "orange" (tests-AB/ab_release_gates.py, probe declared-tags).
+    """
     picture = None
     questions: list[str] = []
     scores: tuple[float, ...] = ()
@@ -172,17 +182,17 @@ def check_tag_list(clip: Any, classifier: Any, image: Any, tags: tuple[str, ...]
 
     _check_one_image(image)
     from logit_classifier.toolkit.comfyui import fit_picture, shared_vision_encode
-    from logit_classifier.toolkit.tags import presence_question
+    from logit_classifier.toolkit.tags import presence_statement
 
     picture = fit_picture(image, engine.CHECK_MAX_PIXELS)
-    questions = [presence_question(tag) for tag in tags]
+    questions = [presence_statement(tag, wording=settings.verify_statement) for tag in tags]
     started = time.perf_counter()
     # nouls splits a long list into several requests, and one scope over them encodes the picture once.
     with shared_vision_encode(clip):
         scores = tuple(classifier.nouls(questions, image=picture))
     verify_ms = (time.perf_counter() - started) * 1000.0
 
-    passed = [(tag, p) for tag, p in zip(tags, scores, strict=True) if p >= TAG_LIST_THRESHOLD]
+    passed = [(tag, p) for tag, p in zip(tags, scores, strict=True) if p >= settings.prompt_only_threshold]
     # sorted is stable, so tied tags keep their list order.
     kept = tuple(tag for tag, _p in sorted(passed, key=lambda pair: pair[1], reverse=True))
     return TagTrace(
@@ -224,15 +234,15 @@ def tag_images(clip: Any, images: list[Any], prompts: list[str], *, instruction:
         _check_one_image(image)
     # Built before any generate, so a wrong CLIP fails before the model runs.
     classifier = engine.build_classifier(clip, NODE_NAME)
+    run_settings = tag_settings() if settings is None else settings
     if tag_list:
         for index, image in enumerate(images):
             if on_progress is not None:
                 on_progress(index, STAGE_CHECKING)
-            traces.append(check_tag_list(clip, classifier, image, tag_list))
+            traces.append(check_tag_list(clip, classifier, image, tag_list, run_settings))
         return traces
     from logit_classifier.toolkit.comfyui import prompt_tags
 
-    run_settings = tag_settings() if settings is None else settings
     for index, (image, prompt) in enumerate(zip(images, prompts, strict=True)):
         # Read at its first image, so the prompt's generate runs under that image's progress share and status.
         if prompt not in things_by_prompt:
@@ -253,10 +263,10 @@ def _presence_probabilities(classifier: Any, image: Any, things: tuple[str, ...]
     if not things:
         return ()
     from logit_classifier.toolkit.comfyui import fit_picture
-    from logit_classifier.toolkit.tags import presence_question
+    from logit_classifier.toolkit.tags import presence_statement
 
     picture = fit_picture(image, engine.CHECK_MAX_PIXELS)
-    questions = [presence_question(thing) for thing in things]
+    questions = [presence_statement(thing) for thing in things]
     return tuple(classifier.nouls(questions, image=picture))
 
 
@@ -284,7 +294,7 @@ def check_prompt(clip: Any, images: list[Any], prompts: list[str], *,
     classifier = engine.build_classifier(clip, PROMPT_CHECK_NAME)
     from logit_classifier.toolkit.comfyui import prompt_tags
 
-    run_settings = tag_settings()
+    run_settings = tag_settings(node=PROMPT_CHECK_NAME)
     for index, (image, prompt) in enumerate(zip(images, prompts, strict=True)):
         if prompt not in things_by_prompt:
             announce(index, STAGE_READING_PROMPT)

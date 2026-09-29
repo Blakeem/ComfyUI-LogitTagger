@@ -104,7 +104,7 @@ def test_prompt_check_fits_to_the_check_cap(fit_calls):
 
 def test_tag_list_fits_to_the_check_cap(fit_calls):
     with pytest.raises(Fitted):
-        tagging.check_tag_list("clip", "classifier", an_image(), ("cat",))
+        tagging.check_tag_list("clip", "classifier", an_image(), ("cat",), tagging.tag_settings())
     assert fit_calls == [engine.CHECK_MAX_PIXELS]
 
 
@@ -149,7 +149,7 @@ def test_missing_library_names_the_node_the_version_the_toolkit_and_the_command(
         engine.build_classifier(object(), NODE)
     message = str(raised.value)
     assert message.startswith(f"{NODE}: ")
-    assert "logit-classifier>=0.3.0" in message
+    assert "logit-classifier>=0.4.0" in message
     assert "logit_classifier.toolkit" in message
     assert "pip install -U logit-classifier" in message
 
@@ -158,7 +158,7 @@ def test_a_library_without_the_toolkit_gets_the_same_message(monkeypatch):
     pytest.importorskip("logit_classifier")
     monkeypatch.setitem(sys.modules, "logit_classifier.toolkit.comfyui", None)
 
-    with pytest.raises(RuntimeError, match=rf"^{NODE}: .*logit-classifier>=0\.3\.0.*pip install -U logit-classifier"):
+    with pytest.raises(RuntimeError, match=rf"^{NODE}: .*logit-classifier>=0\.4\.0.*pip install -U logit-classifier"):
         engine.build_classifier(object(), NODE)
 
 
