@@ -1,0 +1,3909 @@
+{
+ "clip": "qwen3vl_4b_fp8_scaled.safetensors",
+ "library_version": "0.6.0",
+ "options": [
+  "photograph",
+  "anime illustration",
+  "oil painting",
+  "3D render",
+  "watercolor",
+  "pencil sketch",
+  "pixel art",
+  "comic book"
+ ],
+ "wordings": [
+  "What art style does this prompt ask for?",
+  "What is the art style of the image this prompt describes?",
+  "What medium does this prompt ask for?"
+ ],
+ "records": [
+  {
+   "unit": "g01",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "Close-up photograph of an elderly fisherman with a weathered face and grey beard, wearing a yellow raincoat, holding a coiled rope in both hands, harbor boats blurred in the background, overcast light, 85mm lens, shallow depth of field.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999883
+  },
+  {
+   "unit": "g02",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "Night street photograph of a group of four friends laughing outside a small bakery, the shop sign above the window reads \"BAKERY\" in glowing neon letters, wet pavement reflecting the lights, a parked red scooter at the curb.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999871
+  },
+  {
+   "unit": "g03",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "A golden retriever running along a sandy beach at sunset, splashing through shallow waves, clear orange sky, a lighthouse on a distant rocky point, candid pet photography, fast shutter speed.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999682
+  },
+  {
+   "unit": "g04",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "Overhead food photograph of a rustic wooden kitchen table with a bowl of ramen, a plate of dumplings, chopsticks, and three lit candles on the table, a small blue teacup in the top corner, warm window light.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999846
+  },
+  {
+   "unit": "g05",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "Landscape photograph of a pine forest valley at dawn, a calm river winding between the trees, snow-capped mountains behind, no people, soft golden light breaking through the clouds.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999816
+  },
+  {
+   "unit": "g06",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "A brown horse grazing in a green meadow next to a wooden fence, an old red barn and a white farmhouse in the background, blue sky with scattered clouds, summer afternoon, 35mm film look.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.998805
+  },
+  {
+   "unit": "g07",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "Interior photograph of a cozy living room, a grey tabby cat sleeping on a green velvet sofa, a bookshelf full of books, a potted fiddle leaf fig, and a small brass telescope standing by the window, afternoon light.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999778
+  },
+  {
+   "unit": "g08",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "Urban photograph of a busy city intersection in the rain, yellow taxis and a red double-decker bus waiting at the traffic light, pedestrians with black umbrellas crossing, tall glass office buildings, overcast grey sky.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999889
+  },
+  {
+   "unit": "g09",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "Macro photograph of a woman's hands kneading bread dough on a floured marble counter, a wooden rolling pin and a cracked egg beside the dough, soft natural light, no face visible.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999394
+  },
+  {
+   "unit": "g10",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime illustration of a schoolgirl with short blue hair and a red scarf standing on a train platform at dusk, a commuter train arriving, cherry blossom petals drifting, a station sign reading \"SAKURA\" above her, warm sunset sky.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999976
+  },
+  {
+   "unit": "g11",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime key visual of a young swordsman with silver hair holding a glowing katana inside a ruined stone temple, broken pillars overgrown with vines, dramatic lighting, dynamic pose, detailed cel shading.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.99992
+  },
+  {
+   "unit": "g12",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime illustration of three friends eating at a small ramen shop counter at night, steam rising from their bowls, paper lanterns hanging overhead, and a small goldfish bowl on the counter, cozy slice of life scene.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999974
+  },
+  {
+   "unit": "g13",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime background art of a quiet countryside road running past rice fields, a bus stop with a wooden bench, tall summer clouds, telephone poles, lush green hills, no characters, cinematic lighting.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999907
+  },
+  {
+   "unit": "g14",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime illustration of a small red and yellow songbird perched on a branch of a blooming plum tree, snow falling softly, pale grey winter sky, delicate linework, close-up composition.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999969
+  },
+  {
+   "unit": "g15",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime mecha illustration of a giant white robot kneeling in a flooded city street at night, rain pouring, neon signs reflecting in the water, a pilot in a flight suit standing on its open hand.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999959
+  },
+  {
+   "unit": "g16",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime illustration of a witch girl flying on a broom over a seaside town, a black cat riding behind her, a red ribbon in her hair, and a wicker basket of apples hanging from the broom handle, bright blue sky.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999975
+  },
+  {
+   "unit": "g17",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime background of an empty classroom after school, rows of wooden desks, a chalkboard with the word \"EXAM\" written on it, orange sunlight streaming through the windows, no people.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999919
+  },
+  {
+   "unit": "g18",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime illustration of a boy kneeling to hug a fluffy shiba inu dog in a park, both smiling, autumn trees with orange leaves, and a yellow kite tangled in the branches above them.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999966
+  },
+  {
+   "unit": "g19",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Oil painting of a Dutch harbor at sunset, wooden sailing ships with furled sails, fishermen unloading crates on the dock, golden sky reflected in the calm water, thick impasto brushstrokes, Golden Age style.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999987
+  },
+  {
+   "unit": "g20",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Classical oil portrait of a noblewoman in a dark green velvet gown, seated with her hands folded in her lap, a pearl necklace, and a small hourglass on the table beside her, dark background, Rembrandt lighting.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999955
+  },
+  {
+   "unit": "g21",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Still life oil painting of a copper pot, a loaf of bread, a wedge of cheese, purple grapes and a pheasant on a draped linen tablecloth, dark moody background, Chardin style.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999974
+  },
+  {
+   "unit": "g22",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Romantic oil painting of an armored knight on a white horse raising a sword, stormy sky with lightning, a castle on a cliff in the distance, dramatic chiaroscuro, sweeping brushwork.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999979
+  },
+  {
+   "unit": "g23",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Impressionist oil painting of a field of sunflowers under a bright summer sky, a row of poplar trees on the horizon, a small stone cottage, visible thick brushstrokes, vibrant yellows and blues.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999982
+  },
+  {
+   "unit": "g24",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Oil painting of a Parisian cafe terrace at night, people sitting at small round tables, gas lamps glowing, cobblestone street, starry blue night sky, a sign reading \"CAFE\" above the awning.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999971
+  },
+  {
+   "unit": "g25",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Oil painting of an old wizard reading a large book in a candlelit study, a black cat asleep on stacked books, a stuffed owl on a shelf, and a brass globe on the desk, warm amber tones.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999975
+  },
+  {
+   "unit": "g26",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Oil painting seascape of towering waves crashing against black rocks, spray and foam, a lone lighthouse beam cutting through grey storm clouds, turbulent brushwork, no people.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999984
+  },
+  {
+   "unit": "g27",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Oil painting of ballet dancers rehearsing in a sunlit studio, four girls in white tutus stretching at the barre, a tall mirror on the wall, soft pastel palette, Degas inspired.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999976
+  },
+  {
+   "unit": "g28",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a cute cartoon robot watering a potted cactus on a windowsill with a small watering can, big round glowing eyes, pastel colors, soft global illumination, Pixar style, shallow depth of field.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999971
+  },
+  {
+   "unit": "g29",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a vintage red sports car parked on a desert highway at golden hour, chrome details, heat haze, cacti and rocky mesas in the background, clear sky, photorealistic Unreal Engine 5.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999377
+  },
+  {
+   "unit": "g30",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a minimalist Scandinavian bedroom interior, white bed with grey linen, a wooden nightstand, a monstera plant in the corner, and a yellow alarm clock on the nightstand, soft morning light, architectural visualization.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999947
+  },
+  {
+   "unit": "g31",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a stylized fantasy warrior woman holding a large broadsword in both hands, braided red hair, leather armor, standing on a mossy cliff edge, game character concept art, Blender Cycles.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.99995
+  },
+  {
+   "unit": "g32",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a stack of fluffy pancakes with melting butter and maple syrup dripping, fresh blueberries and strawberries on top, on a white plate, studio lighting, hyperrealistic food visualization.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999486
+  },
+  {
+   "unit": "g33",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a futuristic cyberpunk city at night, flying cars between skyscrapers, holographic billboards, a giant neon sign reading \"NOODLES\", rain-slicked streets, cinematic lighting.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.99986
+  },
+  {
+   "unit": "g34",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a family of three penguins sliding across an ice floe in the Antarctic sea, snowy peaks behind them, bright blue sky, stylized animation film look, soft lighting.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999893
+  },
+  {
+   "unit": "g35",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of tiny clay-style villagers building a snowman in a village square, cottages with snowy roofs, and a green bicycle leaning against a lamppost, soft toy-like lighting, tilt-shift look.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.99994
+  },
+  {
+   "unit": "g36",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a glass perfume bottle on a black marble pedestal, surrounded by floating rose petals, dramatic rim lighting, dark studio background, luxury product shot.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999789
+  },
+  {
+   "unit": "g37",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor painting of a Venetian canal with gondolas, pastel colored buildings with laundry lines, a gondolier in a striped shirt, soft reflections in the water, loose wet-on-wet washes.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999908
+  },
+  {
+   "unit": "g38",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor illustration of a blue kingfisher diving into a pond to catch a fish, lily pads and reeds, splashes of water, white paper background showing through, botanical art style.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999909
+  },
+  {
+   "unit": "g39",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor painting of a little girl in a yellow raincoat jumping in puddles on a village street, rainy grey sky, and a red umbrella lying open on the pavement behind her, soft bleeding colors.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999895
+  },
+  {
+   "unit": "g40",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor recipe illustration of a fresh summer salad bowl with tomatoes, cucumber, black olives and feta cheese, a bottle of olive oil beside it, loose ink outlines, light cheerful palette.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999896
+  },
+  {
+   "unit": "g41",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor landscape of autumn birch trees along a forest path, golden leaves scattered on the ground, a small wooden footbridge over a stream, soft morning light, no people.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.99988
+  },
+  {
+   "unit": "g42",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor portrait of a sleepy dachshund curled up in a knitted basket by a fireplace, cozy interior, warm glow from the fire, a pair of slippers on the rug.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999898
+  },
+  {
+   "unit": "g43",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor sketch of a flower shop storefront with buckets of tulips and roses outside, the sign above the door reads \"FLORIST\", a bicycle with a basket parked out front, and a birdcage hanging in the window.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999801
+  },
+  {
+   "unit": "g44",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor painting of a family of four sitting around a campfire at night, roasting marshmallows on sticks, a tent behind them, tall pine trees, and a starry sky with a crescent moon.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999901
+  },
+  {
+   "unit": "g45",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor painting of wild horses galloping across an open plain, dust rising under their hooves, distant blue mountains, loose expressive brushwork, muted earth tones.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999907
+  },
+  {
+   "unit": "g46",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Pencil sketch portrait of an old man with deep wrinkles and a flat cap, smoking a pipe, detailed cross-hatching, graphite on textured paper, realistic shading.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999915
+  },
+  {
+   "unit": "g47",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Detailed pencil drawing study of two hands, one holding a pen and the other resting on an open notebook, graphite shading, anatomical sketchbook page.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999911
+  },
+  {
+   "unit": "g48",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Pencil sketch of a gothic cathedral facade with a rose window and tall spires, pigeons on the front steps, a few pedestrians walking past, architectural drawing, fine linework.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999919
+  },
+  {
+   "unit": "g49",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Pencil sketch of a cat sitting on a cluttered writer's desk beside a typewriter, a stack of letters, and a pair of round spectacles resting on the typewriter keys, soft graphite shading.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999939
+  },
+  {
+   "unit": "g50",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Pencil sketch of a steam locomotive crossing a stone viaduct over a river valley, billowing steam, detailed mechanical linework, trees on the hillsides.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999904
+  },
+  {
+   "unit": "g51",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Graphite pencil drawing of an owl perched on a fence post at night, a full moon behind it, and a small mouse hiding in the grass below, detailed feather texture.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999836
+  },
+  {
+   "unit": "g52",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Pencil sketch of a crowded outdoor market, vendors selling fruit from wooden carts, shoppers carrying baskets, striped awnings, a small dog weaving between legs, loose reportage drawing.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999905
+  },
+  {
+   "unit": "g53",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Pencil concept sketch of an ornate fantasy sword with a dragon-shaped hilt, lying on a stone altar, handwritten annotations in the margins, graphite with white highlights.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.99992
+  },
+  {
+   "unit": "g54",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Pencil landscape sketch of a mountain lake with a small rowboat tied to a wooden jetty, pine trees on the shore, reflections on the water, soft cloudy sky.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999855
+  },
+  {
+   "unit": "g55",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art of a knight with a sword and shield standing before a dungeon gate, torches burning on the stone walls, 16-bit retro game style, limited color palette.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999971
+  },
+  {
+   "unit": "g56",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art of a rainy city street at night, a ramen stand with a glowing sign reading \"OPEN\", a person holding an umbrella, neon reflections on the wet ground, 32-bit style.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999979
+  },
+  {
+   "unit": "g57",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art farm scene, a red barn, a farmer watering crops, chickens in a pen, a brown horse by the fence, and a blue wheelbarrow near the gate, sunny day, cozy farming game style.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.99998
+  },
+  {
+   "unit": "g58",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art landscape of a waterfall pouring into a jungle lagoon, palm trees, bright blue sky with fluffy clouds, parallax background layers, vibrant 16-bit palette, no characters.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999977
+  },
+  {
+   "unit": "g59",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art of a spaceship flying through an asteroid field, a large ringed planet in the background, stars, laser blasts, retro arcade shooter style.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999974
+  },
+  {
+   "unit": "g60",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art interior of a cozy bakery, shelves of bread loaves and croissants, a baker behind the counter, a layered cake on display, warm lighting, isometric view.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999962
+  },
+  {
+   "unit": "g61",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art of a cat sleeping on a windowsill in a bedroom at night, the moon visible through the window, a lava lamp on the desk, and two potted succulents on the sill, lofi aesthetic.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999983
+  },
+  {
+   "unit": "g62",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art character portrait of a smiling elf girl with green hair, pointed ears and a flower crown, RPG dialogue portrait, detailed sprite shading.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999971
+  },
+  {
+   "unit": "g63",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art of a party of four adventurers around a tavern table, mugs of ale, a roast chicken, a bard playing a lute, candle light, RPG town style.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999966
+  },
+  {
+   "unit": "g64",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book panel of a superhero in a blue and silver suit landing on a rooftop at night, cape flowing, city skyline behind, bold ink lines, halftone shading, dynamic angle.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999876
+  },
+  {
+   "unit": "g65",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book cover illustration of a detective in a trench coat and fedora standing in a dark alley, a speech bubble saying \"WHO DID IT?\", falling rain, noir ink style.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999835
+  },
+  {
+   "unit": "g66",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book panel of a car chase through a city street, a yellow taxi swerving past a fire hydrant, and a hot dog cart knocked over with sausages flying, sound effect lettering \"SCREECH\", bold colors.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999883
+  },
+  {
+   "unit": "g67",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic strip illustration of a scruffy dog and a grumpy cat sharing a sofa, a bowl of popcorn between them, a TV glowing in front, simple bold outlines, flat colors, newspaper comic look.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999809
+  },
+  {
+   "unit": "g68",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book splash page of a samurai and a ninja clashing swords on a bamboo forest path, motion lines, sparks, dramatic ink shading, manga-influenced American comic style.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999617
+  },
+  {
+   "unit": "g69",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book illustration of a mad scientist in a lab coat in his laboratory, bubbling green flasks, a chalkboard of equations, and a rubber duck sitting on top of the control panel, ink and flat colors.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999916
+  },
+  {
+   "unit": "g70",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book landscape of a desert canyon at noon, red rock formations, a winding dirt road, a vulture circling in the bright sky, bold outlines and Ben-Day dots, no characters.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999919
+  },
+  {
+   "unit": "g71",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book panel of a family of five at a dinner table celebrating a birthday, a cake with lit candles, balloons tied to the chairs, everyone cheering, bright pop art colors.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.99978
+  },
+  {
+   "unit": "g72",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book panel of pirates on a wooden ship fighting a giant octopus in a stormy sea, one pirate swinging a cutlass, and a parrot wearing a tiny hat on the captain's shoulder, bold inks, dramatic lightning.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999895
+  },
+  {
+   "unit": "g01",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "Close-up photograph of an elderly fisherman with a weathered face and grey beard, wearing a yellow raincoat, holding a coiled rope in both hands, harbor boats blurred in the background, overcast light, 85mm lens, shallow depth of field.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.999874
+  },
+  {
+   "unit": "g02",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "Night street photograph of a group of four friends laughing outside a small bakery, the shop sign above the window reads \"BAKERY\" in glowing neon letters, wet pavement reflecting the lights, a parked red scooter at the curb.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.999843
+  },
+  {
+   "unit": "g03",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "A golden retriever running along a sandy beach at sunset, splashing through shallow waves, clear orange sky, a lighthouse on a distant rocky point, candid pet photography, fast shutter speed.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.999717
+  },
+  {
+   "unit": "g04",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "Overhead food photograph of a rustic wooden kitchen table with a bowl of ramen, a plate of dumplings, chopsticks, and three lit candles on the table, a small blue teacup in the top corner, warm window light.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.999641
+  },
+  {
+   "unit": "g05",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "Landscape photograph of a pine forest valley at dawn, a calm river winding between the trees, snow-capped mountains behind, no people, soft golden light breaking through the clouds.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.999772
+  },
+  {
+   "unit": "g06",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "A brown horse grazing in a green meadow next to a wooden fence, an old red barn and a white farmhouse in the background, blue sky with scattered clouds, summer afternoon, 35mm film look.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.997975
+  },
+  {
+   "unit": "g07",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "Interior photograph of a cozy living room, a grey tabby cat sleeping on a green velvet sofa, a bookshelf full of books, a potted fiddle leaf fig, and a small brass telescope standing by the window, afternoon light.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.999773
+  },
+  {
+   "unit": "g08",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "Urban photograph of a busy city intersection in the rain, yellow taxis and a red double-decker bus waiting at the traffic light, pedestrians with black umbrellas crossing, tall glass office buildings, overcast grey sky.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.999883
+  },
+  {
+   "unit": "g09",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "Macro photograph of a woman's hands kneading bread dough on a floured marble counter, a wooden rolling pin and a cracked egg beside the dough, soft natural light, no face visible.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.999271
+  },
+  {
+   "unit": "g10",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime illustration of a schoolgirl with short blue hair and a red scarf standing on a train platform at dusk, a commuter train arriving, cherry blossom petals drifting, a station sign reading \"SAKURA\" above her, warm sunset sky.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.999975
+  },
+  {
+   "unit": "g11",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime key visual of a young swordsman with silver hair holding a glowing katana inside a ruined stone temple, broken pillars overgrown with vines, dramatic lighting, dynamic pose, detailed cel shading.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.999911
+  },
+  {
+   "unit": "g12",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime illustration of three friends eating at a small ramen shop counter at night, steam rising from their bowls, paper lanterns hanging overhead, and a small goldfish bowl on the counter, cozy slice of life scene.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.999963
+  },
+  {
+   "unit": "g13",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime background art of a quiet countryside road running past rice fields, a bus stop with a wooden bench, tall summer clouds, telephone poles, lush green hills, no characters, cinematic lighting.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.999865
+  },
+  {
+   "unit": "g14",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime illustration of a small red and yellow songbird perched on a branch of a blooming plum tree, snow falling softly, pale grey winter sky, delicate linework, close-up composition.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.999967
+  },
+  {
+   "unit": "g15",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime mecha illustration of a giant white robot kneeling in a flooded city street at night, rain pouring, neon signs reflecting in the water, a pilot in a flight suit standing on its open hand.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.99995
+  },
+  {
+   "unit": "g16",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime illustration of a witch girl flying on a broom over a seaside town, a black cat riding behind her, a red ribbon in her hair, and a wicker basket of apples hanging from the broom handle, bright blue sky.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.999972
+  },
+  {
+   "unit": "g17",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime background of an empty classroom after school, rows of wooden desks, a chalkboard with the word \"EXAM\" written on it, orange sunlight streaming through the windows, no people.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.999895
+  },
+  {
+   "unit": "g18",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime illustration of a boy kneeling to hug a fluffy shiba inu dog in a park, both smiling, autumn trees with orange leaves, and a yellow kite tangled in the branches above them.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.999963
+  },
+  {
+   "unit": "g19",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Oil painting of a Dutch harbor at sunset, wooden sailing ships with furled sails, fishermen unloading crates on the dock, golden sky reflected in the calm water, thick impasto brushstrokes, Golden Age style.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999981
+  },
+  {
+   "unit": "g20",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Classical oil portrait of a noblewoman in a dark green velvet gown, seated with her hands folded in her lap, a pearl necklace, and a small hourglass on the table beside her, dark background, Rembrandt lighting.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999946
+  },
+  {
+   "unit": "g21",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Still life oil painting of a copper pot, a loaf of bread, a wedge of cheese, purple grapes and a pheasant on a draped linen tablecloth, dark moody background, Chardin style.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999976
+  },
+  {
+   "unit": "g22",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Romantic oil painting of an armored knight on a white horse raising a sword, stormy sky with lightning, a castle on a cliff in the distance, dramatic chiaroscuro, sweeping brushwork.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999973
+  },
+  {
+   "unit": "g23",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Impressionist oil painting of a field of sunflowers under a bright summer sky, a row of poplar trees on the horizon, a small stone cottage, visible thick brushstrokes, vibrant yellows and blues.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999972
+  },
+  {
+   "unit": "g24",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Oil painting of a Parisian cafe terrace at night, people sitting at small round tables, gas lamps glowing, cobblestone street, starry blue night sky, a sign reading \"CAFE\" above the awning.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999964
+  },
+  {
+   "unit": "g25",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Oil painting of an old wizard reading a large book in a candlelit study, a black cat asleep on stacked books, a stuffed owl on a shelf, and a brass globe on the desk, warm amber tones.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999956
+  },
+  {
+   "unit": "g26",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Oil painting seascape of towering waves crashing against black rocks, spray and foam, a lone lighthouse beam cutting through grey storm clouds, turbulent brushwork, no people.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999975
+  },
+  {
+   "unit": "g27",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Oil painting of ballet dancers rehearsing in a sunlit studio, four girls in white tutus stretching at the barre, a tall mirror on the wall, soft pastel palette, Degas inspired.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999968
+  },
+  {
+   "unit": "g28",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a cute cartoon robot watering a potted cactus on a windowsill with a small watering can, big round glowing eyes, pastel colors, soft global illumination, Pixar style, shallow depth of field.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.999962
+  },
+  {
+   "unit": "g29",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a vintage red sports car parked on a desert highway at golden hour, chrome details, heat haze, cacti and rocky mesas in the background, clear sky, photorealistic Unreal Engine 5.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.99985
+  },
+  {
+   "unit": "g30",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a minimalist Scandinavian bedroom interior, white bed with grey linen, a wooden nightstand, a monstera plant in the corner, and a yellow alarm clock on the nightstand, soft morning light, architectural visualization.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.999949
+  },
+  {
+   "unit": "g31",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a stylized fantasy warrior woman holding a large broadsword in both hands, braided red hair, leather armor, standing on a mossy cliff edge, game character concept art, Blender Cycles.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.999941
+  },
+  {
+   "unit": "g32",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a stack of fluffy pancakes with melting butter and maple syrup dripping, fresh blueberries and strawberries on top, on a white plate, studio lighting, hyperrealistic food visualization.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.999796
+  },
+  {
+   "unit": "g33",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a futuristic cyberpunk city at night, flying cars between skyscrapers, holographic billboards, a giant neon sign reading \"NOODLES\", rain-slicked streets, cinematic lighting.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.9999
+  },
+  {
+   "unit": "g34",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a family of three penguins sliding across an ice floe in the Antarctic sea, snowy peaks behind them, bright blue sky, stylized animation film look, soft lighting.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.999885
+  },
+  {
+   "unit": "g35",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of tiny clay-style villagers building a snowman in a village square, cottages with snowy roofs, and a green bicycle leaning against a lamppost, soft toy-like lighting, tilt-shift look.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.999932
+  },
+  {
+   "unit": "g36",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a glass perfume bottle on a black marble pedestal, surrounded by floating rose petals, dramatic rim lighting, dark studio background, luxury product shot.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.999829
+  },
+  {
+   "unit": "g37",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor painting of a Venetian canal with gondolas, pastel colored buildings with laundry lines, a gondolier in a striped shirt, soft reflections in the water, loose wet-on-wet washes.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.999884
+  },
+  {
+   "unit": "g38",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor illustration of a blue kingfisher diving into a pond to catch a fish, lily pads and reeds, splashes of water, white paper background showing through, botanical art style.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.999926
+  },
+  {
+   "unit": "g39",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor painting of a little girl in a yellow raincoat jumping in puddles on a village street, rainy grey sky, and a red umbrella lying open on the pavement behind her, soft bleeding colors.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.999898
+  },
+  {
+   "unit": "g40",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor recipe illustration of a fresh summer salad bowl with tomatoes, cucumber, black olives and feta cheese, a bottle of olive oil beside it, loose ink outlines, light cheerful palette.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.999902
+  },
+  {
+   "unit": "g41",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor landscape of autumn birch trees along a forest path, golden leaves scattered on the ground, a small wooden footbridge over a stream, soft morning light, no people.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.999807
+  },
+  {
+   "unit": "g42",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor portrait of a sleepy dachshund curled up in a knitted basket by a fireplace, cozy interior, warm glow from the fire, a pair of slippers on the rug.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.999865
+  },
+  {
+   "unit": "g43",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor sketch of a flower shop storefront with buckets of tulips and roses outside, the sign above the door reads \"FLORIST\", a bicycle with a basket parked out front, and a birdcage hanging in the window.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.999685
+  },
+  {
+   "unit": "g44",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor painting of a family of four sitting around a campfire at night, roasting marshmallows on sticks, a tent behind them, tall pine trees, and a starry sky with a crescent moon.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.999864
+  },
+  {
+   "unit": "g45",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor painting of wild horses galloping across an open plain, dust rising under their hooves, distant blue mountains, loose expressive brushwork, muted earth tones.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.999893
+  },
+  {
+   "unit": "g46",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Pencil sketch portrait of an old man with deep wrinkles and a flat cap, smoking a pipe, detailed cross-hatching, graphite on textured paper, realistic shading.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.99994
+  },
+  {
+   "unit": "g47",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Detailed pencil drawing study of two hands, one holding a pen and the other resting on an open notebook, graphite shading, anatomical sketchbook page.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.999923
+  },
+  {
+   "unit": "g48",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Pencil sketch of a gothic cathedral facade with a rose window and tall spires, pigeons on the front steps, a few pedestrians walking past, architectural drawing, fine linework.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.999907
+  },
+  {
+   "unit": "g49",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Pencil sketch of a cat sitting on a cluttered writer's desk beside a typewriter, a stack of letters, and a pair of round spectacles resting on the typewriter keys, soft graphite shading.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.999956
+  },
+  {
+   "unit": "g50",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Pencil sketch of a steam locomotive crossing a stone viaduct over a river valley, billowing steam, detailed mechanical linework, trees on the hillsides.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.9999
+  },
+  {
+   "unit": "g51",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Graphite pencil drawing of an owl perched on a fence post at night, a full moon behind it, and a small mouse hiding in the grass below, detailed feather texture.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.999912
+  },
+  {
+   "unit": "g52",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Pencil sketch of a crowded outdoor market, vendors selling fruit from wooden carts, shoppers carrying baskets, striped awnings, a small dog weaving between legs, loose reportage drawing.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.999886
+  },
+  {
+   "unit": "g53",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Pencil concept sketch of an ornate fantasy sword with a dragon-shaped hilt, lying on a stone altar, handwritten annotations in the margins, graphite with white highlights.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.999924
+  },
+  {
+   "unit": "g54",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Pencil landscape sketch of a mountain lake with a small rowboat tied to a wooden jetty, pine trees on the shore, reflections on the water, soft cloudy sky.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.999867
+  },
+  {
+   "unit": "g55",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art of a knight with a sword and shield standing before a dungeon gate, torches burning on the stone walls, 16-bit retro game style, limited color palette.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999978
+  },
+  {
+   "unit": "g56",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art of a rainy city street at night, a ramen stand with a glowing sign reading \"OPEN\", a person holding an umbrella, neon reflections on the wet ground, 32-bit style.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999986
+  },
+  {
+   "unit": "g57",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art farm scene, a red barn, a farmer watering crops, chickens in a pen, a brown horse by the fence, and a blue wheelbarrow near the gate, sunny day, cozy farming game style.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999982
+  },
+  {
+   "unit": "g58",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art landscape of a waterfall pouring into a jungle lagoon, palm trees, bright blue sky with fluffy clouds, parallax background layers, vibrant 16-bit palette, no characters.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999977
+  },
+  {
+   "unit": "g59",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art of a spaceship flying through an asteroid field, a large ringed planet in the background, stars, laser blasts, retro arcade shooter style.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999982
+  },
+  {
+   "unit": "g60",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art interior of a cozy bakery, shelves of bread loaves and croissants, a baker behind the counter, a layered cake on display, warm lighting, isometric view.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999965
+  },
+  {
+   "unit": "g61",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art of a cat sleeping on a windowsill in a bedroom at night, the moon visible through the window, a lava lamp on the desk, and two potted succulents on the sill, lofi aesthetic.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999985
+  },
+  {
+   "unit": "g62",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art character portrait of a smiling elf girl with green hair, pointed ears and a flower crown, RPG dialogue portrait, detailed sprite shading.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999969
+  },
+  {
+   "unit": "g63",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art of a party of four adventurers around a tavern table, mugs of ale, a roast chicken, a bard playing a lute, candle light, RPG town style.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999961
+  },
+  {
+   "unit": "g64",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book panel of a superhero in a blue and silver suit landing on a rooftop at night, cape flowing, city skyline behind, bold ink lines, halftone shading, dynamic angle.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.999889
+  },
+  {
+   "unit": "g65",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book cover illustration of a detective in a trench coat and fedora standing in a dark alley, a speech bubble saying \"WHO DID IT?\", falling rain, noir ink style.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.999896
+  },
+  {
+   "unit": "g66",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book panel of a car chase through a city street, a yellow taxi swerving past a fire hydrant, and a hot dog cart knocked over with sausages flying, sound effect lettering \"SCREECH\", bold colors.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.999906
+  },
+  {
+   "unit": "g67",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic strip illustration of a scruffy dog and a grumpy cat sharing a sofa, a bowl of popcorn between them, a TV glowing in front, simple bold outlines, flat colors, newspaper comic look.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.999879
+  },
+  {
+   "unit": "g68",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book splash page of a samurai and a ninja clashing swords on a bamboo forest path, motion lines, sparks, dramatic ink shading, manga-influenced American comic style.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.999404
+  },
+  {
+   "unit": "g69",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book illustration of a mad scientist in a lab coat in his laboratory, bubbling green flasks, a chalkboard of equations, and a rubber duck sitting on top of the control panel, ink and flat colors.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.99993
+  },
+  {
+   "unit": "g70",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book landscape of a desert canyon at noon, red rock formations, a winding dirt road, a vulture circling in the bright sky, bold outlines and Ben-Day dots, no characters.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.999919
+  },
+  {
+   "unit": "g71",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book panel of a family of five at a dinner table celebrating a birthday, a cake with lit candles, balloons tied to the chairs, everyone cheering, bright pop art colors.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.999754
+  },
+  {
+   "unit": "g72",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book panel of pirates on a wooden ship fighting a giant octopus in a stormy sea, one pirate swinging a cutlass, and a parrot wearing a tiny hat on the captain's shoulder, bold inks, dramatic lightning.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.999937
+  },
+  {
+   "unit": "g01",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "Close-up photograph of an elderly fisherman with a weathered face and grey beard, wearing a yellow raincoat, holding a coiled rope in both hands, harbor boats blurred in the background, overcast light, 85mm lens, shallow depth of field.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999944
+  },
+  {
+   "unit": "g02",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "Night street photograph of a group of four friends laughing outside a small bakery, the shop sign above the window reads \"BAKERY\" in glowing neon letters, wet pavement reflecting the lights, a parked red scooter at the curb.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999907
+  },
+  {
+   "unit": "g03",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "A golden retriever running along a sandy beach at sunset, splashing through shallow waves, clear orange sky, a lighthouse on a distant rocky point, candid pet photography, fast shutter speed.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999793
+  },
+  {
+   "unit": "g04",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "Overhead food photograph of a rustic wooden kitchen table with a bowl of ramen, a plate of dumplings, chopsticks, and three lit candles on the table, a small blue teacup in the top corner, warm window light.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999913
+  },
+  {
+   "unit": "g05",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "Landscape photograph of a pine forest valley at dawn, a calm river winding between the trees, snow-capped mountains behind, no people, soft golden light breaking through the clouds.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999905
+  },
+  {
+   "unit": "g06",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "A brown horse grazing in a green meadow next to a wooden fence, an old red barn and a white farmhouse in the background, blue sky with scattered clouds, summer afternoon, 35mm film look.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999441
+  },
+  {
+   "unit": "g07",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "Interior photograph of a cozy living room, a grey tabby cat sleeping on a green velvet sofa, a bookshelf full of books, a potted fiddle leaf fig, and a small brass telescope standing by the window, afternoon light.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999869
+  },
+  {
+   "unit": "g08",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "Urban photograph of a busy city intersection in the rain, yellow taxis and a red double-decker bus waiting at the traffic light, pedestrians with black umbrellas crossing, tall glass office buildings, overcast grey sky.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999929
+  },
+  {
+   "unit": "g09",
+   "medium": "photograph",
+   "condition": "named",
+   "text": "Macro photograph of a woman's hands kneading bread dough on a floured marble counter, a wooden rolling pin and a cracked egg beside the dough, soft natural light, no face visible.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999844
+  },
+  {
+   "unit": "g10",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime illustration of a schoolgirl with short blue hair and a red scarf standing on a train platform at dusk, a commuter train arriving, cherry blossom petals drifting, a station sign reading \"SAKURA\" above her, warm sunset sky.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999959
+  },
+  {
+   "unit": "g11",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime key visual of a young swordsman with silver hair holding a glowing katana inside a ruined stone temple, broken pillars overgrown with vines, dramatic lighting, dynamic pose, detailed cel shading.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999872
+  },
+  {
+   "unit": "g12",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime illustration of three friends eating at a small ramen shop counter at night, steam rising from their bowls, paper lanterns hanging overhead, and a small goldfish bowl on the counter, cozy slice of life scene.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999957
+  },
+  {
+   "unit": "g13",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime background art of a quiet countryside road running past rice fields, a bus stop with a wooden bench, tall summer clouds, telephone poles, lush green hills, no characters, cinematic lighting.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999869
+  },
+  {
+   "unit": "g14",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime illustration of a small red and yellow songbird perched on a branch of a blooming plum tree, snow falling softly, pale grey winter sky, delicate linework, close-up composition.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999946
+  },
+  {
+   "unit": "g15",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime mecha illustration of a giant white robot kneeling in a flooded city street at night, rain pouring, neon signs reflecting in the water, a pilot in a flight suit standing on its open hand.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999932
+  },
+  {
+   "unit": "g16",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime illustration of a witch girl flying on a broom over a seaside town, a black cat riding behind her, a red ribbon in her hair, and a wicker basket of apples hanging from the broom handle, bright blue sky.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999961
+  },
+  {
+   "unit": "g17",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime background of an empty classroom after school, rows of wooden desks, a chalkboard with the word \"EXAM\" written on it, orange sunlight streaming through the windows, no people.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999887
+  },
+  {
+   "unit": "g18",
+   "medium": "anime illustration",
+   "condition": "named",
+   "text": "Anime illustration of a boy kneeling to hug a fluffy shiba inu dog in a park, both smiling, autumn trees with orange leaves, and a yellow kite tangled in the branches above them.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999937
+  },
+  {
+   "unit": "g19",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Oil painting of a Dutch harbor at sunset, wooden sailing ships with furled sails, fishermen unloading crates on the dock, golden sky reflected in the calm water, thick impasto brushstrokes, Golden Age style.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999974
+  },
+  {
+   "unit": "g20",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Classical oil portrait of a noblewoman in a dark green velvet gown, seated with her hands folded in her lap, a pearl necklace, and a small hourglass on the table beside her, dark background, Rembrandt lighting.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.99995
+  },
+  {
+   "unit": "g21",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Still life oil painting of a copper pot, a loaf of bread, a wedge of cheese, purple grapes and a pheasant on a draped linen tablecloth, dark moody background, Chardin style.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.99998
+  },
+  {
+   "unit": "g22",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Romantic oil painting of an armored knight on a white horse raising a sword, stormy sky with lightning, a castle on a cliff in the distance, dramatic chiaroscuro, sweeping brushwork.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999967
+  },
+  {
+   "unit": "g23",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Impressionist oil painting of a field of sunflowers under a bright summer sky, a row of poplar trees on the horizon, a small stone cottage, visible thick brushstrokes, vibrant yellows and blues.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999978
+  },
+  {
+   "unit": "g24",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Oil painting of a Parisian cafe terrace at night, people sitting at small round tables, gas lamps glowing, cobblestone street, starry blue night sky, a sign reading \"CAFE\" above the awning.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999979
+  },
+  {
+   "unit": "g25",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Oil painting of an old wizard reading a large book in a candlelit study, a black cat asleep on stacked books, a stuffed owl on a shelf, and a brass globe on the desk, warm amber tones.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999972
+  },
+  {
+   "unit": "g26",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Oil painting seascape of towering waves crashing against black rocks, spray and foam, a lone lighthouse beam cutting through grey storm clouds, turbulent brushwork, no people.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999976
+  },
+  {
+   "unit": "g27",
+   "medium": "oil painting",
+   "condition": "named",
+   "text": "Oil painting of ballet dancers rehearsing in a sunlit studio, four girls in white tutus stretching at the barre, a tall mirror on the wall, soft pastel palette, Degas inspired.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999968
+  },
+  {
+   "unit": "g28",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a cute cartoon robot watering a potted cactus on a windowsill with a small watering can, big round glowing eyes, pastel colors, soft global illumination, Pixar style, shallow depth of field.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999929
+  },
+  {
+   "unit": "g29",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a vintage red sports car parked on a desert highway at golden hour, chrome details, heat haze, cacti and rocky mesas in the background, clear sky, photorealistic Unreal Engine 5.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999825
+  },
+  {
+   "unit": "g30",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a minimalist Scandinavian bedroom interior, white bed with grey linen, a wooden nightstand, a monstera plant in the corner, and a yellow alarm clock on the nightstand, soft morning light, architectural visualization.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999905
+  },
+  {
+   "unit": "g31",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a stylized fantasy warrior woman holding a large broadsword in both hands, braided red hair, leather armor, standing on a mossy cliff edge, game character concept art, Blender Cycles.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999937
+  },
+  {
+   "unit": "g32",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a stack of fluffy pancakes with melting butter and maple syrup dripping, fresh blueberries and strawberries on top, on a white plate, studio lighting, hyperrealistic food visualization.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999833
+  },
+  {
+   "unit": "g33",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a futuristic cyberpunk city at night, flying cars between skyscrapers, holographic billboards, a giant neon sign reading \"NOODLES\", rain-slicked streets, cinematic lighting.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999813
+  },
+  {
+   "unit": "g34",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a family of three penguins sliding across an ice floe in the Antarctic sea, snowy peaks behind them, bright blue sky, stylized animation film look, soft lighting.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999854
+  },
+  {
+   "unit": "g35",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of tiny clay-style villagers building a snowman in a village square, cottages with snowy roofs, and a green bicycle leaning against a lamppost, soft toy-like lighting, tilt-shift look.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999919
+  },
+  {
+   "unit": "g36",
+   "medium": "3D render",
+   "condition": "named",
+   "text": "3D render of a glass perfume bottle on a black marble pedestal, surrounded by floating rose petals, dramatic rim lighting, dark studio background, luxury product shot.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999807
+  },
+  {
+   "unit": "g37",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor painting of a Venetian canal with gondolas, pastel colored buildings with laundry lines, a gondolier in a striped shirt, soft reflections in the water, loose wet-on-wet washes.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999911
+  },
+  {
+   "unit": "g38",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor illustration of a blue kingfisher diving into a pond to catch a fish, lily pads and reeds, splashes of water, white paper background showing through, botanical art style.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999907
+  },
+  {
+   "unit": "g39",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor painting of a little girl in a yellow raincoat jumping in puddles on a village street, rainy grey sky, and a red umbrella lying open on the pavement behind her, soft bleeding colors.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999905
+  },
+  {
+   "unit": "g40",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor recipe illustration of a fresh summer salad bowl with tomatoes, cucumber, black olives and feta cheese, a bottle of olive oil beside it, loose ink outlines, light cheerful palette.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999899
+  },
+  {
+   "unit": "g41",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor landscape of autumn birch trees along a forest path, golden leaves scattered on the ground, a small wooden footbridge over a stream, soft morning light, no people.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999901
+  },
+  {
+   "unit": "g42",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor portrait of a sleepy dachshund curled up in a knitted basket by a fireplace, cozy interior, warm glow from the fire, a pair of slippers on the rug.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999887
+  },
+  {
+   "unit": "g43",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor sketch of a flower shop storefront with buckets of tulips and roses outside, the sign above the door reads \"FLORIST\", a bicycle with a basket parked out front, and a birdcage hanging in the window.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999835
+  },
+  {
+   "unit": "g44",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor painting of a family of four sitting around a campfire at night, roasting marshmallows on sticks, a tent behind them, tall pine trees, and a starry sky with a crescent moon.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999893
+  },
+  {
+   "unit": "g45",
+   "medium": "watercolor",
+   "condition": "named",
+   "text": "Watercolor painting of wild horses galloping across an open plain, dust rising under their hooves, distant blue mountains, loose expressive brushwork, muted earth tones.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999905
+  },
+  {
+   "unit": "g46",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Pencil sketch portrait of an old man with deep wrinkles and a flat cap, smoking a pipe, detailed cross-hatching, graphite on textured paper, realistic shading.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999904
+  },
+  {
+   "unit": "g47",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Detailed pencil drawing study of two hands, one holding a pen and the other resting on an open notebook, graphite shading, anatomical sketchbook page.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999896
+  },
+  {
+   "unit": "g48",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Pencil sketch of a gothic cathedral facade with a rose window and tall spires, pigeons on the front steps, a few pedestrians walking past, architectural drawing, fine linework.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999899
+  },
+  {
+   "unit": "g49",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Pencil sketch of a cat sitting on a cluttered writer's desk beside a typewriter, a stack of letters, and a pair of round spectacles resting on the typewriter keys, soft graphite shading.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999955
+  },
+  {
+   "unit": "g50",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Pencil sketch of a steam locomotive crossing a stone viaduct over a river valley, billowing steam, detailed mechanical linework, trees on the hillsides.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999891
+  },
+  {
+   "unit": "g51",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Graphite pencil drawing of an owl perched on a fence post at night, a full moon behind it, and a small mouse hiding in the grass below, detailed feather texture.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999784
+  },
+  {
+   "unit": "g52",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Pencil sketch of a crowded outdoor market, vendors selling fruit from wooden carts, shoppers carrying baskets, striped awnings, a small dog weaving between legs, loose reportage drawing.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999881
+  },
+  {
+   "unit": "g53",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Pencil concept sketch of an ornate fantasy sword with a dragon-shaped hilt, lying on a stone altar, handwritten annotations in the margins, graphite with white highlights.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999916
+  },
+  {
+   "unit": "g54",
+   "medium": "pencil sketch",
+   "condition": "named",
+   "text": "Pencil landscape sketch of a mountain lake with a small rowboat tied to a wooden jetty, pine trees on the shore, reflections on the water, soft cloudy sky.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999898
+  },
+  {
+   "unit": "g55",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art of a knight with a sword and shield standing before a dungeon gate, torches burning on the stone walls, 16-bit retro game style, limited color palette.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999962
+  },
+  {
+   "unit": "g56",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art of a rainy city street at night, a ramen stand with a glowing sign reading \"OPEN\", a person holding an umbrella, neon reflections on the wet ground, 32-bit style.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999967
+  },
+  {
+   "unit": "g57",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art farm scene, a red barn, a farmer watering crops, chickens in a pen, a brown horse by the fence, and a blue wheelbarrow near the gate, sunny day, cozy farming game style.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999964
+  },
+  {
+   "unit": "g58",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art landscape of a waterfall pouring into a jungle lagoon, palm trees, bright blue sky with fluffy clouds, parallax background layers, vibrant 16-bit palette, no characters.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999954
+  },
+  {
+   "unit": "g59",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art of a spaceship flying through an asteroid field, a large ringed planet in the background, stars, laser blasts, retro arcade shooter style.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999956
+  },
+  {
+   "unit": "g60",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art interior of a cozy bakery, shelves of bread loaves and croissants, a baker behind the counter, a layered cake on display, warm lighting, isometric view.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999932
+  },
+  {
+   "unit": "g61",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art of a cat sleeping on a windowsill in a bedroom at night, the moon visible through the window, a lava lamp on the desk, and two potted succulents on the sill, lofi aesthetic.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999974
+  },
+  {
+   "unit": "g62",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art character portrait of a smiling elf girl with green hair, pointed ears and a flower crown, RPG dialogue portrait, detailed sprite shading.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999961
+  },
+  {
+   "unit": "g63",
+   "medium": "pixel art",
+   "condition": "named",
+   "text": "Pixel art of a party of four adventurers around a tavern table, mugs of ale, a roast chicken, a bard playing a lute, candle light, RPG town style.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999958
+  },
+  {
+   "unit": "g64",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book panel of a superhero in a blue and silver suit landing on a rooftop at night, cape flowing, city skyline behind, bold ink lines, halftone shading, dynamic angle.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.99968
+  },
+  {
+   "unit": "g65",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book cover illustration of a detective in a trench coat and fedora standing in a dark alley, a speech bubble saying \"WHO DID IT?\", falling rain, noir ink style.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999732
+  },
+  {
+   "unit": "g66",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book panel of a car chase through a city street, a yellow taxi swerving past a fire hydrant, and a hot dog cart knocked over with sausages flying, sound effect lettering \"SCREECH\", bold colors.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.99983
+  },
+  {
+   "unit": "g67",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic strip illustration of a scruffy dog and a grumpy cat sharing a sofa, a bowl of popcorn between them, a TV glowing in front, simple bold outlines, flat colors, newspaper comic look.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999746
+  },
+  {
+   "unit": "g68",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book splash page of a samurai and a ninja clashing swords on a bamboo forest path, motion lines, sparks, dramatic ink shading, manga-influenced American comic style.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999595
+  },
+  {
+   "unit": "g69",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book illustration of a mad scientist in a lab coat in his laboratory, bubbling green flasks, a chalkboard of equations, and a rubber duck sitting on top of the control panel, ink and flat colors.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999802
+  },
+  {
+   "unit": "g70",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book landscape of a desert canyon at noon, red rock formations, a winding dirt road, a vulture circling in the bright sky, bold outlines and Ben-Day dots, no characters.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.99985
+  },
+  {
+   "unit": "g71",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book panel of a family of five at a dinner table celebrating a birthday, a cake with lit candles, balloons tied to the chairs, everyone cheering, bright pop art colors.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999384
+  },
+  {
+   "unit": "g72",
+   "medium": "comic book",
+   "condition": "named",
+   "text": "Comic book panel of pirates on a wooden ship fighting a giant octopus in a stormy sea, one pirate swinging a cutlass, and a parrot wearing a tiny hat on the captain's shoulder, bold inks, dramatic lightning.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999764
+  },
+  {
+   "unit": "g01",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "an elderly fisherman with a weathered face and grey beard, wearing a yellow raincoat, holding a coiled rope in both hands, harbor boats blurred in the background, overcast light, 85mm lens, shallow depth of field.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999742
+  },
+  {
+   "unit": "g02",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "a group of four friends laughing outside a small bakery, the shop sign above the window reads \"BAKERY\" in glowing neon letters, wet pavement reflecting the lights, a parked red scooter at the curb.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.997416
+  },
+  {
+   "unit": "g03",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "A golden retriever running along a sandy beach at sunset, splashing through shallow waves, clear orange sky, a lighthouse on a distant rocky point, candid pet photography, fast shutter speed.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999682
+  },
+  {
+   "unit": "g04",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "a rustic wooden kitchen table with a bowl of ramen, a plate of dumplings, chopsticks, and three lit candles on the table, a small blue teacup in the top corner, warm window light.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.745169
+  },
+  {
+   "unit": "g05",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "a pine forest valley at dawn, a calm river winding between the trees, snow-capped mountains behind, no people, soft golden light breaking through the clouds.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.657511
+  },
+  {
+   "unit": "g06",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "A brown horse grazing in a green meadow next to a wooden fence, an old red barn and a white farmhouse in the background, blue sky with scattered clouds, summer afternoon, 35mm film look.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.998805
+  },
+  {
+   "unit": "g07",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "a cozy living room, a grey tabby cat sleeping on a green velvet sofa, a bookshelf full of books, a potted fiddle leaf fig, and a small brass telescope standing by the window, afternoon light.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.533729
+  },
+  {
+   "unit": "g08",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "a busy city intersection in the rain, yellow taxis and a red double-decker bus waiting at the traffic light, pedestrians with black umbrellas crossing, tall glass office buildings, overcast grey sky.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999193
+  },
+  {
+   "unit": "g09",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "a woman's hands kneading bread dough on a floured marble counter, a wooden rolling pin and a cracked egg beside the dough, soft natural light, no face visible.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.93257
+  },
+  {
+   "unit": "g10",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "a schoolgirl with short blue hair and a red scarf standing on a train platform at dusk, a commuter train arriving, cherry blossom petals drifting, a station sign reading \"SAKURA\" above her, warm sunset sky.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999774
+  },
+  {
+   "unit": "g11",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "a young swordsman with silver hair holding a glowing katana inside a ruined stone temple, broken pillars overgrown with vines, dramatic lighting, dynamic pose, detailed cel shading.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.996538
+  },
+  {
+   "unit": "g12",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "three friends eating at a small ramen shop counter at night, steam rising from their bowls, paper lanterns hanging overhead, and a small goldfish bowl on the counter, cozy slice of life scene.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.997149
+  },
+  {
+   "unit": "g13",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "a quiet countryside road running past rice fields, a bus stop with a wooden bench, tall summer clouds, telephone poles, lush green hills, no characters, cinematic lighting.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.984738
+  },
+  {
+   "unit": "g14",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "a small red and yellow songbird perched on a branch of a blooming plum tree, snow falling softly, pale grey winter sky, delicate linework, close-up composition.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.994947
+  },
+  {
+   "unit": "g15",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "a giant white robot kneeling in a flooded city street at night, rain pouring, neon signs reflecting in the water, a pilot in a flight suit standing on its open hand.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.989711
+  },
+  {
+   "unit": "g16",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "a witch girl flying on a broom over a seaside town, a black cat riding behind her, a red ribbon in her hair, and a wicker basket of apples hanging from the broom handle, bright blue sky.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999621
+  },
+  {
+   "unit": "g17",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "an empty classroom after school, rows of wooden desks, a chalkboard with the word \"EXAM\" written on it, orange sunlight streaming through the windows, no people.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.884329
+  },
+  {
+   "unit": "g18",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "a boy kneeling to hug a fluffy shiba inu dog in a park, both smiling, autumn trees with orange leaves, and a yellow kite tangled in the branches above them.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.993929
+  },
+  {
+   "unit": "g19",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "a Dutch harbor at sunset, wooden sailing ships with furled sails, fishermen unloading crates on the dock, golden sky reflected in the calm water, thick impasto brushstrokes, Golden Age style.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999919
+  },
+  {
+   "unit": "g20",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "a noblewoman in a dark green velvet gown, seated with her hands folded in her lap, a pearl necklace, and a small hourglass on the table beside her, dark background, Rembrandt lighting.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999824
+  },
+  {
+   "unit": "g21",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "a copper pot, a loaf of bread, a wedge of cheese, purple grapes and a pheasant on a draped linen tablecloth, dark moody background, Chardin style.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999752
+  },
+  {
+   "unit": "g22",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "an armored knight on a white horse raising a sword, stormy sky with lightning, a castle on a cliff in the distance, dramatic chiaroscuro, sweeping brushwork.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999619
+  },
+  {
+   "unit": "g23",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "a field of sunflowers under a bright summer sky, a row of poplar trees on the horizon, a small stone cottage, visible thick brushstrokes, vibrant yellows and blues.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999837
+  },
+  {
+   "unit": "g24",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "a Parisian cafe terrace at night, people sitting at small round tables, gas lamps glowing, cobblestone street, starry blue night sky, a sign reading \"CAFE\" above the awning.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.994141
+  },
+  {
+   "unit": "g25",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "an old wizard reading a large book in a candlelit study, a black cat asleep on stacked books, a stuffed owl on a shelf, and a brass globe on the desk, warm amber tones.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.998502
+  },
+  {
+   "unit": "g26",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "towering waves crashing against black rocks, spray and foam, a lone lighthouse beam cutting through grey storm clouds, turbulent brushwork, no people.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999517
+  },
+  {
+   "unit": "g27",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "ballet dancers rehearsing in a sunlit studio, four girls in white tutus stretching at the barre, a tall mirror on the wall, soft pastel palette, Degas inspired.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.995855
+  },
+  {
+   "unit": "g28",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a cute cartoon robot watering a potted cactus on a windowsill with a small watering can, big round glowing eyes, pastel colors, soft global illumination, Pixar style, shallow depth of field.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999597
+  },
+  {
+   "unit": "g29",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a vintage red sports car parked on a desert highway at golden hour, chrome details, heat haze, cacti and rocky mesas in the background, clear sky, photorealistic Unreal Engine 5.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.969435
+  },
+  {
+   "unit": "g30",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a minimalist Scandinavian bedroom interior, white bed with grey linen, a wooden nightstand, a monstera plant in the corner, and a yellow alarm clock on the nightstand, soft morning light, architectural visualization.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.998279
+  },
+  {
+   "unit": "g31",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a stylized fantasy warrior woman holding a large broadsword in both hands, braided red hair, leather armor, standing on a mossy cliff edge, game character concept art, Blender Cycles.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999714
+  },
+  {
+   "unit": "g32",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a stack of fluffy pancakes with melting butter and maple syrup dripping, fresh blueberries and strawberries on top, on a white plate, studio lighting, hyperrealistic food visualization.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.920366
+  },
+  {
+   "unit": "g33",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a futuristic cyberpunk city at night, flying cars between skyscrapers, holographic billboards, a giant neon sign reading \"NOODLES\", rain-slicked streets, cinematic lighting.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.998085
+  },
+  {
+   "unit": "g34",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a family of three penguins sliding across an ice floe in the Antarctic sea, snowy peaks behind them, bright blue sky, stylized animation film look, soft lighting.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.995061
+  },
+  {
+   "unit": "g35",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "tiny clay-style villagers building a snowman in a village square, cottages with snowy roofs, and a green bicycle leaning against a lamppost, soft toy-like lighting, tilt-shift look.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.951412
+  },
+  {
+   "unit": "g36",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a glass perfume bottle on a black marble pedestal, surrounded by floating rose petals, dramatic rim lighting, dark studio background, luxury product shot.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.904167
+  },
+  {
+   "unit": "g37",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "a Venetian canal with gondolas, pastel colored buildings with laundry lines, a gondolier in a striped shirt, soft reflections in the water, loose wet-on-wet washes.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.99012
+  },
+  {
+   "unit": "g38",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "a blue kingfisher diving into a pond to catch a fish, lily pads and reeds, splashes of water, white paper background showing through, botanical art style.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.99594
+  },
+  {
+   "unit": "g39",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "a little girl in a yellow raincoat jumping in puddles on a village street, rainy grey sky, and a red umbrella lying open on the pavement behind her, soft bleeding colors.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.772627
+  },
+  {
+   "unit": "g40",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "a fresh summer salad bowl with tomatoes, cucumber, black olives and feta cheese, a bottle of olive oil beside it, loose ink outlines, light cheerful palette.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.952513
+  },
+  {
+   "unit": "g41",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "autumn birch trees along a forest path, golden leaves scattered on the ground, a small wooden footbridge over a stream, soft morning light, no people.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.956344
+  },
+  {
+   "unit": "g42",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "a sleepy dachshund curled up in a knitted basket by a fireplace, cozy interior, warm glow from the fire, a pair of slippers on the rug.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.529591
+  },
+  {
+   "unit": "g43",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "a flower shop storefront with buckets of tulips and roses outside, the sign above the door reads \"FLORIST\", a bicycle with a basket parked out front, and a birdcage hanging in the window.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.996765
+  },
+  {
+   "unit": "g44",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "a family of four sitting around a campfire at night, roasting marshmallows on sticks, a tent behind them, tall pine trees, and a starry sky with a crescent moon.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.993892
+  },
+  {
+   "unit": "g45",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "wild horses galloping across an open plain, dust rising under their hooves, distant blue mountains, loose expressive brushwork, muted earth tones.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.99924
+  },
+  {
+   "unit": "g46",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "an old man with deep wrinkles and a flat cap, smoking a pipe, detailed cross-hatching, graphite on textured paper, realistic shading.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.998825
+  },
+  {
+   "unit": "g47",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "two hands, one holding a pen and the other resting on an open notebook, graphite shading, anatomical sketchbook page.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999686
+  },
+  {
+   "unit": "g48",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "a gothic cathedral facade with a rose window and tall spires, pigeons on the front steps, a few pedestrians walking past, architectural drawing, fine linework.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.994179
+  },
+  {
+   "unit": "g49",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "a cat sitting on a cluttered writer's desk beside a typewriter, a stack of letters, and a pair of round spectacles resting on the typewriter keys, soft graphite shading.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999489
+  },
+  {
+   "unit": "g50",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "a steam locomotive crossing a stone viaduct over a river valley, billowing steam, detailed mechanical linework, trees on the hillsides.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.629988
+  },
+  {
+   "unit": "g51",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "an owl perched on a fence post at night, a full moon behind it, and a small mouse hiding in the grass below, detailed feather texture.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.987733
+  },
+  {
+   "unit": "g52",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "a crowded outdoor market, vendors selling fruit from wooden carts, shoppers carrying baskets, striped awnings, a small dog weaving between legs, loose reportage drawing.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.592941
+  },
+  {
+   "unit": "g53",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "an ornate fantasy sword with a dragon-shaped hilt, lying on a stone altar, handwritten annotations in the margins, graphite with white highlights.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.99806
+  },
+  {
+   "unit": "g54",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "a mountain lake with a small rowboat tied to a wooden jetty, pine trees on the shore, reflections on the water, soft cloudy sky.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.414356
+  },
+  {
+   "unit": "g55",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a knight with a sword and shield standing before a dungeon gate, torches burning on the stone walls, 16-bit retro game style, limited color palette.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999936
+  },
+  {
+   "unit": "g56",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a rainy city street at night, a ramen stand with a glowing sign reading \"OPEN\", a person holding an umbrella, neon reflections on the wet ground, 32-bit style.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999663
+  },
+  {
+   "unit": "g57",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a red barn, a farmer watering crops, chickens in a pen, a brown horse by the fence, and a blue wheelbarrow near the gate, sunny day, cozy farming game style.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999438
+  },
+  {
+   "unit": "g58",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a waterfall pouring into a jungle lagoon, palm trees, bright blue sky with fluffy clouds, parallax background layers, vibrant 16-bit palette, no characters.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999784
+  },
+  {
+   "unit": "g59",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a spaceship flying through an asteroid field, a large ringed planet in the background, stars, laser blasts, retro arcade shooter style.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999862
+  },
+  {
+   "unit": "g60",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a cozy bakery, shelves of bread loaves and croissants, a baker behind the counter, a layered cake on display, warm lighting, isometric view.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.998325
+  },
+  {
+   "unit": "g61",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a cat sleeping on a windowsill in a bedroom at night, the moon visible through the window, a lava lamp on the desk, and two potted succulents on the sill, lofi aesthetic.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.976041
+  },
+  {
+   "unit": "g62",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a smiling elf girl with green hair, pointed ears and a flower crown, RPG dialogue portrait, detailed sprite shading.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.996951
+  },
+  {
+   "unit": "g63",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a party of four adventurers around a tavern table, mugs of ale, a roast chicken, a bard playing a lute, candle light, RPG town style.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.929948
+  },
+  {
+   "unit": "g64",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a superhero in a blue and silver suit landing on a rooftop at night, cape flowing, city skyline behind, bold ink lines, halftone shading, dynamic angle.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999782
+  },
+  {
+   "unit": "g65",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a detective in a trench coat and fedora standing in a dark alley, a speech bubble saying \"WHO DID IT?\", falling rain, noir ink style.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999089
+  },
+  {
+   "unit": "g66",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a car chase through a city street, a yellow taxi swerving past a fire hydrant, and a hot dog cart knocked over with sausages flying, sound effect lettering \"SCREECH\", bold colors.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.992618
+  },
+  {
+   "unit": "g67",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a scruffy dog and a grumpy cat sharing a sofa, a bowl of popcorn between them, a TV glowing in front, simple bold outlines, flat colors, newspaper comic look.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999631
+  },
+  {
+   "unit": "g68",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a samurai and a ninja clashing swords on a bamboo forest path, motion lines, sparks, dramatic ink shading, manga-influenced American comic style.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.933728
+  },
+  {
+   "unit": "g69",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a mad scientist in a lab coat in his laboratory, bubbling green flasks, a chalkboard of equations, and a rubber duck sitting on top of the control panel, ink and flat colors.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.469476
+  },
+  {
+   "unit": "g70",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a desert canyon at noon, red rock formations, a winding dirt road, a vulture circling in the bright sky, bold outlines and Ben-Day dots, no characters.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999076
+  },
+  {
+   "unit": "g71",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a family of five at a dinner table celebrating a birthday, a cake with lit candles, balloons tied to the chairs, everyone cheering, bright pop art colors.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.698441
+  },
+  {
+   "unit": "g72",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "pirates on a wooden ship fighting a giant octopus in a stormy sea, one pirate swinging a cutlass, and a parrot wearing a tiny hat on the captain's shoulder, bold inks, dramatic lightning.",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.995085
+  },
+  {
+   "unit": "g01",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "an elderly fisherman with a weathered face and grey beard, wearing a yellow raincoat, holding a coiled rope in both hands, harbor boats blurred in the background, overcast light, 85mm lens, shallow depth of field.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.999552
+  },
+  {
+   "unit": "g02",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "a group of four friends laughing outside a small bakery, the shop sign above the window reads \"BAKERY\" in glowing neon letters, wet pavement reflecting the lights, a parked red scooter at the curb.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.995492
+  },
+  {
+   "unit": "g03",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "A golden retriever running along a sandy beach at sunset, splashing through shallow waves, clear orange sky, a lighthouse on a distant rocky point, candid pet photography, fast shutter speed.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.999717
+  },
+  {
+   "unit": "g04",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "a rustic wooden kitchen table with a bowl of ramen, a plate of dumplings, chopsticks, and three lit candles on the table, a small blue teacup in the top corner, warm window light.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.924867
+  },
+  {
+   "unit": "g05",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "a pine forest valley at dawn, a calm river winding between the trees, snow-capped mountains behind, no people, soft golden light breaking through the clouds.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.808313
+  },
+  {
+   "unit": "g06",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "A brown horse grazing in a green meadow next to a wooden fence, an old red barn and a white farmhouse in the background, blue sky with scattered clouds, summer afternoon, 35mm film look.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.997975
+  },
+  {
+   "unit": "g07",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "a cozy living room, a grey tabby cat sleeping on a green velvet sofa, a bookshelf full of books, a potted fiddle leaf fig, and a small brass telescope standing by the window, afternoon light.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.956664
+  },
+  {
+   "unit": "g08",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "a busy city intersection in the rain, yellow taxis and a red double-decker bus waiting at the traffic light, pedestrians with black umbrellas crossing, tall glass office buildings, overcast grey sky.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.996748
+  },
+  {
+   "unit": "g09",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "a woman's hands kneading bread dough on a floured marble counter, a wooden rolling pin and a cracked egg beside the dough, soft natural light, no face visible.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.767575
+  },
+  {
+   "unit": "g10",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "a schoolgirl with short blue hair and a red scarf standing on a train platform at dusk, a commuter train arriving, cherry blossom petals drifting, a station sign reading \"SAKURA\" above her, warm sunset sky.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.999743
+  },
+  {
+   "unit": "g11",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "a young swordsman with silver hair holding a glowing katana inside a ruined stone temple, broken pillars overgrown with vines, dramatic lighting, dynamic pose, detailed cel shading.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.863257
+  },
+  {
+   "unit": "g12",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "three friends eating at a small ramen shop counter at night, steam rising from their bowls, paper lanterns hanging overhead, and a small goldfish bowl on the counter, cozy slice of life scene.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.996303
+  },
+  {
+   "unit": "g13",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "a quiet countryside road running past rice fields, a bus stop with a wooden bench, tall summer clouds, telephone poles, lush green hills, no characters, cinematic lighting.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.786014
+  },
+  {
+   "unit": "g14",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "a small red and yellow songbird perched on a branch of a blooming plum tree, snow falling softly, pale grey winter sky, delicate linework, close-up composition.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.991298
+  },
+  {
+   "unit": "g15",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "a giant white robot kneeling in a flooded city street at night, rain pouring, neon signs reflecting in the water, a pilot in a flight suit standing on its open hand.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.953069
+  },
+  {
+   "unit": "g16",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "a witch girl flying on a broom over a seaside town, a black cat riding behind her, a red ribbon in her hair, and a wicker basket of apples hanging from the broom handle, bright blue sky.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.999577
+  },
+  {
+   "unit": "g17",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "an empty classroom after school, rows of wooden desks, a chalkboard with the word \"EXAM\" written on it, orange sunlight streaming through the windows, no people.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.911394
+  },
+  {
+   "unit": "g18",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "a boy kneeling to hug a fluffy shiba inu dog in a park, both smiling, autumn trees with orange leaves, and a yellow kite tangled in the branches above them.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.978386
+  },
+  {
+   "unit": "g19",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "a Dutch harbor at sunset, wooden sailing ships with furled sails, fishermen unloading crates on the dock, golden sky reflected in the calm water, thick impasto brushstrokes, Golden Age style.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999922
+  },
+  {
+   "unit": "g20",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "a noblewoman in a dark green velvet gown, seated with her hands folded in her lap, a pearl necklace, and a small hourglass on the table beside her, dark background, Rembrandt lighting.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999779
+  },
+  {
+   "unit": "g21",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "a copper pot, a loaf of bread, a wedge of cheese, purple grapes and a pheasant on a draped linen tablecloth, dark moody background, Chardin style.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999741
+  },
+  {
+   "unit": "g22",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "an armored knight on a white horse raising a sword, stormy sky with lightning, a castle on a cliff in the distance, dramatic chiaroscuro, sweeping brushwork.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999645
+  },
+  {
+   "unit": "g23",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "a field of sunflowers under a bright summer sky, a row of poplar trees on the horizon, a small stone cottage, visible thick brushstrokes, vibrant yellows and blues.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.99983
+  },
+  {
+   "unit": "g24",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "a Parisian cafe terrace at night, people sitting at small round tables, gas lamps glowing, cobblestone street, starry blue night sky, a sign reading \"CAFE\" above the awning.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.97827
+  },
+  {
+   "unit": "g25",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "an old wizard reading a large book in a candlelit study, a black cat asleep on stacked books, a stuffed owl on a shelf, and a brass globe on the desk, warm amber tones.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.975169
+  },
+  {
+   "unit": "g26",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "towering waves crashing against black rocks, spray and foam, a lone lighthouse beam cutting through grey storm clouds, turbulent brushwork, no people.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999512
+  },
+  {
+   "unit": "g27",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "ballet dancers rehearsing in a sunlit studio, four girls in white tutus stretching at the barre, a tall mirror on the wall, soft pastel palette, Degas inspired.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.995815
+  },
+  {
+   "unit": "g28",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a cute cartoon robot watering a potted cactus on a windowsill with a small watering can, big round glowing eyes, pastel colors, soft global illumination, Pixar style, shallow depth of field.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.999624
+  },
+  {
+   "unit": "g29",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a vintage red sports car parked on a desert highway at golden hour, chrome details, heat haze, cacti and rocky mesas in the background, clear sky, photorealistic Unreal Engine 5.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.999171
+  },
+  {
+   "unit": "g30",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a minimalist Scandinavian bedroom interior, white bed with grey linen, a wooden nightstand, a monstera plant in the corner, and a yellow alarm clock on the nightstand, soft morning light, architectural visualization.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.999321
+  },
+  {
+   "unit": "g31",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a stylized fantasy warrior woman holding a large broadsword in both hands, braided red hair, leather armor, standing on a mossy cliff edge, game character concept art, Blender Cycles.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.999824
+  },
+  {
+   "unit": "g32",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a stack of fluffy pancakes with melting butter and maple syrup dripping, fresh blueberries and strawberries on top, on a white plate, studio lighting, hyperrealistic food visualization.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.989149
+  },
+  {
+   "unit": "g33",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a futuristic cyberpunk city at night, flying cars between skyscrapers, holographic billboards, a giant neon sign reading \"NOODLES\", rain-slicked streets, cinematic lighting.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.998832
+  },
+  {
+   "unit": "g34",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a family of three penguins sliding across an ice floe in the Antarctic sea, snowy peaks behind them, bright blue sky, stylized animation film look, soft lighting.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.926822
+  },
+  {
+   "unit": "g35",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "tiny clay-style villagers building a snowman in a village square, cottages with snowy roofs, and a green bicycle leaning against a lamppost, soft toy-like lighting, tilt-shift look.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.941244
+  },
+  {
+   "unit": "g36",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a glass perfume bottle on a black marble pedestal, surrounded by floating rose petals, dramatic rim lighting, dark studio background, luxury product shot.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.920371
+  },
+  {
+   "unit": "g37",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "a Venetian canal with gondolas, pastel colored buildings with laundry lines, a gondolier in a striped shirt, soft reflections in the water, loose wet-on-wet washes.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.998661
+  },
+  {
+   "unit": "g38",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "a blue kingfisher diving into a pond to catch a fish, lily pads and reeds, splashes of water, white paper background showing through, botanical art style.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.997227
+  },
+  {
+   "unit": "g39",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "a little girl in a yellow raincoat jumping in puddles on a village street, rainy grey sky, and a red umbrella lying open on the pavement behind her, soft bleeding colors.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.87257
+  },
+  {
+   "unit": "g40",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "a fresh summer salad bowl with tomatoes, cucumber, black olives and feta cheese, a bottle of olive oil beside it, loose ink outlines, light cheerful palette.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.890305
+  },
+  {
+   "unit": "g41",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "autumn birch trees along a forest path, golden leaves scattered on the ground, a small wooden footbridge over a stream, soft morning light, no people.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.966562
+  },
+  {
+   "unit": "g42",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "a sleepy dachshund curled up in a knitted basket by a fireplace, cozy interior, warm glow from the fire, a pair of slippers on the rug.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.966771
+  },
+  {
+   "unit": "g43",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "a flower shop storefront with buckets of tulips and roses outside, the sign above the door reads \"FLORIST\", a bicycle with a basket parked out front, and a birdcage hanging in the window.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.99711
+  },
+  {
+   "unit": "g44",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "a family of four sitting around a campfire at night, roasting marshmallows on sticks, a tent behind them, tall pine trees, and a starry sky with a crescent moon.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.985966
+  },
+  {
+   "unit": "g45",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "wild horses galloping across an open plain, dust rising under their hooves, distant blue mountains, loose expressive brushwork, muted earth tones.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999122
+  },
+  {
+   "unit": "g46",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "an old man with deep wrinkles and a flat cap, smoking a pipe, detailed cross-hatching, graphite on textured paper, realistic shading.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.999344
+  },
+  {
+   "unit": "g47",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "two hands, one holding a pen and the other resting on an open notebook, graphite shading, anatomical sketchbook page.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.999683
+  },
+  {
+   "unit": "g48",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "a gothic cathedral facade with a rose window and tall spires, pigeons on the front steps, a few pedestrians walking past, architectural drawing, fine linework.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.987347
+  },
+  {
+   "unit": "g49",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "a cat sitting on a cluttered writer's desk beside a typewriter, a stack of letters, and a pair of round spectacles resting on the typewriter keys, soft graphite shading.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.999321
+  },
+  {
+   "unit": "g50",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "a steam locomotive crossing a stone viaduct over a river valley, billowing steam, detailed mechanical linework, trees on the hillsides.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.956866
+  },
+  {
+   "unit": "g51",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "an owl perched on a fence post at night, a full moon behind it, and a small mouse hiding in the grass below, detailed feather texture.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.89957
+  },
+  {
+   "unit": "g52",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "a crowded outdoor market, vendors selling fruit from wooden carts, shoppers carrying baskets, striped awnings, a small dog weaving between legs, loose reportage drawing.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.593158
+  },
+  {
+   "unit": "g53",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "an ornate fantasy sword with a dragon-shaped hilt, lying on a stone altar, handwritten annotations in the margins, graphite with white highlights.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.994367
+  },
+  {
+   "unit": "g54",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "a mountain lake with a small rowboat tied to a wooden jetty, pine trees on the shore, reflections on the water, soft cloudy sky.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.688591
+  },
+  {
+   "unit": "g55",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a knight with a sword and shield standing before a dungeon gate, torches burning on the stone walls, 16-bit retro game style, limited color palette.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999965
+  },
+  {
+   "unit": "g56",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a rainy city street at night, a ramen stand with a glowing sign reading \"OPEN\", a person holding an umbrella, neon reflections on the wet ground, 32-bit style.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999708
+  },
+  {
+   "unit": "g57",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a red barn, a farmer watering crops, chickens in a pen, a brown horse by the fence, and a blue wheelbarrow near the gate, sunny day, cozy farming game style.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999768
+  },
+  {
+   "unit": "g58",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a waterfall pouring into a jungle lagoon, palm trees, bright blue sky with fluffy clouds, parallax background layers, vibrant 16-bit palette, no characters.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999756
+  },
+  {
+   "unit": "g59",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a spaceship flying through an asteroid field, a large ringed planet in the background, stars, laser blasts, retro arcade shooter style.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.99989
+  },
+  {
+   "unit": "g60",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a cozy bakery, shelves of bread loaves and croissants, a baker behind the counter, a layered cake on display, warm lighting, isometric view.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.998237
+  },
+  {
+   "unit": "g61",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a cat sleeping on a windowsill in a bedroom at night, the moon visible through the window, a lava lamp on the desk, and two potted succulents on the sill, lofi aesthetic.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.989118
+  },
+  {
+   "unit": "g62",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a smiling elf girl with green hair, pointed ears and a flower crown, RPG dialogue portrait, detailed sprite shading.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.860262
+  },
+  {
+   "unit": "g63",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a party of four adventurers around a tavern table, mugs of ale, a roast chicken, a bard playing a lute, candle light, RPG town style.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.974033
+  },
+  {
+   "unit": "g64",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a superhero in a blue and silver suit landing on a rooftop at night, cape flowing, city skyline behind, bold ink lines, halftone shading, dynamic angle.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.999811
+  },
+  {
+   "unit": "g65",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a detective in a trench coat and fedora standing in a dark alley, a speech bubble saying \"WHO DID IT?\", falling rain, noir ink style.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.999445
+  },
+  {
+   "unit": "g66",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a car chase through a city street, a yellow taxi swerving past a fire hydrant, and a hot dog cart knocked over with sausages flying, sound effect lettering \"SCREECH\", bold colors.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.973157
+  },
+  {
+   "unit": "g67",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a scruffy dog and a grumpy cat sharing a sofa, a bowl of popcorn between them, a TV glowing in front, simple bold outlines, flat colors, newspaper comic look.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.999561
+  },
+  {
+   "unit": "g68",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a samurai and a ninja clashing swords on a bamboo forest path, motion lines, sparks, dramatic ink shading, manga-influenced American comic style.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.954513
+  },
+  {
+   "unit": "g69",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a mad scientist in a lab coat in his laboratory, bubbling green flasks, a chalkboard of equations, and a rubber duck sitting on top of the control panel, ink and flat colors.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.810969
+  },
+  {
+   "unit": "g70",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a desert canyon at noon, red rock formations, a winding dirt road, a vulture circling in the bright sky, bold outlines and Ben-Day dots, no characters.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.998966
+  },
+  {
+   "unit": "g71",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a family of five at a dinner table celebrating a birthday, a cake with lit candles, balloons tied to the chairs, everyone cheering, bright pop art colors.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.857135
+  },
+  {
+   "unit": "g72",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "pirates on a wooden ship fighting a giant octopus in a stormy sea, one pirate swinging a cutlass, and a parrot wearing a tiny hat on the captain's shoulder, bold inks, dramatic lightning.",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.936536
+  },
+  {
+   "unit": "g01",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "an elderly fisherman with a weathered face and grey beard, wearing a yellow raincoat, holding a coiled rope in both hands, harbor boats blurred in the background, overcast light, 85mm lens, shallow depth of field.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999821
+  },
+  {
+   "unit": "g02",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "a group of four friends laughing outside a small bakery, the shop sign above the window reads \"BAKERY\" in glowing neon letters, wet pavement reflecting the lights, a parked red scooter at the curb.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.998334
+  },
+  {
+   "unit": "g03",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "A golden retriever running along a sandy beach at sunset, splashing through shallow waves, clear orange sky, a lighthouse on a distant rocky point, candid pet photography, fast shutter speed.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999793
+  },
+  {
+   "unit": "g04",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "a rustic wooden kitchen table with a bowl of ramen, a plate of dumplings, chopsticks, and three lit candles on the table, a small blue teacup in the top corner, warm window light.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.99204
+  },
+  {
+   "unit": "g05",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "a pine forest valley at dawn, a calm river winding between the trees, snow-capped mountains behind, no people, soft golden light breaking through the clouds.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.996792
+  },
+  {
+   "unit": "g06",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "A brown horse grazing in a green meadow next to a wooden fence, an old red barn and a white farmhouse in the background, blue sky with scattered clouds, summer afternoon, 35mm film look.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999441
+  },
+  {
+   "unit": "g07",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "a cozy living room, a grey tabby cat sleeping on a green velvet sofa, a bookshelf full of books, a potted fiddle leaf fig, and a small brass telescope standing by the window, afternoon light.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.993158
+  },
+  {
+   "unit": "g08",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "a busy city intersection in the rain, yellow taxis and a red double-decker bus waiting at the traffic light, pedestrians with black umbrellas crossing, tall glass office buildings, overcast grey sky.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.99941
+  },
+  {
+   "unit": "g09",
+   "medium": "photograph",
+   "condition": "cues",
+   "text": "a woman's hands kneading bread dough on a floured marble counter, a wooden rolling pin and a cracked egg beside the dough, soft natural light, no face visible.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.998024
+  },
+  {
+   "unit": "g10",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "a schoolgirl with short blue hair and a red scarf standing on a train platform at dusk, a commuter train arriving, cherry blossom petals drifting, a station sign reading \"SAKURA\" above her, warm sunset sky.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999057
+  },
+  {
+   "unit": "g11",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "a young swordsman with silver hair holding a glowing katana inside a ruined stone temple, broken pillars overgrown with vines, dramatic lighting, dynamic pose, detailed cel shading.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.998371
+  },
+  {
+   "unit": "g12",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "three friends eating at a small ramen shop counter at night, steam rising from their bowls, paper lanterns hanging overhead, and a small goldfish bowl on the counter, cozy slice of life scene.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.95354
+  },
+  {
+   "unit": "g13",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "a quiet countryside road running past rice fields, a bus stop with a wooden bench, tall summer clouds, telephone poles, lush green hills, no characters, cinematic lighting.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.99661
+  },
+  {
+   "unit": "g14",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "a small red and yellow songbird perched on a branch of a blooming plum tree, snow falling softly, pale grey winter sky, delicate linework, close-up composition.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.978055
+  },
+  {
+   "unit": "g15",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "a giant white robot kneeling in a flooded city street at night, rain pouring, neon signs reflecting in the water, a pilot in a flight suit standing on its open hand.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.977997
+  },
+  {
+   "unit": "g16",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "a witch girl flying on a broom over a seaside town, a black cat riding behind her, a red ribbon in her hair, and a wicker basket of apples hanging from the broom handle, bright blue sky.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.998744
+  },
+  {
+   "unit": "g17",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "an empty classroom after school, rows of wooden desks, a chalkboard with the word \"EXAM\" written on it, orange sunlight streaming through the windows, no people.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.994435
+  },
+  {
+   "unit": "g18",
+   "medium": "anime illustration",
+   "condition": "cues",
+   "text": "a boy kneeling to hug a fluffy shiba inu dog in a park, both smiling, autumn trees with orange leaves, and a yellow kite tangled in the branches above them.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.540875
+  },
+  {
+   "unit": "g19",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "a Dutch harbor at sunset, wooden sailing ships with furled sails, fishermen unloading crates on the dock, golden sky reflected in the calm water, thick impasto brushstrokes, Golden Age style.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999894
+  },
+  {
+   "unit": "g20",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "a noblewoman in a dark green velvet gown, seated with her hands folded in her lap, a pearl necklace, and a small hourglass on the table beside her, dark background, Rembrandt lighting.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.99973
+  },
+  {
+   "unit": "g21",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "a copper pot, a loaf of bread, a wedge of cheese, purple grapes and a pheasant on a draped linen tablecloth, dark moody background, Chardin style.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999743
+  },
+  {
+   "unit": "g22",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "an armored knight on a white horse raising a sword, stormy sky with lightning, a castle on a cliff in the distance, dramatic chiaroscuro, sweeping brushwork.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999403
+  },
+  {
+   "unit": "g23",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "a field of sunflowers under a bright summer sky, a row of poplar trees on the horizon, a small stone cottage, visible thick brushstrokes, vibrant yellows and blues.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999668
+  },
+  {
+   "unit": "g24",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "a Parisian cafe terrace at night, people sitting at small round tables, gas lamps glowing, cobblestone street, starry blue night sky, a sign reading \"CAFE\" above the awning.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.996985
+  },
+  {
+   "unit": "g25",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "an old wizard reading a large book in a candlelit study, a black cat asleep on stacked books, a stuffed owl on a shelf, and a brass globe on the desk, warm amber tones.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.989306
+  },
+  {
+   "unit": "g26",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "towering waves crashing against black rocks, spray and foam, a lone lighthouse beam cutting through grey storm clouds, turbulent brushwork, no people.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.998832
+  },
+  {
+   "unit": "g27",
+   "medium": "oil painting",
+   "condition": "cues",
+   "text": "ballet dancers rehearsing in a sunlit studio, four girls in white tutus stretching at the barre, a tall mirror on the wall, soft pastel palette, Degas inspired.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.988114
+  },
+  {
+   "unit": "g28",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a cute cartoon robot watering a potted cactus on a windowsill with a small watering can, big round glowing eyes, pastel colors, soft global illumination, Pixar style, shallow depth of field.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999129
+  },
+  {
+   "unit": "g29",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a vintage red sports car parked on a desert highway at golden hour, chrome details, heat haze, cacti and rocky mesas in the background, clear sky, photorealistic Unreal Engine 5.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.998816
+  },
+  {
+   "unit": "g30",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a minimalist Scandinavian bedroom interior, white bed with grey linen, a wooden nightstand, a monstera plant in the corner, and a yellow alarm clock on the nightstand, soft morning light, architectural visualization.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.998423
+  },
+  {
+   "unit": "g31",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a stylized fantasy warrior woman holding a large broadsword in both hands, braided red hair, leather armor, standing on a mossy cliff edge, game character concept art, Blender Cycles.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999786
+  },
+  {
+   "unit": "g32",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a stack of fluffy pancakes with melting butter and maple syrup dripping, fresh blueberries and strawberries on top, on a white plate, studio lighting, hyperrealistic food visualization.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.983867
+  },
+  {
+   "unit": "g33",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a futuristic cyberpunk city at night, flying cars between skyscrapers, holographic billboards, a giant neon sign reading \"NOODLES\", rain-slicked streets, cinematic lighting.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.994042
+  },
+  {
+   "unit": "g34",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a family of three penguins sliding across an ice floe in the Antarctic sea, snowy peaks behind them, bright blue sky, stylized animation film look, soft lighting.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.986149
+  },
+  {
+   "unit": "g35",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "tiny clay-style villagers building a snowman in a village square, cottages with snowy roofs, and a green bicycle leaning against a lamppost, soft toy-like lighting, tilt-shift look.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.387309
+  },
+  {
+   "unit": "g36",
+   "medium": "3D render",
+   "condition": "cues",
+   "text": "a glass perfume bottle on a black marble pedestal, surrounded by floating rose petals, dramatic rim lighting, dark studio background, luxury product shot.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.863106
+  },
+  {
+   "unit": "g37",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "a Venetian canal with gondolas, pastel colored buildings with laundry lines, a gondolier in a striped shirt, soft reflections in the water, loose wet-on-wet washes.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.99668
+  },
+  {
+   "unit": "g38",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "a blue kingfisher diving into a pond to catch a fish, lily pads and reeds, splashes of water, white paper background showing through, botanical art style.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.995478
+  },
+  {
+   "unit": "g39",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "a little girl in a yellow raincoat jumping in puddles on a village street, rainy grey sky, and a red umbrella lying open on the pavement behind her, soft bleeding colors.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.564332
+  },
+  {
+   "unit": "g40",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "a fresh summer salad bowl with tomatoes, cucumber, black olives and feta cheese, a bottle of olive oil beside it, loose ink outlines, light cheerful palette.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.877992
+  },
+  {
+   "unit": "g41",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "autumn birch trees along a forest path, golden leaves scattered on the ground, a small wooden footbridge over a stream, soft morning light, no people.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.997556
+  },
+  {
+   "unit": "g42",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "a sleepy dachshund curled up in a knitted basket by a fireplace, cozy interior, warm glow from the fire, a pair of slippers on the rug.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.991788
+  },
+  {
+   "unit": "g43",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "a flower shop storefront with buckets of tulips and roses outside, the sign above the door reads \"FLORIST\", a bicycle with a basket parked out front, and a birdcage hanging in the window.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.997676
+  },
+  {
+   "unit": "g44",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "a family of four sitting around a campfire at night, roasting marshmallows on sticks, a tent behind them, tall pine trees, and a starry sky with a crescent moon.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.997561
+  },
+  {
+   "unit": "g45",
+   "medium": "watercolor",
+   "condition": "cues",
+   "text": "wild horses galloping across an open plain, dust rising under their hooves, distant blue mountains, loose expressive brushwork, muted earth tones.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.998634
+  },
+  {
+   "unit": "g46",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "an old man with deep wrinkles and a flat cap, smoking a pipe, detailed cross-hatching, graphite on textured paper, realistic shading.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.998036
+  },
+  {
+   "unit": "g47",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "two hands, one holding a pen and the other resting on an open notebook, graphite shading, anatomical sketchbook page.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999309
+  },
+  {
+   "unit": "g48",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "a gothic cathedral facade with a rose window and tall spires, pigeons on the front steps, a few pedestrians walking past, architectural drawing, fine linework.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.986511
+  },
+  {
+   "unit": "g49",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "a cat sitting on a cluttered writer's desk beside a typewriter, a stack of letters, and a pair of round spectacles resting on the typewriter keys, soft graphite shading.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999319
+  },
+  {
+   "unit": "g50",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "a steam locomotive crossing a stone viaduct over a river valley, billowing steam, detailed mechanical linework, trees on the hillsides.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.765339
+  },
+  {
+   "unit": "g51",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "an owl perched on a fence post at night, a full moon behind it, and a small mouse hiding in the grass below, detailed feather texture.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.993216
+  },
+  {
+   "unit": "g52",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "a crowded outdoor market, vendors selling fruit from wooden carts, shoppers carrying baskets, striped awnings, a small dog weaving between legs, loose reportage drawing.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.872662
+  },
+  {
+   "unit": "g53",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "an ornate fantasy sword with a dragon-shaped hilt, lying on a stone altar, handwritten annotations in the margins, graphite with white highlights.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.99885
+  },
+  {
+   "unit": "g54",
+   "medium": "pencil sketch",
+   "condition": "cues",
+   "text": "a mountain lake with a small rowboat tied to a wooden jetty, pine trees on the shore, reflections on the water, soft cloudy sky.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.964858
+  },
+  {
+   "unit": "g55",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a knight with a sword and shield standing before a dungeon gate, torches burning on the stone walls, 16-bit retro game style, limited color palette.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999935
+  },
+  {
+   "unit": "g56",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a rainy city street at night, a ramen stand with a glowing sign reading \"OPEN\", a person holding an umbrella, neon reflections on the wet ground, 32-bit style.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999642
+  },
+  {
+   "unit": "g57",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a red barn, a farmer watering crops, chickens in a pen, a brown horse by the fence, and a blue wheelbarrow near the gate, sunny day, cozy farming game style.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999145
+  },
+  {
+   "unit": "g58",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a waterfall pouring into a jungle lagoon, palm trees, bright blue sky with fluffy clouds, parallax background layers, vibrant 16-bit palette, no characters.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999644
+  },
+  {
+   "unit": "g59",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a spaceship flying through an asteroid field, a large ringed planet in the background, stars, laser blasts, retro arcade shooter style.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.99977
+  },
+  {
+   "unit": "g60",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a cozy bakery, shelves of bread loaves and croissants, a baker behind the counter, a layered cake on display, warm lighting, isometric view.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.996929
+  },
+  {
+   "unit": "g61",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a cat sleeping on a windowsill in a bedroom at night, the moon visible through the window, a lava lamp on the desk, and two potted succulents on the sill, lofi aesthetic.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.994898
+  },
+  {
+   "unit": "g62",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a smiling elf girl with green hair, pointed ears and a flower crown, RPG dialogue portrait, detailed sprite shading.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.536075
+  },
+  {
+   "unit": "g63",
+   "medium": "pixel art",
+   "condition": "cues",
+   "text": "a party of four adventurers around a tavern table, mugs of ale, a roast chicken, a bard playing a lute, candle light, RPG town style.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.907805
+  },
+  {
+   "unit": "g64",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a superhero in a blue and silver suit landing on a rooftop at night, cape flowing, city skyline behind, bold ink lines, halftone shading, dynamic angle.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999516
+  },
+  {
+   "unit": "g65",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a detective in a trench coat and fedora standing in a dark alley, a speech bubble saying \"WHO DID IT?\", falling rain, noir ink style.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999194
+  },
+  {
+   "unit": "g66",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a car chase through a city street, a yellow taxi swerving past a fire hydrant, and a hot dog cart knocked over with sausages flying, sound effect lettering \"SCREECH\", bold colors.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.974538
+  },
+  {
+   "unit": "g67",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a scruffy dog and a grumpy cat sharing a sofa, a bowl of popcorn between them, a TV glowing in front, simple bold outlines, flat colors, newspaper comic look.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999176
+  },
+  {
+   "unit": "g68",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a samurai and a ninja clashing swords on a bamboo forest path, motion lines, sparks, dramatic ink shading, manga-influenced American comic style.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.88463
+  },
+  {
+   "unit": "g69",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a mad scientist in a lab coat in his laboratory, bubbling green flasks, a chalkboard of equations, and a rubber duck sitting on top of the control panel, ink and flat colors.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.715027
+  },
+  {
+   "unit": "g70",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a desert canyon at noon, red rock formations, a winding dirt road, a vulture circling in the bright sky, bold outlines and Ben-Day dots, no characters.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.996847
+  },
+  {
+   "unit": "g71",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "a family of five at a dinner table celebrating a birthday, a cake with lit candles, balloons tied to the chairs, everyone cheering, bright pop art colors.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.949868
+  },
+  {
+   "unit": "g72",
+   "medium": "comic book",
+   "condition": "cues",
+   "text": "pirates on a wooden ship fighting a giant octopus in a stormy sea, one pirate swinging a cutlass, and a parrot wearing a tiny hat on the captain's shoulder, bold inks, dramatic lightning.",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.992601
+  }
+ ]
+}

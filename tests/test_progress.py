@@ -324,6 +324,6 @@ def test_a_run_without_a_node_id_sends_no_status(fake_comfy):
 def test_a_run_without_the_toolkit_names_the_node_and_the_pip_command_before_any_bar(fake_comfy, monkeypatch):
     monkeypatch.setitem(sys.modules, "logit_classifier.toolkit.comfyui", None)
 
-    with pytest.raises(RuntimeError, match=rf"^{NODE}: .*pip install -U logit-classifier"):
+    with pytest.raises(RuntimeError, match=rf'^{NODE}: .*pip install -U "logit-classifier>=0\.6\.0"'):
         progress.RunProgress(total_items=1, unique_id=NODE_ID, noun="image", node=NODE)
     assert RecordingProgressBar.instances == []

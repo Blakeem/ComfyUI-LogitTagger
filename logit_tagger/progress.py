@@ -30,13 +30,9 @@ class RunProgress:
 
     def __init__(self, total_items: int, unique_id: str | None, noun: str, *, node: str) -> None:
         # The Tagger and Prompt Check nodes enter the run before build_classifier checks the library.
-        try:
-            import logit_classifier.toolkit.comfyui as toolkit
-        except ImportError as error:
-            raise engine.library_error(node) from error
+        self._toolkit = engine.toolkit(node)
         import comfy.utils
 
-        self._toolkit = toolkit
         self._routing = ExitStack()
         self._total_items = int(total_items)
         self._unique_id = unique_id

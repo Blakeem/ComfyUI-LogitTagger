@@ -1,0 +1,1608 @@
+{
+ "path": "prompt",
+ "entries": [
+  {
+   "key": "g01",
+   "prompt": "Close-up photograph of an elderly fisherman with a weathered face and grey beard, wearing a yellow raincoat, holding a coiled rope in both hands, harbor boats blurred in the background, overcast light, 85mm lens, shallow depth of field.",
+   "phrases": [
+    "85mm lens",
+    "close-up photograph",
+    "shallow depth of field"
+   ]
+  },
+  {
+   "key": "g02",
+   "prompt": "Night street photograph of a group of four friends laughing outside a small bakery, the shop sign above the window reads \"BAKERY\" in glowing neon letters, wet pavement reflecting the lights, a parked red scooter at the curb.",
+   "phrases": [
+    "glowing neon letters",
+    "neon letters",
+    "night street photograph",
+    "parked red scooter",
+    "wet pavement"
+   ]
+  },
+  {
+   "key": "g03",
+   "prompt": "A golden retriever running along a sandy beach at sunset, splashing through shallow waves, clear orange sky, a lighthouse on a distant rocky point, candid pet photography, fast shutter speed.",
+   "phrases": [
+    "candid pet photography",
+    "fast shutter speed"
+   ]
+  },
+  {
+   "key": "g04",
+   "prompt": "Overhead food photograph of a rustic wooden kitchen table with a bowl of ramen, a plate of dumplings, chopsticks, and three lit candles on the table, a small blue teacup in the top corner, warm window light.",
+   "phrases": [
+    "bowl of ramen",
+    "chopsticks",
+    "overhead food photograph",
+    "plate of dumplings",
+    "rustic wooden kitchen table",
+    "small blue teacup",
+    "three lit candles",
+    "warm window light"
+   ]
+  },
+  {
+   "key": "g05",
+   "prompt": "Landscape photograph of a pine forest valley at dawn, a calm river winding between the trees, snow-capped mountains behind, no people, soft golden light breaking through the clouds.",
+   "phrases": [
+    "calm river",
+    "landscape photograph",
+    "no people",
+    "pine forest valley",
+    "snow-capped mountains",
+    "soft golden light"
+   ]
+  },
+  {
+   "key": "g06",
+   "prompt": "A brown horse grazing in a green meadow next to a wooden fence, an old red barn and a white farmhouse in the background, blue sky with scattered clouds, summer afternoon, 35mm film look.",
+   "phrases": [
+    "35mm film look"
+   ]
+  },
+  {
+   "key": "g07",
+   "prompt": "Interior photograph of a cozy living room, a grey tabby cat sleeping on a green velvet sofa, a bookshelf full of books, a potted fiddle leaf fig, and a small brass telescope standing by the window, afternoon light.",
+   "phrases": [
+    "afternoon light",
+    "bookshelf",
+    "green velvet sofa",
+    "grey tabby cat",
+    "interior photograph",
+    "photograph",
+    "potted fiddle leaf fig",
+    "small brass telescope"
+   ]
+  },
+  {
+   "key": "g08",
+   "prompt": "Urban photograph of a busy city intersection in the rain, yellow taxis and a red double-decker bus waiting at the traffic light, pedestrians with black umbrellas crossing, tall glass office buildings, overcast grey sky.",
+   "phrases": [
+    "black umbrellas",
+    "overcast grey sky",
+    "pedestrians",
+    "rain",
+    "red double-decker bus",
+    "tall glass office buildings",
+    "urban photograph",
+    "yellow taxis"
+   ]
+  },
+  {
+   "key": "g09",
+   "prompt": "Macro photograph of a woman's hands kneading bread dough on a floured marble counter, a wooden rolling pin and a cracked egg beside the dough, soft natural light, no face visible.",
+   "phrases": [
+    "cracked egg",
+    "floured marble counter",
+    "macro photograph",
+    "no face visible",
+    "soft natural light",
+    "wooden rolling pin"
+   ]
+  },
+  {
+   "key": "g10",
+   "prompt": "Anime illustration of a schoolgirl with short blue hair and a red scarf standing on a train platform at dusk, a commuter train arriving, cherry blossom petals drifting, a station sign reading \"SAKURA\" above her, warm sunset sky.",
+   "phrases": [
+    "anime illustration",
+    "cherry blossom petals",
+    "commuter train",
+    "schoolgirl",
+    "station sign",
+    "sunset sky",
+    "train platform"
+   ]
+  },
+  {
+   "key": "g11",
+   "prompt": "Anime key visual of a young swordsman with silver hair holding a glowing katana inside a ruined stone temple, broken pillars overgrown with vines, dramatic lighting, dynamic pose, detailed cel shading.",
+   "phrases": [
+    "anime",
+    "cel shading",
+    "key visual"
+   ]
+  },
+  {
+   "key": "g12",
+   "prompt": "Anime illustration of three friends eating at a small ramen shop counter at night, steam rising from their bowls, paper lanterns hanging overhead, and a small goldfish bowl on the counter, cozy slice of life scene.",
+   "phrases": [
+    "anime illustration",
+    "cozy slice of life scene",
+    "paper lanterns",
+    "ramen shop counter",
+    "small goldfish bowl",
+    "steam rising"
+   ]
+  },
+  {
+   "key": "g13",
+   "prompt": "Anime background art of a quiet countryside road running past rice fields, a bus stop with a wooden bench, tall summer clouds, telephone poles, lush green hills, no characters, cinematic lighting.",
+   "phrases": [
+    "anime",
+    "background art",
+    "cinematic lighting",
+    "lush green hills",
+    "telephone poles",
+    "wooden bench"
+   ]
+  },
+  {
+   "key": "g14",
+   "prompt": "Anime illustration of a small red and yellow songbird perched on a branch of a blooming plum tree, snow falling softly, pale grey winter sky, delicate linework, close-up composition.",
+   "phrases": [
+    "anime illustration",
+    "close-up composition",
+    "delicate linework"
+   ]
+  },
+  {
+   "key": "g15",
+   "prompt": "Anime mecha illustration of a giant white robot kneeling in a flooded city street at night, rain pouring, neon signs reflecting in the water, a pilot in a flight suit standing on its open hand.",
+   "phrases": [
+    "anime",
+    "anime mecha illustration",
+    "illustration",
+    "mecha"
+   ]
+  },
+  {
+   "key": "g16",
+   "prompt": "Anime illustration of a witch girl flying on a broom over a seaside town, a black cat riding behind her, a red ribbon in her hair, and a wicker basket of apples hanging from the broom handle, bright blue sky.",
+   "phrases": [
+    "anime illustration",
+    "apples",
+    "black cat",
+    "bright blue sky",
+    "broom",
+    "flying",
+    "illustration",
+    "red ribbon",
+    "wicker basket",
+    "witch girl"
+   ]
+  },
+  {
+   "key": "g17",
+   "prompt": "Anime background of an empty classroom after school, rows of wooden desks, a chalkboard with the word \"EXAM\" written on it, orange sunlight streaming through the windows, no people.",
+   "phrases": [
+    "anime",
+    "background",
+    "chalkboard",
+    "no people",
+    "orange sunlight",
+    "wooden desks"
+   ]
+  },
+  {
+   "key": "g18",
+   "prompt": "Anime illustration of a boy kneeling to hug a fluffy shiba inu dog in a park, both smiling, autumn trees with orange leaves, and a yellow kite tangled in the branches above them.",
+   "phrases": [
+    "anime illustration",
+    "autumn trees",
+    "fluffy shiba inu dog",
+    "illustration",
+    "tangled branches",
+    "yellow kite"
+   ]
+  },
+  {
+   "key": "g19",
+   "prompt": "Oil painting of a Dutch harbor at sunset, wooden sailing ships with furled sails, fishermen unloading crates on the dock, golden sky reflected in the calm water, thick impasto brushstrokes, Golden Age style.",
+   "phrases": [
+    "golden age style",
+    "oil painting",
+    "thick impasto brushstrokes"
+   ]
+  },
+  {
+   "key": "g20",
+   "prompt": "Classical oil portrait of a noblewoman in a dark green velvet gown, seated with her hands folded in her lap, a pearl necklace, and a small hourglass on the table beside her, dark background, Rembrandt lighting.",
+   "phrases": [
+    "classical oil portrait",
+    "rembrandt lighting"
+   ]
+  },
+  {
+   "key": "g21",
+   "prompt": "Still life oil painting of a copper pot, a loaf of bread, a wedge of cheese, purple grapes and a pheasant on a draped linen tablecloth, dark moody background, Chardin style.",
+   "phrases": [
+    "chardin style",
+    "oil painting",
+    "still life oil painting"
+   ]
+  },
+  {
+   "key": "g22",
+   "prompt": "Romantic oil painting of an armored knight on a white horse raising a sword, stormy sky with lightning, a castle on a cliff in the distance, dramatic chiaroscuro, sweeping brushwork.",
+   "phrases": [
+    "dramatic chiaroscuro",
+    "romantic oil painting",
+    "sweeping brushwork"
+   ]
+  },
+  {
+   "key": "g23",
+   "prompt": "Impressionist oil painting of a field of sunflowers under a bright summer sky, a row of poplar trees on the horizon, a small stone cottage, visible thick brushstrokes, vibrant yellows and blues.",
+   "phrases": [
+    "impressionist oil painting",
+    "thick brushstrokes",
+    "vibrant yellows and blues"
+   ]
+  },
+  {
+   "key": "g24",
+   "prompt": "Oil painting of a Parisian cafe terrace at night, people sitting at small round tables, gas lamps glowing, cobblestone street, starry blue night sky, a sign reading \"CAFE\" above the awning.",
+   "phrases": [
+    "cobblestone street",
+    "gas lamps",
+    "oil painting",
+    "parisian cafe terrace",
+    "sign reading \"cafe\" above the awning",
+    "starry blue night sky"
+   ]
+  },
+  {
+   "key": "g25",
+   "prompt": "Oil painting of an old wizard reading a large book in a candlelit study, a black cat asleep on stacked books, a stuffed owl on a shelf, and a brass globe on the desk, warm amber tones.",
+   "phrases": [
+    "oil painting",
+    "warm amber tones"
+   ]
+  },
+  {
+   "key": "g26",
+   "prompt": "Oil painting seascape of towering waves crashing against black rocks, spray and foam, a lone lighthouse beam cutting through grey storm clouds, turbulent brushwork, no people.",
+   "phrases": [
+    "oil painting",
+    "turbulent brushwork"
+   ]
+  },
+  {
+   "key": "g27",
+   "prompt": "Oil painting of ballet dancers rehearsing in a sunlit studio, four girls in white tutus stretching at the barre, a tall mirror on the wall, soft pastel palette, Degas inspired.",
+   "phrases": [
+    "degas inspired",
+    "oil painting"
+   ]
+  },
+  {
+   "key": "g28",
+   "prompt": "3D render of a cute cartoon robot watering a potted cactus on a windowsill with a small watering can, big round glowing eyes, pastel colors, soft global illumination, Pixar style, shallow depth of field.",
+   "phrases": [
+    "3d render",
+    "pixar style"
+   ]
+  },
+  {
+   "key": "g29",
+   "prompt": "3D render of a vintage red sports car parked on a desert highway at golden hour, chrome details, heat haze, cacti and rocky mesas in the background, clear sky, photorealistic Unreal Engine 5.",
+   "phrases": [
+    "3d render",
+    "photorealistic",
+    "unreal engine 5"
+   ]
+  },
+  {
+   "key": "g30",
+   "prompt": "3D render of a minimalist Scandinavian bedroom interior, white bed with grey linen, a wooden nightstand, a monstera plant in the corner, and a yellow alarm clock on the nightstand, soft morning light, architectural visualization.",
+   "phrases": [
+    "3d render",
+    "architectural visualization",
+    "minimalist",
+    "scandinavian"
+   ]
+  },
+  {
+   "key": "g31",
+   "prompt": "3D render of a stylized fantasy warrior woman holding a large broadsword in both hands, braided red hair, leather armor, standing on a mossy cliff edge, game character concept art, Blender Cycles.",
+   "phrases": [
+    "3d render",
+    "blender cycles",
+    "stylized fantasy"
+   ]
+  },
+  {
+   "key": "g32",
+   "prompt": "3D render of a stack of fluffy pancakes with melting butter and maple syrup dripping, fresh blueberries and strawberries on top, on a white plate, studio lighting, hyperrealistic food visualization.",
+   "phrases": [
+    "3d render",
+    "hyperrealistic food visualization"
+   ]
+  },
+  {
+   "key": "g33",
+   "prompt": "3D render of a futuristic cyberpunk city at night, flying cars between skyscrapers, holographic billboards, a giant neon sign reading \"NOODLES\", rain-slicked streets, cinematic lighting.",
+   "phrases": [
+    "3d render",
+    "cyberpunk",
+    "futuristic cyberpunk city"
+   ]
+  },
+  {
+   "key": "g34",
+   "prompt": "3D render of a family of three penguins sliding across an ice floe in the Antarctic sea, snowy peaks behind them, bright blue sky, stylized animation film look, soft lighting.",
+   "phrases": [
+    "3d render",
+    "stylized animation film look"
+   ]
+  },
+  {
+   "key": "g35",
+   "prompt": "3D render of tiny clay-style villagers building a snowman in a village square, cottages with snowy roofs, and a green bicycle leaning against a lamppost, soft toy-like lighting, tilt-shift look.",
+   "phrases": [
+    "3d render",
+    "clay-style",
+    "tilt-shift look"
+   ]
+  },
+  {
+   "key": "g36",
+   "prompt": "3D render of a glass perfume bottle on a black marble pedestal, surrounded by floating rose petals, dramatic rim lighting, dark studio background, luxury product shot.",
+   "phrases": [
+    "3d render",
+    "black marble pedestal",
+    "dark studio background",
+    "dramatic rim lighting",
+    "floating rose petals",
+    "glass perfume bottle",
+    "luxury product shot"
+   ]
+  },
+  {
+   "key": "g37",
+   "prompt": "Watercolor painting of a Venetian canal with gondolas, pastel colored buildings with laundry lines, a gondolier in a striped shirt, soft reflections in the water, loose wet-on-wet washes.",
+   "phrases": [
+    "loose wet-on-wet washes",
+    "watercolor painting"
+   ]
+  },
+  {
+   "key": "g38",
+   "prompt": "Watercolor illustration of a blue kingfisher diving into a pond to catch a fish, lily pads and reeds, splashes of water, white paper background showing through, botanical art style.",
+   "phrases": [
+    "botanical art style",
+    "watercolor illustration"
+   ]
+  },
+  {
+   "key": "g39",
+   "prompt": "Watercolor painting of a little girl in a yellow raincoat jumping in puddles on a village street, rainy grey sky, and a red umbrella lying open on the pavement behind her, soft bleeding colors.",
+   "phrases": [
+    "soft bleeding colors",
+    "watercolor painting"
+   ]
+  },
+  {
+   "key": "g40",
+   "prompt": "Watercolor recipe illustration of a fresh summer salad bowl with tomatoes, cucumber, black olives and feta cheese, a bottle of olive oil beside it, loose ink outlines, light cheerful palette.",
+   "phrases": [
+    "light cheerful palette",
+    "loose ink outlines",
+    "watercolor recipe illustration"
+   ]
+  },
+  {
+   "key": "g41",
+   "prompt": "Watercolor landscape of autumn birch trees along a forest path, golden leaves scattered on the ground, a small wooden footbridge over a stream, soft morning light, no people.",
+   "phrases": [
+    "landscape",
+    "watercolor"
+   ]
+  },
+  {
+   "key": "g42",
+   "prompt": "Watercolor portrait of a sleepy dachshund curled up in a knitted basket by a fireplace, cozy interior, warm glow from the fire, a pair of slippers on the rug.",
+   "phrases": [
+    "cozy interior",
+    "knitted basket",
+    "rug",
+    "sleepy dachshund",
+    "slippers",
+    "slippers on the rug",
+    "warm glow",
+    "watercolor portrait"
+   ]
+  },
+  {
+   "key": "g43",
+   "prompt": "Watercolor sketch of a flower shop storefront with buckets of tulips and roses outside, the sign above the door reads \"FLORIST\", a bicycle with a basket parked out front, and a birdcage hanging in the window.",
+   "phrases": [
+    "bicycle with a basket",
+    "birdcage hanging in the window",
+    "buckets of tulips and roses",
+    "flower shop storefront",
+    "sign above the door",
+    "sketch",
+    "watercolor sketch"
+   ]
+  },
+  {
+   "key": "g44",
+   "prompt": "Watercolor painting of a family of four sitting around a campfire at night, roasting marshmallows on sticks, a tent behind them, tall pine trees, and a starry sky with a crescent moon.",
+   "phrases": [
+    "painting",
+    "watercolor",
+    "watercolor painting"
+   ]
+  },
+  {
+   "key": "g45",
+   "prompt": "Watercolor painting of wild horses galloping across an open plain, dust rising under their hooves, distant blue mountains, loose expressive brushwork, muted earth tones.",
+   "phrases": [
+    "loose expressive brushwork",
+    "muted earth tones",
+    "watercolor painting"
+   ]
+  },
+  {
+   "key": "g46",
+   "prompt": "Pencil sketch portrait of an old man with deep wrinkles and a flat cap, smoking a pipe, detailed cross-hatching, graphite on textured paper, realistic shading.",
+   "phrases": [
+    "detailed cross-hatching",
+    "graphite on textured paper",
+    "pencil sketch",
+    "realistic shading"
+   ]
+  },
+  {
+   "key": "g47",
+   "prompt": "Detailed pencil drawing study of two hands, one holding a pen and the other resting on an open notebook, graphite shading, anatomical sketchbook page.",
+   "phrases": [
+    "anatomical sketchbook page",
+    "detailed pencil drawing",
+    "graphite shading"
+   ]
+  },
+  {
+   "key": "g48",
+   "prompt": "Pencil sketch of a gothic cathedral facade with a rose window and tall spires, pigeons on the front steps, a few pedestrians walking past, architectural drawing, fine linework.",
+   "phrases": [
+    "architectural drawing",
+    "fine linework",
+    "pencil sketch"
+   ]
+  },
+  {
+   "key": "g49",
+   "prompt": "Pencil sketch of a cat sitting on a cluttered writer's desk beside a typewriter, a stack of letters, and a pair of round spectacles resting on the typewriter keys, soft graphite shading.",
+   "phrases": [
+    "pencil sketch",
+    "soft graphite shading"
+   ]
+  },
+  {
+   "key": "g50",
+   "prompt": "Pencil sketch of a steam locomotive crossing a stone viaduct over a river valley, billowing steam, detailed mechanical linework, trees on the hillsides.",
+   "phrases": [
+    "detailed mechanical linework",
+    "pencil sketch"
+   ]
+  },
+  {
+   "key": "g51",
+   "prompt": "Graphite pencil drawing of an owl perched on a fence post at night, a full moon behind it, and a small mouse hiding in the grass below, detailed feather texture.",
+   "phrases": [
+    "detailed feather texture",
+    "graphite pencil drawing"
+   ]
+  },
+  {
+   "key": "g52",
+   "prompt": "Pencil sketch of a crowded outdoor market, vendors selling fruit from wooden carts, shoppers carrying baskets, striped awnings, a small dog weaving between legs, loose reportage drawing.",
+   "phrases": [
+    "loose reportage drawing",
+    "pencil sketch"
+   ]
+  },
+  {
+   "key": "g53",
+   "prompt": "Pencil concept sketch of an ornate fantasy sword with a dragon-shaped hilt, lying on a stone altar, handwritten annotations in the margins, graphite with white highlights.",
+   "phrases": [
+    "graphite with white highlights",
+    "pencil concept sketch"
+   ]
+  },
+  {
+   "key": "g54",
+   "prompt": "Pencil landscape sketch of a mountain lake with a small rowboat tied to a wooden jetty, pine trees on the shore, reflections on the water, soft cloudy sky.",
+   "phrases": [
+    "landscape sketch",
+    "pencil",
+    "pencil landscape sketch",
+    "sketch"
+   ]
+  },
+  {
+   "key": "g55",
+   "prompt": "Pixel art of a knight with a sword and shield standing before a dungeon gate, torches burning on the stone walls, 16-bit retro game style, limited color palette.",
+   "phrases": [
+    "16-bit retro game style",
+    "limited color palette",
+    "pixel art"
+   ]
+  },
+  {
+   "key": "g56",
+   "prompt": "Pixel art of a rainy city street at night, a ramen stand with a glowing sign reading \"OPEN\", a person holding an umbrella, neon reflections on the wet ground, 32-bit style.",
+   "phrases": [
+    "32-bit style",
+    "pixel art"
+   ]
+  },
+  {
+   "key": "g57",
+   "prompt": "Pixel art farm scene, a red barn, a farmer watering crops, chickens in a pen, a brown horse by the fence, and a blue wheelbarrow near the gate, sunny day, cozy farming game style.",
+   "phrases": [
+    "farming game style",
+    "pixel art"
+   ]
+  },
+  {
+   "key": "g58",
+   "prompt": "Pixel art landscape of a waterfall pouring into a jungle lagoon, palm trees, bright blue sky with fluffy clouds, parallax background layers, vibrant 16-bit palette, no characters.",
+   "phrases": [
+    "16-bit palette",
+    "landscape",
+    "parallax background layers",
+    "pixel art",
+    "vibrant 16-bit palette"
+   ]
+  },
+  {
+   "key": "g59",
+   "prompt": "Pixel art of a spaceship flying through an asteroid field, a large ringed planet in the background, stars, laser blasts, retro arcade shooter style.",
+   "phrases": [
+    "pixel art",
+    "retro arcade shooter style"
+   ]
+  },
+  {
+   "key": "g60",
+   "prompt": "Pixel art interior of a cozy bakery, shelves of bread loaves and croissants, a baker behind the counter, a layered cake on display, warm lighting, isometric view.",
+   "phrases": [
+    "isometric view",
+    "pixel art"
+   ]
+  },
+  {
+   "key": "g61",
+   "prompt": "Pixel art of a cat sleeping on a windowsill in a bedroom at night, the moon visible through the window, a lava lamp on the desk, and two potted succulents on the sill, lofi aesthetic.",
+   "phrases": [
+    "lofi aesthetic",
+    "pixel art"
+   ]
+  },
+  {
+   "key": "g62",
+   "prompt": "Pixel art character portrait of a smiling elf girl with green hair, pointed ears and a flower crown, RPG dialogue portrait, detailed sprite shading.",
+   "phrases": [
+    "pixel art",
+    "sprite shading"
+   ]
+  },
+  {
+   "key": "g63",
+   "prompt": "Pixel art of a party of four adventurers around a tavern table, mugs of ale, a roast chicken, a bard playing a lute, candle light, RPG town style.",
+   "phrases": [
+    "pixel art",
+    "rpg town style"
+   ]
+  },
+  {
+   "key": "g64",
+   "prompt": "Comic book panel of a superhero in a blue and silver suit landing on a rooftop at night, cape flowing, city skyline behind, bold ink lines, halftone shading, dynamic angle.",
+   "phrases": [
+    "bold ink lines",
+    "comic book panel",
+    "dynamic angle",
+    "halftone shading"
+   ]
+  },
+  {
+   "key": "g65",
+   "prompt": "Comic book cover illustration of a detective in a trench coat and fedora standing in a dark alley, a speech bubble saying \"WHO DID IT?\", falling rain, noir ink style.",
+   "phrases": [
+    "comic book cover illustration",
+    "noir ink style"
+   ]
+  },
+  {
+   "key": "g66",
+   "prompt": "Comic book panel of a car chase through a city street, a yellow taxi swerving past a fire hydrant, and a hot dog cart knocked over with sausages flying, sound effect lettering \"SCREECH\", bold colors.",
+   "phrases": [
+    "bold colors",
+    "comic book panel"
+   ]
+  },
+  {
+   "key": "g67",
+   "prompt": "Comic strip illustration of a scruffy dog and a grumpy cat sharing a sofa, a bowl of popcorn between them, a TV glowing in front, simple bold outlines, flat colors, newspaper comic look.",
+   "phrases": [
+    "comic strip illustration",
+    "flat colors",
+    "newspaper comic look",
+    "simple bold outlines"
+   ]
+  },
+  {
+   "key": "g68",
+   "prompt": "Comic book splash page of a samurai and a ninja clashing swords on a bamboo forest path, motion lines, sparks, dramatic ink shading, manga-influenced American comic style.",
+   "phrases": [
+    "comic book splash page",
+    "dramatic ink shading",
+    "manga-influenced american comic style",
+    "motion lines",
+    "sparks"
+   ]
+  },
+  {
+   "key": "g69",
+   "prompt": "Comic book illustration of a mad scientist in a lab coat in his laboratory, bubbling green flasks, a chalkboard of equations, and a rubber duck sitting on top of the control panel, ink and flat colors.",
+   "phrases": [
+    "comic book illustration",
+    "flat colors",
+    "ink"
+   ]
+  },
+  {
+   "key": "g70",
+   "prompt": "Comic book landscape of a desert canyon at noon, red rock formations, a winding dirt road, a vulture circling in the bright sky, bold outlines and Ben-Day dots, no characters.",
+   "phrases": [
+    "ben-day dots",
+    "bold outlines",
+    "comic book",
+    "landscape"
+   ]
+  },
+  {
+   "key": "g71",
+   "prompt": "Comic book panel of a family of five at a dinner table celebrating a birthday, a cake with lit candles, balloons tied to the chairs, everyone cheering, bright pop art colors.",
+   "phrases": [
+    "comic book panel",
+    "pop art colors"
+   ]
+  },
+  {
+   "key": "g72",
+   "prompt": "Comic book panel of pirates on a wooden ship fighting a giant octopus in a stormy sea, one pirate swinging a cutlass, and a parrot wearing a tiny hat on the captain's shoulder, bold inks, dramatic lightning.",
+   "phrases": [
+    "bold inks",
+    "comic book panel",
+    "dramatic lightning"
+   ]
+  },
+  {
+   "key": "t01",
+   "prompt": "1girl, red dress, city street, night, neon",
+   "phrases": [
+    "city street",
+    "neon",
+    "night",
+    "red dress"
+   ]
+  },
+  {
+   "key": "t02",
+   "prompt": "orange tabby cat, sitting on windowsill, sunlight, cozy interior",
+   "phrases": [
+    "cozy interior",
+    "orange tabby cat",
+    "sitting on windowsill",
+    "sunlight"
+   ]
+  },
+  {
+   "key": "t03",
+   "prompt": "golden retriever, running on beach, waves, sunset",
+   "phrases": [
+    "golden retriever",
+    "running on beach",
+    "sunset",
+    "waves"
+   ]
+  },
+  {
+   "key": "t04",
+   "prompt": "sports car, mountain road, autumn leaves, light dusting of snow on distant peaks, daylight",
+   "phrases": [
+    "autumn leaves",
+    "daylight",
+    "mountain road",
+    "sports car"
+   ]
+  },
+  {
+   "key": "t05",
+   "prompt": "knight in dented armor, gripping a bloodied sword after a skirmish, castle courtyard, overcast sky",
+   "phrases": [
+    "armor",
+    "castle courtyard",
+    "knight",
+    "overcast sky",
+    "sword"
+   ]
+  },
+  {
+   "key": "t06",
+   "prompt": "masterpiece, best quality, samurai warrior, katana, cherry blossoms, spring",
+   "phrases": [
+    "best quality",
+    "cherry blossoms",
+    "katana",
+    "masterpiece",
+    "samurai warrior",
+    "spring"
+   ]
+  },
+  {
+   "key": "t07",
+   "prompt": "no people, empty subway platform, fluorescent lights, night",
+   "phrases": [
+    "empty subway platform",
+    "fluorescent lights",
+    "night",
+    "no people"
+   ]
+  },
+  {
+   "key": "t08",
+   "prompt": "snowy mountain peak, clear blue sky, no clouds",
+   "phrases": [
+    "clear blue sky",
+    "no clouds",
+    "snowy mountain peak"
+   ]
+  },
+  {
+   "key": "t09",
+   "prompt": "vintage bicycle, cobblestone street, flower baskets, no cars anywhere, no cats in sight, daytime",
+   "phrases": [
+    "cobblestone street",
+    "daytime",
+    "flower baskets",
+    "no cars anywhere",
+    "no cats in sight",
+    "vintage bicycle"
+   ]
+  },
+  {
+   "key": "t10",
+   "prompt": "kitten playing with yarn, wooden floor, warm light",
+   "phrases": [
+    "floor",
+    "kitten",
+    "light",
+    "playing",
+    "warm",
+    "wooden",
+    "yarn"
+   ]
+  },
+  {
+   "key": "t11",
+   "prompt": "black stallion horse, galloping across a sun-baked field, no snow anywhere, hazy dusk light",
+   "phrases": [
+    "black stallion",
+    "galloping",
+    "hazy dusk light",
+    "sun-baked field"
+   ]
+  },
+  {
+   "key": "t12",
+   "prompt": "beach scene, calm sea, no boats, no people",
+   "phrases": [
+    "beach scene",
+    "calm sea",
+    "no boats",
+    "no people"
+   ]
+  },
+  {
+   "key": "t13",
+   "prompt": "storefront sign reading OPEN, rainy evening, reflections on wet pavement",
+   "phrases": [
+    "rainy evening",
+    "reflections on wet pavement",
+    "storefront sign"
+   ]
+  },
+  {
+   "key": "t14",
+   "prompt": "husky puppy, snow field, playful pose, winter morning",
+   "phrases": [
+    "husky puppy",
+    "playful pose",
+    "snow field",
+    "winter morning"
+   ]
+  },
+  {
+   "key": "t15",
+   "prompt": "steampunk airship with the words 'SKYWARD BOUND' painted along its hull, clockwork gears, cloudy sky, cinematic lighting, 8k",
+   "phrases": [
+    "8k",
+    "clockwork gears",
+    "steampunk"
+   ]
+  },
+  {
+   "key": "t16",
+   "prompt": "sedan parked outside cafe, morning light, empty street",
+   "phrases": [
+    "cafe",
+    "empty",
+    "light",
+    "morning",
+    "outside",
+    "parked",
+    "sedan",
+    "street"
+   ]
+  },
+  {
+   "key": "t17",
+   "prompt": "cattle grazing beside a wide river, green pasture, farmhouse background, summer afternoon",
+   "phrases": [
+    "afternoon",
+    "background",
+    "beside",
+    "cattle",
+    "farmhouse",
+    "grazing",
+    "green",
+    "pasture",
+    "river",
+    "summer",
+    "wide"
+   ]
+  },
+  {
+   "key": "t18",
+   "prompt": "dogwood trees blooming in a spring garden, soft pink petals, no snow left anywhere this late in the season",
+   "phrases": [
+    "blooming",
+    "dogwood trees",
+    "no snow left anywhere",
+    "soft pink petals",
+    "this late in the season"
+   ]
+  },
+  {
+   "key": "t19",
+   "prompt": "a woman modeling sheer lingerie on a fashion catwalk, bright stage lights, tasteful and artistic, high fashion editorial style",
+   "phrases": [
+    "bright stage lights",
+    "fashion catwalk",
+    "high fashion editorial style",
+    "sheer lingerie",
+    "tasteful and artistic"
+   ]
+  },
+  {
+   "key": "t20",
+   "prompt": "steel broadsword on a stone altar, torchlit dungeon, no one present",
+   "phrases": [
+    "no one present",
+    "steel broadsword",
+    "stone altar",
+    "torchlit dungeon"
+   ]
+  },
+  {
+   "key": "t21",
+   "prompt": "A woman walks her dog through a quiet park at night, streetlights casting long shadows on the empty path.",
+   "phrases": [
+    "empty path",
+    "long shadows",
+    "streetlights"
+   ]
+  },
+  {
+   "key": "t23",
+   "prompt": "A tranquil mountain lake at dawn, mist rising off the still water, no boats or people in sight, just pine trees reflecting on the surface.",
+   "phrases": [
+    "a tranquil mountain lake",
+    "mist rising off the still water",
+    "pine trees reflecting on the surface"
+   ]
+  },
+  {
+   "key": "t24",
+   "prompt": "A lone samurai stands at the edge of a cliff, sword sheathed at his hip, watching the sunset over a war torn valley.",
+   "phrases": [
+    "a lone samurai",
+    "sword sheathed at his hip"
+   ]
+  },
+  {
+   "key": "t25",
+   "prompt": "Two children build a snowman in their front yard while snow continues to fall from a gray winter sky.",
+   "phrases": [
+    "gray",
+    "sky",
+    "snow",
+    "winter"
+   ]
+  },
+  {
+   "key": "t26",
+   "prompt": "A red sports car races down a coastal highway at night, headlights cutting through fog, ocean waves crashing against the rocks below.",
+   "phrases": [
+    "below",
+    "coastal highway",
+    "fog",
+    "headlights",
+    "ocean waves",
+    "races",
+    "red sports car",
+    "rocks"
+   ]
+  },
+  {
+   "key": "t27",
+   "prompt": "A peaceful farmhouse kitchen in bright daylight, definitely not a nighttime scene, fresh bread cooling on the counter, sunlight streaming in, not a soul around.",
+   "phrases": [
+    "bright daylight",
+    "fresh bread",
+    "not a soul around",
+    "sunlight streaming"
+   ]
+  },
+  {
+   "key": "t28",
+   "prompt": "A young woman reads a book beneath a cherry blossom tree, petals drifting in a gentle breeze, soft pastel colors throughout.",
+   "phrases": [
+    "cherry blossom tree",
+    "gentle breeze",
+    "petals drifting",
+    "soft pastel colors"
+   ]
+  },
+  {
+   "key": "t29",
+   "prompt": "A weathered fisherman casts his line from a small wooden boat on a calm lake, morning fog rolling across the water's surface.",
+   "phrases": [
+    "boat",
+    "calm",
+    "casts",
+    "fisherman",
+    "fog",
+    "lake",
+    "line",
+    "morning",
+    "rolling",
+    "small",
+    "surface",
+    "water's",
+    "weathered",
+    "wooden"
+   ]
+  },
+  {
+   "key": "t30",
+   "prompt": "A neon sign reading 'RAMEN' glows above a crowded night market street, steam rising from food stalls, umbrellas glistening with rain.",
+   "phrases": [
+    "neon sign",
+    "rain",
+    "steam rising",
+    "umbrellas glistening"
+   ]
+  },
+  {
+   "key": "t31",
+   "prompt": "swordfish leaping from ocean waves, golden hour, dynamic splash",
+   "phrases": [
+    "dynamic",
+    "golden hour",
+    "leaping",
+    "ocean",
+    "splash",
+    "swordfish",
+    "waves"
+   ]
+  },
+  {
+   "key": "t32",
+   "prompt": "katana resting on a silk cloth, dojo interior, dramatic side lighting",
+   "phrases": [
+    "dojo interior",
+    "dramatic side lighting",
+    "katana resting on a silk cloth"
+   ]
+  },
+  {
+   "key": "t33",
+   "prompt": "rapier duel, two fencers, indoor arena, intense expressions",
+   "phrases": [
+    "indoor arena",
+    "intense expressions",
+    "rapier duel"
+   ]
+  },
+  {
+   "key": "t34",
+   "prompt": "black cat perched on a snow-dusted graveyard tombstone, full moon, fog",
+   "phrases": [
+    "black cat",
+    "fog",
+    "full moon",
+    "snow-dusted graveyard tombstone"
+   ]
+  },
+  {
+   "key": "t35",
+   "prompt": "a burlesque dancer performing at a vintage carnival at dusk, feathered corset, sultry pose, cotton candy stand, crowd of visitors, a stray cat weaving through the crowd, tasteful and stylized",
+   "phrases": [
+    "cotton candy stand",
+    "crowd of visitors",
+    "feathered corset",
+    "stray cat weaving through the crowd",
+    "tasteful and stylized"
+   ]
+  },
+  {
+   "key": "t36",
+   "prompt": "abandoned parking garage, no cars, broken fluorescent lights, night",
+   "phrases": [
+    "abandoned parking garage",
+    "broken fluorescent lights",
+    "night",
+    "no cars"
+   ]
+  },
+  {
+   "key": "t37",
+   "prompt": "textile patterns, woven fabric close-up, vibrant colors, dry studio setting, no water involved, macro photography",
+   "phrases": [
+    "dry studio setting",
+    "macro photography",
+    "no water involved",
+    "textile patterns",
+    "vibrant colors",
+    "woven fabric",
+    "woven fabric close-up"
+   ]
+  },
+  {
+   "key": "t38",
+   "prompt": "handwritten letter on a wooden desk, cursive text, candlelight",
+   "phrases": [
+    "candlelight",
+    "cursive text",
+    "handwritten letter"
+   ]
+  },
+  {
+   "key": "t39",
+   "prompt": "watermelon slices piled in the back of an old pickup truck at a farm stand, a dog napping beside the crates, summer day, bright colors",
+   "phrases": [
+    "beside",
+    "bright colors",
+    "crates",
+    "dog",
+    "farm stand",
+    "napping",
+    "old pickup truck",
+    "piled",
+    "summer day",
+    "watermelon slices"
+   ]
+  },
+  {
+   "key": "t40",
+   "prompt": "waterfall cascading into a jungle pool, misty spray, vibrant green",
+   "phrases": [
+    "jungle pool",
+    "misty spray",
+    "vibrant green",
+    "waterfall"
+   ]
+  },
+  {
+   "key": "t41",
+   "prompt": "a black cat sniffing at deadly nightshade berries growing wild in a dry garden bed, no water features nearby, botanical detail, daylight",
+   "phrases": [
+    "black cat",
+    "botanical detail",
+    "daylight",
+    "deadly nightshade berries",
+    "dry garden bed"
+   ]
+  },
+  {
+   "key": "t42",
+   "prompt": "a woman in a flowing red gown standing in the rain at night, city lights reflected in puddles",
+   "phrases": [
+    "city lights reflected in puddles",
+    "flowing red gown",
+    "standing in the rain"
+   ]
+  },
+  {
+   "key": "t43",
+   "prompt": "german shepherd guard dog, alert stance, military base, daytime",
+   "phrases": [
+    "alert stance",
+    "daytime",
+    "german shepherd",
+    "military base"
+   ]
+  },
+  {
+   "key": "t44",
+   "prompt": "a quiet library reading room, no dogs or pets allowed, warm lamp light",
+   "phrases": [
+    "a quiet library reading room",
+    "no dogs or pets allowed",
+    "warm lamp light"
+   ]
+  },
+  {
+   "key": "t45",
+   "prompt": "a pin-up style woman in a swimsuit leaning against a vintage muscle car, chrome details, desert highway, heat haze, retro tasteful glamour photography",
+   "phrases": [
+    "chrome details",
+    "desert highway",
+    "heat haze",
+    "pin-up style",
+    "retro tasteful glamour photography",
+    "swimsuit",
+    "vintage muscle car"
+   ]
+  },
+  {
+   "key": "t46",
+   "prompt": "graffiti-covered wall with the word 'REBEL' spray painted, urban alley, daytime, no cars parked nearby",
+   "phrases": [
+    "daytime",
+    "graffiti-covered wall",
+    "no cars parked nearby",
+    "urban alley"
+   ]
+  },
+  {
+   "key": "t47",
+   "prompt": "minimalist white room, blank walls, no text or signage anywhere",
+   "phrases": [
+    "blank walls",
+    "minimalist white room",
+    "no text or signage anywhere"
+   ]
+  },
+  {
+   "key": "t48",
+   "prompt": "fresh snowfall blanketing a quiet village, smoke rising from chimneys, twilight",
+   "phrases": [
+    "blanketing",
+    "chimneys",
+    "fresh snowfall",
+    "quiet village",
+    "smoke rising",
+    "twilight"
+   ]
+  },
+  {
+   "key": "t49",
+   "prompt": "a sunbaked desert dune, cracked earth, no snow for a thousand miles",
+   "phrases": [
+    "cracked earth",
+    "no snow for a thousand miles",
+    "sunbaked desert dune"
+   ]
+  },
+  {
+   "key": "t50",
+   "prompt": "orange tabby and black cat curled together asleep, blanket, soft morning light",
+   "phrases": [
+    "black cat",
+    "blanket",
+    "orange tabby",
+    "soft morning light"
+   ]
+  },
+  {
+   "key": "t51",
+   "prompt": "A soldier crouches behind rubble as smoke and debris fill the air, his uniform torn and bloodied from the ongoing battle.",
+   "phrases": [
+    "battle",
+    "behind",
+    "bloodied",
+    "crouches",
+    "debris",
+    "rubble",
+    "smoke",
+    "soldier",
+    "torn",
+    "uniform"
+   ]
+  },
+  {
+   "key": "t52",
+   "prompt": "Two street brawlers exchange punches outside a bar at night, a small crowd watching from the shadows, neon signs flickering above.",
+   "phrases": [
+    "a small crowd",
+    "at night",
+    "exchange punches",
+    "flickering above",
+    "neon signs",
+    "outside a bar",
+    "two street brawlers",
+    "watching from the shadows"
+   ]
+  },
+  {
+   "key": "t53",
+   "prompt": "A serene yoga retreat at sunrise, practitioners in gentle poses on the grass, a peaceful atmosphere with no conflict or aggression anywhere.",
+   "phrases": [
+    "grass",
+    "no conflict or aggression anywhere",
+    "peaceful atmosphere",
+    "practitioners in gentle poses",
+    "serene yoga retreat"
+   ]
+  },
+  {
+   "key": "t54",
+   "prompt": "An artist's life drawing class sketches a nude model standing on a small platform under studio lights, charcoal dust on every easel.",
+   "phrases": [
+    "artist's life drawing class",
+    "charcoal dust",
+    "easel",
+    "nude model",
+    "platform",
+    "standing",
+    "studio lights"
+   ]
+  },
+  {
+   "key": "t55",
+   "prompt": "A woman in delicate lace lingerie reclines on a velvet chaise, soft candlelight creating an intimate, sensual mood.",
+   "phrases": [
+    "candlelight",
+    "intimate",
+    "lace lingerie",
+    "sensual",
+    "velvet chaise"
+   ]
+  },
+  {
+   "key": "t56",
+   "prompt": "A family beach photo in modest swimsuits, fully clothed and sun-safe, nothing revealing or suggestive in the composition.",
+   "phrases": [
+    "a family beach photo",
+    "fully clothed",
+    "modest swimsuits",
+    "nothing revealing or suggestive",
+    "sun-safe"
+   ]
+  },
+  {
+   "key": "t57",
+   "prompt": "A 1950s style pin-up illustration of a woman in a polka dot swimsuit, winking playfully, retro color palette, slightly risque pose.",
+   "phrases": [
+    "1950s style",
+    "pin-up illustration",
+    "polka dot swimsuit",
+    "retro color palette",
+    "slightly risque pose"
+   ]
+  },
+  {
+   "key": "t58",
+   "prompt": "A masked vigilante leaps between rooftops at night, having just knocked out a mugger in a nearby alley, cape billowing, city lights sprawled below like a circuit board.",
+   "phrases": [
+    "alley",
+    "cape billowing",
+    "circuit board",
+    "city lights",
+    "knocked out",
+    "leaps",
+    "masked vigilante",
+    "mugger",
+    "rooftops",
+    "sprawled"
+   ]
+  },
+  {
+   "key": "t59",
+   "prompt": "A quiet monastery courtyard at midday, an all-male order of monks in silent meditation, no women present, no weapons, no swords, only peace and stone.",
+   "phrases": [
+    "all-male order",
+    "midday",
+    "no swords",
+    "no weapons",
+    "no women",
+    "only peace",
+    "quiet monastery courtyard",
+    "silent meditation",
+    "stone"
+   ]
+  },
+  {
+   "key": "t60",
+   "prompt": "A blacksmith hammers a glowing blade on his anvil, sparks flying, the half-finished sword taking shape in the forge's orange light.",
+   "phrases": [
+    "forge's orange light",
+    "glowing blade",
+    "half-finished sword",
+    "sparks flying"
+   ]
+  },
+  {
+   "key": "t61",
+   "prompt": "masterpiece, best quality, ultra detailed. A cozy cabin interior during a snowstorm at night: a fluffy white cat curled on a windowsill watching the blizzard outside, while a golden dog sleeps by a crackling fireplace. Snow piles high against the frosted window panes, and the warm glow of the fire contrasts with the cold, dark night beyond. A steaming mug of cocoa sits on a wooden table, and hand-knitted stockings hang from the mantel. The scene feels warm, quiet, and safe, a small pocket of comfort against the storm raging outside in the snowy mountain village below.",
+   "phrases": [
+    "best quality",
+    "masterpiece",
+    "ultra detailed"
+   ]
+  },
+  {
+   "key": "t62",
+   "prompt": "A vintage red convertible car speeds along a coastal cliff road at golden hour, a woman with windswept auburn hair laughing in the passenger seat. A weathered wooden signpost reading 'SCENIC OVERPOINT 2 MILES' stands at the roadside, half-covered in ivy. The ocean stretches endlessly to the horizon, waves crashing against dark rocks far below. No other vehicles are in sight on this empty stretch of highway, and the mood is carefree, sun-drenched, and nostalgic, evoking a road trip from decades past, painted in warm film grain tones.",
+   "phrases": [
+    "coastal cliff road",
+    "dark rocks",
+    "empty stretch of highway",
+    "ocean",
+    "vintage red convertible",
+    "warm film grain tones",
+    "waves",
+    "weathered wooden signpost"
+   ]
+  },
+  {
+   "key": "t63",
+   "prompt": "A vast, untouched snowfield stretches to the horizon under a pale winter sky, the surface unbroken except for a single line of fox tracks. No cats, no dogs, and no people disturb this frozen wilderness. There are no signs, no text, no markers of civilization anywhere in the frame, just endless white snow meeting a soft gray horizon. The air feels still and silent, the kind of cold that seems to hum. A lone dead tree stands near the center, its bare branches reaching upward, the only vertical element breaking the flat expanse of snow and sky.",
+   "phrases": [
+    "air",
+    "bare",
+    "branches",
+    "cold",
+    "dead",
+    "element",
+    "expanse",
+    "flat",
+    "fox",
+    "frozen",
+    "horizon",
+    "hum",
+    "line",
+    "pale",
+    "silent",
+    "single",
+    "sky",
+    "snow",
+    "snowfield",
+    "still",
+    "tracks",
+    "tree",
+    "untouched",
+    "vast",
+    "vertical",
+    "wilderness",
+    "winter"
+   ]
+  },
+  {
+   "key": "t64",
+   "prompt": "masterpiece, dynamic composition, cinematic lighting. Two rival knights clash in a torch-lit courtyard, their swords locked together in a shower of sparks, muscles straining under dented armor. One knight has a shallow cut along his forearm, a thin line of blood visible beneath torn chainmail, but neither fighter looks ready to yield. Onlookers press against the courtyard walls, murmuring as the duel intensifies. The stone ground is scattered with broken shields from earlier bouts. Moonlight filters faintly through drifting smoke from nearby braziers, giving the whole scene a tense, dramatic atmosphere, 8k, highly detailed, dramatic shadows.",
+   "phrases": [
+    "8k",
+    "cinematic lighting",
+    "dramatic shadows",
+    "dynamic composition",
+    "highly detailed",
+    "masterpiece"
+   ]
+  },
+  {
+   "key": "t65",
+   "prompt": "A classical academic nude study of a reclining woman on a chaise lounge, rendered in soft charcoal and sanguine tones reminiscent of 19th century atelier work. The pose is calm and artistic, emphasizing anatomy and the play of light across the human form rather than anything explicit. A single sheer curtain filters warm afternoon sunlight across the studio, and dust motes float visibly in the air. The mood is contemplative and painterly, entirely free of violence or tension, just a quiet exercise in observing the human body the way old masters once did in their private ateliers.",
+   "phrases": [
+    "19th century atelier work",
+    "anatomy",
+    "calm and artistic",
+    "chaise lounge",
+    "classical academic nude study",
+    "dust motes",
+    "observing the human body",
+    "painterly",
+    "play of light",
+    "quiet exercise",
+    "reclining woman",
+    "sanguine tones",
+    "single sheer curtain",
+    "soft charcoal"
+   ]
+  },
+  {
+   "key": "t66",
+   "prompt": "a woman in a modest business suit stepping out of a taxi car, fully professional, no nudity, busy downtown street",
+   "phrases": [
+    "busy downtown street",
+    "modest business suit",
+    "stepping out of a taxi car"
+   ]
+  },
+  {
+   "key": "t67",
+   "prompt": "carousel horses at a carnival, string lights, evening crowd, a small dog on a leash weaving between legs, cotton candy stalls",
+   "phrases": [
+    "carousel horses",
+    "cotton candy stalls",
+    "evening crowd",
+    "leash",
+    "small dog",
+    "string lights",
+    "weaving"
+   ]
+  },
+  {
+   "key": "t68",
+   "prompt": "sun-scorched desert at high noon, cloudless sky, not a drop of water for miles, no shade, no signs or text of any kind visible, blazing daylight",
+   "phrases": [
+    "blazing daylight",
+    "cloudless sky",
+    "no shade",
+    "sun-scorched desert"
+   ]
+  },
+  {
+   "key": "t69",
+   "prompt": "midday market square, bustling with shoppers, bright sun overhead, definitely not a night scene",
+   "phrases": [
+    "bright sun overhead",
+    "bustling with shoppers",
+    "definitely not a night scene",
+    "midday market square"
+   ]
+  },
+  {
+   "key": "t70",
+   "prompt": "a warm tropical beach at high noon, palm trees swaying, no snow, no cold, nowhere near nighttime",
+   "phrases": [
+    "a warm tropical beach",
+    "no cold",
+    "no snow",
+    "nowhere near nighttime",
+    "palm trees swaying"
+   ]
+  },
+  {
+   "key": "t71",
+   "prompt": "a disarmament ceremony, soldiers stacking rifles and swords into a pile to be melted down, symbolizing peace, no fighting, no violence, calm solemn mood",
+   "phrases": [
+    "calm solemn mood",
+    "disarmament ceremony",
+    "no fighting",
+    "no violence",
+    "symbolizing peace"
+   ]
+  },
+  {
+   "key": "t72",
+   "prompt": "an unarmed male protester holds a flower, no sword, no weapon of any kind, no women in the frame, gentle expression, daylight park setting",
+   "phrases": [
+    "daylight park setting",
+    "gentle expression",
+    "holds a flower",
+    "male protester",
+    "no sword",
+    "no weapon of any kind",
+    "no women in the frame",
+    "unarmed"
+   ]
+  },
+  {
+   "key": "t73",
+   "prompt": "a weathered knight statue stands alone atop a moss-covered pedestal, its stone hands empty, the ceremonial sword it once held long since stolen, overcast afternoon",
+   "phrases": [
+    "ceremonial sword",
+    "moss-covered pedestal",
+    "overcast afternoon",
+    "stone hands",
+    "weathered knight statue"
+   ]
+  },
+  {
+   "key": "t74",
+   "prompt": "A long paragraph describing an empty animal shelter at closing time: rows of clean, vacant kennels line a quiet hallway under humming fluorescent lights, the last cat was adopted that morning and no dogs remain either, the front desk sign has been flipped to read 'CLOSED' in bold red letters, and a lone staff member locks the front door, her silhouette framed against the darkening evening sky as the first stars begin to appear, marking the start of a quiet night watch over the empty building.",
+   "phrases": [
+    "darkening evening sky",
+    "empty building",
+    "first stars appear",
+    "front desk sign",
+    "humming fluorescent lights",
+    "lone staff member",
+    "quiet night watch",
+    "rows of clean",
+    "vacant kennels"
+   ]
+  },
+  {
+   "key": "t75",
+   "prompt": "best quality, highly detailed, soft lighting. A gray tabby cat and a small brown terrier dog nap together on a sunlit porch, curled around each other on a striped cushion, a garden hose coiled nearby and a wind chime hanging still in the calm afternoon air, watercolor style, gentle pastel tones throughout the whole composition.",
+   "phrases": [
+    "gentle pastel tones",
+    "watercolor style"
+   ]
+  },
+  {
+   "key": "t76",
+   "prompt": "an armored car idles outside a bank, engine running, guards nearby, overcast morning, no sword, no weapons drawn",
+   "phrases": [
+    "armored car",
+    "engine running",
+    "guards nearby",
+    "idles",
+    "no sword",
+    "no weapons drawn",
+    "overcast morning"
+   ]
+  },
+  {
+   "key": "t77",
+   "prompt": "a bikini model on a yacht deck, glamour photography, tasteful, no explicit nudity, ocean spray, bright afternoon sun",
+   "phrases": [
+    "bright afternoon sun",
+    "glamour photography",
+    "ocean spray",
+    "tasteful"
+   ]
+  },
+  {
+   "key": "t78",
+   "prompt": "boudoir photography, a woman draped in a silk sheet, soft window light, intimate but tasteful, bedroom setting",
+   "phrases": [
+    "bedroom setting",
+    "boudoir photography",
+    "intimate but tasteful",
+    "silk sheet",
+    "soft window light"
+   ]
+  },
+  {
+   "key": "t79",
+   "prompt": "A gritty crime scene at night: police tape stretched across a rain-soaked alley, a cracked pavement stained dark, a chalk outline barely visible, an evidence marker with the number '7' printed on it standing beside a discarded knife, distant sirens implied by red and blue light bleeding across wet brick walls, the entire mood heavy with aftermath and quiet dread, cinematic noir lighting, 8k, moody atmosphere.",
+   "phrases": [
+    "8k",
+    "cinematic noir lighting"
+   ]
+  },
+  {
+   "key": "t80",
+   "prompt": "an all-male poker night in a smoky den, cards and whiskey glasses on the table, no women present, tense expressions, dim lamp light",
+   "phrases": [
+    "cards",
+    "dim lamp light",
+    "smoky den",
+    "tense expressions",
+    "whiskey glasses"
+   ]
+  }
+ ]
+}

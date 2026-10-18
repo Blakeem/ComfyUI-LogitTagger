@@ -1,6 +1,7 @@
-"""nodes.py: the Logit Tagger node's V1 contract, its list inputs, its ui/result shape and its registration.
+"""nodes.py: the Logit Tagger and Logit Style Extractor nodes' V1 contract, their list inputs, their ui/result shape
+and the pack's registration.
 
-The tagging pipeline, comfy and the server are stubbed, so no comfy install, no GPU and no model are needed.
+The tagging pipeline, the style run, comfy and the server are stubbed, so no comfy install, no GPU and no model are needed.
 """
 
 import importlib.util
@@ -15,8 +16,8 @@ from typing import ClassVar
 import pytest
 import torch
 
-from logit_tagger import nodes, progress, tagging
-from logit_tagger.nodes import LogitTagger
+from logit_tagger import nodes, progress, style, tagging
+from logit_tagger.nodes import LogitStyleExtractor, LogitTagger
 
 PACK_ROOT = Path(__file__).parent.parent.resolve()
 NODE_ID = "12"
@@ -87,13 +88,11 @@ def stub_pipeline(monkeypatch):
     """Replaces tag_images with a stub that returns one canned trace per image and reports the stages it runs."""
     calls = []
 
-    def tag_images(clip, images, prompts, *, instruction=None, tag_list=(), on_progress=None, settings=None):
-        stages = (tagging.STAGE_CHECKING,) if tag_list else (tagging.STAGE_WRITING, tagging.STAGE_CHECKING)
-        calls.append(SimpleNamespace(clip=clip, images=images, prompts=prompts, instruction=instruction,
-                                     tag_list=tag_list, settings=settings,
-                                     bar_class=sys.modules["comfy.utils"].ProgressBar))
+    def tag_images(clip, images, prompts, *, on_progress=None, settings=None, positions=False):
+        calls.append(SimpleNamespace(clip=clip, images=images, prompts=prompts, settings=settings,
+                                     positions=positions, bar_class=sys.modules["comfy.utils"].ProgressBar))
         for index in range(len(images)):
-            for stage in stages:
+            for stage in (tagging.STAGE_WRITING, tagging.STAGE_CHECKING):
                 if on_progress is not None:
                     on_progress(index, stage)
         return [SimpleNamespace(tags=f"tag{index}") for index in range(len(images))]
@@ -105,18 +104,18 @@ def stub_pipeline(monkeypatch):
 # --- input and output contract --------------------------------------------------------
 
 
-def test_inputs_are_clip_and_image_then_three_text_sockets_the_strict_switch_and_the_node_id():
+def test_inputs_are_clip_and_image_then_the_prompt_socket_the_strict_and_positions_switches_and_the_node_id():
     spec = LogitTagger.INPUT_TYPES()
 
     assert list(spec) == ["required", "optional", "hidden"]
     assert [(name, definition[0]) for name, definition in spec["required"].items()] == [
         ("clip", "CLIP"), ("image", "IMAGE")]
-    assert list(spec["optional"]) == ["prompt", "instruction", "tags", "strict"]
-    for name in ("prompt", "instruction", "tags"):
-        assert spec["optional"][name][0] == "STRING", name
-        assert spec["optional"][name][1]["forceInput"] is True, name
-    assert spec["optional"]["strict"][0] == "BOOLEAN"
-    assert spec["optional"]["strict"][1]["default"] is False
+    assert list(spec["optional"]) == ["prompt", "strict", "positions"]
+    assert spec["optional"]["prompt"][0] == "STRING"
+    assert spec["optional"]["prompt"][1]["forceInput"] is True
+    for switch in ("strict", "positions"):
+        assert spec["optional"][switch][0] == "BOOLEAN"
+        assert spec["optional"][switch][1]["default"] is False
     assert spec["hidden"] == {"unique_id": "UNIQUE_ID"}
 
 
@@ -134,6 +133,35 @@ def test_the_strict_switch_picks_the_settings_the_run_uses(fake_comfy, stub_pipe
 
     run_node([an_image()], **optional)
     assert stub_pipeline[0].settings is tagging.tag_settings(strict)
+
+
+@pytest.mark.parametrize(("optional", "positions"), [({}, False), ({"positions": [False]}, False),
+                                                     ({"positions": [True]}, True)])
+def test_the_positions_switch_reaches_the_run(fake_comfy, stub_pipeline, optional, positions):
+    pytest.importorskip("logit_classifier.toolkit.comfyui")
+
+    run_node([an_image()], **optional)
+    assert stub_pipeline[0].positions is positions
+
+
+def test_differing_positions_values_fail_under_the_node_name(fake_comfy, stub_pipeline):
+    pytest.importorskip("logit_classifier.toolkit.comfyui")
+
+    with pytest.raises(ValueError, match=r"^Logit Tagger: the positions input received 2 different values"):
+        run_node([an_image()], positions=[False, True])
+    assert stub_pipeline == []
+
+
+def test_positions_on_returns_the_position_terms_of_the_classifier(fake_comfy, strip_engine):
+    image = strip_engine.image()
+
+    output = run_node([image], positions=[True])
+
+    assert output["result"][0] == ["cat top-left, dog"]
+    assert output["ui"] == {"text": ("cat top-left, dog",)}
+    assert strip_engine.built == [("clip", tagging.NODE_NAME)]
+    assert {shape for _statements, shape in strip_engine.classifier.asked} == {(1, 3, 9, 3), (1, 9, 3, 3)}
+    assert ("placing tags", NODE_ID) in fake_comfy.sent
 
 
 def test_every_input_has_a_tooltip_of_one_or_two_sentences():
@@ -189,70 +217,6 @@ def test_k_prompts_pair_with_k_images_after_the_batches_split(fake_comfy, stub_p
 def test_a_wrong_prompt_count_is_an_error_before_the_run_starts(fake_comfy, stub_pipeline):
     with pytest.raises(ValueError, match="Logit Tagger: the prompt input has 2 texts for 3 images"):
         run_node([an_image(batch=3)], prompt=["a cat", "a dog"])
-
-    assert stub_pipeline == []
-    assert RecordingProgressBar.instances == []
-
-
-def test_conflicting_instructions_are_an_error_before_the_run_starts(fake_comfy, stub_pipeline):
-    with pytest.raises(ValueError, match="Logit Tagger: the instruction input received 2 different values"):
-        run_node([an_image()], instruction=["List the tags.", "Name the objects."])
-
-    assert stub_pipeline == []
-    assert RecordingProgressBar.instances == []
-
-
-def test_a_connected_instruction_replaces_the_propose_instruction(fake_comfy, stub_pipeline):
-    run_node([an_image(batch=2)], instruction=["List the tags.", "List the tags."])
-
-    assert stub_pipeline[0].instruction == "List the tags."
-
-
-@pytest.mark.parametrize("optional", [{}, {"instruction": [""]}, {"instruction": [" \n"]}])
-def test_an_unconnected_or_blank_instruction_keeps_the_pipeline_instruction(fake_comfy, stub_pipeline, optional):
-    run_node([an_image()], **optional)
-
-    assert stub_pipeline[0].instruction is None
-
-
-def test_connected_tags_reach_the_pipeline_as_the_parsed_tag_list(fake_comfy, stub_pipeline):
-    pytest.importorskip("logit_classifier")
-
-    run_node([an_image(batch=2)], prompt=[" "], tags=["Cat, dog\ncat", "Cat, dog\ncat"])
-
-    assert stub_pipeline[0].tag_list == tagging.parse_tag_list("Cat, dog\ncat") == ("cat", "dog")
-
-
-@pytest.mark.parametrize("optional", [{}, {"tags": [""]}, {"tags": [" \n"], "prompt": ["a cat"]}])
-def test_unconnected_or_blank_tags_leave_the_pipeline_writing_tags(fake_comfy, stub_pipeline, optional):
-    run_node([an_image()], **optional)
-
-    assert stub_pipeline[0].tag_list == ()
-
-
-def test_conflicting_tags_are_an_error_before_the_run_starts(fake_comfy, stub_pipeline):
-    with pytest.raises(ValueError, match="Logit Tagger: the tags input received 2 different values"):
-        run_node([an_image()], tags=["cat", "dog"])
-
-    assert stub_pipeline == []
-    assert RecordingProgressBar.instances == []
-
-
-def test_tags_with_a_prompt_are_an_error_before_the_run_starts(fake_comfy, stub_pipeline):
-    pytest.importorskip("logit_classifier")
-
-    with pytest.raises(ValueError, match="Logit Tagger: the prompt only guides the tags the node writes itself"):
-        run_node([an_image(batch=2)], prompt=["", "a cat"], tags=["cat"])
-
-    assert stub_pipeline == []
-    assert RecordingProgressBar.instances == []
-
-
-def test_tags_with_an_instruction_are_an_error_before_the_run_starts(fake_comfy, stub_pipeline):
-    pytest.importorskip("logit_classifier")
-
-    with pytest.raises(ValueError, match="Logit Tagger: the instruction only guides the tags the node writes itself"):
-        run_node([an_image()], instruction=["List the tags."], tags=["cat"])
 
     assert stub_pipeline == []
     assert RecordingProgressBar.instances == []
@@ -331,20 +295,6 @@ def test_one_bar_closes_each_image_and_the_status_names_each_stage(fake_comfy, s
     assert re.fullmatch(r"3 images in \d+\.\d s", fake_comfy.sent[-1][0])
 
 
-def test_a_tag_list_run_closes_each_image_and_the_status_names_the_check(fake_comfy, stub_pipeline):
-    pytest.importorskip("logit_classifier")
-
-    run_node([an_image(batch=3)], tags=["cat"])
-
-    bar = RecordingProgressBar.instances[0]
-    assert [value for value, _total in bar.updates] == [0, 0, 100, 200, 300]
-    assert fake_comfy.sent[:-1] == [
-        ("image 1/3: checking tags", NODE_ID), ("image 2/3: checking tags", NODE_ID),
-        ("image 3/3: checking tags", NODE_ID),
-    ]
-    assert re.fullmatch(r"3 images in \d+\.\d s", fake_comfy.sent[-1][0])
-
-
 def test_core_bars_route_into_the_run_only_while_the_pipeline_runs(fake_comfy, stub_pipeline):
     run_node([an_image()])
 
@@ -365,7 +315,7 @@ def test_an_interrupt_stops_the_run_and_the_status_says_cancelled(fake_comfy, st
 def test_an_interrupt_during_the_prompt_generates_stops_the_run_before_the_first_image(fake_comfy, monkeypatch):
     tokens = []
 
-    def tag_images(clip, images, prompts, *, instruction=None, tag_list=(), on_progress=None, settings=None):
+    def tag_images(clip, images, prompts, *, on_progress=None, settings=None, positions=False):
         for prompt in dict.fromkeys(prompts):
             bar = sys.modules["comfy.utils"].ProgressBar(256)
             for _step in range(256):
@@ -384,6 +334,124 @@ def test_an_interrupt_during_the_prompt_generates_stops_the_run_before_the_first
     assert tokens == ["cat"]
     assert fake_comfy.sent == [("cancelled", NODE_ID)]
     assert sys.modules["comfy.utils"].ProgressBar is RecordingProgressBar
+
+
+# --- Logit Style Extractor ------------------------------------------------------------
+
+
+def run_style_extractor(clip="clip", **optional):
+    """The style extractor called the way core calls an INPUT_IS_LIST node, with every input a list."""
+    return LogitStyleExtractor().extract(clip=[clip], unique_id=[NODE_ID], **optional)
+
+
+@pytest.fixture
+def stub_styles(monkeypatch):
+    """Replaces extract_styles with a stub that styles each item from the prompt or else the image, as the run does."""
+    calls = []
+
+    def extract_styles(clip, images, prompts, *, on_progress=None):
+        traces = []
+        calls.append(SimpleNamespace(clip=clip, images=images, prompts=prompts))
+        for index, prompt in enumerate(prompts):
+            if on_progress is not None:
+                on_progress(index, style.STAGE_READING_PROMPT)
+            if prompt:
+                traces.append(style.StyleTrace(source="prompt", style=prompt, prompt_trace=None))
+            elif images:
+                traces.append(style.StyleTrace(source="image", style=f"line{index}", prompt_trace=None))
+            else:
+                traces.append(style.StyleTrace(source="none", style="", prompt_trace=None))
+        return traces
+
+    monkeypatch.setattr(style, "extract_styles", extract_styles)
+    return calls
+
+
+def test_style_extractor_inputs_are_the_clip_then_an_optional_image_and_prompt_socket_and_the_node_id():
+    spec = LogitStyleExtractor.INPUT_TYPES()
+
+    assert list(spec) == ["required", "optional", "hidden"]
+    assert [(name, definition[0]) for name, definition in spec["required"].items()] == [("clip", "CLIP")]
+    assert [(name, definition[0]) for name, definition in spec["optional"].items()] == [
+        ("image", "IMAGE"), ("prompt", "STRING")]
+    assert spec["optional"]["prompt"][1]["forceInput"] is True
+    assert spec["hidden"] == {"unique_id": "UNIQUE_ID"}
+
+
+def test_style_extractor_tooltips_and_description_follow_the_text_rules():
+    spec = LogitStyleExtractor.INPUT_TYPES()
+    tooltips = [definition[1].get("tooltip", "") for group in ("required", "optional")
+                for definition in spec[group].values()]
+
+    for text in tooltips:
+        assert 1 <= len(sentences(text)) <= 3, text
+    for text in [*tooltips, LogitStyleExtractor.DESCRIPTION]:
+        assert chr(0x2014) not in text
+        assert ";" not in text
+    assert 1 <= len(sentences(LogitStyleExtractor.DESCRIPTION)) <= 3
+    assert "does not check that generated text" in LogitStyleExtractor.DESCRIPTION
+
+
+def test_style_extractor_output_contract():
+    assert LogitStyleExtractor.RETURN_TYPES == ("STRING",)
+    assert LogitStyleExtractor.RETURN_NAMES == ("style",)
+    assert LogitStyleExtractor.INPUT_IS_LIST is True
+    assert LogitStyleExtractor.OUTPUT_IS_LIST == (True,)
+    assert LogitStyleExtractor.OUTPUT_NODE is True
+    assert LogitStyleExtractor.FUNCTION == "extract"
+    assert LogitStyleExtractor.CATEGORY == "Logit Tagger"
+    assert LogitStyleExtractor.SEARCH_ALIASES == ["style", "art style", "medium", "style line", "style prompt",
+                                                  "media style"]
+
+
+def test_style_extractor_pairs_one_prompt_with_every_split_image(fake_comfy, stub_styles):
+    output = run_style_extractor(image=[an_image(batch=2), an_image()], prompt=["oil painting"])
+
+    assert stub_styles[0].prompts == ["oil painting"] * 3
+    assert [tuple(item.shape) for item in stub_styles[0].images] == [(1, 8, 8, 3)] * 3
+    assert output["result"] == (["oil painting"] * 3,)
+
+
+def test_style_extractor_with_only_an_image_reads_every_image(fake_comfy, stub_styles):
+    output = run_style_extractor(image=[an_image(batch=2)])
+
+    assert stub_styles[0].prompts == ["", ""]
+    assert output["result"] == (["line0", "line1"],)
+    assert output["ui"] == {"text": ("0: image: line0\n1: image: line1",)}
+
+
+def test_style_extractor_with_only_a_prompt_styles_each_prompt_text(fake_comfy, stub_styles):
+    output = run_style_extractor(prompt=["watercolor", ""])
+
+    assert stub_styles[0].images == []
+    assert stub_styles[0].prompts == ["watercolor", ""]
+    assert output["result"] == (["watercolor", ""],)
+    assert output["ui"] == {"text": ("0: prompt: watercolor\n1: no style found",)}
+    assert fake_comfy.sent[0] == ("prompt 1/2: reading prompt", NODE_ID)
+
+
+def test_style_extractor_shows_one_item_without_an_index(fake_comfy, stub_styles):
+    output = run_style_extractor(image=[an_image()], prompt=["pixel art"])
+
+    assert output["ui"] == {"text": ("prompt: pixel art",)}
+    assert stub_styles[0].clip == "clip"
+
+
+@pytest.mark.parametrize("optional", [{}, {"image": [], "prompt": []}, {"image": [torch.zeros(0, 8, 8, 3)]}])
+def test_style_extractor_with_neither_input_fails_before_the_run(fake_comfy, stub_styles, optional):
+    with pytest.raises(ValueError, match=r"^Logit Style Extractor: the node got no image and no prompt\. Connect an "
+                                         r"image, a prompt or both\.$"):
+        run_style_extractor(**optional)
+
+    assert stub_styles == []
+    assert RecordingProgressBar.instances == []
+
+
+def test_style_extractor_with_two_prompts_for_three_images_fails_with_the_pairing_error(fake_comfy, stub_styles):
+    with pytest.raises(ValueError, match="Logit Style Extractor: the prompt input has 2 texts for 3 images"):
+        run_style_extractor(image=[an_image(batch=3)], prompt=["oil painting", "watercolor"])
+
+    assert stub_styles == []
 
 
 # --- registration ---------------------------------------------------------------------
@@ -409,15 +477,20 @@ def test_loads_via_comfyui_directory_mechanism(pack):
 
     assert isinstance(node_class, type)
     assert node_class.__name__ == "LogitTagger"
-    assert list(pack.NODE_CLASS_MAPPINGS) == ["LogitTagger", "LogitImageCheck", "LogitTextCheck", "LogitPromptCheck",
-                                              "LogitImageClassify"]
+    assert list(pack.NODE_CLASS_MAPPINGS) == ["LogitTagger", "LogitCustomTagger", "LogitTagCheck", "LogitImageCheck",
+                                              "LogitTextCheck", "LogitPromptCheck", "LogitImageClassify",
+                                              "LogitTextClassify", "LogitStyleExtractor"]
     assert all(pack.NODE_CLASS_MAPPINGS[name].__name__ == name for name in pack.NODE_CLASS_MAPPINGS)
     assert pack.NODE_DISPLAY_NAME_MAPPINGS == {
         "LogitTagger": "Logit Tagger",
+        "LogitCustomTagger": "Logit Custom Tagger",
+        "LogitTagCheck": "Logit Tag Check",
         "LogitImageCheck": "Logit Image Check",
         "LogitTextCheck": "Logit Text Check",
         "LogitPromptCheck": "Logit Prompt Check",
         "LogitImageClassify": "Logit Image Classify",
+        "LogitTextClassify": "Logit Text Classify",
+        "LogitStyleExtractor": "Logit Style Extractor",
     }
     assert pack.WEB_DIRECTORY == "./web"
     assert set(pack.__all__) == {"NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "WEB_DIRECTORY"}

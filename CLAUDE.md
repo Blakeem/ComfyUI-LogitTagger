@@ -2,21 +2,27 @@
 
 A ComfyUI node pack built on the `logit-classifier` library. Every node reads the Qwen3-VL-4B text
 encoder the workflow already loads (Krea 2's CLIP) and reads its answers from the logits, so no
-second model loads. The Tagger's stages come from the library's toolkit (`logit_classifier.toolkit`),
-which ContextAnchoredTileRefine shares. Ideas for later nodes live in `TODO.md`.
+second model loads. Logit Style Extractor's image path is the one exception, since it writes its style
+line as generated text. The Tagger's stages come from the library's toolkit (`logit_classifier.toolkit`),
+which ContextAnchoredTileRefine shares. Ideas for later nodes live in the owner's local `TODO.md`, which git
+ignores.
 
 ## Nodes
 
 | Node | Status | Inputs | Outputs |
 |---|---|---|---|
-| Logit Tagger | built | `clip`, `image`, optional `prompt`, `instruction` and `tags` sockets, `strict` widget | `tags` STRING list, `images` IMAGE list |
+| Logit Tagger | built | `clip`, `image`, optional `prompt` socket and `strict` and `positions` widgets | `tags` STRING list, `images` IMAGE list |
+| Logit Custom Tagger | built | `clip`, `image`, `instruction` widget, optional `strict`, `things_only` and `positions` widgets | `tags` STRING list, `images` IMAGE list |
+| Logit Tag Check | built | `clip`, `image`, `tags` socket, optional `strict` and `positions` widgets | `tags` STRING list, `images` IMAGE list |
 | Logit Image Check | built | `clip`, `image`, `question` widget | `answer` BOOLEAN, `probability` FLOAT list, `yes_images`, `no_images` |
 | Logit Text Check | built | `clip`, `text` socket, `question` widget | `answer` BOOLEAN, `probability` FLOAT list, `yes_texts`, `no_texts` |
 | Logit Prompt Check | built | `clip`, `image`, `prompt` socket | `all_present`, `score`, `missing`, `images`, `complete_images`, `incomplete_images` |
 | Logit Image Classify | built | `clip`, `image`, `question` and `options` widgets | `choice`, `index`, `confidence`, `images` |
+| Logit Text Classify | built | `clip`, `text` socket, `question` and `options` widgets | `choice`, `index`, `confidence`, `texts` |
+| Logit Style Extractor | built | `clip`, optional `image` and `prompt` sockets | `style` STRING list |
 
-A connected `tags` list makes the Tagger check only those tags, and it rejects a prompt or an
-instruction connected beside it.
+Logit Tag Check checks only the connected tags and writes none of its own. One `tags` text checks every
+image, and one text per image pairs one to one.
 
 Shared contract for every node:
 
@@ -33,20 +39,24 @@ Shared contract for every node:
 - An empty yes or no side is `[ExecutionBlocker(None)]`, which skips the nodes wired to it
   (`nodes._split_sides`). Logit Prompt Check splits its images the same way.
 - Every class carries `OUTPUT_TOOLTIPS` and `SEARCH_ALIASES`, which core sends to the frontend
-  (`server.py:783-796`).
-- The logit-only paths (Image Check, Classify, Prompt Check, tag list mode) read images at
+  (`server.py:869-882`).
+- The logit-only paths (Image Check, Image Classify, Prompt Check, Tag Check) read images at
   `engine.CHECK_MAX_PIXELS` (0.5 MP). The Tagger's propose and verify read them at
   `engine.VL_MAX_PIXELS` (1 MP), since they share one vision encode.
 - Errors name the node and the fix.
+- Logit Style Extractor's image path is the pack's one output the classifier does not check.
 - Every tuning value (wording, threshold, budget, cap) is a backend constant set by a script in
-  `tests-AB/`. A long text arrives as a socket. A simple question is a widget with a measured default,
-  and a blank widget uses that default.
+  `tests-AB/`. A long text arrives as a socket, except a Custom node's instruction. That instruction is a
+  multiline widget holding the measured default, so the user edits the wording in place. A simple
+  question is a widget with a measured default, and a blank widget uses that default.
 
 ## Modules
 
 ```
 nodes.py ─┬─> tagging.py ─┬─> engine.py ──> logit_classifier.toolkit.comfyui (classifier) ──> logit_classifier
           │               └─> logit_classifier.toolkit (tags, comfyui tagger and generate)
+          ├─> style.py ───┬─> tagging.py, engine.py
+          │               └─> logit_classifier.toolkit.comfyui (style)
           ├─> engine.py
           ├─> lists.py
           └─> progress.py ──> logit_classifier.toolkit.comfyui (progress)
@@ -54,13 +64,14 @@ nodes.py ─┬─> tagging.py ─┬─> engine.py ──> logit_classifier.too
 
 | Module | Holds |
 |---|---|
-| `logit_tagger/engine.py` | what every node shares: the pixel caps `VL_MAX_PIXELS` (1 MP) and `CHECK_MAX_PIXELS` (0.5 MP), `check_images`, `library_error` (the pip command), `build_classifier` (the toolkit's `comfy_classifier`), `choose` |
-| `logit_tagger/tagging.py` | the Tagger's runs and the prompt check over the toolkit: `tag_settings`, `tag_image`, `parse_tag_list`, `check_tag_list`, `tag_images`, `check_prompt`, `TagTrace`, `PromptCheck` |
+| `logit_tagger/engine.py` | what every node shares: the pixel caps `VL_MAX_PIXELS` (1 MP) and `CHECK_MAX_PIXELS` (0.5 MP), `check_images`, `LIBRARY_VERSION` (0.6.0), `library_error` (the pip command), `toolkit` (the version gate), `build_classifier` (the toolkit's `comfy_classifier`), `choose` |
+| `logit_tagger/tagging.py` | the Tagger's runs, the tag check and the prompt check over the toolkit: `tag_settings`, `custom_settings`, `tag_image`, `parse_tag_list`, `check_tag_list`, `check_tag_lists`, `tag_images`, `check_prompt`, `TagTrace`, `PromptCheck` |
+| `logit_tagger/style.py` | Logit Style Extractor's run over the toolkit's `prompt_style` and `style_line`: `STYLE_EXTRACTOR_NAME`, `extract_styles`, `StyleTrace`. A prompt's style words come first, and the entire image's style line is the fallback |
 | `logit_tagger/lists.py` | list input rules |
 | `logit_tagger/progress.py` | `RunProgress`, over the toolkit's `routed_progress_bars`, `send_status` and `run_outcome` |
 | `logit_tagger/nodes.py` | every node class |
 | `web/logit_tagger.js` | the result display below each node |
-| `workflows/` | six workflows core lists in its template browser, each run once on this machine |
+| `workflows/` | eleven workflows core lists in its template browser, each run once on this machine through the frontend on 2026-10-17 |
 | `tests-AB/` | measurement harnesses, bootstrapped by `ab_env.py` over the library's `tests-AB/comfy_env.py` |
 
 ## The tagger pipeline
@@ -78,31 +89,68 @@ prompt ──> [language gate] ──> [translate] ──> [prompt stage] ──
                                                  and the thing   │
                                                  check calls a   │
                                                  thing           │
-image ──> [resize] ──> [propose] ──> [merge] ──> [thing check] ─┴──> [verify] ──> [clean] ──> tags
-          1 MP cap     greedy, stops  model tags   drops a tag            noul per tag   drop_subsets
-                       at 25 tags or  first, then  whose p("thing")       0.999, or      (words rule),
-                       a repeat       prompt tags, is below 0.1           0.9999 for     score order
-                                      64 at most                          prompt-only
+image ──> [resize] ──> [propose] ──> [merge] ──> [thing check] ─┴──> [verify] ──> [clean] ──> [locate] ──> tags
+          1 MP cap     greedy, stops  model tags   drops a tag            noul per tag   drop_subsets  positions on
+                       at 25 tags or  first, then  whose p("thing")       0.999, or      (words rule), only, noul per
+                       a repeat       prompt tags, is below 0.1           0.9999 for     score order   tag on 6 strips
+                                      64 at most                          prompt-only                  at 0.25 MP,
+                                                                                                       0.9 to place
 ```
 
 - The verify box shows the broad thresholds. With `strict` on, every tag needs 0.99998.
 - A propose reply that holds only the instruction's category nouns gets one more propose with the
-  settings' `echo_fallback_instruction`. A connected instruction never triggers it.
+  settings' `echo_fallback_instruction`. Logit Custom Tagger keeps it only when its instruction equals the
+  default wording.
 - The thing check judges every tag. On the model's own tags it drops some correct ones, such as
-  "watermark" and "pixel art", and it removes more vague ones (see Tagger A/B).
+  "watermark" and "pixel art", and it removes more vague ones (see Tagger A/B). Logit Custom Tagger with
+  `things_only` off runs no thing check.
 - The prompt stage grounds each listed thing in the English text's words, and two ungrounded tags in
   a row end the list. That guard stops the padding the model writes past a prompt's own things, and
   the translation keeps it working for a prompt in another language.
+- The locate stage runs only with a node's `positions` on, in Logit Tagger, Logit Custom Tagger and Logit Tag Check,
+  which runs it after its check. It is the toolkit's `locate_tags` on the node's input image at full resolution, with
+  the settings' verify statement. A tag no strip holds at 0.9 is dropped, and an axis where one strip alone holds a tag
+  names its place, such as top-left. On ContextAnchoredTileRefine's tiles, strips at 0.25 MP gave 338 judged position
+  terms and strips at 0.5 MP 303, with 3 wrong in each (its `tests-AB/ab_tags_fp8_arms.py`,
+  `tests-AB/tags-bench-log.md` section 12). The threshold 0.9 is ContextAnchoredTileRefine's
+  `SHIPPED_TAGS_POSITION_THRESHOLD`, set from one 8K tile (its `context_anchored_tile_refine/captions.py`), and it is
+  unmeasured on entire images.
 
 - Propose and verify run inside the toolkit's `shared_vision_encode`, so the vision tower runs once
   per image.
-- The toolkit's `generate_text` writes the Qwen chat template itself, since core's `thinking=False`
-  appends an empty `<think>` block that made Qwen3-VL-4B-Instruct reply empty. Its `clip_generate`
-  clears core's CUDA graph decode queues after each generate (core issue #16441), and `stop_when`
-  ends core's decode loop on a predicate over the complete tags so far.
+- The toolkit's `generate_text` writes the Qwen chat template itself as one user turn, and a text that starts
+  with `<|im_start|>` skips core's template. At `ce1e922d` core's Qwen3-VL tokenizer adds no `<think>` block
+  (`comfy/text_encoders/qwen3vl.py`). The Krea 2 CLIP's tokenizer formats a text with no image in
+  `KREA2_TEMPLATE`, which adds Qwen-Image's system turn that asks to describe an image's objects
+  (`comfy/text_encoders/krea2.py`). So core's template would put that system turn before a text-only request. At
+  `88ab4a06` core's `thinking=False` appended an empty `<think>` block, which made Qwen3-VL-4B-Instruct reply empty.
+- The toolkit's `clip_generate` clears core's CUDA graph decode queues after each generate (core issue #16441), and
+  `stop_when` ends core's decode loop on a predicate over the complete tags so far.
 - The CLIP loader types `krea2`, default and `mage` gave identical tags. `flux` and `flux2` load the
   encoder without its vision tower, and `build_classifier` rejects them by name. A text-only Qwen3
   fails the library's model check, and `build_classifier` names the node and the Load CLIP fix.
+
+## Workflows
+
+`workflows/Upscale and fix a face with SD 1.5.json` rests on these facts, which its JSON does not show.
+
+- Core's `SAM3_Detect` returns `bboxes` as one list of `{x, y, width, height, score}` dicts per image, and core's
+  `ImageCropV2` reads one dict from its `ImageCrop` widget. So `SAM3_Detect`'s `bboxes` cannot feed `ImageCropV2`. The
+  face size check measures the `InpaintCropImproved` crop "Face box" at context 1.0 with no resize instead, through
+  `GetImageSize` and `ComfyMathExpression` `max(a, b) <= 256`.
+- `SAM3_Detect` and both `InpaintCropImproved` nodes read Logit Image Check's `yes_images`. So a no answer blocks
+  `SAM3_Detect`, both crops and Logit Custom Tagger, and the switch "Face found?" never asks for its `on_true` input.
+  The SAM3 checkpoint loader and the "Find: face" text encode still run, since `SAM3_Detect` reads them and output
+  node Logit Custom Tagger needs `SAM3_Detect`.
+- Core runs every output node (`execution.py`), and every pack node is one. So a lazy switch alone would not skip
+  Logit Custom Tagger or the SAM3 and crop nodes that feed it.
+- Two `ComfySwitchNode`s pick the image to save. "Face found?" reads Logit Image Check's `answer`, and "Small face?"
+  at its `on_true` input reads the size check.
+- The face prompt comes from Logit Custom Tagger with `things_only` off, since Logit Tagger's tags of the face crop
+  left out "face". Its instruction names no headwear, since a wording that named headwear made the model write
+  "no headwear".
+- On a back view, SAM3 still returned a box small enough to pass the size check. So the Image Check gate is what
+  keeps a face refine off an image that shows no face.
 
 ## Tagger A/B
 
@@ -145,6 +193,41 @@ per tile, so the words rule stays. The defaults kept 0.12 wrong and 0.61 vague t
 The strict thresholds, 0.99998 for every tag, kept 8.4 correct, 0.01 wrong and 0.33 vague tags per render
 (`replay_arms_strict.json`, `replay_strict.txt`).
 
+## Style Extractor A/B
+
+`tests-AB/ab_style.py` runs each path through the toolkit function the node calls. Two blind judges grade every
+phrase and line by `tests-AB/data/style/RUBRIC.md`, and each run's records, judge files and `labels.json` sit in
+`tests-AB/data/style/<run>/`.
+
+The prompt path's defaults come from one superset, run `2026-10-17-prompt-superset` with
+`data/style/variants-prompt.json`: 2 listings by 4 scorings over the 72 render prompts and the 80 textset prompts, with
+each threshold replayed offline. The judges agreed on 695 of 697 phrase grades. "Medium named" counts render prompts
+whose kept phrases hold every word of the manifest medium, so it misses a medium in other words ("graphite pencil
+drawing"). "Wrong" counts phrases graded no, per prompt over both sets.
+
+| Arm | Medium named | Correct per render prompt | Wrong per prompt |
+|---|---|---|---|
+| first defaults: no none answer, the thing check's question, 0.5 | 0.681 | 1.57 | 0.224 |
+| none answer, the made-or-shows question, 0.2 (shipped) | 0.847 | 1.81 | 0.053 |
+| the same at 0.7 | 0.750 | 1.68 | 0.013 |
+| the same at 0.9 | 0.722 | 1.62 | 0.000 |
+
+The none answer cut textset prompts with a kept phrase from 23 to 8 of 80 under the first scoring at 0.5. The shipped arm's 8
+wrong phrases are style neighbors ("8k", "limited color palette", "cinematic lighting", "minimalist"), and none names
+an object. 0.7 drops "comic book panel" (p 0.45) on 4 renders, and "urban photograph" and "macro photography". A real
+run of the defaults matched the replay on all 152 prompts (`2026-10-17-prompt-defaults`).
+
+A medium inside a subject or shot phrase scores low, such as "night street photograph" at p 0.01 and "interior
+photograph" at 0.04, so the prompt path keeps it only when the prompt also names the medium alone. With an image
+connected, the node then falls back to the image's style line. A listing that writes the medium first, without shot,
+subject or place words, named 60 of 72 against 61 and listed more things, so it does not ship
+(`2026-10-17-prompt-medium-first`).
+
+The image path is ContextAnchoredTileRefine's style caption, unchanged (`2026-10-17-image`). Its line named the
+render's medium on 49 of 72 renders and named content, such as "a humanoid robot" or "neon-lit urban streets", on 28.
+On 30 COCO photos it named the photograph medium on all 30 and content on 5. The judges agreed on 178 of 204 line
+grades. A line took 1.55 s on a 1 MP render and 0.91 s on a COCO photo.
+
 ## Measured question shapes
 
 On this model through the ComfyUI backend. Scripts: `tests-AB/ab_question_shapes.py` (60 COCO val2017
@@ -155,7 +238,7 @@ the shipped 0.5 MP cap.
 | Shape | Result |
 |---|---|
 | image yes/no, question wording | AUC 0.996 on photos, 0.986 or more for every presence, scene and style question on renders, accuracy 0.970 at 0.5 |
-| image yes/no, statement wording | "This image contains an orange" read the color: use question wording for free questions |
+| image yes/no, statement wording | "This image contains an orange" read the color. Use question wording for free questions |
 | text yes/no, "Does this prompt ask for X in the image?" | accuracy 0.972, says no to negated mentions ("no cats") and decoy words ("dogwood") |
 | text yes/no, the person wording | on 112 prompts "a person or people" read accuracy 0.964 and "a person" 0.848, which said yes to 3 of 12 prompts of a group (`tests-AB/ab_person_wording.py`) |
 | image yes/no, the person wording | five wordings read accuracy 0.976 to 0.992 on 124 renders and photos, a group included, so "Is there a person in this image?" stays (`tests-AB/ab_person_wording.py`) |
@@ -163,9 +246,10 @@ the shipped 0.5 MP cap.
 | presence wording | on 905 judged tile candidates "This image visibly contains X" matched 0.3.0's "Is there a X in this image?" within every paired interval at pooled precision 0.95 and 0.98, and it needs no grammar. On COCO tag lists the 0.3.0 question kept 3.79 correct tags per image at precision 0.98 against 1.90 (`tests-AB/ab_presence_wording.py`, round 4) |
 | per-thing missing list | precision 0.976, recall 0.931 at 0.01 on renders, and a near miss's substituted thing flagged 0.931 |
 | image complete, every listed thing at 0.01 or more | accuracy 0.938 on 144 image and prompt pairs, 0.931 on own prompts and 0.944 on near misses |
-| whole-prompt yes/no | AUC 0.896 on near-miss prompts only: report per thing instead |
+| whole-prompt yes/no | AUC 0.896 on near-miss prompts only. Report per thing instead |
 | text yes/no, "Is this text written in English?" | 0.000 to 0.027 on 13 prompts in 10 other languages, 1.000 on 10 English prompts (`tests-AB/ab_prompt_language.py`) |
-| choice over 8 styles | the node's default question and option names read accuracy 0.917, confidence AUC 0.934 on renders |
+| choice over 8 styles | Logit Image Classify's default question and option names read accuracy 0.917, confidence AUC 0.934 on renders |
+| text choice over 8 styles | three wordings picked 72 of 72 render prompts' media. With each prompt's leading medium phrase removed, "What is the art style of the image this prompt describes?" picked 51 of 72, a paired 0.069 [0.014, 0.125] above "What art style does this prompt ask for?" (`tests-AB/ab_text_classify.py`, run `2026-10-17-cues`) |
 | score | ranks brightness at Spearman 0.99, but "sharp" also falls with darkness. Not shipped |
 | ranking written prompts | at chance against a blind judge. Not shipped |
 
@@ -198,8 +282,11 @@ A Registry install gets the published wheel instead, through `[project] dependen
 
 ## Dependency rules
 
-- `[project] dependencies` names the bare `logit-classifier>=0.4.0`, never an extra. The `[hf]` extra
+- `[project] dependencies` names the bare `logit-classifier>=0.6.0`, never an extra. The `[hf]` extra
   names torch, and pip resolving torch beside ComfyUI's pinned CUDA build breaks the install.
+- Every node's run calls `engine.toolkit(node)` before its first toolkit call. `engine.toolkit` reads
+  `logit_classifier.__version__`, since an editable install can keep a stale version in its dist metadata,
+  and rejects a library older than `LIBRARY_VERSION`.
 - Every import of `logit_classifier`, comfy and torch is lazy, inside the function that needs it. A
   missing library raises an error that prints the pip command.
 - A bug in the library is fixed in `E:\logit-classifier` and not patched around here. The owner
@@ -209,7 +296,7 @@ A Registry install gets the published wheel instead, through `[project] dependen
 
 ## Verified against the installed core
 
-Read from the server source at commit `88ab4a06` on 2026-09-27.
+Read from the server source at commit `ce1e922d` on 2026-10-17.
 
 | Fact | Where |
 |---|---|
@@ -220,16 +307,22 @@ Read from the server source at commit `88ab4a06` on 2026-09-27.
 | the image path builds `visual_pos_masks` at batch 1, so one image per request | `qwen3vl.py` |
 | core resizes a VL image only above 12.8 MP | `comfy/text_encoders/qwen_vl.py` |
 | a list input holding an `ExecutionBlocker` blocks the node that receives it | `execution.py`, `_async_map_node_over_list` |
+| a node class with `OUTPUT_NODE = True` is an output of the prompt unless the request names `partial_execution_targets`, and core queues every output with the inputs it reads | `execution.py`, `validate_prompt` and `PromptExecutor.execute_async` |
 | If/Else Switch is lazy and skips the branch not taken. Core has no N-way switch | `comfy_extras/nodes_logic.py` |
 | Save Image-Text (to Folder) pairs a list of `[1, H, W, C]` images with texts by order | `comfy_extras/nodes_dataset.py` |
 | `PromptServer.instance.send_progress_text(text, node_id)` shows text under a node | `server.py` |
 | the template browser reads a pack's `example_workflows`, `example`, `examples`, `workflow` or `workflows` folder | `app/custom_node_manager.py` |
+| `SAM3_Detect` returns `masks`, one mask per image that joins every found object unless `individual_masks` is on, and `bboxes`, one list of `{x, y, width, height, score}` dicts per image | `comfy_extras/nodes_sam3.py` |
+| `ImageCropV2` reads its `crop_region` as one dict through `crop_region.get("x")`, `"y"`, `"width"` and `"height"`, set by its `ImageCrop` widget | `comfy_extras/nodes_images.py` |
+| `ComfyMathExpression` takes an autogrow `values` input named `a` to `z`, which a saved workflow writes as `values.a` and `values.b`, evaluates `expression` with `max` among its functions, and returns FLOAT, INT and a BOOLEAN output named BOOL | `comfy_extras/nodes_math.py` |
+| `SplitImageToTileList` returns a list of `tile_width` by `tile_height` tiles at a stride of the tile size minus `overlap`, and a quarter tile at least. A last tile that would cross the image edge shifts back to end at the edge, so it overlaps the tile before it by more than `overlap` | `comfy_extras/nodes_images.py` |
+| `ImageMergeTileList` rebuilds that grid from the first tile's size and its `final_width`, `final_height` and `overlap`. With `overlap` above 0 it weights each tile by a sine window that falls near 0 at the tile's edges, and it divides the summed tiles by the summed weights | `comfy_extras/nodes_images.py` |
 
 ## Tests and gates
 
 - Unit gate: `.venv\Scripts\python.exe -m pytest tests -q` from the pack root, no GPU.
 - Lint gate: `uvx ruff@0.16.2 check .` reports zero findings, and `node --check web/logit_tagger.js`.
-- Harness: `.venv\Scripts\python.exe tests-AB\ab_tagger.py <image>... [--prompt] [--instruction]`
+- Harness: `.venv\Scripts\python.exe tests-AB\ab_tagger.py <image>... [--prompt TEXT] [--instruction TEXT] [--keep-non-things] [--positions]`
   prints each stage's result and time. Check `nvidia-smi` is idle first.
 - `tests-AB/ab_env.py` holds this machine's paths and memory flags and calls the library's
   `tests-AB/comfy_env.py`, which enables core's DynamicVRAM as `main.py` does. So harness decode takes

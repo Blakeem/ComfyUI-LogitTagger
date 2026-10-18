@@ -1,0 +1,410 @@
+{
+ "g01": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "g02": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "g03": {
+  "line": "no",
+  "medium": "unsure"
+ },
+ "g04": {
+  "line": "no",
+  "medium": "no"
+ },
+ "g05": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "g06": {
+  "line": "yes",
+  "medium": "no"
+ },
+ "g07": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "g08": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "g09": {
+  "line": "unsure",
+  "medium": "unsure"
+ },
+ "g10": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "g11": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "g12": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "g13": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "g14": {
+  "line": "yes",
+  "medium": "no"
+ },
+ "g15": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "g16": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "g17": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "g18": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "g19": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "g20": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "g21": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "g22": {
+  "line": "unsure",
+  "medium": "no"
+ },
+ "g23": {
+  "line": "no",
+  "medium": "no"
+ },
+ "g24": {
+  "line": "no",
+  "medium": "no"
+ },
+ "g25": {
+  "line": "no",
+  "medium": "no"
+ },
+ "g26": {
+  "line": "yes",
+  "medium": "no"
+ },
+ "g27": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "g28": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "g29": {
+  "line": "yes",
+  "medium": "no"
+ },
+ "g30": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "g31": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "g32": {
+  "line": "unsure",
+  "medium": "no"
+ },
+ "g33": {
+  "line": "no",
+  "medium": "no"
+ },
+ "g34": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "g35": {
+  "line": "yes",
+  "medium": "no"
+ },
+ "g36": {
+  "line": "unsure",
+  "medium": "no"
+ },
+ "g37": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "g38": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "g39": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "g40": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "g41": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "g42": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "g43": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "g44": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "g45": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "g46": {
+  "line": "unsure",
+  "medium": "no"
+ },
+ "g47": {
+  "line": "yes",
+  "medium": "no"
+ },
+ "g48": {
+  "line": "no",
+  "medium": "unsure"
+ },
+ "g49": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "g50": {
+  "line": "yes",
+  "medium": "no"
+ },
+ "g51": {
+  "line": "yes",
+  "medium": "no"
+ },
+ "g52": {
+  "line": "unsure",
+  "medium": "no"
+ },
+ "g53": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "g54": {
+  "line": "yes",
+  "medium": "no"
+ },
+ "g55": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "g56": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "g57": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "g58": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "g59": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "g60": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "g61": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "g62": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "g63": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "g64": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "g65": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "g66": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "g67": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "g68": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "g69": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "g70": {
+  "line": "yes",
+  "medium": "no"
+ },
+ "g71": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "g72": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "coco/000000474028.jpg": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "coco/000000189078.jpg": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "coco/000000051738.jpg": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "coco/000000407298.jpg": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "coco/000000368752.jpg": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "coco/000000474095.jpg": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "coco/000000366711.jpg": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "coco/000000255747.jpg": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "coco/000000400161.jpg": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "coco/000000003255.jpg": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "coco/000000522889.jpg": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "coco/000000482585.jpg": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "coco/000000518770.jpg": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "coco/000000130613.jpg": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "coco/000000112378.jpg": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "coco/000000227399.jpg": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "coco/000000193429.jpg": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "coco/000000017178.jpg": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "coco/000000210032.jpg": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "coco/000000567825.jpg": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "coco/000000216739.jpg": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "coco/000000221291.jpg": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "coco/000000535858.jpg": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "coco/000000431876.jpg": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "coco/000000163951.jpg": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "coco/000000545594.jpg": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "coco/000000102805.jpg": {
+  "line": "yes",
+  "medium": "yes"
+ },
+ "coco/000000178028.jpg": {
+  "line": "unsure",
+  "medium": "yes"
+ },
+ "coco/000000367818.jpg": {
+  "line": "no",
+  "medium": "yes"
+ },
+ "coco/000000480212.jpg": {
+  "line": "no",
+  "medium": "yes"
+ }
+}

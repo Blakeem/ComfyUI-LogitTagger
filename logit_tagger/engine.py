@@ -1,4 +1,5 @@
-"""Model access every node of the pack shares: image checks, the pixel caps, the classifier and choices.
+"""Model access every node of the pack shares: image checks, the pixel caps, the library gate, the classifier
+and choices.
 
 No comfy, torch or logit_classifier module is imported at module scope, so the unit tests
 run without ComfyUI and a missing library fails with its pip command.
@@ -14,6 +15,8 @@ VL_MAX_PIXELS = 1024 * 1024
 # At 0.5 MP one question took 276 ms against 553 ms at 1 MP, and every logit probe stayed inside its 1 MP interval
 # (tests-AB/ab_release_gates.py --max-pixels).
 CHECK_MAX_PIXELS = 512 * 1024
+# 0.6.0 adds the toolkit's style line, prompt style listing and tag strips.
+LIBRARY_VERSION = "0.6.0"
 
 
 def check_images(images: Any, node: str) -> None:
@@ -32,13 +35,42 @@ def check_images(images: Any, node: str) -> None:
         )
 
 
-def library_error(node: str) -> RuntimeError:
+def library_error(node: str, reason: str) -> RuntimeError:
     """The error for a missing or outdated logit-classifier, with the pip command that fixes it."""
     return RuntimeError(
-        f"{node}: this node needs logit-classifier>=0.4.0, which provides the ComfyUI toolkit "
-        "logit_classifier.toolkit. Install or upgrade it in the ComfyUI Python environment with: "
-        "pip install -U logit-classifier"
+        f"{node}: this node needs logit-classifier {LIBRARY_VERSION} or newer, and {reason}. Install or upgrade it "
+        f'in the ComfyUI Python environment with: pip install -U "logit-classifier>={LIBRARY_VERSION}"'
     )
+
+
+def toolkit(node: str) -> Any:
+    """logit_classifier.toolkit.comfyui, or library_error under node's name when the library is missing, is older
+    than LIBRARY_VERSION, or reports no version this gate can read."""
+    installed = None
+    installed_version = None
+
+    try:
+        import logit_classifier
+        import logit_classifier.toolkit.comfyui as comfy_toolkit
+    except ImportError as error:
+        raise library_error(node, f"its toolkit cannot be imported ({error})") from error
+    # Core requires transformers, which requires packaging, so pip's own version ordering is present wherever a node
+    # runs.
+    from packaging.version import InvalidVersion, Version
+
+    # The module attribute, never importlib.metadata, since an editable install can keep a stale version in its dist
+    # metadata.
+    installed = getattr(logit_classifier, "__version__", None)
+    if installed is None:
+        raise library_error(node, "the installed library reports no version")
+    try:
+        installed_version = Version(installed)
+    except (InvalidVersion, TypeError) as error:
+        raise library_error(
+            node, f"the installed library reports version {installed!r}, which is not a version number") from error
+    if installed_version < Version(LIBRARY_VERSION):
+        raise library_error(node, f"version {installed} is installed")
+    return comfy_toolkit
 
 
 def build_classifier(clip: Any, node: str, *, needs_images: bool = True) -> Any:
@@ -46,21 +78,21 @@ def build_classifier(clip: Any, node: str, *, needs_images: bool = True) -> Any:
 
     The toolkit raises UnsupportedModelError or VisionUnsupportedError naming the node and the Load CLIP fix.
     """
-    try:
-        from logit_classifier.toolkit.comfyui import comfy_classifier
-    except ImportError as error:
-        raise library_error(node) from error
-
-    return comfy_classifier(clip, node=node, needs_images=needs_images)
+    return toolkit(node).comfy_classifier(clip, node=node, needs_images=needs_images)
 
 
-def choose(classifier: Any, question: str, options: list[str], *, image: Any) -> tuple[str, float]:
-    """The option one choice question picks about image, with the answer's confidence."""
+def choose(classifier: Any, question: str, options: list[str], *, image: Any = None,
+           state: str = "") -> tuple[str, float]:
+    """The option one choice question picks about state, and about image when one is given, with the answer's
+    confidence."""
     from logit_classifier import ChoiceQuestion, SystemOneRequest
 
-    request = SystemOneRequest(state="", questions={
+    request = SystemOneRequest(state=state, questions={
         "choice": ChoiceQuestion(instructions=question, criteria=dict.fromkeys(options)),
     })
-    response, _diagnostics = classifier.classify(request, image=image)
+    if image is None:
+        response, _diagnostics = classifier.classify(request)
+    else:
+        response, _diagnostics = classifier.classify(request, image=image)
     answer = response.answers["choice"]
     return answer.choice, answer.confidence

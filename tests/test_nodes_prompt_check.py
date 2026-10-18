@@ -94,15 +94,16 @@ def fake_comfy(monkeypatch):
 
 
 @pytest.fixture
-def fake_engine(monkeypatch):
-    """Replaces the classifier build and the toolkit's fit, with a classifier whose nouls answers each call with the
-    next queued list."""
+def fake_engine(monkeypatch, resident_loads):
+    """Replaces the classifier build, the toolkit's fit and its resident load skip, with a classifier whose nouls
+    answers each call with the next queued list."""
     toolkit = pytest.importorskip("logit_classifier.toolkit.comfyui")
-    record = SimpleNamespace(scores=[], built=[], calls=[])
+    record = SimpleNamespace(scores=[], built=[], calls=[], resident_loads=resident_loads)
 
     class RecordingClassifier:
         def nouls(self, statements, *, image=None, state=""):
-            record.calls.append(SimpleNamespace(classifier=self, statements=statements, image=image, state=state))
+            record.calls.append(SimpleNamespace(classifier=self, statements=statements, image=image, state=state,
+                                                resident=resident_loads.open))
             return record.scores.pop(0)
 
     record.classifier = RecordingClassifier()
@@ -120,14 +121,14 @@ def fake_engine(monkeypatch):
 
 
 @pytest.fixture
-def fake_things(monkeypatch):
+def fake_things(monkeypatch, resident_loads):
     """Replaces the toolkit's tag_prompt with a lookup in things_of, recording each call."""
     toolkit = pytest.importorskip("logit_classifier.toolkit.comfyui")
     record = SimpleNamespace(things_of={}, calls=[])
 
     def tag_prompt(clip, classifier, prompt, settings, thing_cache):
         record.calls.append(SimpleNamespace(clip=clip, classifier=classifier, prompt=prompt, settings=settings,
-                                            thing_cache=thing_cache))
+                                            thing_cache=thing_cache, resident=resident_loads.open))
         return SimpleNamespace(tags=record.things_of[prompt])
 
     monkeypatch.setattr(toolkit, "tag_prompt", tag_prompt)
@@ -224,6 +225,19 @@ def test_a_prompt_with_no_things_scores_one_and_asks_the_image_nothing(fake_comf
 
 
 # --- pairing prompts with images ------------------------------------------------------
+
+
+def test_one_resident_load_skip_spans_every_listing_and_check_of_the_run(fake_engine, fake_things):
+    clip = object()
+    fake_things.things_of = {"a cat": ("cat",), "a dog": ("dog",)}
+    fake_engine.scores = [[0.9], [0.8]]
+
+    tagging.check_prompt(clip, [an_image(), an_image()], ["a cat", "a dog"])
+
+    assert fake_engine.resident_loads.clips == [clip]
+    assert [call.resident for call in fake_things.calls] == [True, True]
+    assert [call.resident for call in fake_engine.calls] == [True, True]
+    assert fake_engine.resident_loads.open is False
 
 
 def test_one_prompt_for_three_images_lists_its_things_once(fake_comfy, fake_engine, fake_things):

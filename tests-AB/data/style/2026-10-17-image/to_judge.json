@@ -1,0 +1,515 @@
+{
+ "path": "image",
+ "entries": [
+  {
+   "key": "g01",
+   "line": "Photographic medium; documentary realism with a focus on texture and character.",
+   "medium": "photograph"
+  },
+  {
+   "key": "g02",
+   "line": "Photographic — cinematic realism with vibrant neon lighting and shallow depth of field, capturing a warm, intimate street scene at night.",
+   "medium": "photograph"
+  },
+  {
+   "key": "g03",
+   "line": "Photorealistic digital imagery, capturing a warm, cinematic style with saturated sunset hues and dynamic motion blur, evoking a joyful, sun-drenched coastal moment.",
+   "medium": "photograph"
+  },
+  {
+   "key": "g04",
+   "line": "Photorealistic digital illustration — hyper-detailed, cinematic lighting, and warm, intimate atmosphere evoking a cozy, rustic dining scene.",
+   "medium": "photograph"
+  },
+  {
+   "key": "g05",
+   "line": "Photographic — Landscape, with dramatic lighting and saturated colors, evoking a painterly, cinematic quality.",
+   "medium": "photograph"
+  },
+  {
+   "key": "g06",
+   "line": "Digital illustration with a hyper-realistic, saturated style.",
+   "medium": "photograph"
+  },
+  {
+   "key": "g07",
+   "line": "Photographic — Realistic, cozy interior scene with natural lighting and soft focus.",
+   "medium": "photograph"
+  },
+  {
+   "key": "g08",
+   "line": "Photographic medium; urban street scene with dramatic lighting and color contrast, capturing motion and atmosphere in a rainy city environment.",
+   "medium": "photograph"
+  },
+  {
+   "key": "g09",
+   "line": "Photorealistic still life — close-up, high-resolution, natural lighting, shallow depth of field, emphasizing tactile textures and vibrant color contrast.",
+   "medium": "photograph"
+  },
+  {
+   "key": "g10",
+   "line": "Anime-style illustration, featuring a soft, romanticized aesthetic with vibrant colors and expressive character design. The scene combines realistic lighting and detailed backgrounds with stylized, emotionally evocative character portrayal, typical of modern Japanese anime.",
+   "medium": "anime illustration"
+  },
+  {
+   "key": "g11",
+   "line": "Anime-style illustration, featuring a dramatic, high-contrast visual aesthetic with bold lines, vibrant color saturation, and dynamic lighting. The character is rendered with detailed facial features and expressive eyes, set against a stylized, atmospheric background of ancient ruins. The art conveys a sense of epic grandeur and intensity, typical of shonen-action genres.",
+   "medium": "anime illustration"
+  },
+  {
+   "key": "g12",
+   "line": "Anime-style illustration, characterized by expressive eyes, clean lines, and vibrant, saturated colors. The art conveys a warm, cozy atmosphere typical of Japanese ramen shops, with stylized characters and traditional elements like paper lanterns and a fishbowl. The style is reminiscent of contemporary anime, with a focus on emotional expression and dynamic composition.",
+   "medium": "anime illustration"
+  },
+  {
+   "key": "g13",
+   "line": "Anime-style illustration, characterized by vibrant, saturated colors, clean lines, and stylized natural scenery. The artwork employs a classic anime aesthetic with exaggerated perspective, soft shading, and a dreamlike, serene atmosphere typical of Japanese countryside depictions.",
+   "medium": "anime illustration"
+  },
+  {
+   "key": "g14",
+   "line": "Digital illustration, with a vibrant, stylized realism that emphasizes bold colors and clean lines, evoking a cheerful, decorative aesthetic.",
+   "medium": "anime illustration"
+  },
+  {
+   "key": "g15",
+   "line": "Anime-style illustration, featuring bold, saturated colors and dynamic, stylized linework typical of Japanese anime. The scene is rendered in a vibrant, neon-drenched cyberpunk aesthetic, with glowing signs and rain-slicked streets enhancing the futuristic urban atmosphere. The art conveys a sense of grandeur and action through exaggerated proportions and dramatic lighting.",
+   "medium": "anime illustration"
+  },
+  {
+   "key": "g16",
+   "line": "Anime style, specifically a vibrant, colorful, and expressive anime aesthetic with clean lines, exaggerated features, and a cheerful, whimsical tone. The art is reminiscent of classic 90s anime, featuring bright skies, stylized characters, and a dynamic composition that emphasizes motion and fantasy.",
+   "medium": "anime illustration"
+  },
+  {
+   "key": "g17",
+   "line": "Anime-style illustration, characterized by vibrant, saturated colors, clean lines, and stylized lighting—here, warm golden sunlight streaming through windows. The scene is rendered with a soft, slightly exaggerated perspective typical of anime, emphasizing atmosphere over photorealism, and features a static, orderly classroom setting with bold, expressive typography on the chalkboard.",
+   "medium": "anime illustration"
+  },
+  {
+   "key": "g18",
+   "line": "Cartoon style, specifically anime-inspired illustration with bold outlines, vibrant flat colors, and expressive character design. The art conveys a warm, cheerful tone through exaggerated features and dynamic composition, typical of Japanese manga or anime aesthetics.",
+   "medium": "anime illustration"
+  },
+  {
+   "key": "g19",
+   "line": "Oil painting style, with expressive impasto brushwork and vibrant, warm color palette evoking a post-impressionist or modernist aesthetic.",
+   "medium": "oil painting"
+  },
+  {
+   "key": "g20",
+   "line": "Oil on canvas, Baroque portraiture.",
+   "medium": "oil painting"
+  },
+  {
+   "key": "g21",
+   "line": "Oil on canvas, Baroque still life.",
+   "medium": "oil painting"
+  },
+  {
+   "key": "g22",
+   "line": "Digital painting; fantasy epic style with dramatic lighting, bold colors, and dynamic composition.",
+   "medium": "oil painting"
+  },
+  {
+   "key": "g23",
+   "line": "Digital illustration with a stylized, high-contrast, pop-art aesthetic—characterized by bold, saturated colors, flat areas of tone, and a textured, almost pixelated surface. The composition evokes a vibrant, cartoonish countryside scene, emphasizing graphic clarity and emotional impact over photorealism.",
+   "medium": "oil painting"
+  },
+  {
+   "key": "g24",
+   "line": "Digital illustration; painterly, impressionistic style with vibrant, saturated colors and soft, blended brushwork, evoking a romantic, cinematic nighttime urban scene.",
+   "medium": "oil painting"
+  },
+  {
+   "key": "g25",
+   "line": "Digital illustration, fantasy genre. The artwork employs rich, saturated colors and dramatic lighting, with stylized, painterly brushwork that emphasizes texture and depth. The scene is rendered in a classic fantasy aesthetic, featuring a wise, bearded wizard in a pointed hat, surrounded by books, candles, and mystical elements like an owl and a globe, all bathed in warm, intimate glow. The composition is detailed and atmospheric, evoking a sense of ancient knowledge and arcane contemplation.",
+   "medium": "oil painting"
+  },
+  {
+   "key": "g26",
+   "line": "Digital painting, with a dramatic, impressionistic style characterized by bold brushstrokes, vivid color contrasts, and dynamic lighting to evoke emotional intensity.",
+   "medium": "oil painting"
+  },
+  {
+   "key": "g27",
+   "line": "Oil painting, academic realism.",
+   "medium": "oil painting"
+  },
+  {
+   "key": "g28",
+   "line": "Digital illustration, stylized 3D render with smooth, glossy surfaces and vibrant, saturated colors. The art leans into a cute, futuristic aesthetic, featuring a humanoid robot with glowing blue eyes and antennae, rendered in a clean, cartoonish manner. The scene is brightly lit with soft shadows and a shallow depth of field, emphasizing the robot’s gentle interaction with a cactus, evoking a warm, whimsical, and tech-adjacent domestic atmosphere.",
+   "medium": "3D render"
+  },
+  {
+   "key": "g29",
+   "line": "Digital illustration — photorealistic style.",
+   "medium": "3D render"
+  },
+  {
+   "key": "g30",
+   "line": "Photorealistic digital rendering; minimalist Scandinavian interior design.",
+   "medium": "3D render"
+  },
+  {
+   "key": "g31",
+   "line": "3D digital illustration, stylized fantasy realism with clean lines, vibrant colors, and detailed textures.",
+   "medium": "3D render"
+  },
+  {
+   "key": "g32",
+   "line": "Photorealistic digital illustration — hyper-detailed, studio-lit food photography with glossy textures, dramatic lighting, and a clean, high-contrast aesthetic.",
+   "medium": "3D render"
+  },
+  {
+   "key": "g33",
+   "line": "Digital illustration; cyberpunk aesthetic with neon-lit urban streets, glowing signage, and futuristic vehicles.",
+   "medium": "3D render"
+  },
+  {
+   "key": "g34",
+   "line": "3D computer animation, characterized by smooth, stylized surfaces, vibrant saturated colors, and soft lighting that enhances the cartoonish, friendly aesthetic of the penguins and their icy environment.",
+   "medium": "3D render"
+  },
+  {
+   "key": "g35",
+   "line": "Claymation, with a whimsical, toy-like aesthetic featuring smooth, rounded forms and bright, saturated colors. The style evokes a charming, handcrafted miniature world with soft lighting and a cozy, festive atmosphere.",
+   "medium": "3D render"
+  },
+  {
+   "key": "g36",
+   "line": "Still life photograph — high-end, luxury aesthetic with dramatic lighting and rich, saturated colors.",
+   "medium": "3D render"
+  },
+  {
+   "key": "g37",
+   "line": "Watercolor, with a vibrant, impressionistic style that emphasizes color blending, soft edges, and expressive brushwork to capture the lively, sun-drenched atmosphere of a Venetian canal.",
+   "medium": "watercolor"
+  },
+  {
+   "key": "g38",
+   "line": "Watercolor illustration with a vibrant, stylized naturalistic approach, emphasizing bold colors and fluid brushwork to depict a dynamic scene of a kingfisher catching a fish.",
+   "medium": "watercolor"
+  },
+  {
+   "key": "g39",
+   "line": "Watercolor illustration with a whimsical, childlike aesthetic, featuring soft blended washes, visible brushstrokes, and playful, expressive details—such as splashing puddles and a cheerful child in a raincoat—evoking a nostalgic, dreamy atmosphere.",
+   "medium": "watercolor"
+  },
+  {
+   "key": "g40",
+   "line": "Watercolor illustration with a soft, hand-drawn aesthetic, featuring gentle washes and visible brushstrokes to convey a fresh, vibrant, and slightly whimsical depiction of a Greek salad.",
+   "medium": "watercolor"
+  },
+  {
+   "key": "g41",
+   "line": "Watercolor, with a soft, impressionistic style characterized by blended hues, visible brushstrokes, and a dreamy, luminous quality. The scene is rendered with gentle gradients and textured washes, evoking a serene, painterly autumn landscape.",
+   "medium": "watercolor"
+  },
+  {
+   "key": "g42",
+   "line": "Watercolor with bold, saturated colors and expressive brushwork, evoking a warm, cozy, and slightly stylized realism.",
+   "medium": "watercolor"
+  },
+  {
+   "key": "g43",
+   "line": "Watercolor illustration with a whimsical, nostalgic style, featuring soft blended hues, visible brushstrokes, and a charming, slightly dreamlike atmosphere.",
+   "medium": "watercolor"
+  },
+  {
+   "key": "g44",
+   "line": "Watercolor illustration with a whimsical, cartoonish style, featuring vibrant, saturated colors and simplified forms to evoke a cheerful, nostalgic outdoor camping scene.",
+   "medium": "watercolor"
+  },
+  {
+   "key": "g45",
+   "line": "Watercolor, with expressive, fluid brushwork and vibrant, translucent washes that capture motion and light. The style is dynamic and painterly, emphasizing energy and naturalism through bold strokes and blended hues.",
+   "medium": "watercolor"
+  },
+  {
+   "key": "g46",
+   "line": "Black-and-white ink illustration, rendered in a detailed, realistic style with fine cross-hatching and stippling to convey texture and depth, evoking a classic portrait aesthetic.",
+   "medium": "pencil sketch"
+  },
+  {
+   "key": "g47",
+   "line": "Black-and-white ink illustration, with detailed linework and cross-hatching to create texture and depth, evoking a classic, hand-drawn graphic novel or editorial style.",
+   "medium": "pencil sketch"
+  },
+  {
+   "key": "g48",
+   "line": "Black-and-white line art, featuring detailed architectural illustration with Gothic cathedral elements, rendered in a clean, graphic style that emphasizes structure and symmetry.",
+   "medium": "pencil sketch"
+  },
+  {
+   "key": "g49",
+   "line": "Black-and-white pencil sketch with a detailed, realistic style, featuring expressive linework and subtle shading to convey texture and depth. The illustration has a whimsical yet refined tone, blending anthropomorphic charm with a vintage, literary atmosphere.",
+   "medium": "pencil sketch"
+  },
+  {
+   "key": "g50",
+   "line": "Black-and-white linocut illustration with bold, graphic lines and flat areas of tone, evoking a vintage, illustrative style reminiscent of early 20th-century travel posters or children’s books.",
+   "medium": "pencil sketch"
+  },
+  {
+   "key": "g51",
+   "line": "Black-and-white ink illustration with a graphic, high-contrast style reminiscent of vintage comic art or woodcut prints, featuring bold linework, stippling, and textured backgrounds.",
+   "medium": "pencil sketch"
+  },
+  {
+   "key": "g52",
+   "line": "The image is a stylized illustration rendered in a bold, graphic medium with strong outlines and flat, saturated color blocks—primarily teal and red—creating a vibrant, retro aesthetic. The general style is reminiscent of mid-20th-century comic book or propaganda art, characterized by simplified forms, dynamic composition, and a sense of lively, everyday activity. The use of hatching and cross-hatching adds texture and depth, while the limited palette and clean lines evoke a nostalgic, illustrative quality.",
+   "medium": "pencil sketch"
+  },
+  {
+   "key": "g53",
+   "line": "Concept art, featuring detailed pencil and ink sketches with digital coloring, depicting a fantasy sword with ornate, jagged designs and glowing blue accents. The style is illustrative and stylized, evoking a high-fantasy aesthetic with dramatic lighting and textured surfaces.",
+   "medium": "pencil sketch"
+  },
+  {
+   "key": "g54",
+   "line": "Colorful, stylized illustration with bold outlines and vibrant, saturated hues; reminiscent of a modern, graphic novel or children’s book aesthetic, featuring exaggerated perspective and flat, expressive color fields.",
+   "medium": "pencil sketch"
+  },
+  {
+   "key": "g55",
+   "line": "Pixel art, retro video game style.",
+   "medium": "pixel art"
+  },
+  {
+   "key": "g56",
+   "line": "Pixel art, with a vibrant, neon-drenched cyberpunk aesthetic.",
+   "medium": "pixel art"
+  },
+  {
+   "key": "g57",
+   "line": "Pixel art, retro 8-bit style.",
+   "medium": "pixel art"
+  },
+  {
+   "key": "g58",
+   "line": "Pixel art, retro video game style.",
+   "medium": "pixel art"
+  },
+  {
+   "key": "g59",
+   "line": "Pixel art, retro video game style.",
+   "medium": "pixel art"
+  },
+  {
+   "key": "g60",
+   "line": "Pixel art, with a retro, 16-bit aesthetic featuring blocky, colorful sprites and simplified textures, evoking a nostalgic video game feel.",
+   "medium": "pixel art"
+  },
+  {
+   "key": "g61",
+   "line": "Pixel art, with a retro 8-bit aesthetic, featuring vibrant, blocky colors and simplified forms. The scene is rendered in a cozy, nostalgic style reminiscent of classic video games, evoking a warm, intimate atmosphere through its charming, stylized depiction of a sleeping cat by a window under a full moon.",
+   "medium": "pixel art"
+  },
+  {
+   "key": "g62",
+   "line": "Pixel art, with a clean, stylized aesthetic featuring smooth gradients, bold outlines, and vibrant, saturated colors. The character design is detailed yet simplified, emphasizing expressive features and fantasy elements like pointed ears and floral adornments, typical of modern retro-inspired digital illustration.",
+   "medium": "pixel art"
+  },
+  {
+   "key": "g63",
+   "line": "Pixel art, with a retro, 16-bit aesthetic reminiscent of classic video games, featuring bold, blocky colors and a warm, cozy atmosphere. The style evokes a nostalgic, hand-drawn feel with clean lines and saturated tones, capturing a medieval tavern scene with rich detail and emotional warmth.",
+   "medium": "pixel art"
+  },
+  {
+   "key": "g64",
+   "line": "Comic book art, classic superhero style with bold lines, vibrant colors, and halftone shading.",
+   "medium": "comic book"
+  },
+  {
+   "key": "g65",
+   "line": "Comic book illustration, featuring bold linework, high-contrast color palette, and dramatic lighting typical of noir or detective genres.",
+   "medium": "comic book"
+  },
+  {
+   "key": "g66",
+   "line": "Comic book style, featuring bold outlines, flat vibrant colors, and exaggerated perspective typical of mid-20th century American comics.",
+   "medium": "comic book"
+  },
+  {
+   "key": "g67",
+   "line": "Comic book illustration, featuring bold outlines, flat vibrant colors, and expressive cartoon characters in a classic mid-20th-century American comic style.",
+   "medium": "comic book"
+  },
+  {
+   "key": "g68",
+   "line": "Comic book illustration, featuring bold linework, saturated primary colors, and dynamic action poses typical of classic manga or American superhero comics.",
+   "medium": "comic book"
+  },
+  {
+   "key": "g69",
+   "line": "Comic book illustration style, featuring bold outlines, flat vibrant colors, and exaggerated expressions typical of classic superhero or science fiction comics. The artwork uses a high-contrast, graphic aesthetic with dramatic lighting and stylized details, emphasizing the character’s eccentricity and the surreal, experimental setting.",
+   "medium": "comic book"
+  },
+  {
+   "key": "g70",
+   "line": "Pop art, with bold, flat colors and graphic, stylized forms.",
+   "medium": "comic book"
+  },
+  {
+   "key": "g71",
+   "line": "Comic book style, with bold outlines, flat vibrant colors, and exaggerated expressions typical of pop art or cartoon illustration.",
+   "medium": "comic book"
+  },
+  {
+   "key": "g72",
+   "line": "Comic book style, with bold outlines, saturated primary colors, and dynamic, exaggerated action poses typical of classic adventure comics.",
+   "medium": "comic book"
+  },
+  {
+   "key": "coco/000000474028.jpg",
+   "line": "Photographic medium; candid action style.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000189078.jpg",
+   "line": "Still life photograph — naturalistic, candid composition with soft, even lighting.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000051738.jpg",
+   "line": "Photographic medium; documentary style.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000407298.jpg",
+   "line": "Photographic portrait, candid style.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000368752.jpg",
+   "line": "Photographic, candid snapshot style.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000474095.jpg",
+   "line": "Black and white photograph; documentary realism.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000366711.jpg",
+   "line": "Photographic medium; vibrant, saturated color palette with natural lighting, capturing a candid, sun-drenched street scene. The style is documentary realism, emphasizing vivid textures and the lively, tactile atmosphere of a fruit stand.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000255747.jpg",
+   "line": "Photographic, candid food photography.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000400161.jpg",
+   "line": "Photographic, documentary style.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000003255.jpg",
+   "line": "Photographic medium; landscape style with emphasis on natural grandeur and human scale.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000522889.jpg",
+   "line": "Photographic medium, action sports photography.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000482585.jpg",
+   "line": "Photographic medium; documentary realism.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000518770.jpg",
+   "line": "Photographic medium, candid documentary style.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000130613.jpg",
+   "line": "Photographic — food photography, with a rustic, warm, and appetizing aesthetic.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000112378.jpg",
+   "line": "Photographic medium; naturalistic realism.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000227399.jpg",
+   "line": "Photographic medium, documentary style.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000193429.jpg",
+   "line": "Photographic medium; candid, outdoor sports portrait with natural lighting and candid composition.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000017178.jpg",
+   "line": "Photographic realism — a naturalistic, documentary-style image capturing an everyday rural scene with a candid, unposed quality.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000210032.jpg",
+   "line": "Photographic, candid realism.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000567825.jpg",
+   "line": "Photographic still life — food photography with shallow depth of field, warm natural lighting, and a rustic, appetizing aesthetic.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000216739.jpg",
+   "line": "Photographic realism.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000221291.jpg",
+   "line": "Color photograph; candid, naturalistic style.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000535858.jpg",
+   "line": "Photographic medium, candid action style.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000431876.jpg",
+   "line": "Photographic medium; urban street scene with autumnal color palette and realistic, documentary-style composition.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000163951.jpg",
+   "line": "Still life photography — minimalist, conceptual, with a whimsical, surreal aesthetic.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000545594.jpg",
+   "line": "Photographic, candid street photography.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000102805.jpg",
+   "line": "Photographic, documentary style.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000178028.jpg",
+   "line": "Photographic — Realistic, indoor, documentary-style.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000367818.jpg",
+   "line": "Photographic medium; naturalistic realism with soft, bright lighting and outdoor pastoral setting.",
+   "medium": "photograph"
+  },
+  {
+   "key": "coco/000000480212.jpg",
+   "line": "Photographic still life — candid, everyday objects arranged on a wooden surface, captured with natural lighting and shallow depth of field, evoking a casual, documentary aesthetic.",
+   "medium": "photograph"
+  }
+ ]
+}

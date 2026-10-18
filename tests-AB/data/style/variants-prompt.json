@@ -1,0 +1,37 @@
+{
+ "listings": {
+  "none-escape": {
+   "prompt_instruction": "This is a prompt for an image:\n{PROMPT}\n\nList the words of the prompt that name how the image is made: its medium, such as a photograph, a painting, a drawing or a 3D render, and the style within that medium, such as a technique, an art movement or an artist. Copy each phrase from the prompt. Use short lowercase phrases separated by commas. Leave out the things, people, places, actions, lighting and mood. List each phrase once. If the prompt names no medium and no style, output none. Output only the list."
+  }
+ },
+ "scorings": {
+  "criteria-wide": {
+   "style_criteria": [
+    [
+     "style",
+     "how a picture is made or styled, alone or beside a shot type or a format: a medium such as a photograph, a painting, a drawing, a print or a 3D render, a technique such as watercolor, oil paint, impasto or pixel art, an art movement, an artist's style, or a film or camera look"
+    ],
+    [
+     "other",
+     "what a picture shows or how it is rated: an object or the material it is made of, a person, an animal, a place, an action, a time of day, a color, lighting, a mood, a shot type alone, or a quality word such as high quality or award-winning"
+    ]
+   ]
+  },
+  "question-made": {
+   "style_question": "In an image prompt, does the phrase \"{TAG}\" say how the picture is made or what it shows"
+  },
+  "question-made-wide": {
+   "style_question": "In an image prompt, does the phrase \"{TAG}\" say how the picture is made or what it shows",
+   "style_criteria": [
+    [
+     "style",
+     "how a picture is made or styled, alone or beside a shot type or a format: a medium such as a photograph, a painting, a drawing, a print or a 3D render, a technique such as watercolor, oil paint, impasto or pixel art, an art movement, an artist's style, or a film or camera look"
+    ],
+    [
+     "other",
+     "what a picture shows or how it is rated: an object or the material it is made of, a person, an animal, a place, an action, a time of day, a color, lighting, a mood, a shot type alone, or a quality word such as high quality or award-winning"
+    ]
+   ]
+  }
+ }
+}

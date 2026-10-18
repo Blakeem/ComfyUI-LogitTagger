@@ -22,10 +22,10 @@
       "outputs": [],
       "properties": {},
       "widgets_values": [
-        "Logit Tagger lists the things it sees in the image and keeps only the tags the image shows. To add a prompt's things as candidates, connect the Prompt node to prompt. To check only a fixed list of tags, connect the Tag list node to tags instead."
+        "Logit Tagger lists the things it sees in the image and keeps only the tags the image shows. To add a prompt's things as candidates, connect the Prompt node to prompt."
       ],
       "widgets_values_named": {
-        "text": "Logit Tagger lists the things it sees in the image and keeps only the tags the image shows. To add a prompt's things as candidates, connect the Prompt node to prompt. To check only a fixed list of tags, connect the Tag list node to tags instead."
+        "text": "Logit Tagger lists the things it sees in the image and keeps only the tags the image shows. To add a prompt's things as candidates, connect the Prompt node to prompt."
       },
       "color": "#432",
       "bgcolor": "#653"
@@ -39,7 +39,7 @@
       ],
       "size": [
         270,
-        106
+        110
       ],
       "flags": {},
       "order": 1,
@@ -205,50 +205,6 @@
       }
     },
     {
-      "id": 5,
-      "type": "PrimitiveStringMultiline",
-      "pos": [
-        0,
-        910
-      ],
-      "size": [
-        300,
-        110
-      ],
-      "flags": {},
-      "order": 4,
-      "mode": 0,
-      "inputs": [
-        {
-          "localized_name": "value",
-          "name": "value",
-          "type": "STRING",
-          "widget": {
-            "name": "value"
-          },
-          "link": null
-        }
-      ],
-      "outputs": [
-        {
-          "localized_name": "STRING",
-          "name": "STRING",
-          "type": "STRING",
-          "links": null
-        }
-      ],
-      "title": "Tag list",
-      "properties": {
-        "Node name for S&R": "PrimitiveStringMultiline"
-      },
-      "widgets_values": [
-        "knight, fox, sword, dragon, castle, moss"
-      ],
-      "widgets_values_named": {
-        "value": "knight, fox, sword, dragon, castle, moss"
-      }
-    },
-    {
       "id": 6,
       "type": "LogitTagger",
       "pos": [
@@ -260,7 +216,7 @@
         260
       ],
       "flags": {},
-      "order": 5,
+      "order": 4,
       "mode": 0,
       "inputs": [
         {
@@ -283,17 +239,23 @@
           "link": null
         },
         {
-          "localized_name": "instruction",
-          "name": "instruction",
+          "localized_name": "strict",
+          "name": "strict",
           "shape": 7,
-          "type": "STRING",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "strict"
+          },
           "link": null
         },
         {
-          "localized_name": "tags",
-          "name": "tags",
+          "localized_name": "positions",
+          "name": "positions",
           "shape": 7,
-          "type": "STRING",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "positions"
+          },
           "link": null
         }
       ],
@@ -318,8 +280,14 @@
       "properties": {
         "Node name for S&R": "LogitTagger"
       },
-      "widgets_values": [],
-      "widgets_values_named": {}
+      "widgets_values": [
+        false,
+        false
+      ],
+      "widgets_values_named": {
+        "strict": false,
+        "positions": false
+      }
     },
     {
       "id": 7,
@@ -333,7 +301,7 @@
         200
       ],
       "flags": {},
-      "order": 6,
+      "order": 5,
       "mode": 0,
       "inputs": [
         {

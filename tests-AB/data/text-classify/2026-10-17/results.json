@@ -1,0 +1,1533 @@
+{
+ "clip": "qwen3vl_4b_fp8_scaled.safetensors",
+ "library_version": "0.6.0",
+ "options": [
+  "photograph",
+  "anime illustration",
+  "oil painting",
+  "3D render",
+  "watercolor",
+  "pencil sketch",
+  "pixel art",
+  "comic book"
+ ],
+ "wordings": [
+  "What art style does this prompt ask for?",
+  "What is the art style of the image this prompt describes?",
+  "What medium does this prompt ask for?"
+ ],
+ "records": [
+  {
+   "unit": "g01",
+   "medium": "photograph",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999883
+  },
+  {
+   "unit": "g02",
+   "medium": "photograph",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999871
+  },
+  {
+   "unit": "g03",
+   "medium": "photograph",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999682
+  },
+  {
+   "unit": "g04",
+   "medium": "photograph",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999846
+  },
+  {
+   "unit": "g05",
+   "medium": "photograph",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999816
+  },
+  {
+   "unit": "g06",
+   "medium": "photograph",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.998805
+  },
+  {
+   "unit": "g07",
+   "medium": "photograph",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999778
+  },
+  {
+   "unit": "g08",
+   "medium": "photograph",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999889
+  },
+  {
+   "unit": "g09",
+   "medium": "photograph",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999394
+  },
+  {
+   "unit": "g10",
+   "medium": "anime illustration",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999976
+  },
+  {
+   "unit": "g11",
+   "medium": "anime illustration",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.99992
+  },
+  {
+   "unit": "g12",
+   "medium": "anime illustration",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999974
+  },
+  {
+   "unit": "g13",
+   "medium": "anime illustration",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999907
+  },
+  {
+   "unit": "g14",
+   "medium": "anime illustration",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999969
+  },
+  {
+   "unit": "g15",
+   "medium": "anime illustration",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999959
+  },
+  {
+   "unit": "g16",
+   "medium": "anime illustration",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999975
+  },
+  {
+   "unit": "g17",
+   "medium": "anime illustration",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999919
+  },
+  {
+   "unit": "g18",
+   "medium": "anime illustration",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999966
+  },
+  {
+   "unit": "g19",
+   "medium": "oil painting",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999987
+  },
+  {
+   "unit": "g20",
+   "medium": "oil painting",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999955
+  },
+  {
+   "unit": "g21",
+   "medium": "oil painting",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999974
+  },
+  {
+   "unit": "g22",
+   "medium": "oil painting",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999979
+  },
+  {
+   "unit": "g23",
+   "medium": "oil painting",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999982
+  },
+  {
+   "unit": "g24",
+   "medium": "oil painting",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999971
+  },
+  {
+   "unit": "g25",
+   "medium": "oil painting",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999975
+  },
+  {
+   "unit": "g26",
+   "medium": "oil painting",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999984
+  },
+  {
+   "unit": "g27",
+   "medium": "oil painting",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999976
+  },
+  {
+   "unit": "g28",
+   "medium": "3D render",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999971
+  },
+  {
+   "unit": "g29",
+   "medium": "3D render",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999377
+  },
+  {
+   "unit": "g30",
+   "medium": "3D render",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999947
+  },
+  {
+   "unit": "g31",
+   "medium": "3D render",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.99995
+  },
+  {
+   "unit": "g32",
+   "medium": "3D render",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999486
+  },
+  {
+   "unit": "g33",
+   "medium": "3D render",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.99986
+  },
+  {
+   "unit": "g34",
+   "medium": "3D render",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999893
+  },
+  {
+   "unit": "g35",
+   "medium": "3D render",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.99994
+  },
+  {
+   "unit": "g36",
+   "medium": "3D render",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999789
+  },
+  {
+   "unit": "g37",
+   "medium": "watercolor",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999908
+  },
+  {
+   "unit": "g38",
+   "medium": "watercolor",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999909
+  },
+  {
+   "unit": "g39",
+   "medium": "watercolor",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999895
+  },
+  {
+   "unit": "g40",
+   "medium": "watercolor",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999896
+  },
+  {
+   "unit": "g41",
+   "medium": "watercolor",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.99988
+  },
+  {
+   "unit": "g42",
+   "medium": "watercolor",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999898
+  },
+  {
+   "unit": "g43",
+   "medium": "watercolor",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999801
+  },
+  {
+   "unit": "g44",
+   "medium": "watercolor",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999901
+  },
+  {
+   "unit": "g45",
+   "medium": "watercolor",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999907
+  },
+  {
+   "unit": "g46",
+   "medium": "pencil sketch",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999915
+  },
+  {
+   "unit": "g47",
+   "medium": "pencil sketch",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999911
+  },
+  {
+   "unit": "g48",
+   "medium": "pencil sketch",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999919
+  },
+  {
+   "unit": "g49",
+   "medium": "pencil sketch",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999939
+  },
+  {
+   "unit": "g50",
+   "medium": "pencil sketch",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999904
+  },
+  {
+   "unit": "g51",
+   "medium": "pencil sketch",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999836
+  },
+  {
+   "unit": "g52",
+   "medium": "pencil sketch",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999905
+  },
+  {
+   "unit": "g53",
+   "medium": "pencil sketch",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.99992
+  },
+  {
+   "unit": "g54",
+   "medium": "pencil sketch",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999855
+  },
+  {
+   "unit": "g55",
+   "medium": "pixel art",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999971
+  },
+  {
+   "unit": "g56",
+   "medium": "pixel art",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999979
+  },
+  {
+   "unit": "g57",
+   "medium": "pixel art",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.99998
+  },
+  {
+   "unit": "g58",
+   "medium": "pixel art",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999977
+  },
+  {
+   "unit": "g59",
+   "medium": "pixel art",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999974
+  },
+  {
+   "unit": "g60",
+   "medium": "pixel art",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999962
+  },
+  {
+   "unit": "g61",
+   "medium": "pixel art",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999983
+  },
+  {
+   "unit": "g62",
+   "medium": "pixel art",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999971
+  },
+  {
+   "unit": "g63",
+   "medium": "pixel art",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999966
+  },
+  {
+   "unit": "g64",
+   "medium": "comic book",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999876
+  },
+  {
+   "unit": "g65",
+   "medium": "comic book",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999835
+  },
+  {
+   "unit": "g66",
+   "medium": "comic book",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999883
+  },
+  {
+   "unit": "g67",
+   "medium": "comic book",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999809
+  },
+  {
+   "unit": "g68",
+   "medium": "comic book",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999617
+  },
+  {
+   "unit": "g69",
+   "medium": "comic book",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999916
+  },
+  {
+   "unit": "g70",
+   "medium": "comic book",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999919
+  },
+  {
+   "unit": "g71",
+   "medium": "comic book",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.99978
+  },
+  {
+   "unit": "g72",
+   "medium": "comic book",
+   "wording": "What art style does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999895
+  },
+  {
+   "unit": "g01",
+   "medium": "photograph",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.999874
+  },
+  {
+   "unit": "g02",
+   "medium": "photograph",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.999843
+  },
+  {
+   "unit": "g03",
+   "medium": "photograph",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.999717
+  },
+  {
+   "unit": "g04",
+   "medium": "photograph",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.999641
+  },
+  {
+   "unit": "g05",
+   "medium": "photograph",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.999772
+  },
+  {
+   "unit": "g06",
+   "medium": "photograph",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.997975
+  },
+  {
+   "unit": "g07",
+   "medium": "photograph",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.999773
+  },
+  {
+   "unit": "g08",
+   "medium": "photograph",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.999883
+  },
+  {
+   "unit": "g09",
+   "medium": "photograph",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "photograph",
+   "confidence": 0.999271
+  },
+  {
+   "unit": "g10",
+   "medium": "anime illustration",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.999975
+  },
+  {
+   "unit": "g11",
+   "medium": "anime illustration",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.999911
+  },
+  {
+   "unit": "g12",
+   "medium": "anime illustration",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.999963
+  },
+  {
+   "unit": "g13",
+   "medium": "anime illustration",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.999865
+  },
+  {
+   "unit": "g14",
+   "medium": "anime illustration",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.999967
+  },
+  {
+   "unit": "g15",
+   "medium": "anime illustration",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.99995
+  },
+  {
+   "unit": "g16",
+   "medium": "anime illustration",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.999972
+  },
+  {
+   "unit": "g17",
+   "medium": "anime illustration",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.999895
+  },
+  {
+   "unit": "g18",
+   "medium": "anime illustration",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "anime illustration",
+   "confidence": 0.999963
+  },
+  {
+   "unit": "g19",
+   "medium": "oil painting",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999981
+  },
+  {
+   "unit": "g20",
+   "medium": "oil painting",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999946
+  },
+  {
+   "unit": "g21",
+   "medium": "oil painting",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999976
+  },
+  {
+   "unit": "g22",
+   "medium": "oil painting",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999973
+  },
+  {
+   "unit": "g23",
+   "medium": "oil painting",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999972
+  },
+  {
+   "unit": "g24",
+   "medium": "oil painting",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999964
+  },
+  {
+   "unit": "g25",
+   "medium": "oil painting",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999956
+  },
+  {
+   "unit": "g26",
+   "medium": "oil painting",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999975
+  },
+  {
+   "unit": "g27",
+   "medium": "oil painting",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "oil painting",
+   "confidence": 0.999968
+  },
+  {
+   "unit": "g28",
+   "medium": "3D render",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.999962
+  },
+  {
+   "unit": "g29",
+   "medium": "3D render",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.99985
+  },
+  {
+   "unit": "g30",
+   "medium": "3D render",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.999949
+  },
+  {
+   "unit": "g31",
+   "medium": "3D render",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.999941
+  },
+  {
+   "unit": "g32",
+   "medium": "3D render",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.999796
+  },
+  {
+   "unit": "g33",
+   "medium": "3D render",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.9999
+  },
+  {
+   "unit": "g34",
+   "medium": "3D render",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.999885
+  },
+  {
+   "unit": "g35",
+   "medium": "3D render",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.999932
+  },
+  {
+   "unit": "g36",
+   "medium": "3D render",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "3D render",
+   "confidence": 0.999829
+  },
+  {
+   "unit": "g37",
+   "medium": "watercolor",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.999884
+  },
+  {
+   "unit": "g38",
+   "medium": "watercolor",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.999926
+  },
+  {
+   "unit": "g39",
+   "medium": "watercolor",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.999898
+  },
+  {
+   "unit": "g40",
+   "medium": "watercolor",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.999902
+  },
+  {
+   "unit": "g41",
+   "medium": "watercolor",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.999807
+  },
+  {
+   "unit": "g42",
+   "medium": "watercolor",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.999865
+  },
+  {
+   "unit": "g43",
+   "medium": "watercolor",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.999685
+  },
+  {
+   "unit": "g44",
+   "medium": "watercolor",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.999864
+  },
+  {
+   "unit": "g45",
+   "medium": "watercolor",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "watercolor",
+   "confidence": 0.999893
+  },
+  {
+   "unit": "g46",
+   "medium": "pencil sketch",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.99994
+  },
+  {
+   "unit": "g47",
+   "medium": "pencil sketch",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.999923
+  },
+  {
+   "unit": "g48",
+   "medium": "pencil sketch",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.999907
+  },
+  {
+   "unit": "g49",
+   "medium": "pencil sketch",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.999956
+  },
+  {
+   "unit": "g50",
+   "medium": "pencil sketch",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.9999
+  },
+  {
+   "unit": "g51",
+   "medium": "pencil sketch",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.999912
+  },
+  {
+   "unit": "g52",
+   "medium": "pencil sketch",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.999886
+  },
+  {
+   "unit": "g53",
+   "medium": "pencil sketch",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.999924
+  },
+  {
+   "unit": "g54",
+   "medium": "pencil sketch",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pencil sketch",
+   "confidence": 0.999867
+  },
+  {
+   "unit": "g55",
+   "medium": "pixel art",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999978
+  },
+  {
+   "unit": "g56",
+   "medium": "pixel art",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999986
+  },
+  {
+   "unit": "g57",
+   "medium": "pixel art",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999982
+  },
+  {
+   "unit": "g58",
+   "medium": "pixel art",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999977
+  },
+  {
+   "unit": "g59",
+   "medium": "pixel art",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999982
+  },
+  {
+   "unit": "g60",
+   "medium": "pixel art",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999965
+  },
+  {
+   "unit": "g61",
+   "medium": "pixel art",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999985
+  },
+  {
+   "unit": "g62",
+   "medium": "pixel art",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999969
+  },
+  {
+   "unit": "g63",
+   "medium": "pixel art",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "pixel art",
+   "confidence": 0.999961
+  },
+  {
+   "unit": "g64",
+   "medium": "comic book",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.999889
+  },
+  {
+   "unit": "g65",
+   "medium": "comic book",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.999896
+  },
+  {
+   "unit": "g66",
+   "medium": "comic book",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.999906
+  },
+  {
+   "unit": "g67",
+   "medium": "comic book",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.999879
+  },
+  {
+   "unit": "g68",
+   "medium": "comic book",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.999404
+  },
+  {
+   "unit": "g69",
+   "medium": "comic book",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.99993
+  },
+  {
+   "unit": "g70",
+   "medium": "comic book",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.999919
+  },
+  {
+   "unit": "g71",
+   "medium": "comic book",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.999754
+  },
+  {
+   "unit": "g72",
+   "medium": "comic book",
+   "wording": "What is the art style of the image this prompt describes?",
+   "choice": "comic book",
+   "confidence": 0.999937
+  },
+  {
+   "unit": "g01",
+   "medium": "photograph",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999944
+  },
+  {
+   "unit": "g02",
+   "medium": "photograph",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999907
+  },
+  {
+   "unit": "g03",
+   "medium": "photograph",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999793
+  },
+  {
+   "unit": "g04",
+   "medium": "photograph",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999913
+  },
+  {
+   "unit": "g05",
+   "medium": "photograph",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999905
+  },
+  {
+   "unit": "g06",
+   "medium": "photograph",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999441
+  },
+  {
+   "unit": "g07",
+   "medium": "photograph",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999869
+  },
+  {
+   "unit": "g08",
+   "medium": "photograph",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999929
+  },
+  {
+   "unit": "g09",
+   "medium": "photograph",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "photograph",
+   "confidence": 0.999844
+  },
+  {
+   "unit": "g10",
+   "medium": "anime illustration",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999959
+  },
+  {
+   "unit": "g11",
+   "medium": "anime illustration",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999872
+  },
+  {
+   "unit": "g12",
+   "medium": "anime illustration",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999957
+  },
+  {
+   "unit": "g13",
+   "medium": "anime illustration",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999869
+  },
+  {
+   "unit": "g14",
+   "medium": "anime illustration",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999946
+  },
+  {
+   "unit": "g15",
+   "medium": "anime illustration",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999932
+  },
+  {
+   "unit": "g16",
+   "medium": "anime illustration",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999961
+  },
+  {
+   "unit": "g17",
+   "medium": "anime illustration",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999887
+  },
+  {
+   "unit": "g18",
+   "medium": "anime illustration",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "anime illustration",
+   "confidence": 0.999937
+  },
+  {
+   "unit": "g19",
+   "medium": "oil painting",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999974
+  },
+  {
+   "unit": "g20",
+   "medium": "oil painting",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.99995
+  },
+  {
+   "unit": "g21",
+   "medium": "oil painting",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.99998
+  },
+  {
+   "unit": "g22",
+   "medium": "oil painting",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999967
+  },
+  {
+   "unit": "g23",
+   "medium": "oil painting",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999978
+  },
+  {
+   "unit": "g24",
+   "medium": "oil painting",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999979
+  },
+  {
+   "unit": "g25",
+   "medium": "oil painting",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999972
+  },
+  {
+   "unit": "g26",
+   "medium": "oil painting",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999976
+  },
+  {
+   "unit": "g27",
+   "medium": "oil painting",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "oil painting",
+   "confidence": 0.999968
+  },
+  {
+   "unit": "g28",
+   "medium": "3D render",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999929
+  },
+  {
+   "unit": "g29",
+   "medium": "3D render",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999825
+  },
+  {
+   "unit": "g30",
+   "medium": "3D render",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999905
+  },
+  {
+   "unit": "g31",
+   "medium": "3D render",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999937
+  },
+  {
+   "unit": "g32",
+   "medium": "3D render",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999833
+  },
+  {
+   "unit": "g33",
+   "medium": "3D render",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999813
+  },
+  {
+   "unit": "g34",
+   "medium": "3D render",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999854
+  },
+  {
+   "unit": "g35",
+   "medium": "3D render",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999919
+  },
+  {
+   "unit": "g36",
+   "medium": "3D render",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "3D render",
+   "confidence": 0.999807
+  },
+  {
+   "unit": "g37",
+   "medium": "watercolor",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999911
+  },
+  {
+   "unit": "g38",
+   "medium": "watercolor",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999907
+  },
+  {
+   "unit": "g39",
+   "medium": "watercolor",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999905
+  },
+  {
+   "unit": "g40",
+   "medium": "watercolor",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999899
+  },
+  {
+   "unit": "g41",
+   "medium": "watercolor",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999901
+  },
+  {
+   "unit": "g42",
+   "medium": "watercolor",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999887
+  },
+  {
+   "unit": "g43",
+   "medium": "watercolor",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999835
+  },
+  {
+   "unit": "g44",
+   "medium": "watercolor",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999893
+  },
+  {
+   "unit": "g45",
+   "medium": "watercolor",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "watercolor",
+   "confidence": 0.999905
+  },
+  {
+   "unit": "g46",
+   "medium": "pencil sketch",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999904
+  },
+  {
+   "unit": "g47",
+   "medium": "pencil sketch",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999896
+  },
+  {
+   "unit": "g48",
+   "medium": "pencil sketch",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999899
+  },
+  {
+   "unit": "g49",
+   "medium": "pencil sketch",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999955
+  },
+  {
+   "unit": "g50",
+   "medium": "pencil sketch",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999891
+  },
+  {
+   "unit": "g51",
+   "medium": "pencil sketch",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999784
+  },
+  {
+   "unit": "g52",
+   "medium": "pencil sketch",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999881
+  },
+  {
+   "unit": "g53",
+   "medium": "pencil sketch",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999916
+  },
+  {
+   "unit": "g54",
+   "medium": "pencil sketch",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pencil sketch",
+   "confidence": 0.999898
+  },
+  {
+   "unit": "g55",
+   "medium": "pixel art",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999962
+  },
+  {
+   "unit": "g56",
+   "medium": "pixel art",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999967
+  },
+  {
+   "unit": "g57",
+   "medium": "pixel art",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999964
+  },
+  {
+   "unit": "g58",
+   "medium": "pixel art",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999954
+  },
+  {
+   "unit": "g59",
+   "medium": "pixel art",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999956
+  },
+  {
+   "unit": "g60",
+   "medium": "pixel art",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999932
+  },
+  {
+   "unit": "g61",
+   "medium": "pixel art",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999974
+  },
+  {
+   "unit": "g62",
+   "medium": "pixel art",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999961
+  },
+  {
+   "unit": "g63",
+   "medium": "pixel art",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "pixel art",
+   "confidence": 0.999958
+  },
+  {
+   "unit": "g64",
+   "medium": "comic book",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.99968
+  },
+  {
+   "unit": "g65",
+   "medium": "comic book",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999732
+  },
+  {
+   "unit": "g66",
+   "medium": "comic book",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.99983
+  },
+  {
+   "unit": "g67",
+   "medium": "comic book",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999746
+  },
+  {
+   "unit": "g68",
+   "medium": "comic book",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999595
+  },
+  {
+   "unit": "g69",
+   "medium": "comic book",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999802
+  },
+  {
+   "unit": "g70",
+   "medium": "comic book",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.99985
+  },
+  {
+   "unit": "g71",
+   "medium": "comic book",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999384
+  },
+  {
+   "unit": "g72",
+   "medium": "comic book",
+   "wording": "What medium does this prompt ask for?",
+   "choice": "comic book",
+   "confidence": 0.999764
+  }
+ ]
+}

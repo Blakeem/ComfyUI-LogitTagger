@@ -95,15 +95,16 @@ def fake_comfy(monkeypatch):
 
 
 @pytest.fixture
-def fake_engine(monkeypatch):
-    """Replaces the classifier build and the toolkit's fit, with a classifier whose nouls answers each call with the
-    next queued score."""
+def fake_engine(monkeypatch, resident_loads):
+    """Replaces the classifier build, the toolkit's fit and its resident load skip, with a classifier whose nouls
+    answers each call with the next queued score."""
     toolkit = pytest.importorskip("logit_classifier.toolkit.comfyui")
-    record = SimpleNamespace(scores=[], built=[], calls=[])
+    record = SimpleNamespace(scores=[], built=[], calls=[], resident_loads=resident_loads)
 
     class RecordingClassifier:
         def nouls(self, statements, *, image=None, state=""):
-            record.calls.append(SimpleNamespace(classifier=self, statements=statements, image=image, state=state))
+            record.calls.append(SimpleNamespace(classifier=self, statements=statements, image=image, state=state,
+                                                resident=resident_loads.open))
             return [record.scores.pop(0)]
 
     record.classifier = RecordingClassifier()
@@ -282,6 +283,17 @@ def test_a_list_of_two_batches_checks_each_resized_image_once(fake_comfy, fake_e
     assert [tuple(call.image.resized.shape) for call in fake_engine.calls] == [(1, 8, 8, 3)] * 3
     assert all(call.state == "" for call in fake_engine.calls)
     assert [round(float(image.mean()), 1) for image in yes_images] == [0.1, 0.2, 0.3]
+
+
+def test_one_resident_load_skip_spans_every_check_of_the_run(fake_comfy, fake_engine):
+    clip = object()
+    fake_engine.scores = [0.9, 0.8]
+
+    check_images([an_image(batch=2)], clip=clip)
+
+    assert fake_engine.resident_loads.clips == [clip]
+    assert [call.resident for call in fake_engine.calls] == [True, True]
+    assert fake_engine.resident_loads.open is False
 
 
 def test_the_image_check_reads_the_clip_from_its_list_and_needs_images(fake_comfy, fake_engine):

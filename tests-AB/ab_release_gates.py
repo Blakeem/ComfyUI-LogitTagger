@@ -307,10 +307,10 @@ def probe_render_style(asker: Asker, renders: list[Render], images: dict, labels
     manifest style and against the judges' style answers."""
     from logit_classifier import ChoiceQuestion
 
-    from logit_tagger.nodes import CLASSIFY_OPTIONS, CLASSIFY_QUESTION, _classify_options
+    from logit_tagger.nodes import CLASSIFY_NAME, CLASSIFY_OPTIONS, CLASSIFY_QUESTION, _classify_options
 
     items: list[dict] = []
-    styles = _classify_options(CLASSIFY_OPTIONS)
+    styles = _classify_options(CLASSIFY_OPTIONS, CLASSIFY_NAME)
     question = {"style": ChoiceQuestion(instructions=CLASSIFY_QUESTION, criteria=dict.fromkeys(styles))}
     correct = lambda rows: mean([row["choice"] == row["style"] for row in rows])
 

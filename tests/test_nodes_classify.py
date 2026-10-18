@@ -1,4 +1,5 @@
-"""nodes.py: the Logit Image Classify node, its contract, options, choices, indexes and display.
+"""nodes.py: the Logit Image Classify and Logit Text Classify nodes, their contract, options, choices, indexes and
+display.
 
 The engine, comfy and the server are stubbed, so no comfy install, no GPU and no model are needed.
 """
@@ -13,7 +14,13 @@ import pytest
 import torch
 
 from logit_tagger import engine, progress
-from logit_tagger.nodes import CLASSIFY_OPTIONS, CLASSIFY_QUESTION, LogitImageClassify
+from logit_tagger.nodes import (
+    CLASSIFY_OPTIONS,
+    CLASSIFY_QUESTION,
+    TEXT_CLASSIFY_QUESTION,
+    LogitImageClassify,
+    LogitTextClassify,
+)
 
 NODE_ID = "41"
 DEFAULT_OPTIONS = ["photograph", "anime illustration", "oil painting", "3D render", "watercolor", "pencil sketch",
@@ -85,11 +92,11 @@ def fake_comfy(monkeypatch):
 
 
 @pytest.fixture
-def fake_engine(monkeypatch):
-    """Replaces the classifier build, the toolkit's fit and choose, which answers each call with the next queued
-    answer."""
+def fake_engine(monkeypatch, resident_loads):
+    """Replaces the classifier build, the toolkit's fit and resident load skip, and choose, which answers each call
+    with the next queued answer."""
     toolkit = pytest.importorskip("logit_classifier.toolkit.comfyui")
-    record = SimpleNamespace(answers=[], built=[], calls=[])
+    record = SimpleNamespace(answers=[], built=[], calls=[], resident_loads=resident_loads)
 
     def build_classifier(clip, node, *, needs_images=True):
         record.built.append((clip, node, needs_images))
@@ -98,8 +105,9 @@ def fake_engine(monkeypatch):
     def fit_image(image, max_pixels):
         return SimpleNamespace(resized=image)
 
-    def choose(classifier, question, options, *, image):
-        record.calls.append(SimpleNamespace(classifier=classifier, question=question, options=options, image=image))
+    def choose(classifier, question, options, *, image=None, state=""):
+        record.calls.append(SimpleNamespace(classifier=classifier, question=question, options=options, image=image,
+                                            state=state, resident=resident_loads.open))
         return record.answers.pop(0)
 
     monkeypatch.setattr(engine, "build_classifier", build_classifier)
@@ -136,12 +144,13 @@ def test_output_contract():
     assert 1 <= len(sentences(LogitImageClassify.DESCRIPTION)) <= 4
 
 
-def test_every_input_has_a_tooltip_and_no_text_has_an_em_dash_or_semicolon():
-    tooltips = [definition[1].get("tooltip", "") for definition in LogitImageClassify.INPUT_TYPES()["required"].values()]
+@pytest.mark.parametrize("node_class", [LogitImageClassify, LogitTextClassify])
+def test_every_input_has_a_tooltip_and_no_text_has_an_em_dash_or_semicolon(node_class):
+    tooltips = [definition[1].get("tooltip", "") for definition in node_class.INPUT_TYPES()["required"].values()]
 
     for text in tooltips:
         assert 1 <= len(sentences(text)) <= 2, text
-    for text in [LogitImageClassify.DESCRIPTION, *tooltips]:
+    for text in [node_class.DESCRIPTION, *node_class.OUTPUT_TOOLTIPS, *tooltips]:
         assert chr(0x2014) not in text
         assert ";" not in text
 
@@ -226,7 +235,7 @@ def test_a_missing_library_prints_the_pip_command_naming_the_node(fake_comfy, mo
     for name in ["logit_classifier", *(module for module in sys.modules if module.startswith("logit_classifier."))]:
         monkeypatch.setitem(sys.modules, name, None)
 
-    with pytest.raises(RuntimeError, match=r"^Logit Image Classify: .*pip install -U logit-classifier"):
+    with pytest.raises(RuntimeError, match=r'^Logit Image Classify: .*pip install -U "logit-classifier>=0\.6\.0"'):
         classify([an_image()])
 
     assert RecordingProgressBar.instances == []
@@ -262,6 +271,17 @@ def test_each_choice_maps_to_its_position_among_the_typed_options(fake_comfy, fa
     assert confidences == [0.61, 0.97, 0.44]
     assert all(type(index) is int for index in indexes)
     assert all(type(confidence) is float for confidence in confidences)
+
+
+def test_one_resident_load_skip_spans_every_choice_of_the_run(fake_comfy, fake_engine):
+    clip = object()
+    fake_engine.answers = [("cat", 0.9), ("dog", 0.8)]
+
+    classify([a_batch(0.1, 0.2)], options=["cat, dog"], clip=clip)
+
+    assert fake_engine.resident_loads.clips == [clip]
+    assert [call.resident for call in fake_engine.calls] == [True, True]
+    assert fake_engine.resident_loads.open is False
 
 
 def test_a_list_of_two_batches_classifies_each_resized_image_once_in_order(fake_comfy, fake_engine):
@@ -327,3 +347,138 @@ def test_an_interrupt_stops_the_run_before_the_first_image(fake_comfy, fake_engi
 
     assert fake_engine.calls == []
     assert fake_comfy.sent == [("cancelled", NODE_ID)]
+
+
+# --- Logit Text Classify --------------------------------------------------------------
+
+
+def classify_texts(texts, question=(TEXT_CLASSIFY_QUESTION,), options=(CLASSIFY_OPTIONS,), clip="clip"):
+    """The Text Classify node called the way core calls an INPUT_IS_LIST node, with every input a list."""
+    return LogitTextClassify().classify(clip=[clip], text=list(texts), question=list(question),
+                                        options=list(options), unique_id=[NODE_ID])
+
+
+class PickingClassifier:
+    """Picks the first option the request's state names and records each request's state and keyword arguments.
+
+    Its confidence rises by 0.1 with each request, so each answer is told apart by its confidence.
+    """
+
+    def __init__(self):
+        self.calls = []
+
+    def classify(self, request, **kwargs):
+        (question,) = request.questions.values()
+        choice = next(option for option in question.criteria if option.casefold() in request.state.casefold())
+
+        self.calls.append((request.state, kwargs))
+        answer = SimpleNamespace(choice=choice, confidence=round(0.5 + len(self.calls) / 10, 1))
+        return SimpleNamespace(answers={"choice": answer}), None
+
+
+@pytest.fixture
+def picking_engine(monkeypatch, resident_loads):
+    """Builds a PickingClassifier in place of the workflow's CLIP, and keeps engine.choose real."""
+    pytest.importorskip("logit_classifier")
+    record = SimpleNamespace(classifier=PickingClassifier(), built=[], resident_loads=resident_loads)
+
+    def build_classifier(clip, node, *, needs_images=True):
+        record.built.append((clip, node, needs_images))
+        return record.classifier
+
+    monkeypatch.setattr(engine, "build_classifier", build_classifier)
+    return record
+
+
+def test_text_classify_inputs_are_clip_a_text_socket_and_single_line_question_and_options_then_the_node_id():
+    spec = LogitTextClassify.INPUT_TYPES()
+    required = spec["required"]
+
+    assert list(spec) == ["required", "hidden"]
+    assert [(name, definition[0]) for name, definition in required.items()] == [
+        ("clip", "CLIP"), ("text", "STRING"), ("question", "STRING"), ("options", "STRING")]
+    assert required["text"][1]["forceInput"] is True
+    assert required["question"][1]["default"] == TEXT_CLASSIFY_QUESTION == (
+        "What is the art style of the image this prompt describes?")
+    assert required["options"][1]["default"] == CLASSIFY_OPTIONS
+    assert required["question"][1]["multiline"] is False
+    assert required["options"][1]["multiline"] is False
+    assert spec["hidden"] == {"unique_id": "UNIQUE_ID"}
+
+
+def test_text_classify_output_contract():
+    assert LogitTextClassify.RETURN_TYPES == ("STRING", "INT", "FLOAT", "STRING")
+    assert LogitTextClassify.RETURN_NAMES == ("choice", "index", "confidence", "texts")
+    assert LogitTextClassify.INPUT_IS_LIST is True
+    assert LogitTextClassify.OUTPUT_IS_LIST == (True, True, True, True)
+    assert LogitTextClassify.OUTPUT_NODE is True
+    assert LogitTextClassify.FUNCTION == "classify"
+    assert LogitTextClassify.CATEGORY == "Logit Tagger"
+    assert LogitTextClassify.SEARCH_ALIASES == ["text classifier", "prompt classifier", "route prompt",
+                                                "prompt category"]
+    assert 1 <= len(sentences(LogitTextClassify.DESCRIPTION)) <= 4
+
+
+def test_text_classify_picks_one_option_per_text_from_the_classifier(fake_comfy, picking_engine):
+    clip = object()
+    texts = ["a watercolor of a harbor", "a pixel art castle", "a photograph of a fox"]
+
+    choices, indexes, confidences, out_texts = classify_texts(texts, clip=clip)["result"]
+
+    assert picking_engine.built == [(clip, "Logit Text Classify", False)]
+    assert picking_engine.classifier.calls == [(text, {}) for text in texts]
+    assert choices == ["watercolor", "pixel art", "photograph"]
+    assert indexes == [4, 6, 0]
+    assert confidences == [0.6, 0.7, 0.8]
+    assert out_texts == texts
+
+
+def test_text_classify_index_is_the_position_of_the_typed_option(fake_comfy, picking_engine):
+    choices, indexes, _confidences, _texts = classify_texts(["a Dog", "a Cat", "a bird"],
+                                                            options=[" Cat, Dog\nbird"])["result"]
+
+    assert choices == ["Dog", "Cat", "bird"]
+    assert indexes == [1, 0, 2]
+
+
+@pytest.mark.parametrize("blank", ["", " \n"])
+def test_text_classify_blank_widgets_use_the_defaults(fake_comfy, fake_engine, blank):
+    fake_engine.answers = [("watercolor", 0.9)]
+
+    classify_texts(["a watercolor of a harbor"], question=[blank], options=[blank])
+
+    (call,) = fake_engine.calls
+    assert call.question == TEXT_CLASSIFY_QUESTION
+    assert call.options == DEFAULT_OPTIONS
+    assert call.state == "a watercolor of a harbor"
+    assert call.image is None
+
+
+def test_text_classify_an_option_named_twice_is_an_error_naming_the_node(fake_comfy, fake_engine):
+    with pytest.raises(ValueError, match=r"^Logit Text Classify: the options input names 'Cat' more than once\."):
+        classify_texts(["a cat"], options=["cat, Cat"])
+
+    assert fake_engine.built == []
+    assert RecordingProgressBar.instances == []
+
+
+def test_text_classify_no_texts_is_an_error_before_the_run_starts(fake_comfy, fake_engine):
+    with pytest.raises(ValueError, match=r"^Logit Text Classify: the text input holds no texts\. Connect at least one "
+                                         r"text\.$"):
+        classify_texts([])
+
+    assert fake_engine.built == []
+    assert RecordingProgressBar.instances == []
+
+
+def test_text_classify_one_resident_load_skip_spans_every_choice_and_the_bar_counts_texts(fake_comfy, fake_engine):
+    clip = object()
+    fake_engine.answers = [("cat", 0.9), ("dog", 0.25)]
+
+    output = classify_texts(["a cat", "a dog"], options=["cat, dog"], clip=clip)
+
+    assert fake_engine.resident_loads.clips == [clip]
+    assert [call.resident for call in fake_engine.calls] == [True, True]
+    assert fake_engine.resident_loads.open is False
+    assert fake_comfy.sent[:-1] == [("text 1/2: classifying", NODE_ID), ("text 2/2: classifying", NODE_ID)]
+    assert output["ui"] == {"text": ("0: cat 0.90\n1: dog 0.25",)}

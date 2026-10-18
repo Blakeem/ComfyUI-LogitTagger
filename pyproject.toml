@@ -1,10 +1,10 @@
 [project]
 name = "logit-tagger"
-description = "Tag, check and classify images with the Qwen3-VL text encoder a workflow already loads. Each answer is a probability read from the encoder's logits."
+description = "Tag, check and classify images with the Qwen3-VL text encoder a workflow already loads. Each answer is a probability read from the encoder's logits, except the style line the Style Extractor writes about an image."
 version = "0.1.0"
 license = { file = "LICENSE" }
 requires-python = ">=3.12"
-dependencies = ["logit-classifier>=0.4.0"]
+dependencies = ["logit-classifier>=0.6.0"]
 classifiers = [
     "Operating System :: OS Independent",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",

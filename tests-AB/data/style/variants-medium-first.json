@@ -1,0 +1,7 @@
+{
+ "listings": {
+  "medium-first": {
+   "prompt_instruction": "This is a prompt for an image:\n{PROMPT}\n\nList the words of the prompt that name how the image is made. First write its medium, such as photograph, painting, drawing or 3D render, as its own phrase without the shot, subject or place words around it. Then write the style within that medium, such as a technique, an art movement or an artist. Copy the words from the prompt. Use short lowercase phrases separated by commas. Leave out the things, people, places, actions, lighting and mood. List each phrase once. If the prompt names no medium and no style, output none. Output only the list."
+  }
+ }
+}

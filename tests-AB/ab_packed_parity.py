@@ -11,19 +11,20 @@ from pathlib import Path
 
 import ab_env
 
-INPUT = Path(r"C:\Users\Blake\Documents\ComfyUI\input")
+RENDERS = Path(__file__).resolve().parent / "data" / "release-gates" / "renders"
 SAMPLES = Path(r"C:\Users\Blake\Documents\ComfyUI\custom_nodes\ComfyUI-ContextAnchoredTileRefine\samples")
 ABSENT = ["a giraffe", "a bicycle", "a bowl of soup", "a laptop computer", "snow"]
+# Each render's tags are its intended things, every one named by its prompt under the toolkit's in_prompt
+# and judged present in renders/labels.json.
 CASES = [
-    (INPUT / "krea2-small-input.png",
-     ["woman", "red flowers", "large red moon", "stone arches", "ivy", "dark forest", "black clothing",
-      "red hair", "white wolf", "glowing lantern", "silver sword", "mossy trees", "stars", "night sky"]),
+    (RENDERS / "g52.png",
+     ["market", "vendors", "fruit", "wooden carts", "shoppers", "baskets", "awnings", "dog"]),
     (SAMPLES / "dragon-4x-vl-upscale-preview.jpg",
      ["dragon", "bell", "ships", "castle", "mountains", "banners", "people", "sea", "sky", "armor"]),
     (SAMPLES / "cyberpunk-city-4k-preview.jpg",
      ["skyscrapers", "neon signs", "bridge", "clouds", "street signs", "abstract art", "windows"]),
-    (INPUT / "bb3475fda1707a0253f3cb48afbf1873-cc_ft_576.webp",
-     ["house", "tree", "car", "lawn", "chimney", "fence", "swimming pool", "sidewalk"]),
+    (RENDERS / "g57.png",
+     ["red barn", "farmer", "crops", "chickens", "brown horse", "fence", "blue wheelbarrow", "gate"]),
 ]
 # The prototype's largest difference was 0.0032, so this leaves room without hiding a defect.
 MAX_DIFF = 0.01

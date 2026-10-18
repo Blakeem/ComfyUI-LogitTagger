@@ -6,6 +6,7 @@ Usage: python tests-AB/ab_propose_prompts.py <image> [<image> ...]
 """
 
 import argparse
+import dataclasses
 from pathlib import Path
 
 import ab_env
@@ -74,7 +75,10 @@ def main() -> None:
         base_kept: set[str] = set()
         print(f"== {path.name}")
         for name, wording in WORDINGS.items():
-            trace = tagging.tag_image(clip, classifier, image, instruction=wording, thing_cache={})
+            # The echo fallback's own wording would replace the wording under test.
+            settings = None if wording is None else dataclasses.replace(
+                tagging.tag_settings(), propose_instruction=wording, echo_fallback_instruction=None)
+            trace = tagging.tag_image(clip, classifier, image, thing_cache={}, settings=settings)
             kept = set(trace.tags.split(", ")) if trace.tags else set()
             looped = bool(repeated_block(complete_tags(trace.reply + ",")))
             hit_budget = token_counts[-1] >= tagging.tag_settings().propose_max_tokens

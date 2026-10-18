@@ -13,7 +13,7 @@
       ],
       "size": [
         270,
-        106
+        110
       ],
       "flags": {},
       "order": 0,
@@ -77,11 +77,11 @@
       "type": "LoadImageDataSetFromFolder",
       "pos": [
         0,
-        376
+        380
       ],
       "size": [
         270,
-        58
+        60
       ],
       "flags": {},
       "order": 1,
@@ -192,10 +192,10 @@
         "Node name for S&R": "LogitImageCheck"
       },
       "widgets_values": [
-        "Is there a person in this image?"
+        "Is there a person or people in this image?"
       ],
       "widgets_values_named": {
-        "question": "Is there a person in this image?"
+        "question": "Is there a person or people in this image?"
       }
     },
     {
@@ -357,12 +357,13 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.7624113475177304,
+      "scale": 1.2278710992907804,
       "offset": [
-        104.93023255813955,
-        187.39534883720933
+        114.81511464565392,
+        59.08473334577772
       ]
-    }
+    },
+    "frontendVersion": "1.53.6"
   },
   "version": 0.4
 }
