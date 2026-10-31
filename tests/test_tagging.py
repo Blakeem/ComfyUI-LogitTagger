@@ -232,6 +232,7 @@ def test_a_blank_instruction_proposes_with_the_default_wording_and_keeps_the_ech
     assert custom.propose_instruction == tagging.tag_settings().propose_instruction
     assert custom.echo_fallback_instruction is not None
     assert custom.echo_fallback_instruction == tagging.tag_settings().echo_fallback_instruction
+    assert custom.category_nouns == tagging.tag_settings().category_nouns
 
 
 def test_another_instruction_proposes_with_its_own_wording_and_drops_the_echo_fallback():
@@ -240,6 +241,7 @@ def test_another_instruction_proposes_with_its_own_wording_and_drops_the_echo_fa
     custom = tagging.custom_settings("List the colors in this image.", strict=False, things_only=True)
     assert custom.propose_instruction == "List the colors in this image."
     assert custom.echo_fallback_instruction is None
+    assert custom.category_nouns == frozenset()
 
 
 @pytest.mark.parametrize(("things_only", "thing_check"), [(True, "all"), (False, "prompt")])

@@ -110,8 +110,9 @@ def custom_settings(instruction: str, *, strict: bool, things_only: bool) -> Tag
     """Logit Custom Tagger's settings, which are the Tagger's strict or broad settings proposing with instruction, or
     with the default wording when instruction is blank.
 
-    things_only off judges only a prompt's tags, and the node passes no prompt. The echo fallback repairs a reply of
-    the default wording's own category nouns, so another instruction runs without it.
+    things_only off judges only a prompt's tags, and the node passes no prompt. The echo fallback and the category
+    noun drop both answer the default wording's own nouns coming back as tags, so another instruction runs without
+    either.
     """
     base = tag_settings(strict, node=CUSTOM_TAGGER_NAME)
     wording = instruction.strip() or base.propose_instruction
@@ -122,6 +123,7 @@ def custom_settings(instruction: str, *, strict: bool, things_only: bool) -> Tag
         propose_instruction=wording,
         thing_check="all" if things_only else "prompt",
         echo_fallback_instruction=base.echo_fallback_instruction if is_default else None,
+        category_nouns=base.category_nouns if is_default else frozenset(),
     )
 
 

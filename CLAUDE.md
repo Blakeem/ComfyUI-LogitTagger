@@ -99,8 +99,8 @@ image ──> [resize] ──> [propose] ──> [merge] ──> [thing check] �
 
 - The verify box shows the broad thresholds. With `strict` on, every tag needs 0.99998.
 - A propose reply that holds only the instruction's category nouns gets one more propose with the
-  settings' `echo_fallback_instruction`. Logit Custom Tagger keeps it only when its instruction equals the
-  default wording.
+  settings' `echo_fallback_instruction`. Logit Custom Tagger keeps it and the `category_nouns` drop only
+  when its instruction equals the default wording.
 - The thing check judges every tag. On the model's own tags it drops some correct ones, such as
   "watermark" and "pixel art", and it removes more vague ones (see Tagger A/B). Logit Custom Tagger with
   `things_only` off runs no thing check.
